@@ -1,0 +1,30 @@
+=====================================================
+ Nokia Data Gathering
+=====================================================
+:Info: See <http://> for introductory docs.
+:Author: Ian Lawrence <root@ianlawrence.info>
+:Date: $Date: 2011-08-12 12:50:48 -0400 (Fre, 12. Aug 2011) $
+:Revision: $Revision: 1 $
+:Description: This is the main documentation
+
+DEVELOPER PRACTICES
+=================
+
+ * We are using Git as the Source Control Manager (SCM)
+
+ * Our Documentation style is restructuredtext (RST)
+
+APPLICATION LAYOUT
+==================
+
+A) app/ contains the application's core, split between models, controllers and views directories. It can contain other Java packages as well. This is the directory where .java source files live.
+
+B) conf/ contains all the configuration files for the application, especially the main application.conf file, the routes definition files and the messages files used for i internationalization.
+
+C) lib/ contains all optional Java libraries packaged as standard .jar files.
+
+D) public/ optimized assets which represent the front end of the site. It includes JavaScript files, stylesheets and images directories.
+
+F) assets/ source files (html, css, javascript). The ant build file in assets/build optimizes these files and then places them in the assets/public directory. This files in this folder can then be copied to the public/ folder above
+
+E) test/ contains all the application tests. Tests are either written either as Java JUnit tests or as Selenium tests
