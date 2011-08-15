@@ -19,7 +19,7 @@ APPLICATION LAYOUT
 
 A) app/ contains the application's core, split between models, controllers and views directories. It can contain other Java packages as well. This is the directory where .java source files live.
 
-B) conf/ contains all the configuration files for the application, especially the main application.conf file, the routes definition files and the messages files used for i internationalization.
+B) conf/ contains all the configuration files for the application, especially the main application.conf file, the routes definition files and the messages files used for internationalization.
 
 C) lib/ contains all optional Java libraries packaged as standard .jar files.
 
