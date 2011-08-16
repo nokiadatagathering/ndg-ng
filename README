@@ -4,8 +4,17 @@
 :Info: See <http://> for introductory docs.
 :Author: Ian Lawrence <root@ianlawrence.info>
 :Date: $Date: 2011-08-12 12:50:48 -0400 (Fre, 12. Aug 2011) $
-:Revision: $Revision: 1 $
+:Revision: $Revision: 2 $
 :Description: This is the main documentation
+
+
+GETTING STARTED
+===============
+
+git clone https://github.com/IanLawrence/ndg-alpha-server
+cd ndg-alpha-server
+play run
+http://localhost:9000/
 
 DEVELOPER PRACTICES
 =================
@@ -25,6 +34,6 @@ C) lib/ contains all optional Java libraries packaged as standard .jar files.
 
 D) public/ optimized assets which represent the front end of the site. It includes JavaScript files, stylesheets and images directories.
 
-F) assets/ source files (html, css, javascript). The ant build file in assets/build optimizes these files and then places them in the assets/public directory. This files in this folder can then be copied to the public/ folder above
+F) assets/ source files (html, css, javascript). The ant build file in assets/build optimizes these files and then places them in the assets/public directory. The files in this folder can then be copied to the public/ folder above
 
 E) test/ contains all the application tests. Tests are either written either as Java JUnit tests or as Selenium tests

@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#toolsover").hide();$("#minimalistover").hide();$("#minimalist").mouseover(function(a){$("#toolsover").show();$("#minimalistover").show()});$("#minimalist").mouseout(function(a){$("#toolsover").hide();$("#minimalistover").hide()})});
