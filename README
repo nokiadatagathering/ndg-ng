@@ -1,4 +1,5 @@
-## NOKIA DATA GATHERING
+NOKIA DATA GATHERING
+================================
 
 * Info: See <http://> for introductory docs.
 * Author: Ian Lawrence <root@ianlawrence.info>
@@ -7,22 +8,26 @@
 * Description: This is the main documentation
 
 
-### GETTING STARTED
+GETTING STARTED
+================================
 
 
- git clone https://github.com/IanLawrence/ndg-alpha-server
- cd ndg-alpha-server
- play run
- http://localhost:9000/
-
-### DEVELOPER PRACTICES
+    git clone https://github.com/IanLawrence/ndg-alpha-server
+    cd ndg-alpha-server
+    play run
+    http://localhost:9000/
 
 
-* We are using Git as the Source Control Manager (SCM)
+DEVELOPER PRACTICES
+================================
 
-* Our Documentation style is Markdown
 
-### APPLICATION LAYOUT
+We are using Git as the Source Control Manager (SCM)
+
+Our Documentation style is Markdown
+
+APPLICATION LAYOUT
+================================
 
 
 1. app/ contains the application's core, split between models, controllers and views directories. It can contain other Java packages as well. This is the directory where .java source files live.
