@@ -1,0 +1,7 @@
+# wildcards
+*~
+*.swp
+
+# ignore all directories and files.
+tmp/**/* 
+assets/public/**/*

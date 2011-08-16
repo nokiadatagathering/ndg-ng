@@ -1,39 +1,38 @@
-=====================================================
- Nokia Data Gathering
-=====================================================
-:Info: See <http://> for introductory docs.
-:Author: Ian Lawrence <root@ianlawrence.info>
-:Date: $Date: 2011-08-12 12:50:48 -0400 (Fre, 12. Aug 2011) $
-:Revision: $Revision: 2 $
-:Description: This is the main documentation
+## NOKIA DATA GATHERING
+
+* Info: See <http://> for introductory docs.
+* Author: Ian Lawrence <root@ianlawrence.info>
+* Date: $Date: 2011-08-12 12:50:48 -0400 (Fre, 12. Aug 2011) $
+* Revision: $Revision: 2 $
+* Description: This is the main documentation
 
 
-GETTING STARTED
-===============
+### GETTING STARTED
 
-git clone https://github.com/IanLawrence/ndg-alpha-server
-cd ndg-alpha-server
-play run
-http://localhost:9000/
 
-DEVELOPER PRACTICES
-=================
+ git clone https://github.com/IanLawrence/ndg-alpha-server
+ cd ndg-alpha-server
+ play run
+ http://localhost:9000/
 
- * We are using Git as the Source Control Manager (SCM)
+### DEVELOPER PRACTICES
 
- * Our Documentation style is restructuredtext (RST)
 
-APPLICATION LAYOUT
-==================
+* We are using Git as the Source Control Manager (SCM)
 
-A) app/ contains the application's core, split between models, controllers and views directories. It can contain other Java packages as well. This is the directory where .java source files live.
+* Our Documentation style is Markdown
 
-B) conf/ contains all the configuration files for the application, especially the main application.conf file, the routes definition files and the messages files used for internationalization.
+### APPLICATION LAYOUT
 
-C) lib/ contains all optional Java libraries packaged as standard .jar files.
 
-D) public/ optimized assets which represent the front end of the site. It includes JavaScript files, stylesheets and images directories.
+1. app/ contains the application's core, split between models, controllers and views directories. It can contain other Java packages as well. This is the directory where .java source files live.
 
-F) assets/ source files (html, css, javascript). The ant build file in assets/build optimizes these files and then places them in the assets/public directory. The files in this folder can then be copied to the public/ folder above
+2. conf/ contains all the configuration files for the application, especially the main application.conf file, the routes definition files and the messages files used for internationalization.
 
-E) test/ contains all the application tests. Tests are either written either as Java JUnit tests or as Selenium tests
+3. lib/ contains all optional Java libraries packaged as standard .jar files.
+
+4. public/ optimized assets which represent the front end of the site. It includes JavaScript files, stylesheets and images directories.
+
+5. assets/ source files (html, css, javascript). The ant build file in assets/build optimizes these files and then places them in the assets/public directory. The files in this folder can then be copied to the public/ folder above
+
+6. test/ contains all the application tests. Tests are either written either as Java JUnit tests or as Selenium tests
