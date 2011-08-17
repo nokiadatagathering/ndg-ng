@@ -355,6 +355,7 @@
                      -imagesjpg,
                      -copy"/>
 
+
     <!-- Target: minify -->
     <target name="-minify.dev"
             depends="-rev,
@@ -465,8 +466,20 @@
                 <exclude name="${dir.css}/**/*.css"/>
             </fileset>
         </copy>
+
+       <echo message="A copy of all non-dev files are now in: ./${dir.publish}."/>
+
+
+        <copy todir="./${dir.public}">
+            <fileset dir="${dir.source}/" excludes="${file.default.exclude}, ${file.exclude}">
+                <!-- exclude files that are superseded by optimized versions with different names -->
+                <!-- this is not strictly necessary, but it avoids putting unreferenced files into your server -->
+                <exclude name="${dir.js}/**/*.js"/>
+                <exclude name="${dir.css}/**/*.css"/>
+            </fileset>
+        </copy>
         
-        <echo message="A copy of all non-dev files are now in: ./${dir.publish}."/>
+        <echo message="A copy of all non-dev files are now in: ./${dir.public}."/>
     </target>
     
     <!-- JAVASCRIPT -->
