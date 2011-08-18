@@ -353,7 +353,8 @@
                      -htmlclean,
                      -imagespng,
                      -imagesjpg,
-                     -copy"/>
+                     -copy,
+                     -copyit"/>
 
 
     <!-- Target: minify -->
@@ -408,12 +409,12 @@
     <!-- This is a private target -->
     
         <echo message="====================================================================="/>
-        <echo message="Welcome to the HTML5 Boilerplate Build Script!"/>
+        <echo message="Welcome to the NDG Front End Build Script!"/>
         <echo message=" "/>
-        <echo message="We're going to get your site all ship-shape and ready for prime time."/>
+        <echo message="We're going to get the server all ship-shape and ready for prime time."/>
         <echo message=" "/>
         <echo message="This should take somewhere between 15 seconds and a few minutes,"/>
-        <echo message="mostly depending on how many images we're going to compress."/>
+        <echo message="mostly depending on how many images there aer to compress."/>
         <echo message=" "/>
         <echo message="Feel free to come back or stay here and follow along."/>
         <echo message="====================================================================="/>
@@ -470,16 +471,13 @@
        <echo message="A copy of all non-dev files are now in: ./${dir.publish}."/>
 
 
-        <copy todir="./${dir.public}">
-            <fileset dir="${dir.source}/" excludes="${file.default.exclude}, ${file.exclude}">
-                <!-- exclude files that are superseded by optimized versions with different names -->
-                <!-- this is not strictly necessary, but it avoids putting unreferenced files into your server -->
-                <exclude name="${dir.js}/**/*.js"/>
-                <exclude name="${dir.css}/**/*.css"/>
-            </fileset>
-        </copy>
-        
-        <echo message="A copy of all non-dev files are now in: ./${dir.public}."/>
+    </target>
+
+    <target name="-copyit" depends="-mkdirs">
+          <copy todir="./${dir.public}">
+                  <fileset dir="./${dir.publish}"/>
+          </copy>
+         <echo message="All optimized production assets are now in: ./${dir.public}."/>
     </target>
     
     <!-- JAVASCRIPT -->
