@@ -49,9 +49,6 @@ public class Configuration extends Properties {
 
             if ( is == null ) {
                 is = new FileInputStream( basePath + pathSeparator + "conf" + pathSeparator + file );
-                if ( is == null ) {
-                    throw new InstantiationException( "Coudn't find configuration file: " + file );
-                }
             }
 
             myConfig.load( is );
