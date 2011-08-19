@@ -7,3 +7,7 @@ tmp/**/*
 tmp/*
 assets/public/**/*
 /precompiled/*
+eclipse/**
+.settings/**
+.project
+.classpath
