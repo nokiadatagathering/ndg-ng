@@ -9,6 +9,8 @@ GET     /management/{<[0-9]+>id}                Management.get
 POST    /management                             Management.save
 POST    /management/upload                      Management.upload
 
+GET     /webui                                  webui.Administration.index
+
 GET     /clientupdate                           ClientUpdate.index
 
 GET     /ndg-server/ReceiveSurvey/download/{<[0-9]+>formID} ReceiveSurvey.download

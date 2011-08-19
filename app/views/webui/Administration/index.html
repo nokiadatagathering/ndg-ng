@@ -1,0 +1,86 @@
+#{extends 'main.html' /}
+#{set title:'Users' /}
+
+<script>
+
+function refresh(){
+	  
+    $.getJSON('@{users}', function(data) {
+        var items = [];
+        $.each(data.users, function (idx, v) {
+            items.push('<li id="' + v.idUser + '">' + v.username + ' ('+ v.email +')</li>');          
+        });
+
+        $('<ul/>', {
+          html: items.join('')
+        }).appendTo('#users');
+        
+        
+        $("#users li").click(function(i) {
+            // fetch single item
+            $('#raw').load('@{user}', { 'id': i.target.id });
+          });
+        
+      });
+}
+
+$(document).ready(function() {
+	
+    $.getJSON('@{roles}', function(data) {
+    	
+    	$('#role option').remove();
+    	 $.each(data.roles,function(i,item) {
+    	   $('#role').append('<option value="'+item.idRole+'">'+item.roleName+'</option>');
+    	 });
+    	 
+        var items = [];
+        $.each(data.roles, function (idx, v) {
+            items.push('<li id="' + v.idRole + '">' + v.roleName + ' ('+ v.idRole +')</li>');          
+        });
+
+        $('<ul/>', {
+          html: items.join('')
+        }).appendTo('#roles');
+      });
+    
+	refresh();
+	
+	$("#modifyUser").hide();
+	$("#createUser").click(function(e){
+	     // stop normal link click
+	     e.preventDefault();
+	     $('#raw').load('@{users}');
+	});
+
+	     
+});
+</script>
+Users
+<div id='users' > 
+</div>
+
+User
+<div id='user' > 
+<p id="username-field">
+    <label for="username">Username</label>
+    <input type="text" name="username" id="username" value="" />
+</p>
+<p id="role-field">
+    <label for="role">Role</label>
+    <select id="role" name="role">
+    </select>
+</p>
+
+</div>
+<div>
+<a href='#' id="createUser">Create new user</a>
+<a href='#' id="modifyUser">Modify user</a>
+</div>
+
+Roles
+<div id='roles' > 
+</div>
+
+
+<div id='raw' > 
+</div>
