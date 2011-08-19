@@ -7,14 +7,13 @@ import br.org.indt.ndg.server.persistence.structure.QuestionType;
 import br.org.indt.ndg.server.persistence.structure.Question;
 import br.org.indt.ndg.server.persistence.structure.Survey;
 import br.org.indt.ndg.server.persistence.structure.NdgUser;
+import br.org.indt.ndg.server.util.XFormsTypeMappings;
 import java.io.InputStreamReader;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import org.javarosa.core.model.FormDef;
 import org.javarosa.core.model.QuestionDef;
@@ -32,9 +31,6 @@ import play.db.jpa.JPA;
  */
 public class SurveyPersister {
 
-    private static final String SELECTONE = "select1";
-    private static final String SELECT = "select";
-    private static Hashtable<Integer, String> typeMappings;
     private InputStreamReader is = null;
     private Survey survey = null;
 
@@ -42,24 +38,7 @@ public class SurveyPersister {
         this.is = is;
     }
 
-    private static void initTypeMappings() {
-        typeMappings = new Hashtable<Integer, String>();
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_TEXT), "string");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_INTEGER), "integer");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_LONG), "long");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_INTEGER), "int");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_DECIMAL), "decimal");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_DATE_TIME), "dateTime");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_DATE), "date");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_TIME), "time");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_BOOLEAN), "boolean");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE), SELECTONE);
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE_LIST), SELECT);
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_GEOPOINT), "geopoint");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_BARCODE), "barcode");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY), "binary");
-    }
-
+  
     public void saveSurvey() {
         try {
             logInfo("saving survey");
@@ -68,7 +47,6 @@ public class SurveyPersister {
             FormDef formDefinition = parser.parse();
             logInfo("parsing finished");
             persistSurvey(formDefinition);
-            initTypeMappings();
             persistQuestionSet(formDefinition);
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.INFO, "Exception occured", ex);
@@ -82,7 +60,7 @@ public class SurveyPersister {
         Logger.getLogger(getClass().getName()).log(Level.INFO, info);
     }
 
-    void persistSurvey(FormDef formDefinition) throws SurveySavingException {
+    private void persistSurvey(FormDef formDefinition) throws SurveySavingException {
 
         Survey newSurvey = new Survey(formDefinition.getInstance().getRoot().getAttributeValue("", "id"), formDefinition.getName());
         NdgUser owner = getOwner(1);
@@ -152,7 +130,7 @@ public class SurveyPersister {
             throw new SurveySavingException(SurveySavingException.DATABASE_ERROR);
         }
 
-        if (type.getTypeName().equals(SELECT) || type.getTypeName().equals(SELECTONE)) {
+        if (type.getTypeName().equals(XFormsTypeMappings.SELECT) || type.getTypeName().equals(XFormsTypeMappings.SELECTONE)) {
             persistQuestionOptions(questionDef, newQuestion, localizer);
         }
     }
@@ -163,7 +141,7 @@ public class SurveyPersister {
         {
             em = JPA.em();
             Query query = em.createNamedQuery("QuestionType.findByTypeName");
-            StringBuilder controlTypeDecoded = new StringBuilder(typeMappings.get(dataType));
+            StringBuilder controlTypeDecoded = new StringBuilder(XFormsTypeMappings.getIntegerToTypeMapping().get(dataType));
             if (controlTypeDecoded.toString().equals("binary")) {
                 switch (controlType) {
                     case org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE:

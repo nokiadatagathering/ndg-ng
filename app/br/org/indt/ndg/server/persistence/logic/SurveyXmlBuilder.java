@@ -5,10 +5,10 @@
 package br.org.indt.ndg.server.persistence.logic;
 
 import br.org.indt.ndg.server.exceptions.SurveyXmlCreatorException;
+import br.org.indt.ndg.server.persistence.structure.Survey;
+import br.org.indt.ndg.server.util.XFormsTypeMappings;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Hashtable;
-import java.util.Vector;
 import org.javarosa.core.model.FormDef;
 import org.javarosa.core.model.QuestionDef;
 import org.javarosa.core.model.instance.TreeElement;
@@ -30,53 +30,26 @@ public class SurveyXmlBuilder {
     private static final String SELECT = "select";
     private static final String ITEXT_CLOSE = "')";
     private static final String ITEXT_OPEN = "jr:itext('";
-    private static Hashtable<Integer, String> typeMappings;
-    private static Hashtable<Integer, String> controlTypeMappings;
 
     public SurveyXmlBuilder() {
-        initTypeMappings();
-        initControlTypeMappings();
-    }
-
-    private static void initTypeMappings() {
-        typeMappings = new Hashtable<Integer, String>();
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_TEXT), "string");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_INTEGER), "integer");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_LONG), "long");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_INTEGER), "int");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_DECIMAL), "decimal");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_DATE_TIME), "dateTime");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_DATE), "date");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_TIME), "time");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_BOOLEAN), "boolean");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE), SELECTONE);
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE_LIST), SELECT);
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_GEOPOINT), "geopoint");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_BARCODE), "barcode");
-        typeMappings.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY), "binary");
-    }
-
-    private static void initControlTypeMappings() {
-        controlTypeMappings = new Hashtable<Integer, String>();
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_INPUT), "input");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_SELECT_ONE), "select1");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_SELECT_MULTI), "select");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_TEXTAREA), "textarea");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_SECRET), "secret");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_RANGE), "range");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_UPLOAD), "upload");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_SUBMIT), "submit");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_TRIGGER), "trigger");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_IMAGE_CHOOSE), "binary");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_LABEL), "label");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE), "binary");
-        controlTypeMappings.put(new Integer(org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE), "binary");
     }
 
     public void printSurveyXml(String surveyId, PrintWriter writer) throws SurveyXmlCreatorException, IOException {
         FormDefBuilder definictionBuilder = new FormDefBuilder();
         FormDef formDef = definictionBuilder.readFormDefinitionFromDb(surveyId);
 
+        printFormDef(formDef, writer);
+    }
+
+    public void printSurveyXml(Survey survey, PrintWriter writer) throws SurveyXmlCreatorException, IOException {
+        FormDefBuilder definitionBuilder = new FormDefBuilder();
+        FormDef formDef = definitionBuilder.readFormDefinition(survey);
+
+        printFormDef(formDef, writer);
+       
+    }
+
+    private void printFormDef(FormDef formDef, PrintWriter writer) throws SurveyXmlCreatorException, IOException {
         Document xmlDocument = new Document();
 
         Element html = createHtmlElement(xmlDocument);
@@ -171,7 +144,7 @@ public class SurveyXmlBuilder {
                 String nodeset = getNodesetFromTextId(question); //hack to reach object name
                 binding.setAttribute(null, "nodeset", nodeset);
                 TreeElement questionModelElement = formDef.getInstance().resolveReference(question.getBind());
-                binding.setAttribute(null, "type", typeMappings.get(questionModelElement.dataType));
+                binding.setAttribute(null, "type", XFormsTypeMappings.getIntegerToTypeMapping().get(questionModelElement.dataType));
                 if (questionModelElement.required) {
                     binding.setAttribute(null, "required", "true()");
                 }
@@ -207,7 +180,7 @@ public class SurveyXmlBuilder {
     }
 
     private void addQuestionElement(QuestionDef question, Element body, FormDef formDef) {
-        String type = controlTypeMappings.get(question.getControlType());
+        String type = XFormsTypeMappings.getIntegerToControlTypeMapping().get(question.getControlType());
         Element questionNode = body.createElement(null, type);
         questionNode.setAttribute(null, "ref", getNodesetFromTextId(question));
 

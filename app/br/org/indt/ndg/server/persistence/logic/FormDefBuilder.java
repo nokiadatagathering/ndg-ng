@@ -8,12 +8,11 @@ import br.org.indt.ndg.server.exceptions.SurveyXmlCreatorException;
 import br.org.indt.ndg.server.persistence.structure.QuestionOption;
 import br.org.indt.ndg.server.persistence.structure.Question;
 import br.org.indt.ndg.server.persistence.structure.Survey;
+import br.org.indt.ndg.server.util.XFormsTypeMappings;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import org.javarosa.core.model.FormDef;
 import org.javarosa.core.model.IDataReference;
@@ -37,51 +36,21 @@ import play.db.jpa.JPA;
  */
 public class FormDefBuilder {
 
-    private static Hashtable<String, Integer> typeMappings;
-    private static final String SELECTONE = "select1";
-    private static final String SELECT = "select";
-
     public FormDefBuilder() {
-        initTypeMappings();
     }
 
-    private static void initTypeMappings() {
-        typeMappings = new Hashtable<String, Integer>();
-        typeMappings.put("string", new Integer(org.javarosa.core.model.Constants.DATATYPE_TEXT));               //xsd:
-        typeMappings.put("integer", new Integer(org.javarosa.core.model.Constants.DATATYPE_INTEGER));           //xsd:
-        typeMappings.put("long", new Integer(org.javarosa.core.model.Constants.DATATYPE_LONG));                 //xsd:
-        typeMappings.put("int", new Integer(org.javarosa.core.model.Constants.DATATYPE_INTEGER));               //xsd:
-        typeMappings.put("decimal", new Integer(org.javarosa.core.model.Constants.DATATYPE_DECIMAL));           //xsd:
-        typeMappings.put("double", new Integer(org.javarosa.core.model.Constants.DATATYPE_DECIMAL));            //xsd:
-        typeMappings.put("float", new Integer(org.javarosa.core.model.Constants.DATATYPE_DECIMAL));             //xsd:
-        typeMappings.put("dateTime", new Integer(org.javarosa.core.model.Constants.DATATYPE_DATE_TIME));        //xsd:
-        typeMappings.put("date", new Integer(org.javarosa.core.model.Constants.DATATYPE_DATE));                 //xsd:
-        typeMappings.put("time", new Integer(org.javarosa.core.model.Constants.DATATYPE_TIME));                 //xsd:
-        typeMappings.put("gYear", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));         //xsd:
-        typeMappings.put("gMonth", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));        //xsd:
-        typeMappings.put("gDay", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));          //xsd:
-        typeMappings.put("gYearMonth", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));    //xsd:
-        typeMappings.put("gMonthDay", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));     //xsd:
-        typeMappings.put("boolean", new Integer(org.javarosa.core.model.Constants.DATATYPE_BOOLEAN));           //xsd:
-        typeMappings.put("base64Binary", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));  //xsd:
-        typeMappings.put("hexBinary", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));     //xsd:
-        typeMappings.put("anyURI", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));        //xsd:
-        typeMappings.put("listItem", new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE));           //xforms:
-        typeMappings.put("listItems", new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE_LIST));        //xforms:    
-        typeMappings.put(SELECTONE, new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE));            //non-standard    
-        typeMappings.put(SELECT, new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE_LIST));        //non-standard
-        typeMappings.put("geopoint", new Integer(org.javarosa.core.model.Constants.DATATYPE_GEOPOINT));         //non-standard
-        typeMappings.put("barcode", new Integer(org.javarosa.core.model.Constants.DATATYPE_BARCODE));           //non-standard
-        typeMappings.put("binary#image", new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY));             //non-standard
-        typeMappings.put("binary#audio", new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY));
-        typeMappings.put("binary#video", new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY));
-    }
-
+  
     public FormDef readFormDefinitionFromDb(String surveyId) throws SurveyXmlCreatorException {
-        FormDef formDefinition = new FormDef();
-
         EntityManager em = JPA.em();
         Survey survey = getSurveyFromDb(surveyId, em);
+      
+        return readFormDefinition(survey);
+    }
+    
+      
+    public FormDef readFormDefinition(Survey survey) throws SurveyXmlCreatorException {
+        FormDef formDefinition = new FormDef();
+
         Collection<Question> questions = survey.getQuestionsCollection();
 
         formDefinition.setName(survey.getTitle());
@@ -154,7 +123,7 @@ public class FormDefBuilder {
             dataElement.addChild(questionMeta);
             questionMeta.setRequired(question.getRequired() == 0 ? false : true);
             questionMeta.setEnabled(question.getReadonly() != null && question.getReadonly() == 1 ? false : true);
-            questionMeta.dataType = typeMappings.get(question.getQuestionTypesQuestionTypeId().getTypeName());
+            questionMeta.dataType = XFormsTypeMappings.getTypeToIntegerMapping().get(question.getQuestionTypesQuestionTypeId().getTypeName());
             
             if(question.getConstraintText() != null && !question.getConstraintText().isEmpty())
             {
@@ -175,7 +144,7 @@ public class FormDefBuilder {
     private int findControlType(Question question) {
         int retval = org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED;
         String typeName = question.getQuestionTypesQuestionTypeId().getTypeName();
-        int dataTypeMapping = typeMappings.get(typeName);
+        int dataTypeMapping = XFormsTypeMappings.getTypeToIntegerMapping().get(typeName);
 
         switch (dataTypeMapping) {
             case org.javarosa.core.model.Constants.DATATYPE_CHOICE:
