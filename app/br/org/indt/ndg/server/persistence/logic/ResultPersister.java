@@ -21,7 +21,6 @@ import java.io.Reader;
 import java.util.logging.Logger;
 import br.org.indt.ndg.server.exceptions.ResultNotParsedException;
 import br.org.indt.ndg.server.exceptions.ResultSaveException;
-import br.org.indt.ndg.server.persistence.NdgEntityManagerUtils;
 import br.org.indt.ndg.server.persistence.structure.NdgResult;
 import br.org.indt.ndg.server.persistence.structure.Transactionlog;
 import br.org.indt.ndg.server.persistence.structure.consts.TransactionlogConsts;
@@ -29,52 +28,39 @@ import java.util.Date;
 import java.util.logging.Level;
 import org.javarosa.core.model.FormDef;
 
-
+import play.db.jpa.JPA;
 
 public class ResultPersister {
 
-    private static final Logger log = Logger.getLogger( ResultPersister.class.getName() );
-    private static final long serialVersionUID = 1L;
 
-    public boolean postResult( Reader reader, String surveyId )
-            throws MSMApplicationException {
+    public void postResult(Reader reader, String surveyId) throws MSMApplicationException {
 
         NdgResult ndgResult = null;
-          try {
-             ResultParser parser = new ResultParser(reader);
+        try {
+            ResultParser parser = new ResultParser(reader);
             parser.parse();
             ndgResult = parser.getResult();
 
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             throw new ResultNotParsedException();
         }
 
-        if ( !NdgEntityManagerUtils.persist( ndgResult ) ) {
-            throw new ResultSaveException();
-        }
+        JPA.em().persist(ndgResult);
 
-        if ( setResultReceived( ndgResult ) ) {
-            log.log( Level.INFO, "Result {0} successfully logged!", ndgResult.getResultId() );
-        }
-        return true;
+        setResultReceived(ndgResult);
     }
 
     /**
      * Call log operation to register the result received by server.
      */
-    private boolean setResultReceived( NdgResult result ) {
-        boolean valid = false;
+    private void setResultReceived(NdgResult result) {
         Transactionlog postResultTransaction = new Transactionlog();
-        postResultTransaction.setTransactionDate( new Date() );
-        postResultTransaction.setTransactionStatus( TransactionlogConsts.TransactionStatus.STATUS_SUCCESS );
-        postResultTransaction.setIdSurvey( result.getSurveysSurveyId() );
-        postResultTransaction.setIdResult( result.getResultId() );
+        postResultTransaction.setTransactionDate(new Date());
+        postResultTransaction.setTransactionStatus(TransactionlogConsts.TransactionStatus.STATUS_SUCCESS);
+        postResultTransaction.setIdSurvey(result.getSurveysSurveyId());
+        postResultTransaction.setIdResult(result.getResultId());
 
-        valid = NdgEntityManagerUtils.persist( postResultTransaction );
-        if ( !valid ) {
-            log.log( Level.SEVERE, "Logging result received via http id:{0}", result.getResultId() );
-        }
-        return valid;
+        JPA.em().persist(postResultTransaction);
     }
 
     private void persistAnswers(FormDef resultParsed) {

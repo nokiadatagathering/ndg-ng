@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import br.org.indt.ndg.server.persistence.NdgEntityManagerUtils;
+import br.org.indt.ndg.server.exceptions.SurveySavingException;
 import br.org.indt.ndg.server.persistence.NdgQuery;
 import br.org.indt.ndg.server.persistence.logic.SurveyPersister;
 import br.org.indt.ndg.server.persistence.logic.SurveyXmlBuilder;
@@ -65,14 +65,14 @@ public class Management extends Controller {
         render("@index");
     }
 
-    public static void upload(File filename) throws IOException {
+    public static void upload(File filename) throws IOException, SurveySavingException {
         boolean uploadedSurvey = false;
         InputStreamReader is = null;
         try {
             is = new InputStreamReader(new FileInputStream(filename), "UTF-8");
             SurveyPersister persister = new SurveyPersister(is);
             persister.saveSurvey();
-
+ 
             uploadedSurvey = true;
         } finally {
             if (is != null) {

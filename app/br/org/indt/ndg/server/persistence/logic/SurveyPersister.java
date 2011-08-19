@@ -1,7 +1,6 @@
 package br.org.indt.ndg.server.persistence.logic;
 
 import br.org.indt.ndg.server.exceptions.SurveySavingException;
-import br.org.indt.ndg.server.persistence.NdgEntityManagerUtils;
 import br.org.indt.ndg.server.persistence.structure.QuestionOption;
 import br.org.indt.ndg.server.persistence.structure.QuestionType;
 import br.org.indt.ndg.server.persistence.structure.Question;
@@ -26,7 +25,7 @@ import org.javarosa.xpath.XPathConditional;
 import play.db.jpa.JPA;
 
 /**
- *
+ * 
  * @author wojciech.luczkow
  */
 public class SurveyPersister {
@@ -38,8 +37,7 @@ public class SurveyPersister {
         this.is = is;
     }
 
-  
-    public void saveSurvey() {
+    public void saveSurvey() throws SurveySavingException {
         try {
             logInfo("saving survey");
             XFormParser parser = new XFormParser(is);
@@ -48,8 +46,6 @@ public class SurveyPersister {
             logInfo("parsing finished");
             persistSurvey(formDefinition);
             persistQuestionSet(formDefinition);
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.INFO, "Exception occured", ex);
         } finally {
             logInfo("finished saving");
         }
@@ -62,32 +58,29 @@ public class SurveyPersister {
 
     private void persistSurvey(FormDef formDefinition) throws SurveySavingException {
 
-        Survey newSurvey = new Survey(formDefinition.getInstance().getRoot().getAttributeValue("", "id"), formDefinition.getName());
+        Survey newSurvey = new Survey(formDefinition.getInstance().getRoot().getAttributeValue("", "id"),
+                formDefinition.getName());
         NdgUser owner = getOwner(1);
         newSurvey.setUseridUser(owner);
         newSurvey.setUploadDate(new Date());
         newSurvey.setAvailable(0);
-        
+
         String locale = formDefinition.getLocalizer().getDefaultLocale();
-        if(locale == null)
-        {
+        if (locale == null) {
             String[] locales = formDefinition.getLocalizer().getAvailableLocales();
-            if(locales != null && locales.length > 0)
-            {
+            if (locales != null && locales.length > 0) {
                 locale = locales[0];
             }
         }
-        
+
         newSurvey.setLang(locale);
 
-        if (!NdgEntityManagerUtils.persist(newSurvey)) {
-            throw new SurveySavingException(SurveySavingException.DATABASE_ERROR);
-        }
+        JPA.em().persist(newSurvey);
         survey = newSurvey;
     }
 
     private void persistQuestionSet(FormDef formDefinition) throws SurveySavingException {
-        Vector /*<IFormElement>*/ formElements = formDefinition.getChildren();
+        Vector /* <IFormElement> */formElements = formDefinition.getChildren();
         for (int i = 0; i < formElements.size(); i++) {
             if (formElements.get(i) instanceof QuestionDef) {
                 QuestionDef question = (QuestionDef) formElements.get(i);
@@ -97,11 +90,12 @@ public class SurveyPersister {
         }
     }
 
-    private void persistQuestion(QuestionDef questionDef, TreeElement questionModel, Localizer localizer) throws SurveySavingException {
+    private void persistQuestion(QuestionDef questionDef, TreeElement questionModel, Localizer localizer)
+            throws SurveySavingException {
 
         String questionText = questionDef.getLabelInnerText();
         if (questionText == null) {
-            localizer.setLocale("eng");//TODO
+            localizer.setLocale("eng");// TODO
             questionText = localizer.getLocalizedText(questionDef.getTextID());
         }
 
@@ -123,14 +117,13 @@ public class SurveyPersister {
             newQuestion.setConstraintText(expression.xpath);
         }
         newQuestion.setRequired(questionModel.required ? new Integer(1) : new Integer(0));
-        
+
         newQuestion.setReadonly(questionModel.isEnabled() ? new Integer(0) : new Integer(1));
 
-        if (!NdgEntityManagerUtils.persist(newQuestion)) {
-            throw new SurveySavingException(SurveySavingException.DATABASE_ERROR);
-        }
+        JPA.em().persist(newQuestion);
 
-        if (type.getTypeName().equals(XFormsTypeMappings.SELECT) || type.getTypeName().equals(XFormsTypeMappings.SELECTONE)) {
+        if (type.getTypeName().equals(XFormsTypeMappings.SELECT)
+                || type.getTypeName().equals(XFormsTypeMappings.SELECTONE)) {
             persistQuestionOptions(questionDef, newQuestion, localizer);
         }
     }
@@ -144,22 +137,22 @@ public class SurveyPersister {
             StringBuilder controlTypeDecoded = new StringBuilder(XFormsTypeMappings.getIntegerToType(dataType));
             if (controlTypeDecoded.toString().equals("binary")) {
                 switch (controlType) {
-                    case org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE:
-                        controlTypeDecoded.append("#audio");
-                        break;
-                    case org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE:
-                        controlTypeDecoded.append("#video");
-                        break;
-                    case org.javarosa.core.model.Constants.CONTROL_IMAGE_CHOOSE:
-                        controlTypeDecoded.append("#image");
-                        break;
-                    default:
-                        break;
+                case org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE:
+                    controlTypeDecoded.append("#audio");
+                    break;
+                case org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE:
+                    controlTypeDecoded.append("#video");
+                    break;
+                case org.javarosa.core.model.Constants.CONTROL_IMAGE_CHOOSE:
+                    controlTypeDecoded.append("#image");
+                    break;
+                default:
+                    break;
                 }
             }
             query.setParameter("typeName", controlTypeDecoded.toString());
             retval = (QuestionType) query.getSingleResult();
-        } 
+        }
         return retval;
     }
 
@@ -167,11 +160,12 @@ public class SurveyPersister {
         NdgUser retval = null;
         Query getUserQuery = JPA.em().createNamedQuery("NdgUser.findByNdgUserId");
         getUserQuery.setParameter("ndgUserId", userId);
-        retval = (NdgUser) getUserQuery.getSingleResult();       
+        retval = (NdgUser) getUserQuery.getSingleResult();
         return retval;
     }
 
-    private void persistQuestionOptions(QuestionDef questionDef, Question newQuestion, Localizer localizer) throws SurveySavingException {
+    private void persistQuestionOptions(QuestionDef questionDef, Question newQuestion, Localizer localizer)
+            throws SurveySavingException {
         Vector<SelectChoice> choices = questionDef.getChoices();
         Logger.getAnonymousLogger().log(Level.INFO, "ChoiceCount: " + choices.size());
         for (SelectChoice selectChoice : choices) {
@@ -186,22 +180,8 @@ public class SurveyPersister {
             option.setLabel(label);
             option.setOptionValue(selectChoice.getValue());
             option.setQuestionsQuestionId(newQuestion);
-            EntityManager em = JPA.em();
-            boolean result = false;
-            try {
-                if (NdgEntityManagerUtils.persist(em, option)) {
-                    result = true;
-                } else {
-//                    em.getTransaction().begin();
-                    em.remove(newQuestion);
-//                    em.getTransaction().commit();
-                }
-            } finally {
 
-                if (!result) {
-                    throw new SurveySavingException(SurveySavingException.DATABASE_ERROR);
-                }
-            }
+            JPA.em().persist(option);
         }
     }
 }
