@@ -4,7 +4,7 @@
 
 # Home page
 GET     /                                       Application.index
-GET     /management                                Management.index
+GET     /management                             Management.index
 GET     /management/{<[0-9]+>id}                Management.get
 POST    /management                             Management.save
 POST    /management/upload                      Management.upload
@@ -13,7 +13,8 @@ GET     /webui                                  webui.Administration.index
 
 GET     /clientupdate                           ClientUpdate.index
 
-GET     /ndg-server/ReceiveSurvey/download/{<[0-9]+>formID} ReceiveSurvey.download
+GET     /surveys                                Surveys.list
+GET     /ndg-server/ReceiveSurvey/download/{<[0-9]+>formID} Surveys.download
 
 # Ignore favicon requests
 #GET     /favicon.ico                            404
@@ -30,6 +31,5 @@ POST /ndg-server/PostResults               PostResults.upload
 *       /ndg-server/{controller}/{action}          {controller}.{action}
 
 
-*       /{controller}/{action}.json                 {controller}.{action}_json
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

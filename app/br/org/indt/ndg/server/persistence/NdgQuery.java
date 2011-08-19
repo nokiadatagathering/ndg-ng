@@ -39,7 +39,7 @@ public class NdgQuery {
         if ( aUserName != null && !aUserName.isEmpty() ) {
             try {
 
-                Query userQuery = JPA.em().createNamedQuery( "Users.findByUsername" );
+                Query userQuery = JPA.em().createNamedQuery( "NdgUser.findByUsername" );
                 userQuery.setParameter( "username", aUserName );
                 user = (NdgUser) userQuery.getSingleResult();
             }catch ( NoResultException ex ) {
