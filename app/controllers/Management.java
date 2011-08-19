@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 import br.org.indt.ndg.server.persistence.NdgEntityManagerUtils;
 import br.org.indt.ndg.server.persistence.NdgQuery;
 import br.org.indt.ndg.server.persistence.logic.SurveyPersister;
@@ -22,57 +21,49 @@ import br.org.indt.ndg.server.persistence.structure.NdgUser;
 import br.org.indt.ndg.server.persistence.structure.Survey;
 import br.org.indt.ndg.server.persistence.structure.Transactionlog;
 import br.org.indt.ndg.server.persistence.structure.consts.TransactionlogConsts;
+import play.db.jpa.JPA;
 import play.mvc.Controller;
 import play.mvc.Http;
 
-
-
 public class Management extends Controller {
 
-
     private static void initialContent() {
-        ArrayList<Survey> surveys = NdgQuery.listAllSurveys( );
-        ArrayList<NdgUser> users = NdgQuery.listAllUsers( );
-        renderArgs.put("surveys", surveys);
-        renderArgs.put("users", users);
+        renderArgs.put("surveys", NdgQuery.listAllSurveys());
+        renderArgs.put("users", NdgQuery.listAllUsers());
     }
-    
+
     public static void index() {
         String param = params.get("do");
-        if (param == null) 
+        if (param == null)
             param = "config"; // default is config, can be change later
         if (param.equals("config")) {
             initialContent();
-            render();     
+            render();
         } else {
             error(Http.StatusCode.FORBIDDEN, "");
         }
     }
-    
-    public static void save (String selectedUser, List<String> selectedSurveyIds) {
 
-        boolean status = false;
-        for ( int i = 0; i < selectedSurveyIds.size(); i++ ) {
+    public static void save(String selectedUser, List<String> selectedSurveyIds) {
+
+        for (int i = 0; i < selectedSurveyIds.size(); i++) {
             Transactionlog transaction = new Transactionlog();
-            transaction.setTransactionDate( new Date() );
-            transaction.setTransactionType( TransactionlogConsts.TransactionType.TYPE_SEND_SURVEY );
-            transaction.setTransactionStatus( TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE );
-            transaction.setTransmissionMode( TransactionlogConsts.TransactionMode.MODE_HTTP );
+            transaction.setTransactionDate(new Date());
+            transaction.setTransactionType(TransactionlogConsts.TransactionType.TYPE_SEND_SURVEY);
+            transaction.setTransactionStatus(TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE);
+            transaction.setTransmissionMode(TransactionlogConsts.TransactionMode.MODE_HTTP);
 
-            transaction.setAddress( request.remoteAddress );
-            transaction.setUserUserId( NdgQuery.getUsersbyId( selectedUser ) );
-            transaction.setIdSurvey( NdgQuery.getSurveyById( selectedSurveyIds.get(i) ) );
-            status = NdgEntityManagerUtils.persist( transaction );
+            transaction.setAddress(request.remoteAddress);
+            transaction.setUserUserId(NdgQuery.getUsersbyId(selectedUser));
+            transaction.setIdSurvey(NdgQuery.getSurveyById(selectedSurveyIds.get(i)));
+
+            JPA.em().persist(transaction);
         }
-        if ( status ) {
-            initialContent();
-            renderArgs.put("surveysForUserResult", true);
-            render("@index");
-        } else {
-            error(Http.StatusCode.INTERNAL_ERROR, "Problem with DB.");
-        }
+
+        initialContent();
+        renderArgs.put("surveysForUserResult", true);
+        render("@index");
     }
-    
 
     public static void upload(File filename) throws IOException {
         boolean uploadedSurvey = false;
@@ -105,5 +96,5 @@ public class Management extends Controller {
             Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
