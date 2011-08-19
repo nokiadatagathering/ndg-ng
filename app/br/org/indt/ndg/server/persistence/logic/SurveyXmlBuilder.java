@@ -144,7 +144,7 @@ public class SurveyXmlBuilder {
                 String nodeset = getNodesetFromTextId(question); //hack to reach object name
                 binding.setAttribute(null, "nodeset", nodeset);
                 TreeElement questionModelElement = formDef.getInstance().resolveReference(question.getBind());
-                binding.setAttribute(null, "type", XFormsTypeMappings.getIntegerToTypeMapping().get(questionModelElement.dataType));
+                binding.setAttribute(null, "type", XFormsTypeMappings.getIntegerToType(questionModelElement.dataType));
                 if (questionModelElement.required) {
                     binding.setAttribute(null, "required", "true()");
                 }
@@ -180,7 +180,7 @@ public class SurveyXmlBuilder {
     }
 
     private void addQuestionElement(QuestionDef question, Element body, FormDef formDef) {
-        String type = XFormsTypeMappings.getIntegerToControlTypeMapping().get(question.getControlType());
+        String type = XFormsTypeMappings.getIntegerToControlType(question.getControlType());
         Element questionNode = body.createElement(null, type);
         questionNode.setAttribute(null, "ref", getNodesetFromTextId(question));
 

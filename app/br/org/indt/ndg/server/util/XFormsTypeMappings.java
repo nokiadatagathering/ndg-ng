@@ -18,26 +18,32 @@ public class XFormsTypeMappings {
     private static Hashtable<Integer, String> integerToType;
     private static Hashtable<Integer, String> integerToControlType;
 
-    public static Hashtable<String, Integer> getTypeToIntegerMapping() {
-        return typeToInteger != null  ?
-                  typeToInteger
-                : initTypeToIntegerMappings();
+    public static int getTypeToInteger(String type) {
+        if(typeToInteger == null)
+        {
+            initTypeToIntegerMappings();
+        }
+        return typeToInteger.get(type);
     }
     
     
-    public static Hashtable<Integer, String> getIntegerToTypeMapping() {
-        return integerToType != null  ?
-                  integerToType
-                : initIntegerToTypeMappings();
+    public static String getIntegerToType(int typeInt) {
+        if(integerToType == null)
+        {
+            initIntegerToTypeMappings();
+        }
+        return integerToType.get(new Integer(typeInt));
     }
     
-    public static Hashtable<Integer, String> getIntegerToControlTypeMapping() {
-        return integerToControlType != null  ?
-                  integerToControlType
-                : initIntegerToControlTypeMappings();
+    public static String getIntegerToControlType(int controlTypeInt) {
+        if(integerToControlType == null)
+        {
+            initIntegerToControlTypeMappings();
+        }
+        return integerToControlType.get(new Integer(controlTypeInt));
     }
 
-    private static Hashtable<String, Integer> initTypeToIntegerMappings() {
+    private static void initTypeToIntegerMappings() {
         typeToInteger = new Hashtable<String, Integer>();
         typeToInteger.put("string", new Integer(org.javarosa.core.model.Constants.DATATYPE_TEXT));               //xsd:
         typeToInteger.put("integer", new Integer(org.javarosa.core.model.Constants.DATATYPE_INTEGER));           //xsd:
@@ -67,10 +73,9 @@ public class XFormsTypeMappings {
         typeToInteger.put("binary#image", new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY));             //non-standard
         typeToInteger.put("binary#audio", new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY));
         typeToInteger.put("binary#video", new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY));
-        return typeToInteger;
     }
     
-      private static Hashtable<Integer, String> initIntegerToTypeMappings() {
+      private static void initIntegerToTypeMappings() {
         integerToType = new Hashtable<Integer, String>();
         integerToType.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_TEXT), "string");
         integerToType.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_INTEGER), "integer");
@@ -86,10 +91,9 @@ public class XFormsTypeMappings {
         integerToType.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_GEOPOINT), "geopoint");
         integerToType.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_BARCODE), "barcode");
         integerToType.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY), "binary");
-        return integerToType;
     }
 
-    private static Hashtable<Integer, String> initIntegerToControlTypeMappings() {
+    private static void initIntegerToControlTypeMappings() {
         integerToControlType = new Hashtable<Integer, String>();
         integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_INPUT), "input");
         integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_SELECT_ONE), "select1");
@@ -104,6 +108,5 @@ public class XFormsTypeMappings {
         integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_LABEL), "label");
         integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE), "binary");
         integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE), "binary");
-        return integerToControlType;
     }
 }

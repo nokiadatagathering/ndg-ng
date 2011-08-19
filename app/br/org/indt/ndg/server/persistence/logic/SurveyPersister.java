@@ -141,7 +141,7 @@ public class SurveyPersister {
         {
             em = JPA.em();
             Query query = em.createNamedQuery("QuestionType.findByTypeName");
-            StringBuilder controlTypeDecoded = new StringBuilder(XFormsTypeMappings.getIntegerToTypeMapping().get(dataType));
+            StringBuilder controlTypeDecoded = new StringBuilder(XFormsTypeMappings.getIntegerToType(dataType));
             if (controlTypeDecoded.toString().equals("binary")) {
                 switch (controlType) {
                     case org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE:

@@ -120,7 +120,7 @@ public class FormDefBuilder {
             dataElement.addChild(questionMeta);
             questionMeta.setRequired(question.getRequired() == 0 ? false : true);
             questionMeta.setEnabled(question.getReadonly() != null && question.getReadonly() == 1 ? false : true);
-            questionMeta.dataType = XFormsTypeMappings.getTypeToIntegerMapping().get(question.getQuestionTypesQuestionTypeId().getTypeName());
+            questionMeta.dataType = XFormsTypeMappings.getTypeToInteger(question.getQuestionTypesQuestionTypeId().getTypeName());
             
             if(question.getConstraintText() != null && !question.getConstraintText().isEmpty())
             {
@@ -141,7 +141,7 @@ public class FormDefBuilder {
     private int findControlType(Question question) {
         int retval = org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED;
         String typeName = question.getQuestionTypesQuestionTypeId().getTypeName();
-        int dataTypeMapping = XFormsTypeMappings.getTypeToIntegerMapping().get(typeName);
+        int dataTypeMapping = XFormsTypeMappings.getTypeToInteger(typeName);
 
         switch (dataTypeMapping) {
             case org.javarosa.core.model.Constants.DATATYPE_CHOICE:
