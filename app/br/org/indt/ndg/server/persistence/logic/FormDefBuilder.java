@@ -69,9 +69,6 @@ public class FormDefBuilder {
         Query getSurvey = em.createNamedQuery("Survey.findBySurveyId");
         getSurvey.setParameter("surveyId", surveyId);
         retval = (Survey) getSurvey.getSingleResult();
-        if (retval == null) {
-            throw new SurveyXmlCreatorException(SurveyXmlCreatorException.SURVEY_NO_FOUND);
-        }
         return retval;
     }
 
