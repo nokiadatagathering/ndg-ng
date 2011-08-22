@@ -14,18 +14,15 @@
  *  You should have received a copy of the GNU Lesser General Public 
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
  */
-package br.org.indt.ndg.server.persistence.logic;
+package controllers.logic;
 
-import br.org.indt.ndg.server.exceptions.MSMApplicationException;
+import controllers.exceptions.MSMApplicationException;
 import java.io.Reader;
-import java.util.logging.Logger;
-import br.org.indt.ndg.server.exceptions.ResultNotParsedException;
-import br.org.indt.ndg.server.exceptions.ResultSaveException;
+import controllers.exceptions.ResultNotParsedException;
 import br.org.indt.ndg.server.persistence.structure.NdgResult;
 import br.org.indt.ndg.server.persistence.structure.Transactionlog;
 import br.org.indt.ndg.server.persistence.structure.consts.TransactionlogConsts;
 import java.util.Date;
-import java.util.logging.Level;
 import org.javarosa.core.model.FormDef;
 
 import play.db.jpa.JPA;

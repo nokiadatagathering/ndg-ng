@@ -14,13 +14,12 @@
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
  */
-package br.org.indt.ndg.server.persistence.logic;
+package controllers.logic;
 
-import br.org.indt.ndg.server.exceptions.MSMApplicationException;
 import br.org.indt.ndg.server.persistence.NdgQuery;
 import br.org.indt.ndg.server.persistence.structure.Userbalance;
 import br.org.indt.ndg.server.persistence.structure.NdgUser;
-import br.org.indt.ndg.server.util.PropertiesUtil;
+import controllers.util.PropertiesUtil;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;

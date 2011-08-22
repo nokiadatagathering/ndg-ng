@@ -14,7 +14,7 @@
  *  You should have received a copy of the GNU Lesser General Public 
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
  */
-package br.org.indt.ndg.server.util;
+package controllers.util;
 
 import java.util.Properties;
 import java.util.logging.Level;

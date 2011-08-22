@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import br.org.indt.ndg.server.exceptions.SurveySavingException;
+import controllers.exceptions.SurveySavingException;
 import br.org.indt.ndg.server.persistence.NdgQuery;
-import br.org.indt.ndg.server.persistence.logic.SurveyPersister;
-import br.org.indt.ndg.server.persistence.logic.SurveyXmlBuilder;
+import controllers.logic.SurveyPersister;
+import controllers.logic.SurveyXmlBuilder;
 import br.org.indt.ndg.server.persistence.structure.NdgUser;
 import br.org.indt.ndg.server.persistence.structure.Survey;
 import br.org.indt.ndg.server.persistence.structure.Transactionlog;

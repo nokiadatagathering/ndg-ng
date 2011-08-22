@@ -4,14 +4,14 @@
  */
 package controllers;
 
-import br.org.indt.ndg.server.exceptions.SurveyXmlCreatorException;
+import controllers.exceptions.SurveyXmlCreatorException;
 import br.org.indt.ndg.server.persistence.NdgQuery;
-import br.org.indt.ndg.server.persistence.logic.SurveyXmlBuilder;
+import controllers.logic.SurveyXmlBuilder;
 import br.org.indt.ndg.server.persistence.structure.NdgUser;
 import br.org.indt.ndg.server.persistence.structure.Transactionlog;
 import br.org.indt.ndg.server.persistence.structure.consts.TransactionlogConsts;
-import br.org.indt.ndg.server.util.PropertiesUtil;
-import br.org.indt.ndg.server.util.SettingsProperties;
+import controllers.util.PropertiesUtil;
+import controllers.util.SettingsProperties;
 
 import java.io.IOException;
 import java.io.PrintWriter;

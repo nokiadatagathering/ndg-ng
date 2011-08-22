@@ -5,8 +5,8 @@
 package controllers;
 
 
-import br.org.indt.ndg.server.exceptions.MSMApplicationException;
-import br.org.indt.ndg.server.persistence.logic.ResultPersister;
+import controllers.exceptions.MSMApplicationException;
+import controllers.logic.ResultPersister;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;

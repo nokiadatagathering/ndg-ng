@@ -6,9 +6,9 @@ import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServletResponse;
 
-import br.org.indt.ndg.server.util.Commands;
-import br.org.indt.ndg.server.util.PropertiesUtil;
-import br.org.indt.ndg.server.util.SettingsProperties;
+import controllers.util.Commands;
+import controllers.util.PropertiesUtil;
+import controllers.util.SettingsProperties;
 
 import play.mvc.Controller;
 import play.mvc.Http;

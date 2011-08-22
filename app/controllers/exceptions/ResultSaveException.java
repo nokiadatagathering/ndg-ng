@@ -14,19 +14,19 @@
  *  You should have received a copy of the GNU Lesser General Public 
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
  */
-package br.org.indt.ndg.server.exceptions;
+package controllers.exceptions;
 
-public class MsisdnNotFoundException extends MSMApplicationException {
+public class ResultSaveException extends MSMApplicationException {
 
     private static final long serialVersionUID = 1L;
-    private static final String _ERROR_CODE = "MSM_CORE_MSG_MSISDN_NOT_FOUND";
+    private static final String _ERROR_CODE = "MSM_CORE_MSG_RESULT_NOT_SAVED";
 
-    public MsisdnNotFoundException() {
+    public ResultSaveException() {
         super();
         setErrorCode( _ERROR_CODE );
     }
 
-    public MsisdnNotFoundException( Exception e ) {
+    public ResultSaveException( Exception e ) {
         super( e );
         setErrorCode( _ERROR_CODE );
     }

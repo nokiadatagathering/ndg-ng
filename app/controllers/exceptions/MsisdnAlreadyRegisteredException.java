@@ -14,19 +14,19 @@
  *  You should have received a copy of the GNU Lesser General Public 
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
  */
-package br.org.indt.ndg.server.exceptions;
+package controllers.exceptions;
 
-public class ResultSaveException extends MSMApplicationException {
+public class MsisdnAlreadyRegisteredException extends MSMApplicationException {
 
     private static final long serialVersionUID = 1L;
-    private static final String _ERROR_CODE = "MSM_CORE_MSG_RESULT_NOT_SAVED";
+    private static final String _ERROR_CODE = "MSM_CORE_MSG_MSISDN_ALREADY_REGISTERED";
 
-    public ResultSaveException() {
+    public MsisdnAlreadyRegisteredException() {
         super();
         setErrorCode( _ERROR_CODE );
     }
 
-    public ResultSaveException( Exception e ) {
+    public MsisdnAlreadyRegisteredException( Exception e ) {
         super( e );
         setErrorCode( _ERROR_CODE );
     }

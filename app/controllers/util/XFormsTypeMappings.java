@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.org.indt.ndg.server.util;
+package controllers.util;
 
 import java.util.Hashtable;
 

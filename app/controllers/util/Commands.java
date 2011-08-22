@@ -15,14 +15,14 @@
 *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
 */
 
-package br.org.indt.ndg.server.util;
+package controllers.util;
 
 /**
  * @author samourao
  *
  */
 public enum Commands {
-    list,
+	list,
     download,
     ack,//TODO seems to be not needed
     currentVersion,

@@ -1,12 +1,12 @@
-package br.org.indt.ndg.server.persistence.logic;
+package controllers.logic;
 
-import br.org.indt.ndg.server.exceptions.SurveySavingException;
+import controllers.exceptions.SurveySavingException;
 import br.org.indt.ndg.server.persistence.structure.QuestionOption;
 import br.org.indt.ndg.server.persistence.structure.QuestionType;
 import br.org.indt.ndg.server.persistence.structure.Question;
 import br.org.indt.ndg.server.persistence.structure.Survey;
 import br.org.indt.ndg.server.persistence.structure.NdgUser;
-import br.org.indt.ndg.server.util.XFormsTypeMappings;
+import controllers.util.XFormsTypeMappings;
 import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.Vector;

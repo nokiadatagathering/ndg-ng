@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.org.indt.ndg.server.persistence.logic;
+package controllers.logic;
 
-import br.org.indt.ndg.server.exceptions.SurveyXmlCreatorException;
+import controllers.exceptions.SurveyXmlCreatorException;
 import br.org.indt.ndg.server.persistence.structure.Survey;
-import br.org.indt.ndg.server.util.XFormsTypeMappings;
+import controllers.util.XFormsTypeMappings;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.javarosa.core.model.FormDef;
