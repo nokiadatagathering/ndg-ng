@@ -14,10 +14,10 @@
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
  */
-package br.org.indt.ndg.server.persistence;
+package models.utils;
 
-import br.org.indt.ndg.server.persistence.structure.NdgUser;
-import br.org.indt.ndg.server.persistence.structure.Survey;
+import models.NdgUser;
+import models.Survey;
 
 import java.util.ArrayList;
 import java.util.logging.Level;

@@ -5,7 +5,7 @@
 package controllers.logic;
 
 import controllers.exceptions.SurveyXmlCreatorException;
-import br.org.indt.ndg.server.persistence.structure.Survey;
+import models.Survey;
 import controllers.util.XFormsTypeMappings;
 import java.io.IOException;
 import java.io.PrintWriter;

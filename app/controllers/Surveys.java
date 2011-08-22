@@ -5,11 +5,11 @@
 package controllers;
 
 import controllers.exceptions.SurveyXmlCreatorException;
-import br.org.indt.ndg.server.persistence.NdgQuery;
+import models.utils.NdgQuery;
 import controllers.logic.SurveyXmlBuilder;
-import br.org.indt.ndg.server.persistence.structure.NdgUser;
-import br.org.indt.ndg.server.persistence.structure.Transactionlog;
-import br.org.indt.ndg.server.persistence.structure.consts.TransactionlogConsts;
+import models.NdgUser;
+import models.Transactionlog;
+import models.constants.TransactionlogConsts;
 import controllers.util.PropertiesUtil;
 import controllers.util.SettingsProperties;
 

@@ -11,8 +11,8 @@ import javax.persistence.Query;
 
 import flexjson.JSONSerializer;
 
-import br.org.indt.ndg.server.persistence.structure.NdgRole;
-import br.org.indt.ndg.server.persistence.structure.NdgUser;
+import models.NdgRole;
+import models.NdgUser;
 
 //import models.*;
 

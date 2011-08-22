@@ -5,9 +5,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import br.org.indt.ndg.server.persistence.NdgQuery;
-import br.org.indt.ndg.server.persistence.structure.NdgRole;
-import br.org.indt.ndg.server.persistence.structure.NdgUser;
+import models.utils.NdgQuery;
+import models.NdgRole;
+import models.NdgUser;
 import flexjson.JSONSerializer;
 import play.db.jpa.JPA;
 import play.mvc.Controller;

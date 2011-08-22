@@ -15,8 +15,8 @@
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
  */package controllers.logic;
 
-import br.org.indt.ndg.server.persistence.structure.Answer;
-import br.org.indt.ndg.server.persistence.structure.NdgResult;
+import models.Answer;
+import models.NdgResult;
 import java.io.Reader;
 import java.util.Collection;
 import java.util.logging.Level;

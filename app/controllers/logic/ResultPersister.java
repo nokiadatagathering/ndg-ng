@@ -19,9 +19,9 @@ package controllers.logic;
 import controllers.exceptions.MSMApplicationException;
 import java.io.Reader;
 import controllers.exceptions.ResultNotParsedException;
-import br.org.indt.ndg.server.persistence.structure.NdgResult;
-import br.org.indt.ndg.server.persistence.structure.Transactionlog;
-import br.org.indt.ndg.server.persistence.structure.consts.TransactionlogConsts;
+import models.NdgResult;
+import models.Transactionlog;
+import models.constants.TransactionlogConsts;
 import java.util.Date;
 import org.javarosa.core.model.FormDef;
 

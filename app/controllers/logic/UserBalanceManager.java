@@ -16,9 +16,9 @@
  */
 package controllers.logic;
 
-import br.org.indt.ndg.server.persistence.NdgQuery;
-import br.org.indt.ndg.server.persistence.structure.Userbalance;
-import br.org.indt.ndg.server.persistence.structure.NdgUser;
+import models.utils.NdgQuery;
+import models.Userbalance;
+import models.NdgUser;
 import controllers.util.PropertiesUtil;
 import java.util.Properties;
 import java.util.logging.Level;

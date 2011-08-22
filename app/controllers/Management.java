@@ -14,13 +14,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import controllers.exceptions.SurveySavingException;
-import br.org.indt.ndg.server.persistence.NdgQuery;
+import models.utils.NdgQuery;
 import controllers.logic.SurveyPersister;
 import controllers.logic.SurveyXmlBuilder;
-import br.org.indt.ndg.server.persistence.structure.NdgUser;
-import br.org.indt.ndg.server.persistence.structure.Survey;
-import br.org.indt.ndg.server.persistence.structure.Transactionlog;
-import br.org.indt.ndg.server.persistence.structure.consts.TransactionlogConsts;
+import models.NdgUser;
+import models.Survey;
+import models.Transactionlog;
+import models.constants.TransactionlogConsts;
 import play.db.jpa.JPA;
 import play.mvc.Controller;
 import play.mvc.Http;

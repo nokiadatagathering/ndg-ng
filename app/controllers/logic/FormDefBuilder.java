@@ -5,9 +5,9 @@
 package controllers.logic;
 
 import controllers.exceptions.SurveyXmlCreatorException;
-import br.org.indt.ndg.server.persistence.structure.QuestionOption;
-import br.org.indt.ndg.server.persistence.structure.Question;
-import br.org.indt.ndg.server.persistence.structure.Survey;
+import models.QuestionOption;
+import models.Question;
+import models.Survey;
 import controllers.util.XFormsTypeMappings;
 import java.util.Collection;
 import java.util.logging.Level;

@@ -1,4 +1,4 @@
-package br.org.indt.ndg.server.persistence.structure;
+package models;
 
 import java.io.Serializable;
 import java.util.Collection;
