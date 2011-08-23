@@ -4,6 +4,14 @@
 
 # Home page
 GET     /                                       Application.index
+GET     /management                                Management.index
+GET     /management/{<[0-9]+>id}                Management.get
+POST    /management                             Management.save
+POST    /management/upload                      Management.upload
+
+GET     /clientupdate                           ClientUpdate.index
+
+GET     /ndg-server/ReceiveSurvey/download/{<[0-9]+>formID} ReceiveSurvey.download
 
 # Ignore favicon requests
 #GET     /favicon.ico                            404
@@ -14,5 +22,12 @@ GET     /javascripts/                                staticDir:public/javascript
 GET     /stylesheets/                                staticDir:public/stylesheets
 GET     /images/                                     staticDir:public/images
 
+POST /ndg-server/PostResults               PostResults.upload
+
+# ndg mobile client adds  /ndg-server  to url
+*       /ndg-server/{controller}/{action}          {controller}.{action}
+
+
+*       /{controller}/{action}.json                 {controller}.{action}_json
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

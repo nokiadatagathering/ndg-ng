@@ -4,4 +4,6 @@
 
 # ignore all directories and files.
 tmp/**/* 
+tmp/*
 assets/public/**/*
+/precompiled/*

@@ -1,0 +1,64 @@
+#{extends 'main.html' /}
+#{set title:'OpenRosa Management' /}
+
+#{if params.printCommands}
+<b>Hmmm, wonder if it is in use at all?</b>
+<table border="0" >
+     <tr><td>Command</td><td>Description</td></tr>
+     <tr><td>/OpenRosaManagement?action=setSurveysForUser</td><td>Allows to set survey available for user</td></tr>
+     <tr><td>/OpenRosaManagement?action=exportResultsForUser</td><td>Provides .zip file with all survey results for user</td></tr>
+     <tr><td>/OpenRosaManagement</td><td>This page</td></tr>
+  </table>
+#{/if}
+#{elseif surveys && users }
+ <center>
+    #{form @save()}    
+     <table border="0" ><tr><td align="left">
+        <input type="hidden" name="action" value="setSurveysForUser">
+        IMEI: 
+        <select name="selectedUser">
+        #{list users, as:'user'}
+            <option value="${user.ndgUserId}"> ${user.username}(ID: ${user.ndgUserId}) </option>
+        #{/list}
+        </select><br /><br />    
+        Available survey IDs:<br />
+        #{list surveys, as:'survey'}
+        <input type="checkbox" name="selectedSurveyIds" value="${survey.surveyId}">${survey.title}(ID:${survey.surveyId})
+        <a href="@{get(survey.surveyId)}" target="_blank">View</a><br />
+        #{/list}    
+        </td></tr>
+        <tr><td> 
+        <INPUT type="submit" name="submit" value="Submit">
+       </td></tr></table>
+    #{/form}
+    </center>
+#{/elseif}
+#{if surveysForUserResult == true }       
+<br/><br/><center>Surveys are now available to download for selected user<center>
+#{/if}
+ 
+#{form @upload(), enctype:'multipart/form-data'}
+
+ <br><br><br>
+ <center>
+     <table border="0" >
+         <tr><td colspan="2"><p align="center"><b>Choose a survey to upload.</b></td></tr>
+         <tr><td><p align="center"><input NAME="filename" TYPE="file" /></p></td></tr>
+         <tr><td colspan="2"><p align="center"><input TYPE="submit" VALUE="Send File" /></p></td></tr>
+     </table>
+ </center>
+ 
+#{/form}
+ 
+ <center>
+    <table border="0" ><tr><td>
+    #{if uploadedSurvey == true}
+    Survey successfully uploaded
+    #{/if}
+    #{if uploadedSurvey == false}
+    Survey upload failed
+    #{/if}
+    </tr></td>  </table>
+ </center>
+  
+

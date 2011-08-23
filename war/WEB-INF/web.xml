@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+        version="2.4">
+  
+  <display-name>Play! (Nokia Data Gathering)</display-name>
+  
+  <context-param>
+    <param-name>play.id</param-name>
+    <param-value>war</param-value>
+  </context-param>
+  
+  <listener>
+      <listener-class>play.server.ServletWrapper</listener-class>
+  </listener>
+  
+  <servlet>
+    <servlet-name>play</servlet-name>
+    <servlet-class>play.server.ServletWrapper</servlet-class>    
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>play</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+        
+  <login-config>
+    <auth-method>DIGEST</auth-method>
+    <realm-name>NDG</realm-name>
+  </login-config>
+
+    <security-constraint>
+    <web-resource-collection>
+        <web-resource-name>Administration pages</web-resource-name>
+        <url-pattern>/ReceiveSurvey/*</url-pattern>
+        <http-method>GET</http-method>
+        <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+       <role-name>Admin</role-name>
+    </auth-constraint>
+  </security-constraint>
+ 
+  <security-role>
+    <description>
+      The role that is required to access Admin pages
+    </description>
+    <role-name>Admin</role-name>
+  </security-role>
+
+</web-app>

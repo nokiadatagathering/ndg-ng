@@ -1,0 +1,51 @@
+#{extends 'main.html' /}
+#{set title:'Users' /}
+
+<script>
+$(document).ready(function(){
+   
+    $.getJSON('/Application/roles.json', function(data) {
+          var items = [];
+          $.each(data.roles, function (idx, v) {
+              items.push('<li id="' + v.idRole + '">' + v.roleName + ' ('+ v.idRole +')</li>');             
+          });
+
+          $('<ul/>', {
+            html: items.join('')
+          }).appendTo('#roles');
+        });
+});
+</script>
+
+<div align="center">    
+
+#{if users}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Company</th>
+            </tr>
+        </thead>
+        <tbody>
+            #{list users, as:'user'}
+                <tr>
+                    <td>${user.username}</td>
+                    <td>${user.email}</td>
+                    <td>${user.idCompany.companyName}</td>
+                </tr>
+            #{/list}
+        </tbody>
+    </table>
+#{/if}
+#{else}
+    No users...
+#{/else}
+
+</div>
+
+Roles
+<div id='roles' > 
+</div>
+
