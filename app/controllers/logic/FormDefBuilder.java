@@ -10,10 +10,9 @@ import models.Question;
 import models.Survey;
 import controllers.util.XFormsTypeMappings;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import org.javarosa.core.model.FormDef;
 import org.javarosa.core.model.IDataReference;
 import org.javarosa.core.model.QuestionDef;
@@ -28,8 +27,6 @@ import org.javarosa.model.xform.XPathReference;
 import org.javarosa.xpath.XPathConditional;
 import org.javarosa.xpath.parser.XPathSyntaxException;
 
-import play.db.jpa.JPA;
-
 /**
  *
  * @author wojciech.luczkow
@@ -41,8 +38,7 @@ public class FormDefBuilder {
 
   
     public FormDef readFormDefinitionFromDb(String surveyId) throws SurveyXmlCreatorException {
-        EntityManager em = JPA.em();
-        Survey survey = getSurveyFromDb(surveyId, em);
+        Survey survey = getSurveyFromDb(surveyId);
       
         return readFormDefinition(survey);
     }
@@ -51,11 +47,11 @@ public class FormDefBuilder {
     public FormDef readFormDefinition(Survey survey) throws SurveyXmlCreatorException {
         FormDef formDefinition = new FormDef();
 
-        Collection<Question> questions = survey.getQuestionsCollection();
+        List<Question> questions = survey.questionCollection;
 
-        formDefinition.setName(survey.getTitle());
+        formDefinition.setName(survey.title);
 
-        setupLocalizer(survey.getLang(), formDefinition);
+        setupLocalizer(survey.lang, formDefinition);
 
         formDefinition.setInstance(setupInstance(survey, questions));
 
@@ -64,25 +60,23 @@ public class FormDefBuilder {
         return formDefinition;
     }
 
-    private Survey getSurveyFromDb(String surveyId, EntityManager em) throws SurveyXmlCreatorException {
+    private Survey getSurveyFromDb(String surveyId) throws SurveyXmlCreatorException {
         Survey retval = null;
-        Query getSurvey = em.createNamedQuery("Survey.findBySurveyId");
-        getSurvey.setParameter("surveyId", surveyId);
-        retval = (Survey) getSurvey.getSingleResult();
+        retval = (Survey) Survey.find("bySurveyId", surveyId).first();
         return retval;
     }
 
     private void addQuestions(FormDef formDefinition, Survey survey) {
-        Collection<Question> questions = survey.getQuestionsCollection();
+        Collection<Question> questions = survey.questionCollection;
         TableLocaleSource localization = new TableLocaleSource();
         for (Question question : questions) {
             QuestionDef newQuestion = new QuestionDef();
             newQuestion.setTextID(getRefString(question, "data", "label"));
             newQuestion.setHelpTextID(getRefString(question, "data", "hint"));
             newQuestion.setControlType(findControlType(question));
-            localization.setLocaleMapping(newQuestion.getTextID(), question.getLabel());
-            if (question.getHint() != null) {
-                localization.setLocaleMapping(newQuestion.getHelpTextID(), question.getHint());
+            localization.setLocaleMapping(newQuestion.getTextID(), question.label);
+            if (question.hint != null) {
+                localization.setLocaleMapping(newQuestion.getHelpTextID(), question.hint);
             }
             if (newQuestion.getControlType() == org.javarosa.core.model.Constants.CONTROL_SELECT_ONE
                     || newQuestion.getControlType() == org.javarosa.core.model.Constants.CONTROL_SELECT_MULTI) {
@@ -94,18 +88,18 @@ public class FormDefBuilder {
             
             formDefinition.addChild(newQuestion);
         }
-        if (survey.getLang() != null) {
-            formDefinition.getLocalizer().registerLocaleResource(survey.getLang(), localization);
+        if (survey.lang != null) {
+            formDefinition.getLocalizer().registerLocaleResource(survey.lang, localization);
         }
     }
     
     
     private void addOptions(QuestionDef newQuestion, Question dbQuestion, TableLocaleSource localization) {
-        Collection<QuestionOption> questionOptions = dbQuestion.getQuestionOptionsCollection();
+        Collection<QuestionOption> questionOptions = dbQuestion.questionOptionCollection;
         for (QuestionOption questionOption : questionOptions) {
-            String reference = getRefString(dbQuestion, "data", "option" + questionOption.getOptionIndex());
-            SelectChoice choice = new SelectChoice(reference, questionOption.getOptionValue());
-            localization.setLocaleMapping(reference, questionOption.getLabel());
+            String reference = getRefString(dbQuestion, "data", "option" + questionOption.optionIndex);
+            SelectChoice choice = new SelectChoice(reference, questionOption.optionValue);
+            localization.setLocaleMapping(reference, questionOption.label);
             newQuestion.addSelectChoice(choice);
         }
     }
@@ -113,19 +107,19 @@ public class FormDefBuilder {
     private FormInstance setupInstance(Survey survey, Collection<Question> questions) {
         FormInstance retval = null;
         TreeElement dataElement = new TreeElement("data");
-        dataElement.setAttribute(null, "id", survey.getSurveyId());
+        dataElement.setAttribute(null, "id", survey.surveyId);
         //todo add orx meta
         for (Question question : questions) {
-            TreeElement questionMeta = new TreeElement(question.getObjectName());
+            TreeElement questionMeta = new TreeElement(question.objectName);
             dataElement.addChild(questionMeta);
-            questionMeta.setRequired(question.getRequired() == 0 ? false : true);
-            questionMeta.setEnabled(question.getReadonly() != null && question.getReadonly() == 1 ? false : true);
-            questionMeta.dataType = XFormsTypeMappings.getTypeToInteger(question.getQuestionTypesQuestionTypeId().getTypeName());
+            questionMeta.setRequired(question.required == 0 ? false : true);
+            questionMeta.setEnabled(question.readonly != null && question.readonly == 1 ? false : true);
+            questionMeta.dataType = XFormsTypeMappings.getTypeToInteger(question.questionType.typeName);
             
-            if(question.getConstraintText() != null && !question.getConstraintText().isEmpty())
+            if(question.constraintText != null && !question.constraintText.isEmpty())
             {
                 try {
-                    IConditionExpr constraint = new XPathConditional(question.getConstraintText());
+                    IConditionExpr constraint = new XPathConditional(question.constraintText);
                      questionMeta.setConstraint(new Constraint(constraint, null));
                 } catch (XPathSyntaxException ex) {
                     Logger.getLogger(FormDefBuilder.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,13 +128,13 @@ public class FormDefBuilder {
         }
         retval = new FormInstance(dataElement);
         retval.addNamespace("orx", "http://openrosa.org/xforms/metadata");
-        retval.setName(survey.getTitle());
+        retval.setName(survey.title);
         return retval;
     }
 
     private int findControlType(Question question) {
         int retval = org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED;
-        String typeName = question.getQuestionTypesQuestionTypeId().getTypeName();
+        String typeName = question.questionType.typeName;
         int dataTypeMapping = XFormsTypeMappings.getTypeToInteger(typeName);
 
         switch (dataTypeMapping) {
@@ -176,7 +170,7 @@ public class FormDefBuilder {
     private String getRefString(Question question, String instanceName, String type) {
         StringBuilder builder = new StringBuilder();
         builder.append("/").append(instanceName).append("/");
-        builder.append(question.getObjectName());
+        builder.append(question.objectName);
         if(type != null)
         {
             builder.append(":").append(type);

@@ -35,8 +35,8 @@ public class SurveyXmlBuilder {
     }
 
     public void printSurveyXml(String surveyId, PrintWriter writer) throws SurveyXmlCreatorException, IOException {
-        FormDefBuilder definictionBuilder = new FormDefBuilder();
-        FormDef formDef = definictionBuilder.readFormDefinitionFromDb(surveyId);
+            FormDefBuilder definitionBuilder = new FormDefBuilder();
+        FormDef formDef = definitionBuilder.readFormDefinitionFromDb(surveyId);
 
         printFormDef(formDef, writer);
     }

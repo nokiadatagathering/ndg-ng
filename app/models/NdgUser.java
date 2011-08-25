@@ -113,7 +113,7 @@ public class NdgUser implements Serializable {
     private Collection<Transactionlog> transactionlogCollection;
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgUserNdgUserId" )
     private Collection<NdgResult> resultsCollection;
-    @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgUserNdgUserId" )
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgUser" )
     private Collection<Survey> surveysCollection;
     @OneToMany(mappedBy = "username")
     private Collection<UserRole> userRoleCollection;

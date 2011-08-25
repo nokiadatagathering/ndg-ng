@@ -22,6 +22,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import play.db.jpa.GenericModel;
 
 /**
  *
@@ -38,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery( name = "NdgResult.findByTitle", query = "SELECT r FROM NdgResult r WHERE r.title = :title" ),
     @NamedQuery( name = "NdgResult.findByLatitude", query = "SELECT r FROM NdgResult r WHERE r.latitude = :latitude" ),
     @NamedQuery( name = "NdgResult.findByLongitude", query = "SELECT r FROM NdgResult r WHERE r.longitude = :longitude" ) } )
-public class NdgResult implements Serializable {
+public class NdgResult extends GenericModel {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic( optional = false )
@@ -58,11 +59,11 @@ public class NdgResult implements Serializable {
     private String latitude;
     @Column( name = "longitude" )
     private String longitude;
-    @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgResultNdgResultId" )
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgResult" )
     private Collection<Answer> answerCollection;
-    @JoinColumn( name = "surveySurveyId", referencedColumnName = "surveyId" )
+
     @ManyToOne( optional = false )
-    private Survey surveysSurveyId;
+    public Survey survey;
     @JoinColumn( name = "ndgUserNdgUserId", referencedColumnName = "ndgUserId" )
     @ManyToOne( optional = false )
     private NdgUser ndgUserNdgUserId;
@@ -135,14 +136,6 @@ public class NdgResult implements Serializable {
 
     public void setAnswersCollection( Collection<Answer> answersCollection ) {
         this.answerCollection = answersCollection;
-    }
-
-    public Survey getSurveysSurveyId() {
-        return surveysSurveyId;
-    }
-
-    public void setSurveysSurveyId( Survey surveysSurveyId ) {
-        this.surveysSurveyId = surveysSurveyId;
     }
 
     public NdgUser getUseridUser() {

@@ -37,25 +37,25 @@ INSERT INTO `ndg_user` (`ndgUserId`, `areaCode`, `countryCode`, `editorSettings`
 -- Dumping data for table `question`
 --
 
-INSERT INTO `question` (`questionId`, `constraintText`, `hint`, `label`, `objectName`, `readonly`, `required`, `defaultAnswerDefaultAnswerId`, `questionTypeQuestionTypeId`, `surveysSurveyId`) VALUES (1,NULL,NULL,'What is your name ?','TextQuestion',0,0,NULL,1,'1263929563'),(2,NULL,NULL,'On average, how often do you laugh per day ?','IntegerQuestion',0,0,NULL,2,'1263929563'),(3,NULL,NULL,'Are you a thinker, a talker or a doer ?','ExclusiveQuestion',0,0,NULL,10,'1263929563'),(4,NULL,NULL,'Which continents have you visited ?','MultipleQuestion',0,0,NULL,11,'1263929563'),(5,NULL,NULL,'What do you like most about Finland?','TextQuestion2',0,0,NULL,1,'1263929563'),(6,NULL,NULL,'Date','DateQuestion',0,0,NULL,4,'1263929563');
+INSERT INTO `question` ( `constraintText`, `hint`, `label`, `objectName`, `readonly`, `required`, `defaultAnswer_id`, `questionType_id`, `survey_id`) VALUES (NULL,NULL,'What is your name ?','TextQuestion',0,0,NULL,1,'1263929563'),(NULL,NULL,'On average, how often do you laugh per day ?','IntegerQuestion',0,0,NULL,2,'1263929563'),(NULL,NULL,'Are you a thinker, a talker or a doer ?','ExclusiveQuestion',0,0,NULL,10,'1263929563'),(NULL,NULL,'Which continents have you visited ?','MultipleQuestion',0,0,NULL,11,'1263929563'),(NULL,NULL,'What do you like most about Finland?','TextQuestion2',0,0,NULL,1,'1263929563'),(NULL,NULL,'Date','DateQuestion',0,0,NULL,4,'1263929563');
 
 --
 -- Dumping data for table `question_option`
 --
 
-INSERT INTO `question_option` (`questionOptionId`, `label`, `optionIndex`, `optionValue`, `questionQuestionId`) VALUES (1,'Doer',1,'doer',3),(2,'Thinker',2,'thinker',3),(3,'Talker',3,'talker',3),(4,'Asia',1,'asia',4),(5,'Africe',2,'africa',4),(6,'Australia',3,'australia',4),(7,'Europe',4,'europe',4),(8,'Antarctica',5,'antarctica',4),(9,'North America',6,'north',4),(10,'Latin America',7,'latin',4);
+INSERT INTO `question_option` (`label`, `optionIndex`, `optionValue`, `question_id`) VALUES ('Doer',1,'doer',3),('Thinker',2,'thinker',3),('Talker',3,'talker',3),('Asia',1,'asia',4),('Africe',2,'africa',4),('Australia',3,'australia',4),('Europe',4,'europe',4),('Antarctica',5,'antarctica',4),('North America',6,'north',4),('Latin America',7,'latin',4);
 
 --
 -- Dumping data for table `question_type`
 --
 
-INSERT INTO `question_type` (`questionTypeId`, `supported`, `typeName`) VALUES (1,1,'string'),(2,1,'int'),(3,1,'decimal'),(4,1,'date'),(5,0,'geopoint'),(6,1,'binary#image'),(7,0,'binary#audio'),(8,0,'binary#video'),(9,0,'barcode'),(10,1,'select1'),(11,1,'select');
+INSERT INTO `question_type` ( `supported`, `typeName`) VALUES (1,'string'),(1,'int'),(1,'decimal'),(1,'date'),(0,'geopoint'),(1,'binary#image'),(0,'binary#audio'),(0,'binary#video'),(0,'barcode'),(1,'select1'),(1,'select');
 
 --
 -- Dumping data for table `survey`
 --
 
-INSERT INTO `survey` (`surveyId`, `available`, `lang`, `title`, `uploadDate`, `ndgUserNdgUserId`) VALUES ('1263929563',1,'eng','Demo Survey','2011-07-25 10:10:00',1);
+INSERT INTO `survey` (`surveyId`, `available`, `lang`, `title`, `uploadDate`, `ndgUser_ndgUserId`) VALUES ('1263929563',1,'eng','Demo Survey','2011-07-25 10:10:00',1);
 
 --
 -- Dumping data for table `transactionlog`

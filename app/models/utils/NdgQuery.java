@@ -16,13 +16,13 @@
  */
 package models.utils;
 
+import java.util.ArrayList;
 import models.NdgUser;
 import models.Survey;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -66,9 +66,7 @@ public class NdgQuery {
     public static Survey getSurveyById( String aId ) {
         Survey result = null;
         try {
-            Query userIdQuery = JPA.em().createNamedQuery( "Survey.findBySurveyId" );
-            userIdQuery.setParameter( "surveyId", aId );
-            result = (Survey) userIdQuery.getSingleResult();
+            result = Survey.find("bySurveyId", aId).first();
 
         } catch ( NoResultException nex ) {
             log.log( Level.WARNING, "NoResultsException", nex );
@@ -95,11 +93,9 @@ public class NdgQuery {
     }
 
     public static ArrayList<Survey> listAllSurveys(  ) {
-        ArrayList<Survey> results = null;
+        List<Survey> results = null;
         try {
-            Query surveysQuery = JPA.em().createNamedQuery( "Survey.findAll" );
-
-            results = new ArrayList<Survey>( surveysQuery.getResultList() );
+            results = Survey.findAll();
 
         } catch ( NoResultException nex ) {
             log.log( Level.WARNING, "NoResultsException", nex );
@@ -108,7 +104,7 @@ public class NdgQuery {
             log.log( Level.SEVERE, "exception", ex );
             results = new ArrayList<Survey>();
         } 
-        return results;
+        return (ArrayList<Survey>) results;
     }
 
 }

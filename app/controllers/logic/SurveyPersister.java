@@ -61,9 +61,9 @@ public class SurveyPersister {
         Survey newSurvey = new Survey(formDefinition.getInstance().getRoot().getAttributeValue("", "id"),
                 formDefinition.getName());
         NdgUser owner = getOwner(1);
-        newSurvey.setUseridUser(owner);
-        newSurvey.setUploadDate(new Date());
-        newSurvey.setAvailable(0);
+        newSurvey.ndgUser = owner;
+        newSurvey.uploadDate =new Date();
+        newSurvey.available = 0;
 
         String locale = formDefinition.getLocalizer().getDefaultLocale();
         if (locale == null) {
@@ -73,7 +73,7 @@ public class SurveyPersister {
             }
         }
 
-        newSurvey.setLang(locale);
+        newSurvey.lang = locale;
 
         JPA.em().persist(newSurvey);
         survey = newSurvey;
@@ -107,23 +107,23 @@ public class SurveyPersister {
         QuestionType type = findQuestionType(questionModel.dataType, questionDef.getControlType());
 
         Question newQuestion = new Question();
-        newQuestion.setSurveysSurveyId(survey);
-        newQuestion.setQuestionTypesQuestionTypeId(type);
-        newQuestion.setObjectName(questionModel.getName());
-        newQuestion.setLabel(questionText);
-        newQuestion.setHint(questionHint);
+        newQuestion.survey  = survey ;
+        newQuestion.questionType = type;
+        newQuestion.objectName = questionModel.getName();
+        newQuestion.label = questionText;
+        newQuestion.hint = questionHint;
         if (questionModel.getConstraint() != null) {
             XPathConditional expression = (XPathConditional) questionModel.getConstraint().constraint;
-            newQuestion.setConstraintText(expression.xpath);
+            newQuestion.constraintText = expression.xpath;
         }
-        newQuestion.setRequired(questionModel.required ? new Integer(1) : new Integer(0));
+        newQuestion.required = questionModel.required ? new Integer(1) : new Integer(0);
 
-        newQuestion.setReadonly(questionModel.isEnabled() ? new Integer(0) : new Integer(1));
+        newQuestion.readonly = questionModel.isEnabled() ? new Integer(0) : new Integer(1);
 
         JPA.em().persist(newQuestion);
 
-        if (type.getTypeName().equals(XFormsTypeMappings.SELECT)
-                || type.getTypeName().equals(XFormsTypeMappings.SELECTONE)) {
+        if (type.typeName.equals(XFormsTypeMappings.SELECT)
+                || type.typeName.equals(XFormsTypeMappings.SELECTONE)) {
             persistQuestionOptions(questionDef, newQuestion, localizer);
         }
     }
@@ -132,8 +132,6 @@ public class SurveyPersister {
         EntityManager em = null;
         QuestionType retval = null;
         {
-            em = JPA.em();
-            Query query = em.createNamedQuery("QuestionType.findByTypeName");
             StringBuilder controlTypeDecoded = new StringBuilder(XFormsTypeMappings.getIntegerToType(dataType));
             if (controlTypeDecoded.toString().equals("binary")) {
                 switch (controlType) {
@@ -150,8 +148,7 @@ public class SurveyPersister {
                     break;
                 }
             }
-            query.setParameter("typeName", controlTypeDecoded.toString());
-            retval = (QuestionType) query.getSingleResult();
+            retval = QuestionType.find("byTypeName", controlTypeDecoded.toString()).first();
         }
         return retval;
     }
@@ -167,7 +164,7 @@ public class SurveyPersister {
     private void persistQuestionOptions(QuestionDef questionDef, Question newQuestion, Localizer localizer)
             throws SurveySavingException {
         Vector<SelectChoice> choices = questionDef.getChoices();
-        Logger.getAnonymousLogger().log(Level.INFO, "ChoiceCount: " + choices.size());
+        Logger.getAnonymousLogger().log(Level.INFO, "ChoiceCount: {0}", choices.size());
         for (SelectChoice selectChoice : choices) {
 
             String label = selectChoice.getLabelInnerText();
@@ -176,10 +173,10 @@ public class SurveyPersister {
             }
 
             QuestionOption option = new QuestionOption();
-            option.setOptionIndex(selectChoice.getIndex());
-            option.setLabel(label);
-            option.setOptionValue(selectChoice.getValue());
-            option.setQuestionsQuestionId(newQuestion);
+            option.optionIndex = selectChoice.getIndex();
+            option.label = label;
+            option.optionValue = selectChoice.getValue();
+            option.question = newQuestion;
 
             JPA.em().persist(option);
         }

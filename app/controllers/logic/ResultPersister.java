@@ -54,7 +54,7 @@ public class ResultPersister {
         Transactionlog postResultTransaction = new Transactionlog();
         postResultTransaction.setTransactionDate(new Date());
         postResultTransaction.setTransactionStatus(TransactionlogConsts.TransactionStatus.STATUS_SUCCESS);
-        postResultTransaction.setIdSurvey(result.getSurveysSurveyId());
+        postResultTransaction.setIdSurvey(result.survey);
         postResultTransaction.setIdResult(result.getResultId());
 
         JPA.em().persist(postResultTransaction);

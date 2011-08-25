@@ -38,7 +38,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     /*used*/@NamedQuery( name = "Transactionlog.findByUserIdAndStatus", 
                          query = "SELECT t FROM Transactionlog t WHERE t.ndgUserNdgUserId.ndgUserId = :ndgUserId AND t.transactionStatus= :transactionStatus" ),
     /*used*/@NamedQuery( name = "Transactionlog.findFromTransactionByUserIdAndSurveyId",
-                         query = "SELECT t FROM Transactionlog t WHERE t.ndgUserNdgUserId.ndgUserId = :ndgUserId AND t.transactionStatus= :transactionStatus AND t.surveySurveyId.surveyId= :surveyId" ) } )
+                         query = "SELECT t FROM Transactionlog t WHERE t.ndgUserNdgUserId.ndgUserId = :ndgUserId AND t.transactionStatus= :transactionStatus AND t.surveySurveyId.id= :surveyId" ) } )
 public class Transactionlog implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,7 +59,7 @@ public class Transactionlog implements Serializable {
     private Date transactionDate;
     @Column( name = "idResult" )
     private String idResult;
-    @JoinColumn( name = "surveySurveyId", referencedColumnName = "surveyId" )
+    @JoinColumn( name = "surveySurveyId", referencedColumnName = "id" )
     @ManyToOne
     private Survey surveySurveyId;
     @JoinColumn( name = "ndgUserNdgUserId", referencedColumnName = "ndgUserId" )
