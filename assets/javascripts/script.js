@@ -1,31 +1,18 @@
 
-/* Author: Ian Lawrence*/
+/* Author: Ian Lawrence
 
+*/
 
-$(document).ready(function(){
-
-$('#toolsover').hide();
-$('#minimalistover').hide()
-
-$('#minimalist').mouseover(function(e){
-$('#toolsover').show();
-$('#minimalistover').show();
-});
-
-$('#minimalist').mouseout(function(e){
-$('#toolsover').hide();
-$('#minimalistover').hide();
-});
-
-});
-
-
-
-
-
-
-
-
+var App = {
+    Views: {},
+    Controllers: {},
+    Collections: {},
+    init: function() {
+        //new App.Controllers.Documents();
+        //Backbone.history.start();
+        var Users = Backbone.Model.extend({});
+    }
+};
 
 
 
