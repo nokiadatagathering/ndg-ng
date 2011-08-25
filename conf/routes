@@ -11,10 +11,11 @@ POST    /management/upload                      Management.upload
 
 GET     /webui                                  webui.Administration.index
 
-GET     /clientupdate                           ClientUpdate.index
+GET     /ClientUpdate                           ClientUpdate.index
 
-GET     /surveys                                Surveys.list
-GET     /ndg-server/ReceiveSurvey/download/{<[0-9]+>formID} Surveys.download
+GET     /ReceiveSurvey                          Surveys.list
+GET     /ReceiveSurvey/{<[0-9]+>formID}         Surveys.download
+POST    /PostResults                            PostResults.upload
 
 # Ignore favicon requests
 #GET     /favicon.ico                            404
@@ -24,11 +25,6 @@ GET     /public/                                staticDir:public
 GET     /javascripts/                                staticDir:public/javascripts
 GET     /stylesheets/                                staticDir:public/stylesheets
 GET     /images/                                     staticDir:public/images
-
-POST /ndg-server/PostResults               PostResults.upload
-
-# ndg mobile client adds  /ndg-server  to url
-*       /ndg-server/{controller}/{action}          {controller}.{action}
 
 
 # Catch all
