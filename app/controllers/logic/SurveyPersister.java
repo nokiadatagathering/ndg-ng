@@ -13,7 +13,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import org.javarosa.core.model.FormDef;
 import org.javarosa.core.model.QuestionDef;
 import org.javarosa.core.model.SelectChoice;
@@ -21,8 +20,6 @@ import org.javarosa.core.model.instance.TreeElement;
 import org.javarosa.core.services.locale.Localizer;
 import org.javarosa.xform.parse.XFormParser;
 import org.javarosa.xpath.XPathConditional;
-
-import play.db.jpa.JPA;
 
 /**
  * 
@@ -38,18 +35,10 @@ public class SurveyPersister {
     }
 
     public void saveSurvey() throws SurveySavingException {
-        try {
-            logInfo("saving survey");
-            XFormParser parser = new XFormParser(is);
-            logInfo("parsing");
-            FormDef formDefinition = parser.parse();
-            logInfo("parsing finished");
-            persistSurvey(formDefinition);
-            persistQuestionSet(formDefinition);
-        } finally {
-            logInfo("finished saving");
-        }
-
+        XFormParser parser = new XFormParser(is);
+        FormDef formDefinition = parser.parse();
+        persistSurvey(formDefinition);
+        persistQuestionSet(formDefinition);
     }
 
     private void logInfo(String info) {
@@ -62,7 +51,7 @@ public class SurveyPersister {
                 formDefinition.getName());
         NdgUser owner = getOwner(new Long(1));//todo other owners than admin
         newSurvey.ndgUser = owner;
-        newSurvey.uploadDate =new Date();
+        newSurvey.uploadDate = new Date();
         newSurvey.available = 0;
 
         String locale = formDefinition.getLocalizer().getDefaultLocale();
@@ -75,12 +64,12 @@ public class SurveyPersister {
 
         newSurvey.lang = locale;
 
-        JPA.em().persist(newSurvey);
+        newSurvey.save();
         survey = newSurvey;
     }
 
     private void persistQuestionSet(FormDef formDefinition) throws SurveySavingException {
-        Vector /* <IFormElement> */formElements = formDefinition.getChildren();
+        Vector /* <IFormElement> */ formElements = formDefinition.getChildren();
         for (int i = 0; i < formElements.size(); i++) {
             if (formElements.get(i) instanceof QuestionDef) {
                 QuestionDef question = (QuestionDef) formElements.get(i);
@@ -107,7 +96,7 @@ public class SurveyPersister {
         QuestionType type = findQuestionType(questionModel.dataType, questionDef.getControlType());
 
         Question newQuestion = new Question();
-        newQuestion.survey  = survey ;
+        newQuestion.survey = survey;
         newQuestion.questionType = type;
         newQuestion.objectName = questionModel.getName();
         newQuestion.label = questionText;
@@ -120,7 +109,7 @@ public class SurveyPersister {
 
         newQuestion.readonly = questionModel.isEnabled() ? new Integer(0) : new Integer(1);
 
-        JPA.em().persist(newQuestion);
+        newQuestion.save();
 
         if (type.typeName.equals(XFormsTypeMappings.SELECT)
                 || type.typeName.equals(XFormsTypeMappings.SELECTONE)) {
@@ -135,17 +124,17 @@ public class SurveyPersister {
             StringBuilder controlTypeDecoded = new StringBuilder(XFormsTypeMappings.getIntegerToType(dataType));
             if (controlTypeDecoded.toString().equals("binary")) {
                 switch (controlType) {
-                case org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE:
-                    controlTypeDecoded.append("#audio");
-                    break;
-                case org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE:
-                    controlTypeDecoded.append("#video");
-                    break;
-                case org.javarosa.core.model.Constants.CONTROL_IMAGE_CHOOSE:
-                    controlTypeDecoded.append("#image");
-                    break;
-                default:
-                    break;
+                    case org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE:
+                        controlTypeDecoded.append("#audio");
+                        break;
+                    case org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE:
+                        controlTypeDecoded.append("#video");
+                        break;
+                    case org.javarosa.core.model.Constants.CONTROL_IMAGE_CHOOSE:
+                        controlTypeDecoded.append("#image");
+                        break;
+                    default:
+                        break;
                 }
             }
             retval = QuestionType.find("byTypeName", controlTypeDecoded.toString()).first();
@@ -153,7 +142,7 @@ public class SurveyPersister {
         return retval;
     }
 
-    private NdgUser getOwner(Long  userId) {
+    private NdgUser getOwner(Long userId) {
         NdgUser retval = null;
         retval = NdgUser.find("byId", userId).first();
         return retval;
@@ -176,7 +165,7 @@ public class SurveyPersister {
             option.optionValue = selectChoice.getValue();
             option.question = newQuestion;
 
-            JPA.em().persist(option);
+            option.save();
         }
     }
 }

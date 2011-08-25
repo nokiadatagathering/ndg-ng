@@ -24,9 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 
-import play.db.jpa.JPA;
 
 public class NdgQuery {
 

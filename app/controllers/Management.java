@@ -54,7 +54,7 @@ public class Management extends Controller {
             transaction.ndgUser  = NdgQuery.getUsersbyId(Long.parseLong(selectedUser));
             transaction.survey = NdgQuery.getSurveyById(selectedSurveyIds.get(i));
 
-            JPA.em().persist(transaction);
+            transaction.save();
         }
 
         initialContent();

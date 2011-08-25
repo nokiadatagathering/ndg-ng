@@ -42,7 +42,7 @@ public class ResultPersister {
             throw new ResultNotParsedException();
         }
 
-        JPA.em().persist(ndgResult);
+        ndgResult.save();
 
         setResultReceived(ndgResult);
     }
@@ -57,7 +57,7 @@ public class ResultPersister {
         postResultTransaction.survey = result.survey;
         postResultTransaction.idResult = result.resultId;
 
-        JPA.em().persist(postResultTransaction);
+        postResultTransaction.save();
     }
 
     private void persistAnswers(FormDef resultParsed) {

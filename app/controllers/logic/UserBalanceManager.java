@@ -23,10 +23,6 @@ import controllers.util.PropertiesUtil;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import play.db.jpa.JPA;
 
 public class UserBalanceManager {
 
@@ -52,7 +48,6 @@ public class UserBalanceManager {
             userAdminHasFullPermission = NdgQuery.getUserByUserName( NdgQuery.getUserByUserName( aUserName ).userAdmin ).hasFullPermissions;
         } catch ( Exception e ) {
             log.log( Level.INFO, "No USER with given name!" + aUserName , e );
-            e.printStackTrace();
         }
 
         if ( !("hosted".equals( ndgMode ))
@@ -64,7 +59,6 @@ public class UserBalanceManager {
             try {
                 onlineUser = NdgQuery.getUserByUserName( aUserName );
             } catch ( Exception e ) {
-                e.printStackTrace();
             }
 
             try {
