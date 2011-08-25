@@ -60,7 +60,7 @@ public class SurveyPersister {
 
         Survey newSurvey = new Survey(formDefinition.getInstance().getRoot().getAttributeValue("", "id"),
                 formDefinition.getName());
-        NdgUser owner = getOwner(1);
+        NdgUser owner = getOwner(new Long(1));//todo other owners than admin
         newSurvey.ndgUser = owner;
         newSurvey.uploadDate =new Date();
         newSurvey.available = 0;
@@ -153,11 +153,9 @@ public class SurveyPersister {
         return retval;
     }
 
-    private NdgUser getOwner(int userId) {
+    private NdgUser getOwner(Long  userId) {
         NdgUser retval = null;
-        Query getUserQuery = JPA.em().createNamedQuery("NdgUser.findByNdgUserId");
-        getUserQuery.setParameter("ndgUserId", userId);
-        retval = (NdgUser) getUserQuery.getSingleResult();
+        retval = NdgUser.find("byId", userId).first();
         return retval;
     }
 

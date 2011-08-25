@@ -34,8 +34,8 @@ public class Survey extends Model {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey" )
     public List<Question> questionCollection;
     
-    @OneToMany(mappedBy = "surveySurveyId")
-    public Collection<Transactionlog> transactionLogCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
+    public Collection<TransactionLog> transactionLogCollection;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     public Collection<NdgResult> resultCollection;

@@ -25,6 +25,7 @@ GET     /public/                                staticDir:public
 GET     /javascripts/                                staticDir:public/javascripts
 GET     /stylesheets/                                staticDir:public/stylesheets
 GET     /images/                                     staticDir:public/images
+GET     /ndg-ota/client/                             staticDir:public/ndg-ota/client
 
 
 # Catch all

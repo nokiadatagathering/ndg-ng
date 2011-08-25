@@ -18,7 +18,7 @@
         IMEI: 
         <select name="selectedUser">
         #{list users, as:'user'}
-            <option value="${user.ndgUserId}"> ${user.username}(ID: ${user.ndgUserId}) </option>
+            <option value="${user.id}"> ${user.username}(ID: ${user.id}) </option>
         #{/list}
         </select><br /><br />    
         Available survey IDs:<br />

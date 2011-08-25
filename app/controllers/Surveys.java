@@ -8,7 +8,7 @@ import controllers.exceptions.SurveyXmlCreatorException;
 import models.utils.NdgQuery;
 import controllers.logic.SurveyXmlBuilder;
 import models.NdgUser;
-import models.Transactionlog;
+import models.TransactionLog;
 import models.constants.TransactionlogConsts;
 import controllers.util.PropertiesUtil;
 import controllers.util.SettingsProperties;
@@ -18,8 +18,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Properties;
 
+import java.util.List;
 import javax.persistence.Query;
 
 import play.db.jpa.JPA;
@@ -34,10 +34,10 @@ public class Surveys extends Controller {
 
     public static void list() {
 
-        Query transactionQuery = JPA.em().createNamedQuery("Transactionlog.findByUserIdAndStatus");
-        transactionQuery.setParameter("ndgUserId", getCurrentUser().getIdUser());
-        transactionQuery.setParameter("transactionStatus", TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE);
-        ArrayList<Transactionlog> transactions = (ArrayList<Transactionlog>) transactionQuery.getResultList();
+        List<TransactionLog> transactionList = TransactionLog.find("byNdgUser_idAndTransactionStatus",
+                getCurrentUser().id,
+                TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE).fetch();
+        ArrayList<TransactionLog> transactions = (ArrayList<TransactionLog>) transactionList;
 
         if (transactions.isEmpty()) {
             error(Http.StatusCode.NOT_FOUND, "No survey for given client");
@@ -51,12 +51,11 @@ public class Surveys extends Controller {
 
     public static void download(String formID) throws SurveyXmlCreatorException, IOException {
 
-        Query transactionQuery = JPA.em().createNamedQuery("Transactionlog.findFromTransactionByUserIdAndSurveyId");
-        transactionQuery.setParameter("ndgUserId", getCurrentUser().getIdUser());
-        transactionQuery.setParameter("transactionStatus", TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE);
-        transactionQuery.setParameter("surveyId", formID);
-
-        ArrayList<Transactionlog> transactions = (ArrayList<Transactionlog>) transactionQuery.getResultList();
+        List<TransactionLog> transactionList = TransactionLog.find("byNdgUser_idAndTransactionStatusAndSurveyId",
+                getCurrentUser().id,
+                TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE,
+                formID).fetch();
+        ArrayList<TransactionLog> transactions = (ArrayList<TransactionLog>) transactionList;
         if (transactions.isEmpty()) {
             error(Http.StatusCode.NOT_FOUND, "No survey for given client");
         } else {
@@ -64,7 +63,7 @@ public class Surveys extends Controller {
             final PrintWriter printWriter = new PrintWriter(result);
 
             SurveyXmlBuilder builder = new SurveyXmlBuilder();
-            builder.printSurveyXml(transactions.get(0).getIdSurvey(), printWriter);
+            builder.printSurveyXml(transactions.get(0).survey, printWriter);
             renderXml(result.toString());
         }
     }

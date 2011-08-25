@@ -19,25 +19,25 @@ USE `ndg`;
 -- Dumping data for table `company`
 --
 
-INSERT INTO `company` (`companyId`, `companyCountry`, `companyIndustry`, `companyName`, `companySize`, `companyType`) VALUES (1,'CompanyName','','CompanyCountry','CompanyIndustry','CompanySize');
+INSERT INTO `company` (`companyCountry`, `companyIndustry`, `companyName`, `companySize`, `companyType`) VALUES ('CompanyName','','CompanyCountry','CompanyIndustry','CompanySize');
 
 --
 -- Dumping data for table `ndg_role`
 --
 
-INSERT INTO `ndg_role` (`ndgRoleId`, `roleName`) VALUES (1,'Admin'),(2,'Operator'),(3,'Field Worker');
+INSERT INTO `ndg_role` (`roleName`) VALUES ('Admin'),('Operator'),('Field Worker');
 
 --
 -- Dumping data for table `ndg_user`
 --
 
-INSERT INTO `ndg_user` (`ndgUserId`, `areaCode`, `countryCode`, `editorSettings`, `email`, `emailPreferences`, `firstName`, `firstTimeUse`, `hasFullPermissions`, `howDoYouPlanUseNdg`, `lastName`, `password`, `phoneNumber`, `userAdmin`, `userValidated`, `username`, `validationKey`, `whoUseIt`, `companyId`) VALUES (1,'areaCode','countryCode',NULL,'admin@admin.com','Y','firstName','N','Y',NULL,'lastName','b235fd01d8130026cfcca86a1b206208','phoneNumber','Y','Y','admin',NULL,'Y',1);
+INSERT INTO `ndg_user` (`areaCode`, `countryCode`, `editorSettings`, `email`, `emailPreferences`, `firstName`, `firstTimeUse`, `hasFullPermissions`, `howDoYouPlanUseNdg`, `lastName`, `password`, `phoneNumber`, `userAdmin`, `userValidated`, `username`, `validationKey`, `whoUseIt`, `company_id`) VALUES ('areaCode','countryCode',NULL,'admin@admin.com','Y','firstName','N','Y',NULL,'lastName','b235fd01d8130026cfcca86a1b206208','phoneNumber','Y','Y','admin',NULL,'Y',1);
 
 --
 -- Dumping data for table `question`
 --
 
-INSERT INTO `question` ( `constraintText`, `hint`, `label`, `objectName`, `readonly`, `required`, `defaultAnswer_id`, `questionType_id`, `survey_id`) VALUES (NULL,NULL,'What is your name ?','TextQuestion',0,0,NULL,1,'1263929563'),(NULL,NULL,'On average, how often do you laugh per day ?','IntegerQuestion',0,0,NULL,2,'1263929563'),(NULL,NULL,'Are you a thinker, a talker or a doer ?','ExclusiveQuestion',0,0,NULL,10,'1263929563'),(NULL,NULL,'Which continents have you visited ?','MultipleQuestion',0,0,NULL,11,'1263929563'),(NULL,NULL,'What do you like most about Finland?','TextQuestion2',0,0,NULL,1,'1263929563'),(NULL,NULL,'Date','DateQuestion',0,0,NULL,4,'1263929563');
+INSERT INTO `question` ( `constraintText`, `hint`, `label`, `objectName`, `readonly`, `required`, `defaultAnswer_id`, `questionType_id`, `survey_id`) VALUES (NULL,NULL,'What is your name ?','TextQuestion',0,0,NULL,1,1),(NULL,NULL,'On average, how often do you laugh per day ?','IntegerQuestion',0,0,NULL,2,1),(NULL,NULL,'Are you a thinker, a talker or a doer ?','ExclusiveQuestion',0,0,NULL,10,1),(NULL,NULL,'Which continents have you visited ?','MultipleQuestion',0,0,NULL,11,1),(NULL,NULL,'What do you like most about Finland?','TextQuestion2',0,0,NULL,1,1),(NULL,NULL,'Date','DateQuestion',0,0,NULL,4,1);
 
 --
 -- Dumping data for table `question_option`
@@ -55,7 +55,7 @@ INSERT INTO `question_type` ( `supported`, `typeName`) VALUES (1,'string'),(1,'i
 -- Dumping data for table `survey`
 --
 
-INSERT INTO `survey` (`surveyId`, `available`, `lang`, `title`, `uploadDate`, `ndgUser_ndgUserId`) VALUES ('1263929563',1,'eng','Demo Survey','2011-07-25 10:10:00',1);
+INSERT INTO `survey` (`surveyId`, `available`, `lang`, `title`, `uploadDate`, `ndgUser_id`) VALUES ('1263929563',1,'eng','Demo Survey','2011-07-25 10:10:00',1);
 
 --
 -- Dumping data for table `transactionlog`
@@ -66,7 +66,7 @@ INSERT INTO `survey` (`surveyId`, `available`, `lang`, `title`, `uploadDate`, `n
 -- Dumping data for table `user_role`
 --
 
-INSERT INTO `user_role` (`id`, `roleName`, `username`) VALUES (1,'Admin','admin');
+INSERT INTO `user_role` (`ndgUser_username`, `ndgRole_roleName`) VALUES ('admin','Admin');
 
 --
 -- Dumping data for table `userbalance`

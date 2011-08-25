@@ -16,7 +16,7 @@ import controllers.exceptions.SurveySavingException;
 import models.utils.NdgQuery;
 import controllers.logic.SurveyPersister;
 import controllers.logic.SurveyXmlBuilder;
-import models.Transactionlog;
+import models.TransactionLog;
 import models.constants.TransactionlogConsts;
 import play.db.jpa.JPA;
 import play.mvc.Controller;
@@ -44,15 +44,15 @@ public class Management extends Controller {
     public static void save(String selectedUser, List<String> selectedSurveyIds) {
 
         for (int i = 0; i < selectedSurveyIds.size(); i++) {
-            Transactionlog transaction = new Transactionlog();
-            transaction.setTransactionDate(new Date());
-            transaction.setTransactionType(TransactionlogConsts.TransactionType.TYPE_SEND_SURVEY);
-            transaction.setTransactionStatus(TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE);
-            transaction.setTransmissionMode(TransactionlogConsts.TransactionMode.MODE_HTTP);
+            TransactionLog transaction = new TransactionLog();
+            transaction.transactionDate =new Date();
+            transaction.transactionType = TransactionlogConsts.TransactionType.TYPE_SEND_SURVEY;
+            transaction.transactionStatus = TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE;
+            transaction.transmissionMode = TransactionlogConsts.TransactionMode.MODE_HTTP;
 
-            transaction.setAddress(request.remoteAddress);
-            transaction.setUserUserId(NdgQuery.getUsersbyId(selectedUser));
-            transaction.setIdSurvey(NdgQuery.getSurveyById(selectedSurveyIds.get(i)));
+            transaction.address = request.remoteAddress;
+            transaction.ndgUser  = NdgQuery.getUsersbyId(Long.parseLong(selectedUser));
+            transaction.survey = NdgQuery.getSurveyById(selectedSurveyIds.get(i));
 
             JPA.em().persist(transaction);
         }
@@ -89,7 +89,6 @@ public class Management extends Controller {
             builder.printSurveyXml(id, printWriter);
             renderXml(result.toString());
         } catch (Exception ex) {
-            ex.printStackTrace();
             Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -17,7 +17,7 @@
 package controllers.logic;
 
 import models.utils.NdgQuery;
-import models.Userbalance;
+import models.UserBalance;
 import models.NdgUser;
 import controllers.util.PropertiesUtil;
 import java.util.Properties;
@@ -49,7 +49,7 @@ public class UserBalanceManager {
 
         char userAdminHasFullPermission = 'N';
         try {
-            userAdminHasFullPermission = NdgQuery.getUserByUserName( NdgQuery.getUserByUserName( aUserName ).getUserAdmin() ).getHasFullPermissions();
+            userAdminHasFullPermission = NdgQuery.getUserByUserName( NdgQuery.getUserByUserName( aUserName ).userAdmin ).hasFullPermissions;
         } catch ( Exception e ) {
             log.log( Level.INFO, "No USER with given name!" + aUserName , e );
             e.printStackTrace();
@@ -67,22 +67,19 @@ public class UserBalanceManager {
                 e.printStackTrace();
             }
 
-            EntityManager manager = JPA.em();
             try {
-                Query query = manager.createNamedQuery( "Userbalance.findByUserAdmin" );
-                query.setParameter( "useradmin", onlineUser.getUserAdmin() );
-                Userbalance userBalance = (Userbalance) query.getSingleResult();
+                UserBalance userBalance = UserBalance.find("byUserAdmin", onlineUser.userAdmin).first();
 
                 if ( balanceItem.intValue() == getUserLimit() ) {
-                    hasPositiveBalance = (userBalance.getUsers() > 0);
+                    hasPositiveBalance = (userBalance.users > 0);
                 } else if ( balanceItem.intValue() == getImeiLimit() ) {
-                    hasPositiveBalance = (userBalance.getImeis() > 0);
+                    hasPositiveBalance = (userBalance.imeis > 0);
                 } else if ( balanceItem.intValue() == getAlertLimit() ) {
-                    hasPositiveBalance = (userBalance.getSendAlerts() > 0);
+                    hasPositiveBalance = (userBalance.sendAlerts > 0);
                 } else if ( balanceItem.intValue() == getResultLimit() ) {
-                    hasPositiveBalance = (userBalance.getResults() > 0);
+                    hasPositiveBalance = (userBalance.results > 0);
                 } else if ( balanceItem.intValue() == getSurveyLimit() ) {
-                    hasPositiveBalance = (userBalance.getSurveys() > 0);
+                    hasPositiveBalance = (userBalance.surveys > 0);
                 }
             } catch ( Exception e ) {
                 hasPositiveBalance = false;

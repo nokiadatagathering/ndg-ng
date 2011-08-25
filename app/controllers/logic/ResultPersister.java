@@ -20,7 +20,7 @@ import controllers.exceptions.MSMApplicationException;
 import java.io.Reader;
 import controllers.exceptions.ResultNotParsedException;
 import models.NdgResult;
-import models.Transactionlog;
+import models.TransactionLog;
 import models.constants.TransactionlogConsts;
 import java.util.Date;
 import org.javarosa.core.model.FormDef;
@@ -51,11 +51,11 @@ public class ResultPersister {
      * Call log operation to register the result received by server.
      */
     private void setResultReceived(NdgResult result) {
-        Transactionlog postResultTransaction = new Transactionlog();
-        postResultTransaction.setTransactionDate(new Date());
-        postResultTransaction.setTransactionStatus(TransactionlogConsts.TransactionStatus.STATUS_SUCCESS);
-        postResultTransaction.setIdSurvey(result.survey);
-        postResultTransaction.setIdResult(result.getResultId());
+        TransactionLog postResultTransaction = new TransactionLog();
+        postResultTransaction.transactionDate = new Date();
+        postResultTransaction.transactionStatus = TransactionlogConsts.TransactionStatus.STATUS_SUCCESS;
+        postResultTransaction.survey = result.survey;
+        postResultTransaction.idResult = result.resultId;
 
         JPA.em().persist(postResultTransaction);
     }

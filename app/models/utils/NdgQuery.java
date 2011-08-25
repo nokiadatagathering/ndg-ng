@@ -28,83 +28,64 @@ import javax.persistence.Query;
 
 import play.db.jpa.JPA;
 
-
 public class NdgQuery {
 
-    private static final Logger log = Logger.getLogger( NdgQuery.class.getName() );
+    private static final Logger log = Logger.getLogger(NdgQuery.class.getName());
 
-    public static NdgUser getUserByUserName( String aUserName ) {
+    public static NdgUser getUserByUserName(String aUserName) {
         NdgUser user = null;
-        
-        if ( aUserName != null && !aUserName.isEmpty() ) {
-            try {
 
-                Query userQuery = JPA.em().createNamedQuery( "NdgUser.findByUsername" );
-                userQuery.setParameter( "username", aUserName );
-                user = (NdgUser) userQuery.getSingleResult();
-            }catch ( NoResultException ex ) {
-                log.log( Level.INFO, "NdgQuery:getUserByUserName:NoResultException", ex );
-                log.log( Level.INFO, "NoUser for given name {0} ", aUserName );
-            }
+        if (aUserName != null && !aUserName.isEmpty()) {
+            user = NdgUser.find("byUsername", aUserName).first();
         }
         return user;
     }
-    
-    public static NdgUser getUsersbyId( String aId ) {
+
+    public static NdgUser getUsersbyId(Long aId) {
         NdgUser result = null;
         try {
-            Query userIdQuery = JPA.em().createNamedQuery( "NdgUser.findByNdgUserId" );
-            userIdQuery.setParameter( "ndgUserId", Integer.parseInt( aId ) );
-            result = (NdgUser) userIdQuery.getSingleResult();
+            result = NdgUser.find("byId", aId).first();
 
-        } catch ( NoResultException nex ) {
-            log.log( Level.WARNING, "NoResultsException", nex );
-        } 
+        } catch (NoResultException nex) {
+            log.log(Level.WARNING, "NoResultsException", nex);
+        }
         return result;
     }
 
-    public static Survey getSurveyById( String aId ) {
+    public static Survey getSurveyById(String aId) {
         Survey result = null;
         try {
             result = Survey.find("bySurveyId", aId).first();
 
-        } catch ( NoResultException nex ) {
-            log.log( Level.WARNING, "NoResultsException", nex );
-        } 
+        } catch (NoResultException nex) {
+            log.log(Level.WARNING, "NoResultsException", nex);
+        }
         return result;
     }
-    
-    public static ArrayList<NdgUser> listAllUsers( ) {
+
+    public static ArrayList<NdgUser> listAllUsers() {
         ArrayList<NdgUser> results = null;
-        try {
-           
-            Query users = JPA.em().createNamedQuery( "NdgUser.findAll" );
+        List<NdgUser> AllUsers = NdgUser.findAll();
+        results = (ArrayList<NdgUser>) AllUsers;
 
-            results = (ArrayList)users.getResultList();
-
-        } catch ( NoResultException nex ) {
-            log.log( Level.WARNING, "NoResultsException", nex );
+        if (results == null) {
             results = new ArrayList<NdgUser>();
-        } catch ( Exception ex ) {
-            log.log( Level.SEVERE, "exception", ex );
-            results = new ArrayList<NdgUser>();
-        } 
+        }
         return results;
     }
 
-    public static ArrayList<Survey> listAllSurveys(  ) {
+    public static ArrayList<Survey> listAllSurveys() {
         List<Survey> results = null;
         try {
             results = Survey.findAll();
 
-        } catch ( NoResultException nex ) {
-            log.log( Level.WARNING, "NoResultsException", nex );
+        } catch (NoResultException nex) {
+            log.log(Level.WARNING, "NoResultsException", nex);
             results = new ArrayList<Survey>();
-        } catch ( Exception ex ) {
-            log.log( Level.SEVERE, "exception", ex );
+        } catch (Exception ex) {
+            log.log(Level.SEVERE, "exception", ex);
             results = new ArrayList<Survey>();
-        } 
+        }
         return (ArrayList<Survey>) results;
     }
-
 }
