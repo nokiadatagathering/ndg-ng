@@ -26,6 +26,7 @@
 
   
   <script src="javascripts/libs/modernizr-2.0.6.min.js"></script>
+  <script src="javascripts/libs/jquery-1.6.2.min.js"></script>
 </head>
 
 <body>
@@ -57,6 +58,36 @@
          <img src="images/status_all.jpg">
        </div> 
 
+<script>
+
+$(document).ready(function() {
+
+    $.getJSON('@{listSurveys}', function(data) {
+
+        $.each(data.surveys,function(i,item) {
+           $('#surveyListTable').append( '<tr onMouseover="onMouseOverHandler()" onMouseout="onMouseOutHandler()" >'
+                                + '<td id="testData">'+ item.title + '<br>ID ' + item.surveyId + '</td>'
+                                + '<td>' + new Date( item.uploadDate ).toLocaleDateString() + '</td>'
+                                + '<td>' + item.ndgUser.username + '</td>'
+                                + '<td><a href="">' + item.resultCollection.length + '</a></td>'
+                                + '<td width=250><img src="images/back.jpg" id=Tools></td>'
+                                + '</tr>' );
+        });
+    });
+});
+
+function onMouseOverHandler(){
+    this.bgColor='#dbe4f1';
+    document.getElementById('Tools').src='images/over.jpg';
+}
+
+function onMouseOutHandler(){
+    this.bgColor='#edf0f6';
+    document.getElementById('Tools').src='images/back.jpg';
+}
+
+</script>
+
        <div id=content>
          <table id=minimalist>
           <thead>
@@ -68,21 +99,8 @@
                   <th scope=col></th>
                 </tr>
           </thead>
-          <tbody>
-             <tr onMouseover="this.bgColor='#dbe4f1'; document.getElementById('Tools').src='images/over.jpg'" onMouseout="this.bgColor='#edf0f6'; document.getElementById('Tools').src='images/back.jpg'">
-              <td>Nightlife in Careiro de Varzea<br>ID 27345629</td>
-              <td>09/08/11</td>
-              <td>Ian</td>
-              <td><a href="">5</a></td>
-              <td width=250><img src="images/back.jpg" id=Tools></td>
-           </tr>
-            <tr onMouseover="this.bgColor='#dbe4f1'; document.getElementById('Tools1').src='images/over.jpg'" onMouseout="this.bgColor='#edf0f6'; document.getElementById('Tools1').src='images/back.jpg'">
-              <td>Nightlife in Warsaw<br>ID 273345629</td>
-              <td>10/08/11</td>
-              <td>Dominik</td>
-              <td><a href="">7</a></td>
-              <td width=250><img src="images/back.jpg" id=Tools1></td>
-           </tr>
+          <tbody id="surveyListTable">
+
           </tbody>
          </table>
               

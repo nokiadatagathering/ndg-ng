@@ -1,6 +1,7 @@
 # wildcards
 *~
 *.swp
+*.patch
 
 # ignore all directories and files.
 tmp/**/* 
