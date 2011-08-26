@@ -11,11 +11,13 @@ import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
 
 @Entity
+@Table(name = "question")
 public class Question extends Model {
     
     @Required

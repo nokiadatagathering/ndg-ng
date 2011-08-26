@@ -58,26 +58,13 @@ public class NdgUser extends Model {
     
     @Required
     @Column( nullable = false )
-    public char whoUseIt;
-    
-    @Required
-    @Column( nullable = false )
     public char emailPreferences;
-    
-    public String howDoYouPlanUseNdg;
-    
-    @Required
-    @Column( nullable = false )
-    public char firstTimeUse;
     
     public String validationKey;
     
     @Required
     @Column( nullable = false )
     public char hasFullPermissions;
-    
-    @Lob
-    public String editorSettings;
     
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgUser"  )
     public Collection<UserBalance> userBalanceCollection;
@@ -108,7 +95,7 @@ public class NdgUser extends Model {
     public NdgUser() {
     }
 
-    public NdgUser( String password, String username, String email, String firstName, String lastName, String userAdmin, char userValidated, char whoUseIt, char emailPreferences, char firstTimeUse, char hasFullPermissions ) {
+    public NdgUser( String password, String username, String email, String firstName, String lastName, String userAdmin, char userValidated, char emailPreferences, char hasFullPermissions ) {
         this.password = password;
         this.username = username;
         this.email = email;
@@ -116,9 +103,7 @@ public class NdgUser extends Model {
         this.lastName = lastName;
         this.userAdmin = userAdmin;
         this.userValidated = userValidated;
-        this.whoUseIt = whoUseIt;
         this.emailPreferences = emailPreferences;
-        this.firstTimeUse = firstTimeUse;
         this.hasFullPermissions = hasFullPermissions;
     }
     

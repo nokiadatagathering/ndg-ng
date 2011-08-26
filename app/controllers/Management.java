@@ -18,7 +18,6 @@ import controllers.logic.SurveyPersister;
 import controllers.logic.SurveyXmlBuilder;
 import models.TransactionLog;
 import models.constants.TransactionlogConsts;
-import play.db.jpa.JPA;
 import play.mvc.Controller;
 import play.mvc.Http;
 

@@ -21,10 +21,6 @@ import org.javarosa.core.services.locale.Localizer;
 import org.javarosa.xform.parse.XFormParser;
 import org.javarosa.xpath.XPathConditional;
 
-/**
- * 
- * @author wojciech.luczkow
- */
 public class SurveyPersister {
 
     private InputStreamReader is = null;

@@ -15,43 +15,115 @@
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
  */package controllers.logic;
 
+import controllers.exceptions.ResultSaveException;
 import models.Answer;
 import models.NdgResult;
 import java.io.Reader;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.NdgUser;
+import models.Question;
+import models.Survey;
 import org.javarosa.xform.parse.XFormParser;
+import org.joda.time.format.ISODateTimeFormat;
 import org.kxml2.kdom.Document;
+import org.kxml2.kdom.Element;
 
-class ResultParser {
+public class ResultParser {
 
-    private static final Logger log = Logger.getLogger( ResultPersister.class.getName() );
-    private Collection<Answer> answerSet;
+    private static final String OPEN_ROSA_ROOT = "data";
+    private static final String OPEN_ROSA_INSTANCE_ID = "instanceID";
+    private static final String OPEN_ROSA_TIME_START = "timeStart";
+    private static final String OPEN_ROSA_TIME_FINISH = "timeEnd";
+    private static final String OPEN_ROSA_NAMESPACE = "http://openrosa.org/xforms/metadata";
+    private static final Logger log = Logger.getLogger(ResultPersister.class.getName());
     private NdgResult result;
     private final Reader reader;
+    private Hashtable<String, ResultElementHandler> elementHandlers;
 
-    ResultParser(Reader reader) {
+    ResultParser(Reader reader, NdgResult result, String surveyId) throws ResultSaveException {
         this.reader = reader;
+        this.result = result;
+        initElementHandlers();
     }
 
-    public void parse()
-    {
+    private void initElementHandlers() {
+        elementHandlers = new Hashtable<String, ResultElementHandler>();
+        elementHandlers.put(OPEN_ROSA_INSTANCE_ID, new ResultElementHandler() {
+
+            public void handleElement(ResultParser parser, Element element) {
+                result.resultId = element.getText(0);
+            }
+        });
+        
+        elementHandlers.put(OPEN_ROSA_TIME_START, new ResultElementHandler() {
+
+            public void handleElement(ResultParser parser, Element element) {
+                 result.startTime = ISODateTimeFormat.dateTimeNoMillis().parseDateTime(element.getText(0)).toDate();
+            }
+        });
+
+        elementHandlers.put(OPEN_ROSA_TIME_FINISH, new ResultElementHandler() {
+
+            @Override
+            public void handleElement(ResultParser parser, Element element) {
+                result.endTime = ISODateTimeFormat.dateTimeNoMillis().parseDateTime(element.getText(0)).toDate();
+            }
+        });
+
+    }
+
+    public void parse() {
+        result.ndgUser = NdgUser.find("byId", new Long(1)).first();// todo correct user from parsed device Id
         Document xmlDoc = XFormParser.getXMLDocument(reader);
+        Element root = xmlDoc.getRootElement();
         
-    }
-    
-    public NdgResult parseResult( ) {
+        parseXmlElement(root);
         
-        log.log( Level.INFO, "[ResultParser.parseResult]: parsing START" );
-
-
-        //TODO parse result XML2 DB structure
-        log.log( Level.INFO, "[ResultParser.parseResult]: parsing END" );
-        return new NdgResult();
+        result.save();
     }
 
-    NdgResult getResult() {
-        return result;
+    private void parseXmlElement(Element element) {
+        String name = element.getName();
+        if (element.getNamespace().equals(OPEN_ROSA_NAMESPACE)) {
+            ResultElementHandler handler = elementHandlers.get(name);
+            if (handler != null) {
+                handler.handleElement(this, element);
+            } else {
+                parseChilds(element);
+            }
+        }
+        else if(name.equals(OPEN_ROSA_ROOT))
+        {
+            parseChilds(element);
+        } else
+        {
+            if(element.getChildCount() > 0)
+            {
+            parseAnswer(element);
+            }
+        }
+    }
+
+    private void parseChilds(Element element) {
+        for (int i = 0; i < element.getChildCount(); i++) {
+            if (element.getType(i) == Element.ELEMENT) {
+                parseXmlElement(element.getElement(i));
+            }
+        }
+    }
+
+    private void parseAnswer(Element element) {
+        Question answeredQuestion = Question.find("byObjectNameAndSurvey_id", element.getName(), result.survey.id).first();
+        if(answeredQuestion != null)
+        {
+            Answer answer = new Answer(result.answerCollection.size());
+            answer.ndgResult = result;
+            answer.question = answeredQuestion;
+            answer.textData = element.getText(0);
+            result.answerCollection.add(answer);
+        }
     }
 }

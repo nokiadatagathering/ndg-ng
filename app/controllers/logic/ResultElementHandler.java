@@ -14,26 +14,10 @@
  *  You should have received a copy of the GNU Lesser General Public 
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
  */
-package controllers.exceptions;
+package controllers.logic;
 
-public class ResultSaveException extends MSMApplicationException {
+import org.kxml2.kdom.Element;
 
-    private static final long serialVersionUID = 1L;
-    private static final String _ERROR_CODE = "MSM_CORE_MSG_RESULT_NOT_SAVED";
-    public static final String _ERROR_CODE_NO_SURVEY = "SURVEY_NOT_FOUND";
-
-    public ResultSaveException(String errorCode) {
-        super();
-        setErrorCode( errorCode );
-    }
-    
-    public ResultSaveException() {
-        super();
-        setErrorCode( _ERROR_CODE );
-    }
-
-    public ResultSaveException( Exception e ) {
-        super( e );
-        setErrorCode( _ERROR_CODE );
-    }
+public interface ResultElementHandler {
+    void handleElement(ResultParser parser, Element element);
 }

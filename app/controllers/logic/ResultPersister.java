@@ -17,34 +17,43 @@
 package controllers.logic;
 
 import controllers.exceptions.MSMApplicationException;
+import controllers.exceptions.ResultSaveException;
 import java.io.Reader;
-import controllers.exceptions.ResultNotParsedException;
+import java.util.ArrayList;
 import models.NdgResult;
 import models.TransactionLog;
 import models.constants.TransactionlogConsts;
 import java.util.Date;
-import org.javarosa.core.model.FormDef;
-
-import play.db.jpa.JPA;
+import models.Answer;
+import models.Survey;
 
 public class ResultPersister {
 
-
     public void postResult(Reader reader, String surveyId) throws MSMApplicationException {
 
-        NdgResult ndgResult = null;
-        try {
-            ResultParser parser = new ResultParser(reader);
-            parser.parse();
-            ndgResult = parser.getResult();
 
-        } catch (Exception e) {
-            throw new ResultNotParsedException();
-        }
+        NdgResult ndgResult = createResult(surveyId);
+
+
+        ResultParser parser = new ResultParser(reader, ndgResult, surveyId);
+        parser.parse();
 
         ndgResult.save();
-
         setResultReceived(ndgResult);
+    }
+
+    private NdgResult createResult(String surveyId) throws ResultSaveException {
+        Survey survey = Survey.find("bySurveyId", surveyId).first();
+        if (survey == null) {
+            throw new ResultSaveException(ResultSaveException._ERROR_CODE_NO_SURVEY);
+        }
+
+        NdgResult retval = new NdgResult();
+        retval.survey = survey;
+        if (retval.answerCollection == null) {
+            retval.answerCollection = new ArrayList<Answer>();
+        }
+        return retval;
     }
 
     /**
@@ -56,16 +65,8 @@ public class ResultPersister {
         postResultTransaction.transactionStatus = TransactionlogConsts.TransactionStatus.STATUS_SUCCESS;
         postResultTransaction.survey = result.survey;
         postResultTransaction.idResult = result.resultId;
+        postResultTransaction.ndgUser = result.ndgUser;
 
         postResultTransaction.save();
     }
-
-    private void persistAnswers(FormDef resultParsed) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
-    private void persistAnswers(FormDef resultParsed, NdgResult ndgResult) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
-
 }

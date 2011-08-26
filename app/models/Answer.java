@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import play.data.validation.MaxSize;
 import play.data.validation.Required;
@@ -15,6 +16,7 @@ import play.db.jpa.Blob;
 import play.db.jpa.Model;
 
 @Entity
+@Table(name = "answer")
 @XmlRootElement
 public class Answer extends Model 
 {
