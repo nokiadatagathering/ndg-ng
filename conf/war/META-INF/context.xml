@@ -5,5 +5,5 @@
           digest="MD5"
           connectionURL="jdbc:mysql://localhost:3306/ndg2?user=ndg&amp;password=ndg"
           userTable="ndg_user" userNameCol="username" userCredCol="password"
-          userRoleTable="user_role" roleNameCol="roleName"/>
+          userRoleTable="user_role" roleNameCol="ndgRole_roleName"/>
 </Context>

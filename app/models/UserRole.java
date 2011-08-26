@@ -18,7 +18,7 @@ import play.db.jpa.Model;
 @Table( name = "user_role" )
 public class UserRole extends Model {
 
-    @JoinColumn(referencedColumnName = "username")
+    @JoinColumn(referencedColumnName = "username", name="username")
     @ManyToOne( optional = false )
     public NdgUser ndgUser;
     

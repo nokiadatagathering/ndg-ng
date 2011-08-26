@@ -48,7 +48,7 @@ public class Surveys extends Controller {
 
     public static void download(String formID) throws SurveyXmlCreatorException, IOException {
 
-        List<TransactionLog> transactionList = TransactionLog.find("byNdgUser_idAndTransactionStatusAndSurveyId",
+        List<TransactionLog> transactionList = TransactionLog.find("byNdgUser_idAndTransactionStatusAndSurvey_id",
                 getCurrentUser().id,
                 TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE,
                 formID).fetch();

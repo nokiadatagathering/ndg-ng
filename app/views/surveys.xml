@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xforms xmlns="http://openrosa.org/xforms/xformsList">
 #{list transactions, as:'transaction'}
-<xform xmlns=""><formID>${transaction.survey.surveyId}</formID><name>${transaction.survey.surveyId}</name><majorMinorVersion>1.0</majorMinorVersion><downloadUrl>${serverName}@{download(transaction.survey.surveyId)}</downloadUrl></xform>
+<xform xmlns=""><formID>${transaction.survey.surveyId}</formID><name>${transaction.survey.title}</name><majorMinorVersion>1.0</majorMinorVersion><downloadUrl>${serverName}@{download(transaction.survey.id)}</downloadUrl></xform>
 #{/list}
 </xforms>
