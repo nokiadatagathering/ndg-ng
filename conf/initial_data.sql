@@ -66,7 +66,7 @@ INSERT INTO `survey` (`surveyId`, `available`, `lang`, `title`, `uploadDate`, `n
 -- Dumping data for table `user_role`
 --
 
-INSERT INTO `user_role` (`ndgUser_username`, `ndgRole_roleName`) VALUES ('admin','Admin');
+INSERT INTO `user_role` (`username`, `ndgRole_roleName`) VALUES ('admin','Admin');
 
 --
 -- Dumping data for table `userbalance`
