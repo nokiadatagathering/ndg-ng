@@ -30,21 +30,20 @@ public class SurveyPersister {
         this.is = is;
     }
 
-    public void saveSurvey() throws SurveySavingException {
+    public void saveSurvey() throws SurveySavingException
+    {
+        saveSurvey(null);
+    }
+    
+    public void saveSurvey(String surveyId) throws SurveySavingException {
         XFormParser parser = new XFormParser(is);
         FormDef formDefinition = parser.parse();
-        persistSurvey(formDefinition);
+        Survey newSurvey = findOrCreateSurvey(surveyId, formDefinition);
+        persistSurvey(formDefinition, newSurvey);
         persistQuestionSet(formDefinition);
     }
 
-    private void logInfo(String info) {
-        Logger.getLogger(getClass().getName()).log(Level.INFO, info);
-    }
-
-    private void persistSurvey(FormDef formDefinition) throws SurveySavingException {
-
-        Survey newSurvey = new Survey(formDefinition.getInstance().getRoot().getAttributeValue("", "id"),
-                formDefinition.getName());
+    private void persistSurvey(FormDef formDefinition, Survey newSurvey) throws SurveySavingException {
         NdgUser owner = getOwner(new Long(1));//todo other owners than admin
         newSurvey.ndgUser = owner;
         newSurvey.uploadDate = new Date();
@@ -147,7 +146,6 @@ public class SurveyPersister {
     private void persistQuestionOptions(QuestionDef questionDef, Question newQuestion, Localizer localizer)
             throws SurveySavingException {
         Vector<SelectChoice> choices = questionDef.getChoices();
-        Logger.getAnonymousLogger().log(Level.INFO, "ChoiceCount: {0}", choices.size());
         for (SelectChoice selectChoice : choices) {
 
             String label = selectChoice.getLabelInnerText();
@@ -163,5 +161,21 @@ public class SurveyPersister {
 
             option.save();
         }
+    }
+
+    private Survey findOrCreateSurvey(String surveyId, FormDef formDefinition) {
+        Survey retval = null;
+        if(surveyId == null)
+        {
+            retval = new Survey(formDefinition.getInstance().getRoot().getAttributeValue("", "id"),
+                 formDefinition.getName());
+        }
+        else 
+        {
+            retval = Survey.find("bySurveyId", surveyId).first();
+            retval.delete();
+            retval = new Survey(surveyId, formDefinition.getName());
+        }
+        return retval;
     }
 }

@@ -1,0 +1,13 @@
+#dialog-exportResults button.buttonCSV{
+  width:35px;
+  height:30px;
+  /*padding:10px;*/
+  background: #edf0f6 url(../images/POPUP_EXP_CSV_ICON.png) no-repeat center;
+}
+
+#dialog-exportResults button.buttonXLS{
+  width:35px;
+  height:30px;
+  /*padding:10px;*/
+  background: #edf0f6 url(../images/POPUP_EXP_XLS_ICON.png) no-repeat center;
+}

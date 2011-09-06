@@ -24,7 +24,7 @@ import play.mvc.Controller;
 import play.mvc.Http;
 
 /**
- * 
+ *
  * @author wojciech.luczkow
  */
 public class Surveys extends Controller {
@@ -36,31 +36,29 @@ public class Surveys extends Controller {
                 TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE).fetch();
         ArrayList<TransactionLog> transactions = (ArrayList<TransactionLog>) transactionList;
 
-        if (transactions.isEmpty()) {
-            error(Http.StatusCode.NOT_FOUND, "No survey for given client");
-        } else {
-            // TODO check if we could read it from PLAY ???
-            String serverName = PropertiesUtil.getSettingsProperties().getProperty(SettingsProperties.URLSERVER,
-                    "http://localhost:9000");
-            renderTemplate("surveys.xml", transactions, serverName);
-        }
+        // TODO check if we could read it from PLAY ???
+        String serverName = PropertiesUtil.getSettingsProperties().getProperty(SettingsProperties.URLSERVER,
+                "http://localhost:9000");
+        renderTemplate("surveys.xml", transactions, serverName);
+
     }
 
     public static void download(String formID) throws SurveyXmlCreatorException, IOException {
 
-        List<TransactionLog> transactionList = TransactionLog.find("byNdgUser_idAndTransactionStatusAndSurvey_id",
+        TransactionLog transaction = TransactionLog.find("byNdgUser_idAndTransactionStatusAndSurvey_id",
                 getCurrentUser().id,
                 TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE,
-                formID).fetch();
-        ArrayList<TransactionLog> transactions = (ArrayList<TransactionLog>) transactionList;
-        if (transactions.isEmpty()) {
+                formID).first();
+        if (transaction == null) {
             error(Http.StatusCode.NOT_FOUND, "No survey for given client");
         } else {
             final Writer result = new StringWriter();
             final PrintWriter printWriter = new PrintWriter(result);
 
             SurveyXmlBuilder builder = new SurveyXmlBuilder();
-            builder.printSurveyXml(transactions.get(0).survey, printWriter);
+            builder.printSurveyXml(transaction.survey, printWriter);
+            transaction.transactionStatus = TransactionlogConsts.TransactionStatus.STATUS_SUCCESS;
+            transaction.save();
             renderXml(result.toString());
         }
     }

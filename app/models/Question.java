@@ -12,6 +12,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
@@ -37,7 +39,8 @@ public class Question extends Model {
     
     public Integer readonly;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question" )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
+    @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<Answer> answerCollection;
     
     @ManyToOne(optional = false)
@@ -50,6 +53,7 @@ public class Question extends Model {
     public DefaultAnswer defaultAnswer;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")
+    @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<QuestionOption> questionOptionCollection;
 
 

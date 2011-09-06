@@ -1,0 +1,45 @@
+#mask {
+  position:absolute;
+  left:0;
+  top:0;
+  z-index:9000;
+  background-color:#000;
+  display:none;
+}
+
+.dialogs {
+  width:375px;
+  height:203px;
+  padding:10px;
+  z-index:9999;
+  background: #edf0f6;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  padding:  10px 10px 10px 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#dialog-exportResults button.buttonCSV{
+  width:35px;
+  height:30px;
+  /*padding:10px;*/
+  background: #edf0f6 url(../images/POPUP_EXP_CSV_ICON.png) no-repeat center;
+}
+
+#dialog-exportResults button.buttonXLS{
+  width:35px;
+  height:30px;
+  /*padding:10px;*/
+  background: #edf0f6 url(../images/POPUP_EXP_XLS_ICON.png) no-repeat center;
+}
+
+#dialog-exportResults button.cancelButton{
+  width:35px;
+  height:30px;
+  vertical-align: top;
+  azimuth: right-side;
+  /*padding:10px;*/
+  background: #edf0f6 url(../images/BT_CLEAR.png) no-repeat center;
+}

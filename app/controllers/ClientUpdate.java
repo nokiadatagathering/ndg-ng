@@ -1,10 +1,6 @@
 package controllers;
 
-import java.io.PrintWriter;
 import java.util.Properties;
-import java.util.logging.Logger;
-
-import javax.servlet.http.HttpServletResponse;
 
 import controllers.util.Commands;
 import controllers.util.PropertiesUtil;

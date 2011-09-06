@@ -136,7 +136,6 @@ public class FormDefBuilder {
         int retval = org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED;
         String typeName = question.questionType.typeName;
         int dataTypeMapping = XFormsTypeMappings.getTypeToInteger(typeName);
-
         switch (dataTypeMapping) {
             case org.javarosa.core.model.Constants.DATATYPE_CHOICE:
                 retval = org.javarosa.core.model.Constants.CONTROL_SELECT_ONE;
@@ -152,6 +151,7 @@ public class FormDefBuilder {
                 } else if (typeName.equals("binary#video")); {
                 retval = org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE;
             }
+            break;
             default:
                 retval = org.javarosa.core.model.Constants.CONTROL_INPUT;
         }

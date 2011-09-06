@@ -16,6 +16,8 @@ import controllers.exceptions.SurveySavingException;
 import models.utils.NdgQuery;
 import controllers.logic.SurveyPersister;
 import controllers.logic.SurveyXmlBuilder;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import models.TransactionLog;
 import models.constants.TransactionlogConsts;
 import play.mvc.Controller;
@@ -62,21 +64,17 @@ public class Management extends Controller {
     }
 
     public static void upload(File filename) throws IOException, SurveySavingException {
-        boolean uploadedSurvey = false;
         InputStreamReader is = null;
         try {
             is = new InputStreamReader(new FileInputStream(filename), "UTF-8");
             SurveyPersister persister = new SurveyPersister(is);
             persister.saveSurvey();
- 
-            uploadedSurvey = true;
-        } finally {
+         } finally {
             if (is != null) {
                 is.close();
             }
         }
-        initialContent();
-        render("@index", uploadedSurvey);
+        redirect("Application.index");
     }
 
     public static void get(String id) {
@@ -86,7 +84,8 @@ public class Management extends Controller {
 
             SurveyXmlBuilder builder = new SurveyXmlBuilder();
             builder.printSurveyXml(id, printWriter);
-            renderXml(result.toString());
+            InputStream inputStream = new ByteArrayInputStream(result.toString().getBytes("UTF-8"));
+            renderBinary(inputStream, "survey_" + id + ".xml");
         } catch (Exception ex) {
             Logger.getLogger(Management.class.getName()).log(Level.SEVERE, null, ex);
         }

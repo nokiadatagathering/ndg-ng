@@ -221,13 +221,13 @@ body {
      }
 
      #container{
-            width:970px;
+            width:1032px;
             margin:40px auto;
                }
      
      #main {
      background: #edf0f6;
-     height: 600px;
+     height: 700px;
             }
 
      #header
@@ -267,7 +267,7 @@ body {
      #content
              {
          float: right;
-         width: 840px;
+         width: 892px;
          margin-left: 20px;
          margin-right: 20px;
          color: #3a77ca;
@@ -278,7 +278,7 @@ body {
                   {
 	background: #edf0f6;
 	border-collapse: collapse;
-        width: 840px;
+        width: 892px;
 
                  }
      #minimalist th
@@ -301,6 +301,9 @@ body {
             }
 
 
+@import url('menubar.css');
+@import url('exportresults.css');
+@import url('dialogcustom.css');
 
 
 

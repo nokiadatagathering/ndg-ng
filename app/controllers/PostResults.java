@@ -3,7 +3,7 @@
  *
  *  NDG is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
- *  License as published by the Free Software Foundation; either 
+ *  License as published by the Free Software Foundation; either
  *  version 2.1 of the License, or (at your option) any later version.
  *
  *  NDG is distributed in the hope that it will be useful,
@@ -11,8 +11,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *  Lesser General Public License for more details.
  *
- *  You should have received a copy of the GNU Lesser General Public 
- *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
  */
 package controllers;
 
@@ -27,18 +27,18 @@ import java.util.logging.Logger;
 import play.mvc.Controller;
 
 public class PostResults extends Controller{
-    
+
     public static void upload(String surveyId, File filename )
     {
         try {
             ResultPersister persister = new ResultPersister();
-            FileReader reader = new FileReader(filename); 
+            FileReader reader = new FileReader(filename);
             persister.postResult(reader, surveyId);
         } catch (IOException ex) {
             Logger.getLogger(PostResults.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MSMApplicationException ex) {
             Logger.getLogger(PostResults.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
+
     }
 }

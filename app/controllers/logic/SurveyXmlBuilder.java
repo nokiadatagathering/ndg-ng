@@ -3,7 +3,7 @@
  *
  *  NDG is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
- *  License as published by the Free Software Foundation; either 
+ *  License as published by the Free Software Foundation; either
  *  version 2.1 of the License, or (at your option) any later version.
  *
  *  NDG is distributed in the hope that it will be useful,
@@ -11,8 +11,8 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  *  Lesser General Public License for more details.
  *
- *  You should have received a copy of the GNU Lesser General Public 
- *  License along with NDG.  If not, see <http://www.gnu.org/licenses/ 
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
  */
 package controllers.logic;
 
@@ -54,7 +54,7 @@ public class SurveyXmlBuilder {
         FormDef formDef = definitionBuilder.readFormDefinition(survey);
 
         printFormDef(formDef, writer);
-       
+
     }
 
     private void printFormDef(FormDef formDef, PrintWriter writer) throws SurveyXmlCreatorException, IOException {
@@ -104,6 +104,7 @@ public class SurveyXmlBuilder {
     private void addInstanceToModel(Element model, FormDef formDef) {
         Element instance = model.createElement(null, "instance");
         Element data = instance.createElement(null, "data");
+        data.setAttribute(null, "id", formDef.getInstance().getRoot().getAttributeValue("", "id"));
 
         int childCount = formDef.getInstance().getRoot().getNumChildren();
         for (int i = 0; i < childCount; i++) {
@@ -191,6 +192,26 @@ public class SurveyXmlBuilder {
         String type = XFormsTypeMappings.getIntegerToControlType(question.getControlType());
         Element questionNode = body.createElement(null, type);
         questionNode.setAttribute(null, "ref", getNodesetFromTextId(question));
+        if(type.equals("upload"))
+        {
+            String mimeType = null;
+            switch(question.getControlType())
+            {
+                case org.javarosa.core.model.Constants.CONTROL_IMAGE_CHOOSE:
+                    mimeType = "image/*";
+                    break;
+                case org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE:
+                    mimeType = "audio/*";
+                    break;
+                case org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE:
+                    mimeType = "video/*";
+                    break;
+            }
+            if(mimeType != null)
+            {
+                questionNode.setAttribute(null, "mediatype", mimeType);
+            }
+        }
 
         Element label = questionNode.createElement(null, "label");
         label.setAttribute(null, "ref", buildItextRef(question.getTextID()));

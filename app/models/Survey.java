@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
@@ -33,10 +35,12 @@ public class Survey extends Model {
     @Temporal(TemporalType.TIMESTAMP)
     public Date uploadDate;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey" )
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
+    @OnDelete(action=OnDeleteAction.CASCADE)
     public List<Question> questionCollection;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
+    @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<TransactionLog> transactionLogCollection;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")

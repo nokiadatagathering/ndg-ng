@@ -1,0 +1,52 @@
+.ui-widget {
+  width:375px;
+  height:203px;
+  padding:10px;
+  z-index:9999;
+  background: #edf0f6;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 2px;
+  padding:  10px 10px 10px 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ui-widget-content {
+    font-size:12px;
+    font-family:arial;
+}
+.ui-widget-header {
+    border:none;
+    background-image:none;
+}
+
+.ui-dialog-titlebar {
+    background: #6699ff;
+    border:none;
+}
+
+.ui-dialog-titlebar-close {
+    background-color:transparent;
+    border:none;
+    background-image:url(../images/BT_CLEAR.png);
+}
+
+.ui-dialog-titlebar-close:hover,
+.ui-dialog-titlebar-close:focus {
+    background-color:transparent;
+    border:none;
+    background-image:url(../images/BT_CLEAR.png);
+}
+
+.ui-dialog-titlebar-close span {
+    display:none;
+}
+
+.ui-widget-overlay {
+    background: black;
+    opacity: 0.8;
+    position: absolute;
+    top: 0;
+    left: 0;
+ }

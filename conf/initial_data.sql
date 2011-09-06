@@ -13,7 +13,7 @@
 -- Current Database: `ndg`
 --
 
-USE `ndg`;
+USE `ndg2`;
 
 --
 -- Dumping data for table `company`
@@ -31,7 +31,7 @@ INSERT INTO `ndg_role` (`roleName`) VALUES ('Admin'),('Operator'),('Field Worker
 -- Dumping data for table `ndg_user`
 --
 
-INSERT INTO `ndg_user` (`areaCode`, `countryCode`, `email`, `emailPreferences`, `firstName`,`hasFullPermissions`,`lastName`, `password`, `phoneNumber`, `userAdmin`, `userValidated`, `username`, `validationKey`, `company_id`) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','b235fd01d8130026cfcca86a1b206208','phoneNumber','Y','Y','admin',NULL,1);
+INSERT INTO `ndg_user` (`areaCode`, `countryCode`, `email`, `emailPreferences`, `firstName`,`hasFullPermissions`,`lastName`, `password`, `phoneNumber`, `userAdmin`, `userValidated`, `username`, `validationKey`, `company_id`) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','3d7b6783e2b63d8f462823c41f4d029d','phoneNumber','Y','Y','admin',NULL,1);
 
 --
 -- Dumping data for table `question`

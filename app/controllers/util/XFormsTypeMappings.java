@@ -104,9 +104,9 @@ public class XFormsTypeMappings {
         integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_UPLOAD), "upload");
         integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_SUBMIT), "submit");
         integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_TRIGGER), "trigger");
-        integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_IMAGE_CHOOSE), "binary");
+        integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_IMAGE_CHOOSE), "upload");
         integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_LABEL), "label");
-        integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE), "binary");
-        integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE), "binary");
+        integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE), "upload");
+        integerToControlType.put(new Integer(org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE), "upload");
     }
 }
