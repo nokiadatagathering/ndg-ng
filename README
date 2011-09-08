@@ -11,7 +11,7 @@ NOKIA DATA GATHERING
 GETTING STARTED
 ================================
 
-
+    mysql> CREATE DATABASE ndg2;
     git clone https://github.com/IanLawrence/ndg-alpha-server
     cd ndg-alpha-server
     play run
