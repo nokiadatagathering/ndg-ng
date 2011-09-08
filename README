@@ -12,7 +12,7 @@ GETTING STARTED
 ================================
 
     mysql> CREATE DATABASE ndg2;
-    git clone https://github.com/IanLawrence/ndg-alpha-server
+    git clone git@github.com:nokiadatagathering/ndg-ng.git
     cd ndg-alpha-server
     play run
     http://localhost:9000/
