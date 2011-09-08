@@ -217,9 +217,12 @@ public class SurveyXmlBuilder {
         label.setAttribute(null, "ref", buildItextRef(question.getTextID()));
         questionNode.addChild(Node.ELEMENT, label);
 
+        if(question.getHelpTextID() != null)
+        {
         Element hint = questionNode.createElement(null, "hint");
         hint.setAttribute(null, "ref", buildItextRef(question.getHelpTextID()));
         questionNode.addChild(Node.ELEMENT, hint);
+        }
 
         if (type.equals(SELECT) || type.equals(SELECTONE)) {
             addChoiceItems(questionNode, question, formDef);

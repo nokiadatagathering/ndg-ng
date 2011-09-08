@@ -44,6 +44,7 @@ public class Survey extends Model {
     public Collection<TransactionLog> transactionLogCollection;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
+    @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<NdgResult> resultCollection;
     
     @ManyToOne(optional = false)

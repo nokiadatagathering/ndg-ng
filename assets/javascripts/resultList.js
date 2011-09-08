@@ -10,6 +10,7 @@ const LOC_USER = 'User';
 const LOC_LOCATION = 'Location';
 const LOC_BACK_TO_SURVEY_LIST = 'Back To SurveyList';
 const LOC_EXPORT_RESULTS = 'Export Results';
+const LOC_EXPORT_ALL_RESULTS = 'Export All Results';
 
 var ResultList = function() {
 
@@ -32,21 +33,22 @@ var ResultList = function() {
     function backToSurveyList() {
         $('#minimalist').empty();
         $('#executeBackToSurveyList').remove();
+        $('#executeExportAllResults').remove();
+        $('#executeExportResults').remove();
         selectedResults = new Array();
         SurveyList.showSurveyList();
     }
 
     function fillWithResults(i, item) {
         $('#resultListTable').append( '<tr>'
-                                    + '<td><input type="checkbox" id="resultCheckbox' + item.resultId + '"/></td>'
+                                    + '<td><input type="checkbox" id="resultCheckbox' + item.id + '"/></td>'
                                     + '<td>'+ item.resultId + '</td>'
                                     + '<td>' + item.title + '</td>'
                                     + '<td>' + new Date( item.startTime ) + '</td>'
                                     + '<td>' + item.ndgUser.username + '</td>'
                                     + '<td>' + ( item.latitude!= null ? 'OK': 'NO GPS' ) + '</td>'
                                     + '</tr>' );
-        $( '#resultCheckbox' + item.resultId ).click( item.resultId, function(i){resultCheckboxClicked(i);} );
-
+        $( '#resultCheckbox' + item.id ).click( item.resultId, function(i){resultCheckboxClicked(i);} );
     }
 
     function resultCheckboxClicked(i) {
@@ -71,8 +73,11 @@ var ResultList = function() {
     }
 
     function exportResults() {
-        //window.location.href = 'service/' + selectedResults;
-        ExportResults.exportResults( selectedResults );
+        ExportResults.exportResults( currentSurveyId, selectedResults );
+    }
+
+    function exportAllResults() {
+        ExportResults.exportAllResults( currentSurveyId );
     }
 
     function fillResultsTable(data) {
@@ -87,7 +92,9 @@ var ResultList = function() {
 
         $('#minimalist').empty();
         $('#minimalist').before('<a href="#" id="executeBackToSurveyList">' + LOC_BACK_TO_SURVEY_LIST+ '</a>');
+        $('#minimalist').before('<input type="button" id="executeExportAllResults" title="' + LOC_EXPORT_ALL_RESULTS + '" value="' + LOC_EXPORT_ALL_RESULTS +'"/>');
         $('#executeBackToSurveyList').click( function(){backToSurveyList()} );
+        $('#executeExportAllResults').click( function() { exportAllResults() } );
         $('#minimalist').append( '<thead>'
                                + '<tr>'
                                + '<th scope="col"></th>'

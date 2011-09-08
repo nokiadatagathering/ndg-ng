@@ -71,13 +71,16 @@ public class FormDefBuilder {
         TableLocaleSource localization = new TableLocaleSource();
         for (Question question : questions) {
             QuestionDef newQuestion = new QuestionDef();
+
             newQuestion.setTextID(getRefString(question, "data", "label"));
-            newQuestion.setHelpTextID(getRefString(question, "data", "hint"));
-            newQuestion.setControlType(findControlType(question));
             localization.setLocaleMapping(newQuestion.getTextID(), question.label);
-            if (question.hint != null) {
+
+            if (question.hint != null && !question.hint.isEmpty()) {
+                newQuestion.setHelpTextID(getRefString(question, "data", "hint"));
                 localization.setLocaleMapping(newQuestion.getHelpTextID(), question.hint);
             }
+
+            newQuestion.setControlType(findControlType(question));
             if (newQuestion.getControlType() == org.javarosa.core.model.Constants.CONTROL_SELECT_ONE
                     || newQuestion.getControlType() == org.javarosa.core.model.Constants.CONTROL_SELECT_MULTI) {
                 addOptions(newQuestion, question, localization);

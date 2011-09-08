@@ -84,7 +84,7 @@ public class SurveyPersister {
         }
 
         String questionHint = questionDef.getHelpText();
-        if (questionHint == null) {
+        if (questionHint == null && questionDef.getHelpTextID() != null) {
             questionHint = localizer.getLocalizedText(questionDef.getHelpTextID());
         }
 

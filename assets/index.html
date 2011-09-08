@@ -37,6 +37,7 @@
   <script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"></script>
   <script type="text/javascript" src="javascripts/surveylist.js"></script>
   <script type="text/javascript" src="javascripts/resultlist.js"></script>
+  <script type="text/javascript" src="javascripts/sendsurvey.js"></script>
   <script type="text/javascript" src="javascripts/exportresults.js"></script>
 </head>
 
@@ -80,10 +81,18 @@
         <p><label> <input type=file name="filename" ></label></p>
         <input type="hidden" name="uploadSurveyId" id="uploadSurveyId" />
         <p><button>Send File</button><p>
-        <iframe name="cgiFrame" src="about:blank" style="display:none; width:0px; height:0px"></iframe>
         #{/form}
     </div>
-
+    <iframe id="uploadSurveyResult" name="cgiFrame" src="about:blank" style="visibility:hidden; width:0px; height:0px"></iframe>
+    
+    <div id="dialog-confirmDelete" class="dialogs">
+        <p><label><b>Are you sure ?</b></label></p>
+        <div><button id="buttonDeleteYes">yes</button><button id="buttonDeleteNo">no</button></div>
+    </div>
+    
+    <div id="dialog-sendSurvey" class="dialogs">
+        <div id="sendSurveyUsers"></div>
+    </div>
     <!-- Mask to cover the whole screen -->
     <div id="mask"></div>
 </div>
@@ -99,6 +108,24 @@ var exportDialog = $("#dialog-exportResults").dialog(
     autoOpen: false,
     modal: true,
     zIndex: 9999});
+
+var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
+{
+    autoOpen: false,
+    modal: true,
+    zIndex: 9999,
+    open: function(event, ui) { 
+    //hide close button.
+    $(this).parent().children().children('.ui-dialog-titlebar-close').hide();
+    }
+});
+
+var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
+{
+    autoOpen: false,
+    modal: true,
+    zIndex: 9999
+});
 
 $(document).ready(function() {
     SurveyList.showSurveyList();

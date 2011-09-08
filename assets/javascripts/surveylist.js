@@ -176,6 +176,8 @@ var SurveyList = function() {
         $('#menu' + item.id +' .buttonDownload').click( item.surveyId, function(i){onDownloadSurveyClicked(i);} );
         $('#menu' + item.id +' .buttonUpload').click( item.surveyId, function(i){onUploadSurveyClicked(i);} );
         $('#menu' + item.id +' .buttonDelete').click( item.surveyId, function(i){onDeleteSurveyClicked(i);} );
+        $('#menu' + item.id +' .buttonDuplicate').click( item.surveyId, function(i){onDuplicateSurveyClicked(i);} );
+        $('#menu' + item.id +' .buttonSend').click( item.surveyId, function(i){onSendSurveyClicked(i);} );
     }
 
     function onPreviousClicked(e) {
@@ -208,15 +210,49 @@ var SurveyList = function() {
     }
     
     function onDeleteSurveyClicked(e) {
-        $.post( "/delete/" + e.data, function(data) {
+        confirmDeleteDialog.dialog("open");
+        $("#buttonDeleteYes").click( e.data, function(e){
+            $.post( "/delete/" + e.data, function(data) {
+            confirmDeleteDialog.dialog("close");      
+            $('#surveyListTable').empty();
+            fillSurveyData( lastSortByColumn, surveyNameSortAscending );
+        });
+        $("#buttonDeleteYes").unbind("click");
+        $("#buttonDeleteNo").unbind("click");
+        });
+       $("#buttonDeleteNo").click( function(){
+           $("#buttonDeleteYes").unbind("click");
+           $("#buttonDeleteNo").unbind("click");
+           confirmDeleteDialog.dialog("close"); 
+       });
+    }
+    
+    function onDuplicateSurveyClicked(e) {
+       $.post( "/duplicate/" + e.data, function(data) {
             $('#surveyListTable').empty();
             fillSurveyData( lastSortByColumn, surveyNameSortAscending );
         });
     }
     
+    function onSendSurveyClicked(e) {
+        SendSurvey.showUserList(e);
+        sendSurveyDialog.dialog("open");
+    }
+    
     function uploadNewSurvey() {
-        alert("Survey uploaded");
-        uploadDialog.dialog("close");
+        var resultFrame = $('#uploadSurveyResult').load(function ()
+        {
+           var response = resultFrame.contents().find('body').find('pre').html();
+            if(response === "success") {
+                alert("success");
+               } else {
+                alert("failure")
+               }
+
+           resultFrame.unbind('load');
+           uploadDialog.dialog("close");
+           $(':file', '#uploadForm' ).val('');
+        });
         return true;
     }
     

@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
@@ -46,6 +48,7 @@ public class NdgResult extends Model {
     public String longitude;
     
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgResult" )
+    @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<Answer> answerCollection;
 
     @ManyToOne( optional = false )

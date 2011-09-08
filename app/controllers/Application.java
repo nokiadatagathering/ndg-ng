@@ -10,12 +10,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.logging.Logger;
+import java.util.Date;
 import models.NdgResult;
+import models.NdgUser;
 import models.Survey;
+import models.utils.SurveyDuplicator;
 
 public class Application extends Controller {
 
@@ -31,7 +35,7 @@ public class Application extends Controller {
         List<NdgResult> results = NdgResult.find( query ).fetch();//.from( RESULTS_PER_SIDE * startIndex ).fetch( RESULTS_PER_SIDE );
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
-        surveyListSerializer.include( "resultId", "title", "startTime", "ndgUser.username", "latitude" )
+        surveyListSerializer.include( "id","resultId", "title", "startTime", "ndgUser.username", "latitude" )
             .exclude( "*" ).rootName( "results" );
         renderJSON( surveyListSerializer.serialize( results ) );
     }
@@ -73,6 +77,18 @@ public class Application extends Controller {
         serializeSurveys( subList );
     }
 
+    public static void listUsers( String orderBy ) {
+        List<NdgUser> users = NdgUser.all().fetch();
+        serializeUsers(users);
+    }
+
+    private static void serializeUsers(List<NdgUser> users) {
+        JSONSerializer userListSerializer = new JSONSerializer();
+        userListSerializer.transform(new NdgResultCollectionTransformer() , "resultCollection");
+        userListSerializer.include("id","username", "phoneNumber", "email" ).exclude("*").rootName("users");
+        renderJSON(userListSerializer.serialize(users));
+    }
+
     private static void serializeSurveys( List<Survey> subList ) {
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
@@ -103,20 +119,35 @@ public class Application extends Controller {
 
     public static void upload(File filename, String uploadSurveyId) throws IOException, SurveySavingException {
         InputStreamReader is = null;
+        String result = "failure";
         try {
             is = new InputStreamReader(new FileInputStream(filename), "UTF-8");
             SurveyPersister persister = new SurveyPersister(is);
             persister.saveSurvey(uploadSurveyId);
+            result = "success";
         } finally {
             if (is != null) {
                 is.close();
             }
         }
+        renderText(result);
     }
 
     public static void delete(String formID)
     {
         Survey deleted = Survey.find("bySurveyId", formID).first();
         deleted.delete();
+    }
+
+    public static void duplicate(String formID)
+    {
+        Survey origin = Survey.find("bySurveyId", formID).first();
+
+        SecureRandom random = new SecureRandom();
+        String newId = new BigInteger(40, random).toString(32);
+
+        Survey copy = SurveyDuplicator.plainCopy(origin, newId);
+
+        copy.save();
     }
 }

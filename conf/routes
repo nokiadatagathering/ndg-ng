@@ -5,11 +5,16 @@
 # Home page
 GET     /                                       Application.index
 GET     /management                             Management.index
-GET     /management/{<[0-9]+>id}                Management.get
+GET     /management/{id}                        Management.get
 POST    /management                             Management.save
 POST    /management/upload                      Management.upload
 POST    /delete/{formID}                        Application.delete
+POST    /duplicate/{formID}                     Application.duplicate
 GET     /service/{<[0-9]+>id}                   Service.get
+POST    /service/prepare                        Service.prepare
+GET     /service/prepare                        Service.prepare
+POST    /service/prepareselected                Service.prepareselected
+GET     /service/prepareselected                Service.prepareselected
 
 GET     /webui                                  webui.Administration.index
 

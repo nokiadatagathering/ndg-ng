@@ -19,9 +19,11 @@ public class QuestionOption extends Model {
     @Column(nullable=false)
     public int optionIndex;
     
+    @Required
     @Column(nullable=false)
     public String label;
     
+    @Required
     @Column(nullable=false)
     public String optionValue;
     

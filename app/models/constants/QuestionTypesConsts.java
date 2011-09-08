@@ -14,25 +14,19 @@
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
  */
-package controllers.transformer;
+package models.constants;
 
-import java.util.Collection;
-import models.NdgResult;
-import models.Survey;
 
-public abstract class Transformer {
-
-    protected Survey survey;
-    protected Collection<NdgResult> results;
-
-    public Transformer( Survey survey ) {
-        this.survey = survey;
-    }
-
-    public Transformer( Survey survey, Collection<NdgResult> results) {
-        this.survey = survey;
-        this.results = results;
-    }
-
-    public abstract byte[] getBytes();
+public class QuestionTypesConsts {
+    public static final String STRING = "string";
+    public static final String INT = "int";
+    public static final String DECIMAL = "decimal";
+    public static final String DATE = "date";
+    public static final String GEOPOINT = "geopoint";
+    public static final String IMAGE = "binary#image";
+    public static final String AUDIO = "binary#audio";
+    public static final String VIDEO = "binary#video";
+    public static final String BARCODE = "barcode";
+    public static final String EXCLUSIVECHOICE = "select1";
+    public static final String MULTIPLECHOICE = "select";
 }
