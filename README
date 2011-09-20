@@ -11,11 +11,10 @@ NOKIA DATA GATHERING
 GETTING STARTED
 ================================
 
-    mysql> CREATE DATABASE ndg2;
     git clone git@github.com:nokiadatagathering/ndg-ng.git
-    cd assets/build/
-    ant build
-    cd ../..
+      if running this locally (i.e not on heroku) you need to export DATABASE_URL (and set the database up of course) like:
+    export DATABASE_URL=postgres://ndg:ndg@localhost/ndg2 
+      this variable is set in the heroku Procfile and used in the cloud instance
     play run
     http://localhost:9000/
 
