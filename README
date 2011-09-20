@@ -41,6 +41,6 @@ APPLICATION LAYOUT
 
 4. public/ optimized assets which represent the front end of the site. It includes JavaScript files, stylesheets and images directories.
 
-5. assets/ source files (html, css, javascript). The ant build file in assets/build optimizes these files and then places them in the assets/public directory. The files in this folder can then be copied to the public/ folder above
+5. assets/ source files (html, css, javascript). The ant build file in assets/build optimizes these files and then places them in the assets/public directory. The folder does not need to be deployed when going live.
 
 6. test/ contains all the application tests. Tests are either written either as Java JUnit tests or as Selenium tests
