@@ -2,9 +2,13 @@ package controllers;
 
 import controllers.exceptions.SurveySavingException;
 import controllers.logic.SurveyPersister;
+import flexjson.JSONDeserializer;
+import flexjson.ObjectBinder;
+import java.lang.reflect.Type;
 import java.util.List;
 import play.mvc.Controller;
 import flexjson.JSONSerializer;
+import flexjson.ObjectFactory;
 import flexjson.transformer.AbstractTransformer;
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,19 +16,24 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import models.Category;
 import models.NdgResult;
 import models.NdgUser;
 import models.Question;
+import models.QuestionType;
 import models.Survey;
 import models.TransactionLog;
 import models.constants.TransactionlogConsts;
 import models.utils.NdgQuery;
 import models.utils.SurveyDuplicator;
+
+
 
 public class Application extends Controller {
 
@@ -32,6 +41,47 @@ public class Application extends Controller {
 
     public static void index() {
         render();
+    }
+
+    static class QuestionTypeObjectFactory implements ObjectFactory{
+        public Object instantiate(ObjectBinder ob, Object o, Type type, Class type1) {
+            QuestionType qType = null;
+            HashMap map = (HashMap)o;
+            if(map.containsKey("type")){
+                String typeId = (String)map.get("type");
+                qType = QuestionType.findById(Long.decode(typeId));
+            }
+            return qType;
+        }
+    }
+
+    public static void saveSurvey(String id, String surveyData){
+
+
+        JSONDeserializer<ArrayList<Category>> deserializer = new JSONDeserializer<ArrayList<Category>>();
+        deserializer
+                .use("values", Category.class)
+                .use("values.questionCollection", ArrayList.class)
+                .use("values.questionCollection.values", Question.class)
+                .use("values.questionCollection.values.questionType", new QuestionTypeObjectFactory());
+        ArrayList<Category> categoryList = deserializer.deserialize(surveyData, ArrayList.class);
+
+
+        Survey survey = Survey.findById( Long.decode( id ) );
+
+        for(Category cat : survey.categoryCollection){
+            cat.delete();
+        }
+
+        for(Category cat : categoryList){
+            for(Question q : cat.questionCollection){
+                q.category = cat;
+            }
+            cat.survey = survey;
+            survey.categoryCollection.add(cat);
+            cat.save();
+        }
+
     }
 
     public static void questions( int categoryId ){
@@ -49,7 +99,7 @@ public class Application extends Controller {
         List<Category> categories = Category.find(query).fetch();
         JSONSerializer categoryListSerializer = new JSONSerializer();
         categoryListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
-        categoryListSerializer.include( "id","categoryIndex", "label" )
+        categoryListSerializer.include( "id","categoryIndex", "questionCollection", "label" )
             .exclude( "*" ).rootName( "categories" );
         renderJSON(categoryListSerializer.serialize(categories));
     }
@@ -191,6 +241,5 @@ public class Application extends Controller {
 
             transaction.save();
         }
-
     }
 }

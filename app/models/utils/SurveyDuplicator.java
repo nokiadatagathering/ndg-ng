@@ -20,27 +20,45 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import models.Category;
 import models.Question;
 import models.QuestionOption;
 import models.Survey;
 
 public class SurveyDuplicator {
-public static Survey plainCopy(Survey origin, String newId)
-{
-    Survey copy = new Survey();
-    copy.available = origin.available;
-    copy.lang = origin.lang;
-    copy.ndgUser = origin.ndgUser;
-    copy.surveyId = newId;
-    copy.title = origin.title;
-    copy.uploadDate = new Date();
 
-    copy.questionCollection = copyQuestions(origin.questionCollection, copy);
+    public static Survey plainCopy(Survey origin, String newId)
+    {
+        Survey copy = new Survey();
+        copy.available = origin.available;
+        copy.lang = origin.lang;
+        copy.ndgUser = origin.ndgUser;
+        copy.surveyId = newId;
+        copy.title = origin.title;
+        copy.uploadDate = new Date();
 
-    return copy;
-}
+        copy.categoryCollection = copyCategories(origin.categoryCollection, copy);
 
-    private static List<Question> copyQuestions(List<Question> origin, Survey newSurvey) {
+        return copy;
+    }
+
+    private static List<Category> copyCategories(List<Category> origin, Survey newSurvey){
+        List<Category> copy = new ArrayList<Category>();
+
+        Category copiedCategory = null;
+        for(Category category : origin){
+            copiedCategory = new Category();
+            copiedCategory.survey = newSurvey;
+            copiedCategory.label = category.label;
+            copiedCategory.categoryIndex = category.categoryIndex;
+            copiedCategory.questionCollection = copyQuestions(category.questionCollection, copiedCategory);
+            copy.add(copiedCategory);
+        }
+
+        return copy;
+    }
+
+    private static List<Question> copyQuestions(List<Question> origin, Category newCategory) {
         List<Question> copy = new ArrayList<Question>();
         for (Question question : origin) {
             Question copiedQuestion = new Question();
@@ -51,7 +69,7 @@ public static Survey plainCopy(Survey origin, String newId)
             copiedQuestion.questionType = question.questionType;
             copiedQuestion.readonly = question.readonly;
             copiedQuestion.required = question.required;
-            copiedQuestion.survey = newSurvey;
+            copiedQuestion.category = newCategory;
             copiedQuestion.questionOptionCollection = copyQuestionOptions(question.questionOptionCollection, copiedQuestion);
             copy.add(copiedQuestion);
         }

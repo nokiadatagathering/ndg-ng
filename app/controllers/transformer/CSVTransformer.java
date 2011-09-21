@@ -56,7 +56,7 @@ public class CSVTransformer extends ResultsTransformer {
               .append( "Lat" ).append( sep ).append( "Lon" ).append( sep );
 
         /** Header Fields**/
-        for ( Question question :survey.questionCollection ) {
+        for ( Question question :survey.getQuestions() ) {
             buffer.append( question.label );
             buffer.append( sep );
         }
@@ -69,7 +69,7 @@ public class CSVTransformer extends ResultsTransformer {
                     .append( result.endTime ).append( sep ).append( result.ndgUser.username ).append( sep )
                     .append( result.latitude ).append( sep ).append( result.longitude ).append( sep );
 
-            for ( Question question :survey.questionCollection ) {//to ensure right answer order
+            for ( Question question :survey.getQuestions() ) {//to ensure right answer order
                 question.answerCollection.retainAll( result.answerCollection );//only one should left, hope that it does not modify results
                 if ( question.answerCollection.isEmpty() ) {
                     buffer.append( "NULL - No answer" );

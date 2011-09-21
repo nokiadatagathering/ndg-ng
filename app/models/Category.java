@@ -1,10 +1,9 @@
 package models;
 
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,21 +21,21 @@ import play.db.jpa.Model;
 @Entity
 @Table(name = "category")
 public class Category extends Model{
-    
+
     @Column(nullable=false)
     public  String label;
-   
+
     public Integer categoryIndex;
-    
+
     @Required
     @ManyToOne(optional = false)
     public Survey survey;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     @OnDelete(action=OnDeleteAction.CASCADE)
-    public Collection<Question> questionCollection;
-   
-    
+    public List<Question> questionCollection;
+
+
     @Override
     public String toString() {
         return "br.org.indt.ndg.server.persistence.structure.Category[ id=" +  " ]";

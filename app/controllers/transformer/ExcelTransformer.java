@@ -44,7 +44,7 @@ public class ExcelTransformer extends ResultsTransformer {
     public byte[] getBytes() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         HSSFWorkbook wb = new HSSFWorkbook();
-		HSSFSheet sheet = wb.createSheet("Sheet1");
+        HSSFSheet sheet = wb.createSheet("Sheet1");
 
         if ( results == null ) {
             results = survey.resultCollection;
@@ -64,7 +64,7 @@ public class ExcelTransformer extends ResultsTransformer {
 
 
         /** Header Fields**/
-        for ( Question question :survey.questionCollection ) {
+        for ( Question question :survey.getQuestions() ) {
             row.createCell( (short) fieldcounter++ ).setCellValue( question.label );
         }
 
@@ -82,7 +82,7 @@ public class ExcelTransformer extends ResultsTransformer {
             row.createCell( (short) fieldcounter++ ).setCellValue( result.latitude );
             row.createCell( (short) fieldcounter++ ).setCellValue( result.longitude );
 
-            for ( Question question :survey.questionCollection ) {//to ensure right answer order
+            for ( Question question :survey.getQuestions() ) {//to ensure right answer order
                 question.answerCollection.retainAll( result.answerCollection );//only one should left, hope that it does not modify results
                 if ( question.answerCollection.isEmpty() ) {
                     row.createCell( (short) fieldcounter++ ).setCellValue( "NULL - No answer" );

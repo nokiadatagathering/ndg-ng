@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -35,9 +36,6 @@ public class Survey extends Model {
     @Temporal(TemporalType.TIMESTAMP)
     public Date uploadDate;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
-    @OnDelete(action=OnDeleteAction.CASCADE)
-    public List<Question> questionCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     @OnDelete(action=OnDeleteAction.CASCADE)
@@ -64,6 +62,16 @@ public class Survey extends Model {
     public Survey(String surveyId, String title) {
         this.surveyId = surveyId;
         this.title = title;
+    }
+
+    public List<Question> getQuestions(){
+        ArrayList<Question> questions = new ArrayList<Question>();
+        for(Category category : categoryCollection){
+            for(Question q : category.questionCollection){
+                questions.add(q);
+            }
+        }
+        return questions;
     }
 
     @Override

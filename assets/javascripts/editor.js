@@ -1,6 +1,8 @@
 
 var Editor = function() {
 
+    var surveyId;
+
     return {
         createEditor : function(id) {
             createEditor(id);
@@ -8,6 +10,7 @@ var Editor = function() {
     };
 
     function createEditor(id){
+        surveyId = id.data;
         $('#content').empty();
         $('#content').append(
 
@@ -21,6 +24,9 @@ var Editor = function() {
             + '<a href="#" id="executeAddQuestion">'
             + '<img id="add_button" src="images/btn_plus.jpg"></a>'
 
+            + '<a href="#" id="executeSave">'
+            + '<img id="save_button" src="images/check1.png"></a>'
+
             + '<ul id="sortableList">'
             + '<div id="categories"></div>'
             + '</ul>'
@@ -28,15 +34,60 @@ var Editor = function() {
             + '</div>'
             );
 
-        fillEditor(id.data);
+        fillEditor(surveyId);
 
         $( "#categories" ).sortable();
         $( "#categories" ).disableSelection();
-//       $( "#categories" ).accordion();
+//       $( "#sortableList" ).accordion();
 
         $( "#executeBackButton" ).click( function(){onBackClicked();} );
         $( "#executeAddCategory" ).click( function(){onAddCategoryClicked();} );
         $( "#executeAddQuestion" ).click( function(){onAddQuestionClicked();} );
+        $( "#executeSave" ).click( function(){onSaveClicked();} );
+    }
+
+    function onSaveClicked(){
+//        prepereSurveyJSON();
+        $.ajax(
+        {
+            type: "POST",
+            url: "/saveSurvey",
+            data: {surveyData : prepereSurveyJSON(), id : surveyId}, //TODO
+            success: function(msg){
+               alert( "Success");
+            },
+            error: function(request,error) {
+                alert("Failure" + error);
+            }
+        });
+    }
+
+    function prepereSurveyJSON(){
+//        var category1 = new Category("test", 2);
+//        var jsonCategory = JSON.stringify(category1);
+
+
+        var categoryList = [];
+        var catElemList = $( "#categories" ).find(".listCategory");
+
+        $.each(catElemList, function(i, item){
+            var catName = $( '#' + item.id ).find('.categoryName');
+            categoryList[i] = new Category(catName[0].text, i);
+            categoryList[i].questionCollection = prepereQuestions(item);
+        });
+
+
+        return JSON.stringify(categoryList);
+    }
+
+    function prepereQuestions(catItem){
+        var questionElemList = $( '#' + catItem.id ).find(".listItemQuestion");
+        var questionList = [];
+        $.each( questionElemList, function( i, item ){
+            var questionLabel = $( '#' + item.id ).find('.questionText');
+            questionList[i] = new Question(questionLabel[0].innerText, item.id);
+        } );
+        return questionList;
     }
 
     function onBackClicked(){
@@ -135,7 +186,7 @@ var Editor = function() {
         $("#" + listId).append(
                 '<li id="' + questionId +'"class="ui-state-default listItemQuestion">'
 //                    + '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'
-                    + '<div>' + value
+                    + '<div class="questionText">' + value
                     + '<a href="#" id="'+ deleteId +'"><img class="deleteElement" src="images/btn_editor_delete.jpg" title="' + LOC.get('LOC_DELETE') + '"/></a>'
                     +'<div style="clear:both;"></div></div></li>');
 

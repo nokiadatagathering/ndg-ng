@@ -46,8 +46,6 @@ public class Question extends Model {
     @ManyToOne(optional = true)
     public Category category; //TODO add (optional = false)
 
-    @ManyToOne(optional = false)
-    public Survey survey;
 
     @ManyToOne(optional = false)
     public QuestionType questionType;
