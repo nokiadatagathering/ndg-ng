@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010  INdT - Instituto Nokia de Tecnologia
+ *  Copyright (C) 2011  INdT - Instituto Nokia de Tecnologia
  *
  *  NDG is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import models.Category;
 import models.NdgResult;
 import models.Question;
 import models.Survey;
@@ -49,12 +50,16 @@ public class Service extends Controller {
         Survey survey = Survey.findById( Long.decode( surveyId ) );
 
         boolean hasImages = false;
-        for ( Question question :survey.questionCollection ) {
-            if ( question.questionType.typeName.equals( QuestionTypesConsts.IMAGE ) ) {
-                hasImages = true;
-                break;
+
+        for (Category category : survey.categoryCollection){
+            for ( Question question :category.questionCollection ) {
+                if ( question.questionType.typeName.equals( QuestionTypesConsts.IMAGE ) ) {
+                    hasImages = true;
+                    break;
+                }
             }
         }
+
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.include( "*" ).rootName( "hasImages" );
         renderJSON( surveyListSerializer.serialize( hasImages ) );

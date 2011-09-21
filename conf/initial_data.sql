@@ -19,43 +19,45 @@ USE `ndg2`;
 -- Dumping data for table `company`
 --
 
-INSERT INTO `company` (`companyCountry`, `companyIndustry`, `companyName`, `companySize`, `companyType`) VALUES ('CompanyName','','CompanyCountry','CompanyIndustry','CompanySize');
+INSERT INTO `company` (`company_country`, `company_industry`, `company_name`, `company_size`, `company_type`) VALUES ('CompanyName','','CompanyCountry','CompanyIndustry','CompanySize');
 
 --
 -- Dumping data for table `ndg_role`
 --
 
-INSERT INTO `ndg_role` (`roleName`) VALUES ('Admin'),('Operator'),('Field Worker');
+INSERT INTO `ndg_role` (`role_name`) VALUES ('Admin'),('Operator'),('Field Worker');
 
 --
 -- Dumping data for table `ndg_user`
 --
 
-INSERT INTO `ndg_user` (`areaCode`, `countryCode`, `email`, `emailPreferences`, `firstName`,`hasFullPermissions`,`lastName`, `password`, `phoneNumber`, `userAdmin`, `userValidated`, `username`, `validationKey`, `company_id`) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','3d7b6783e2b63d8f462823c41f4d029d','phoneNumber','Y','Y','admin',NULL,1);
+INSERT INTO `ndg_user` (`area_code`, `country_code`, `email`, `email_preferences`, `first_name`,`has_full_permissions`,`last_name`, `password`, `phone_number`, `user_admin`, `user_validated`, `username`, `validation_key`, `company_id`) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','3d7b6783e2b63d8f462823c41f4d029d','phoneNumber','Y','Y','admin',NULL,1);
 
 --
 -- Dumping data for table `question`
 --
 
-INSERT INTO `question` ( `constraintText`, `hint`, `label`, `objectName`, `readonly`, `required`, `defaultAnswer_id`, `questionType_id`, `survey_id`) VALUES (NULL,NULL,'What is your name ?','TextQuestion',0,0,NULL,1,1),(NULL,NULL,'On average, how often do you laugh per day ?','IntegerQuestion',0,0,NULL,2,1),(NULL,NULL,'Are you a thinker, a talker or a doer ?','ExclusiveQuestion',0,0,NULL,10,1),(NULL,NULL,'Which continents have you visited ?','MultipleQuestion',0,0,NULL,11,1),(NULL,NULL,'What do you like most about Finland?','TextQuestion2',0,0,NULL,1,1),(NULL,NULL,'Date','DateQuestion',0,0,NULL,4,1);
+INSERT INTO `question` ( `constraint_text`, `hint`, `label`, `object_name`, `readonly`, `required`, `default_answer_id`, `question_type_id`,`category_id`) VALUES (NULL,NULL,'What is your name ?','TextQuestion',0,0,NULL,1,1),(NULL,NULL,'On average, how often do you laugh per day ?','IntegerQuestion',0,0,NULL,2,1),(NULL,NULL,'Are you a thinker, a talker or a doer ?','ExclusiveQuestion',0,0,NULL,10,1),(NULL,NULL,'Which continents have you visited ?','MultipleQuestion',0,0,NULL,11,2),(NULL,NULL,'What do you like most about Finland?','TextQuestion2',0,0,NULL,1,2),(NULL,NULL,'Date','DateQuestion',0,0,NULL,4,2);
 
 --
 -- Dumping data for table `question_option`
 --
 
-INSERT INTO `question_option` (`label`, `optionIndex`, `optionValue`, `question_id`) VALUES ('Doer',1,'doer',3),('Thinker',2,'thinker',3),('Talker',3,'talker',3),('Asia',1,'asia',4),('Africe',2,'africa',4),('Australia',3,'australia',4),('Europe',4,'europe',4),('Antarctica',5,'antarctica',4),('North America',6,'north',4),('Latin America',7,'latin',4);
+INSERT INTO `question_option` (`label`, `option_index`, `option_value`, `question_id`) VALUES ('Doer',1,'doer',3),('Thinker',2,'thinker',3),('Talker',3,'talker',3),('Asia',1,'asia',4),('Africe',2,'africa',4),('Australia',3,'australia',4),('Europe',4,'europe',4),('Antarctica',5,'antarctica',4),('North America',6,'north',4),('Latin America',7,'latin',4);
 
 --
 -- Dumping data for table `question_type`
 --
 
-INSERT INTO `question_type` ( `supported`, `typeName`) VALUES (1,'string'),(1,'int'),(1,'decimal'),(1,'date'),(0,'geopoint'),(1,'binary#image'),(0,'binary#audio'),(0,'binary#video'),(0,'barcode'),(1,'select1'),(1,'select');
+INSERT INTO `question_type` ( `supported`, `type_name`) VALUES (1,'string'),(1,'int'),(1,'decimal'),(1,'date'),(0,'geopoint'),(1,'binary#image'),(0,'binary#audio'),(0,'binary#video'),(0,'barcode'),(1,'select1'),(1,'select');
 
 --
 -- Dumping data for table `survey`
 --
 
-INSERT INTO `survey` (`surveyId`, `available`, `lang`, `title`, `uploadDate`, `ndgUser_id`) VALUES ('1263929563',1,'eng','Demo Survey','2011-07-25 10:10:00',1);
+INSERT INTO `category` (`category_index`, `label`, `survey_id`) VALUES (1,'Default',1), (2,'Other',1);
+
+INSERT INTO `survey` (`survey_id`, `available`, `lang`, `title`, `upload_date`, `ndg_user_id`) VALUES ('1263929563',1,'eng','Demo Survey','2011-07-25 10:10:00',1);
 
 --
 -- Dumping data for table `transactionlog`
@@ -66,7 +68,7 @@ INSERT INTO `survey` (`surveyId`, `available`, `lang`, `title`, `uploadDate`, `n
 -- Dumping data for table `user_role`
 --
 
-INSERT INTO `user_role` (`username`, `ndgRole_roleName`) VALUES ('admin','Admin');
+INSERT INTO `user_role` (`username`, `ndg_role_role_name`) VALUES ('admin','Admin');
 
 --
 -- Dumping data for table `userbalance`

@@ -8,11 +8,11 @@ import models.Survey;
 import models.NdgUser;
 import controllers.util.XFormsTypeMappings;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import models.Category;
 import org.javarosa.core.model.FormDef;
 import org.javarosa.core.model.QuestionDef;
 import org.javarosa.core.model.SelectChoice;
@@ -25,6 +25,7 @@ public class SurveyPersister {
 
     private InputStreamReader is = null;
     private Survey survey = null;
+    private Category defCategory = null;
 
     public SurveyPersister(InputStreamReader is) {
         this.is = is;
@@ -34,7 +35,7 @@ public class SurveyPersister {
     {
         saveSurvey(null);
     }
-    
+
     public void saveSurvey(String surveyId) throws SurveySavingException {
         XFormParser parser = new XFormParser(is);
         FormDef formDefinition = parser.parse();
@@ -58,6 +59,12 @@ public class SurveyPersister {
         }
 
         newSurvey.lang = locale;
+
+        defCategory = new Category();
+        defCategory.survey = newSurvey;
+        defCategory.label = "Default";
+        newSurvey.categoryCollection = new ArrayList<Category>();
+        newSurvey.categoryCollection.add(defCategory);
 
         newSurvey.save();
         survey = newSurvey;
@@ -91,7 +98,7 @@ public class SurveyPersister {
         QuestionType type = findQuestionType(questionModel.dataType, questionDef.getControlType());
 
         Question newQuestion = new Question();
-        newQuestion.survey = survey;
+        newQuestion.category = defCategory;
         newQuestion.questionType = type;
         newQuestion.objectName = questionModel.getName();
         newQuestion.label = questionText;
@@ -170,7 +177,7 @@ public class SurveyPersister {
             retval = new Survey(formDefinition.getInstance().getRoot().getAttributeValue("", "id"),
                  formDefinition.getName());
         }
-        else 
+        else
         {
             retval = Survey.find("bySurveyId", surveyId).first();
             retval.delete();

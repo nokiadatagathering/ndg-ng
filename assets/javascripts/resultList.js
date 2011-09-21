@@ -3,20 +3,7 @@
  *
  **/
 
-const LOC_RESULTID = 'ResultId';
-const LOC_RESULTTITLE = 'Result Title';
-const LOC_DATESENT = 'Date Sent';
-const LOC_USER = 'User';
-const LOC_LOCATION = 'Location';
-const LOC_BACK_TO_SURVEY_LIST = 'Back To SurveyList';
-const LOC_EXPORT_RESULTS = 'Export Results';
-const LOC_EXPORT_ALL_RESULTS = 'Export All Results';
-
 var ResultList = function() {
-
-    const ASC = ' \u2191';
-    const DESC = ' \u2193';
-
     var currentSurveyId;
     var resultStartIndex = 0;
     var totalPages = 1;
@@ -28,27 +15,32 @@ var ResultList = function() {
     var userAsc = true;
     var locationAsc = true;
 
+    var allResultSelected = false;
+
     var selectedResults = new Array();
 
     function backToSurveyList() {
         $('#minimalist').empty();
-        $('#executeBackToSurveyList').remove();
-        $('#executeExportAllResults').remove();
-        $('#executeExportResults').remove();
+//        $('#executeBackToSurveyList').remove();
+//        $('#executeExportAllResults').remove();
+//        $('#executeExportResults').remove();
         selectedResults = new Array();
         SurveyList.showSurveyList();
     }
 
     function fillWithResults(i, item) {
-        $('#resultListTable').append( '<tr>'
-                                    + '<td><input type="checkbox" id="resultCheckbox' + item.id + '"/></td>'
+        $('#resultListTable').append( '<tr id="Result' + item.id + '">'
+                                    + '<td><input type="checkbox" class="resultCheckboxClass" id="resultCheckbox' + item.id + '"/></td>'
                                     + '<td>'+ item.resultId + '</td>'
                                     + '<td>' + item.title + '</td>'
-                                    + '<td>' + new Date( item.startTime ) + '</td>'
+                                    + '<td>' + new Date( item.startTime ).toString("dd/MM/yy") + '</td>'
                                     + '<td>' + item.ndgUser.username + '</td>'
                                     + '<td>' + ( item.latitude!= null ? 'OK': 'NO GPS' ) + '</td>'
                                     + '</tr>' );
-        $( '#resultCheckbox' + item.id ).click( item.resultId, function(i){resultCheckboxClicked(i);} );
+
+        $( '#Result' + item.id ).mouseover( item.id, function(i) {onMouseOverHandler(i);} );
+        $( '#Result' + item.id ).mouseout( item.id, function(i) {onMouseOutHandler(i);} );
+        $( '#resultCheckbox' + item.id ).bind( 'check uncheck', i, function(i){resultCheckboxClicked(i);} )
     }
 
     function resultCheckboxClicked(i) {
@@ -57,27 +49,27 @@ var ResultList = function() {
                 selectedResults.push( i.data );
             }
         } else {
-            if ( -1 != jQuery.inArray( i.data.toString(), selectedResults ) ) {
-                selectedResults.splice(jQuery.inArray( i.data.toString(), selectedResults ), 1 );
+            if ( -1 != jQuery.inArray( i.data, selectedResults ) ) {
+                selectedResults.splice(jQuery.inArray( i.data, selectedResults ), 1 );
             }
         }
 
-        if ( selectedResults.length > 0 ) {
-            if ( document.getElementById('executeExportResults') == null ) {
-                $('#minimalist').before('<input type="button" id="executeExportResults" title="' + LOC_EXPORT_RESULTS + '" value="' + LOC_EXPORT_RESULTS +'"/>');
-                $('#executeExportResults').click( function() { exportResults() } );
-            }
-        } else {
-            $('#executeExportResults').remove();
-        }
+//        if ( selectedResults.length > 0 ) {
+//            if ( document.getElementById('executeExportResults') == null ) {
+//                $('#minimalist').before('<input type="button" id="executeExportResults" title="' + LOC.get('LOC_EXPORT_RESULTS') + '" value="' +  LOC.get('LOC_EXPORT_RESULTS') +'"/>');
+//                $('#executeExportResults').click( function() { exportResults() } );
+//            }
+//        } else {
+//            $('#executeExportResults').remove();
+//        }
     }
 
     function exportResults() {
-        ExportResults.exportResults( currentSurveyId, selectedResults );
-    }
-
-    function exportAllResults() {
-        ExportResults.exportAllResults( currentSurveyId );
+        if( allResultSelected ) {
+            ExportResults.exportAllResults( currentSurveyId );
+        } else {
+            ExportResults.exportResults( currentSurveyId, selectedResults );
+        }
     }
 
     function fillResultsTable(data) {
@@ -85,24 +77,47 @@ var ResultList = function() {
         $.each(data.results,function(i,item) {
             fillWithResults(i,item);
         });
+
+        $('input:checkbox:not([safari])').checkbox({cls:'customCheckbox', empty:'../images/empty.png'});
+
+        if( allResultSelected ) {
+            doSelectAllVisibleResults();
+        }
+    }
+
+    function prepareContentToolbar() {
+        $('#contentToolbar').empty();
+        $('#contentToolbar').append( '<span class="buttonNext"  id="buttonNext" unselectable="on"></span>'
+                                   + '<span class="buttonPrevious" id="buttonPrevious" unselectable="on"></span>'
+                                   + '<span id="pageIndexText"><small>0</small> <strong>of 0</strong></span>' );
+        $('#contentToolbar').append( '<span class="comboBoxSelection" id="comboBoxSelection" unselectable="on"/></span>');
+        $('#contentToolbar').append( '<span class="buttonExportExcel" id="buttonExportExcel" unselectable="on"/></span>');
+        $('#contentToolbar').append( '<span class="buttonExportKML" id="buttonExportKML" unselectable="on"/></span>');
+        $('#contentToolbar').append( '<span class="buttonExportExternal" id="buttonExportExternal" unselectable="on"/></span>');
+        $('#contentToolbar span').mousedown(function() { onButtonMouseDownHandler($(this));} );
+        $('#comboBoxSelection').click( function(event) { SurveyListCombo.showSelectionMenu(event); } );
+        $('#buttonExportExcel').click( function(event) { exportResults(); } );
+
     }
 
     function showResultList(i) {
         currentSurveyId = i.data;
 
+        $('#leftColumnContent' ).empty();
+        $('#leftColumnContent' ).append( '<a href="#"><img id ="backButtonImage" src="images/back.png"></a>');
+        $('#backButtonImage').click( function(){backToSurveyList()} );
+
+        prepareContentToolbar();
+
         $('#minimalist').empty();
-        $('#minimalist').before('<a href="#" id="executeBackToSurveyList">' + LOC_BACK_TO_SURVEY_LIST+ '</a>');
-        $('#minimalist').before('<input type="button" id="executeExportAllResults" title="' + LOC_EXPORT_ALL_RESULTS + '" value="' + LOC_EXPORT_ALL_RESULTS +'"/>');
-        $('#executeBackToSurveyList').click( function(){backToSurveyList()} );
-        $('#executeExportAllResults').click( function() { exportAllResults() } );
         $('#minimalist').append( '<thead>'
                                + '<tr>'
-                               + '<th scope="col"></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResultId"><b>' + LOC_RESULTID + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResultTitle"><b>' + LOC_RESULTTITLE + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByDateSent"><b>' + LOC_DATESENT + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByUser"><b>' +LOC_USER + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByLocation"><b>'+ LOC_LOCATION + '</b></th>'
+                               + '<th scope="col" class="checkColumn" ></th>'
+                               + '<th scope="col" class="resultIdColumn"><a href="#" id="executeSortByResultId">' +  LOC.get('LOC_RESULTID') + '</th>'
+                               + '<th scope="col" class="resultTitleColumn"><a href="#" id="executeSortByResultTitle">' +  LOC.get('LOC_RESULTTITLE') + '</th>'
+                               + '<th scope="col" class="dataSentColumn"><a href="#" id="executeSortByDateSent">' +  LOC.get('LOC_DATESENT') + '</th>'
+                               + '<th scope="col" class="userColumn"><a href="#" id="executeSortByUser">' +  LOC.get('LOC_USER') + '</th>'
+                               + '<th scope="col" class="locationColumn"><a href="#" id="executeSortByLocation">'+  LOC.get('LOC_LOCATION') + '</th>'
                                + '</tr>'
                                + '</thead>'
                                + '<tbody id="resultListTable">'
@@ -124,16 +139,24 @@ var ResultList = function() {
                                                'isAscending': true,
                                                'orderBy': "title"},
                                                function(i) {fillResultsTable(i);} );
+    }
 
+    function onButtonMouseDownHandler(source) {
+        source.addClass('pushed');
+        $(document).mouseup(function() {
+            $('.pushed').removeClass('pushed');
+            $('body').unbind('mouseup');
+            return false; });
+        return false;
     }
 
     function toggleSortByResultId() {
         resetColumnTitle();
         if ( resultIdAsc ) {
-            document.getElementById( 'executeSortByResultId' ).text = LOC_RESULTID + DESC;
+            document.getElementById( 'executeSortByResultId' ).text =  LOC.get('LOC_RESULTID') + CONST.get('DESC');
             resultIdAsc = false;
         } else {
-            document.getElementById( 'executeSortByResultId' ).text = LOC_RESULTID + ASC;
+            document.getElementById( 'executeSortByResultId' ).text =  LOC.get('LOC_RESULTID') + CONST.get('ASC');
             resultIdAsc = true;
         }
         fillSurveyData( 'resultId', resultIdAsc );
@@ -142,10 +165,10 @@ var ResultList = function() {
     function toggleSortByResultTitle() {
         resetColumnTitle();
         if ( resultTitleAsc ) {
-            document.getElementById( 'executeSortByResultTitle' ).text = LOC_RESULTTITLE + DESC;
+            document.getElementById( 'executeSortByResultTitle' ).text =  LOC.get('LOC_RESULTTITLE') + CONST.get('DESC');
             resultTitleAsc= false;
         } else {
-            document.getElementById( 'executeSortByResultTitle' ).text = LOC_RESULTTITLE + ASC;
+            document.getElementById( 'executeSortByResultTitle' ).text =  LOC.get('LOC_RESULTTITLE') + CONST.get('ASC');
             resultTitleAsc = true;
         }
         fillSurveyData( 'title', resultTitleAsc );
@@ -154,10 +177,10 @@ var ResultList = function() {
     function toggleSortByDateSent() {
         resetColumnTitle();
         if ( dateSentAsc ) {
-            document.getElementById( 'executeSortByDateSent' ).text = LOC_DATESENT + DESC;
+            document.getElementById( 'executeSortByDateSent' ).text =  LOC.get('LOC_DATESENT') + CONST.get('DESC');
             dateSentAsc = false;
         } else {
-            document.getElementById( 'executeSortByDateSent' ).text = LOC_DATESENT + ASC;
+            document.getElementById( 'executeSortByDateSent' ).text =  LOC.get('LOC_DATESENT') + CONST.get('ASC');
             dateSentAsc = true;
         }
         fillSurveyData( 'startTime', dateSentAsc );
@@ -166,10 +189,10 @@ var ResultList = function() {
     function toggleSortByUser() {
         resetColumnTitle();
         if ( userAsc ) {
-            document.getElementById( 'executeSortByUser' ).text = LOC_USER + DESC;
+            document.getElementById( 'executeSortByUser' ).text =  LOC.get('LOC_USER') + CONST.get('DESC');
             userAsc = false;
         } else {
-            document.getElementById( 'executeSortByUser' ).text = LOC_USER + ASC;
+            document.getElementById( 'executeSortByUser' ).text =  LOC.get('LOC_USER') + CONST.get('ASC');
             userAsc = true;
         }
         fillSurveyData( 'ndgUser.username', userAsc );
@@ -178,21 +201,21 @@ var ResultList = function() {
     function toggleSortByLocation() {
         resetColumnTitle();
         if ( locationAsc) {
-            document.getElementById( 'executeSortByLocation' ).text = LOC_LOCATION + DESC;
+            document.getElementById( 'executeSortByLocation' ).text =  LOC.get('LOC_LOCATION') + CONST.get('DESC');
             locationAsc = false;
         } else {
-            document.getElementById( 'executeSortByLocation' ).text = LOC_LOCATION + ASC;
+            document.getElementById( 'executeSortByLocation' ).text =  LOC.get('LOC_LOCATION') + CONST.get('ASC');
             locationAsc = true;
         }
         fillSurveyData( 'latitude', locationAsc );
     }
 
     function resetColumnTitle() {
-        document.getElementById( 'executeSortByResultId' ).text = LOC_RESULTID;
-        document.getElementById( 'executeSortByResultTitle' ).text = LOC_RESULTTITLE;
-        document.getElementById( 'executeSortByDateSent' ).text = LOC_DATESENT;
-        document.getElementById( 'executeSortByUser' ).text = LOC_USER;
-        document.getElementById( 'executeSortByLocation').text = LOC_LOCATION;
+        document.getElementById( 'executeSortByResultId' ).text =  LOC.get('LOC_RESULTID');
+        document.getElementById( 'executeSortByResultTitle' ).text =  LOC.get('LOC_RESULTTITLE');
+        document.getElementById( 'executeSortByDateSent' ).text =  LOC.get('LOC_DATESENT');
+        document.getElementById( 'executeSortByUser' ).text =  LOC.get('LOC_USER');
+        document.getElementById( 'executeSortByLocation').text =  LOC.get('LOC_LOCATION');
     }
 
     function fillSurveyData( orderByColumn, isAscending ) {
@@ -205,23 +228,17 @@ var ResultList = function() {
                                                function(i) { fillResultsTable(i); } );
     }
 
-    function updateTotalPages(data){
+    function updateTotalPages(data) {
         totalPages = data.resultsCount;
         updatePageNumber();
     }
 
     function updatePageNumber() {
-        $('#navi').empty();
-        $('#navi').append( '<a href="#" id="executePreviousButton">'
-                         + '<img id="prev_button" src="images/icon_previous_off.jpg"></a>'
-                         + (resultStartIndex + 1)
-                         + ' of '
-                         + totalPages
-                         + '<a href="#" id="executeNextButton">'
-                         + '<img id="next_button" src="images/icon_next_off.jpg"></a>' );
+        $("#pageIndexText").empty();
+        $("#pageIndexText").append( '<small>' + (resultStartIndex + 1) + '</small>' + '<strong> of ' + totalPages + '</strong>' );
 
-        $("#executePreviousButton").click( function(){onPreviousClicked();} );
-        $("#executeNextButton").click( function(){onNextClicked();} );
+        $("#buttonPrevious").click( function(){onPreviousClicked();} );
+        $("#buttonNext").click( function(){onNextClicked();} );
     }
 
     function onPreviousClicked(e) {
@@ -244,7 +261,52 @@ var ResultList = function() {
         e.preventDefault();
     }
 
-    return {showResultList : function(i) {showResultList(i);}
-    };
+    function onMouseOverHandler(e){
+        $('#Result'+ e.data).addClass("hoverRow");
+    }
 
+    function onMouseOutHandler(e){
+        $('#Result'+ e.data).removeClass("hoverRow");
+    }
+
+    function selectAllVisibleResults() {
+        var checkboxes = $(".resultCheckboxClass");
+
+        $.each( checkboxes ,function( i, item ) {
+            item.checked = true;
+        });
+    }
+
+    function selectAllVisibleResults() {
+        doSelectAllVisibleResults();
+        allResultSelected = false;
+    }
+
+    function doSelectAllVisibleResults() {
+        var checkboxes = $(".resultCheckboxClass");
+
+        $.each( checkboxes ,function( i, item ) {
+            item.checked = true;
+        });
+    }
+
+    function selectAllResults() {
+        selectAllVisibleResults();
+        allResultSelected = true;
+    }
+
+    function unselectAllResults() {
+        var checkboxes = $(".resultCheckboxClass");
+
+        $.each( checkboxes ,function( i, item ) {
+            item.checked = false;
+        });
+        allResultSelected = false;
+    }
+
+    return {showResultList : function(i) { showResultList(i);},
+            selectAllResults : function(){ selectAllResults();},
+            selectAllVisibleResults : function() { selectAllVisibleResults();},
+            unselectAllResults : function(){ unselectAllResults();}
+    };
 }();

@@ -19,13 +19,14 @@ public class NdgLanguage extends Model {
     public String name;
     
     @Required
-    @Column(nullable = false)
+    @Column(nullable = false, name = "locale_string")
     public String localeString;
     
     @Required
-    @Column(nullable = false)
+    @Column(nullable = false, name = "translation_file_path")
     public String translationFilePath;
     
+    @Column(name = "font_file_path")
     public String fontFilePath;
 
     public NdgLanguage() {

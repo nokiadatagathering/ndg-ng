@@ -18,9 +18,10 @@ import play.db.jpa.Model;
 public class DefaultAnswer extends Model {
 
     @Lob
+    @Column(name = "text_data")
     public String textData;
     
-    @Column(name = "binaryData")
+    @Column(name = "binary_data")
     public Blob binaryData;
     
     @OneToMany(mappedBy = "defaultAnswer")

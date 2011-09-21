@@ -9,10 +9,12 @@ import models.QuestionOption;
 import models.Question;
 import models.Survey;
 import controllers.util.XFormsTypeMappings;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.Category;
 import org.javarosa.core.model.FormDef;
 import org.javarosa.core.model.IDataReference;
 import org.javarosa.core.model.QuestionDef;
@@ -36,18 +38,19 @@ public class FormDefBuilder {
     public FormDefBuilder() {
     }
 
-  
+
     public FormDef readFormDefinitionFromDb(String surveyId) throws SurveyXmlCreatorException {
         Survey survey = getSurveyFromDb(surveyId);
-      
+
         return readFormDefinition(survey);
     }
-    
-      
+
+
     public FormDef readFormDefinition(Survey survey) throws SurveyXmlCreatorException {
         FormDef formDefinition = new FormDef();
 
-        List<Question> questions = survey.questionCollection;
+        List<Question> questions = survey.getQuestions();
+
 
         formDefinition.setName(survey.title);
 
@@ -56,7 +59,7 @@ public class FormDefBuilder {
         formDefinition.setInstance(setupInstance(survey, questions));
 
         addQuestions(formDefinition, survey);
-        
+
         return formDefinition;
     }
 
@@ -67,7 +70,7 @@ public class FormDefBuilder {
     }
 
     private void addQuestions(FormDef formDefinition, Survey survey) {
-        Collection<Question> questions = survey.questionCollection;
+        Collection<Question> questions = survey.getQuestions();
         TableLocaleSource localization = new TableLocaleSource();
         for (Question question : questions) {
             QuestionDef newQuestion = new QuestionDef();
@@ -88,15 +91,15 @@ public class FormDefBuilder {
             IDataReference dataRef = null;
             dataRef = new XPathReference(getRefString(question, "data", null));
             newQuestion.setBind(dataRef);
-            
+
             formDefinition.addChild(newQuestion);
         }
         if (survey.lang != null) {
             formDefinition.getLocalizer().registerLocaleResource(survey.lang, localization);
         }
     }
-    
-    
+
+
     private void addOptions(QuestionDef newQuestion, Question dbQuestion, TableLocaleSource localization) {
         Collection<QuestionOption> questionOptions = dbQuestion.questionOptionCollection;
         for (QuestionOption questionOption : questionOptions) {
@@ -118,7 +121,7 @@ public class FormDefBuilder {
             questionMeta.setRequired(question.required == 0 ? false : true);
             questionMeta.setEnabled(question.readonly != null && question.readonly == 1 ? false : true);
             questionMeta.dataType = XFormsTypeMappings.getTypeToInteger(question.questionType.typeName);
-            
+
             if(question.constraintText != null && !question.constraintText.isEmpty())
             {
                 try {

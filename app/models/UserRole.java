@@ -22,7 +22,7 @@ public class UserRole extends Model {
     @ManyToOne( optional = false )
     public NdgUser ndgUser;
     
-    @JoinColumn(referencedColumnName = "roleName")
+    @JoinColumn(referencedColumnName = "role_name", name = "ndg_role_role_name")
     @ManyToOne( optional = false )
     public NdgRole ndgRole;
 

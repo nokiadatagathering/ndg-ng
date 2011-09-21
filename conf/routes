@@ -10,6 +10,8 @@ POST    /management                             Management.save
 POST    /management/upload                      Management.upload
 POST    /delete/{formID}                        Application.delete
 POST    /duplicate/{formID}                     Application.duplicate
+POST    /sendsurveys/{formID}                   Application.sendsurveys
+POST    /saveSurvey                             Application.saveSurvey
 GET     /service/{<[0-9]+>id}                   Service.get
 POST    /service/prepare                        Service.prepare
 GET     /service/prepare                        Service.prepare

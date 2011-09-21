@@ -29,14 +29,14 @@
 .ui-dialog-titlebar-close {
     background-color:transparent;
     border:none;
-    background-image:url(../images/BT_CLEAR.png);
+    background-image:url(../images/quit.png);
 }
 
 .ui-dialog-titlebar-close:hover,
 .ui-dialog-titlebar-close:focus {
     background-color:transparent;
     border:none;
-    background-image:url(../images/BT_CLEAR.png);
+    background-image:url(../images/quit.png);
 }
 
 .ui-dialog-titlebar-close span {

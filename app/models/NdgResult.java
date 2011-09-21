@@ -9,6 +9,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -28,16 +29,16 @@ import play.db.jpa.Model;
 public class NdgResult extends Model {
     
     @Required
-    @Column( name = "ndgResultId" )
+    @Column( name = "ndg_result_id" )
     public String resultId;
     
     @Required
-    @Column( nullable = false )
+    @Column( nullable = false, name = "start_time" )
     @Temporal( TemporalType.TIMESTAMP )
     public Date startTime;
     
     @Required
-    @Column( nullable = false )
+    @Column( nullable = false, name = "end_time" )
     @Temporal( TemporalType.TIMESTAMP )
     public Date endTime;
     
@@ -55,6 +56,7 @@ public class NdgResult extends Model {
     public Survey survey;
     
     @ManyToOne( optional = false )
+    @JoinColumn( name = "ndg_user_id")
     public NdgUser ndgUser;
 
     public NdgResult() {

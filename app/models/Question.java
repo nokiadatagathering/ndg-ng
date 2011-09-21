@@ -8,6 +8,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -23,7 +24,7 @@ import play.db.jpa.Model;
 public class Question extends Model {
     
     @Required
-    @Column( nullable= false)
+    @Column( nullable= false, name = "object_name")
     public String objectName;
     
     @Lob
@@ -33,6 +34,7 @@ public class Question extends Model {
     @Lob
     public String hint;
     
+    @Column( name = "constraint_text")
     public String constraintText;
     
     public Integer required;
@@ -43,13 +45,16 @@ public class Question extends Model {
     @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<Answer> answerCollection;
     
-    @ManyToOne(optional = false)
-    public Survey survey;
+    @ManyToOne(optional = true)
+    public Category category; //TODO add (optional = false)
     
+
     @ManyToOne(optional = false)
+    @JoinColumn(name = "question_type_id")
     public QuestionType questionType;
     
     @ManyToOne
+    @JoinColumn(name = "default_answer_id")
     public DefaultAnswer defaultAnswer;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "question")

@@ -3,15 +3,6 @@
  *
  **/
 
-const LOC_CSV = 'Download in CSV format';
-const LOC_XLS = 'Download in XLS format';
-const LOC_CLOSE = 'Close';
-const LOC_EXPORTRESULTS = 'Export Results';
-const LOC_EXPORT_IMAGES = 'The survey you want to export has images in its results. Do you want to export the images as well?'
-const LOC_EXPORT_FORMAT = 'Please, select below the file format to export results.'
-const LOC_YES = 'Yes';
-const LOC_NO = 'No';
-
 
 var ExportResults = function() {
 
@@ -33,7 +24,7 @@ var ExportResults = function() {
     }
 
     function drawDialog() {
-        exportDialog.dialog({title: LOC_EXPORTRESULTS,
+        exportDialog.dialog({title: LOC.get('LOC_EXPORT_RESULTS'),
                               open: function(){
                               $('.ui-widget-overlay').hide().fadeIn();},
                               show: 'fade',
@@ -43,18 +34,14 @@ var ExportResults = function() {
         $('#exportResults-step_2').empty();
         $('#exportResults-step_3').empty();
 
-        $('#exportResults-step_1').append( LOC_EXPORT_FORMAT );
-        $('#exportResults-step_1').append( '<button id="buttonCSV" class="buttonCSV" type="button" title="' + LOC_CSV + '"/>' );
-        $('#exportResults-step_1').append( '<button id="buttonXLS" class="buttonXLS" type="button" title="' + LOC_XLS + '"/>' );
-        $('#buttonCSV').click( function() {exportCSVResults()} );
-        $('#buttonXLS').click( function() {exportXLSResults()} );
+        exportXLSResults();
     }
 
-    function exportCSVResults() {
-        $.getJSON( '/service/surveyHasImages',
-                   { 'surveyId': surveyId },
-                   function(result) { proceedExportResults( ".CSV", result.hasImages ); } );
-    }
+//    function exportCSVResults() {
+//        $.getJSON( '/service/surveyHasImages',
+//                   { 'surveyId': surveyId },
+//                   function(result) { proceedExportResults( ".CSV", result.hasImages ); } );
+//    }
 
     function exportXLSResults() {
         $.getJSON( '/service/surveyHasImages',
@@ -65,9 +52,9 @@ var ExportResults = function() {
     function proceedExportResults(fileFormat, hasImages) {
         $('#exportResults-step_1').empty();
         if ( hasImages ) {
-            $('#exportResults-step_2').append( LOC_EXPORT_IMAGES  );
-            $('#exportResults-step_2').append( '<button id="buttonYES" type="button" title="' + LOC_YES + '">' + LOC_YES + '</button>' );
-            $('#exportResults-step_2').append( '<button id="buttonNO" type="button" title="' + LOC_NO + '">' + LOC_NO + '</button>' );
+            $('#exportResults-step_2').append( LOC.get('LOC_EXPORT_IMAGES')  );
+            $('#exportResults-step_2').append( '<button id="buttonYES" type="button" title="' + LOC.get('LOC_YES') + '">' + LOC.get('LOC_YES') + '</button>' );
+            $('#exportResults-step_2').append( '<button id="buttonNO" type="button" title="' + LOC.get('LOC_NO') + '">' + LOC.get('LOC_NO') + '</button>' );
             $('#buttonYES').click( function(i) { includeImages( fileFormat,i ) } );
             $('#buttonNO').click( function(i) { includeImages( fileFormat, i ) } );
         } else {

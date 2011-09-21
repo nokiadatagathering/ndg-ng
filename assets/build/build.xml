@@ -327,7 +327,9 @@
             depends="-rev,
                      -imagespng,
                      -imagesjpg,
-                     -copy"/>
+                     -copy,
+                     -copyjscss,
+                     -copyit"/>
 
     <target name="-build.test"
             depends="-rev,
@@ -470,7 +472,16 @@
 
        <echo message="A copy of all non-dev files are now in: ./${dir.publish}."/>
 
+    </target>
 
+    <target name="-copyjscss" depends="-mkdirs">
+          <copy todir="./${dir.publish}/stylesheets">
+                  <fileset dir="./${dir.css}"/>
+          </copy>
+          <copy todir="./${dir.publish}/javascripts">
+                  <fileset dir="./${dir.js}"/>
+          </copy>
+         <echo message="Copy files not optimized files"/>
     </target>
 
     <target name="-copyit" depends="-mkdirs">

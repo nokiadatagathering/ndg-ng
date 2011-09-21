@@ -23,7 +23,12 @@
   <link rel="stylesheet" href="stylesheets/jquery-ui-1.8.16.custom.css">
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
-  <link rel="stylesheet" href="stylesheets/style.css">
+  <link rel='stylesheet' href='stylesheets/exportresults.css'>
+  <link rel='stylesheet' href='stylesheets/editor.css'>
+  <link rel='stylesheet' href='stylesheets/style.css'>
+  <link rel='stylesheet' href='stylesheets/menubar.css'>
+  <link rel='stylesheet' href='stylesheets/exportresults.css'>
+  <link rel='stylesheet' href='stylesheets/dialogcustom.css'>
   <!-- end CSS-->
 
 
@@ -35,40 +40,69 @@
   <script src="javascripts/libs/modernizr-2.0.6.min.js"></script>
   <script src="javascripts/libs/jquery-1.6.2.min.js"></script>
   <script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"></script>
+  <script src="javascripts/libs/jquery.checkbox.min.js"></script>
+  <script src="javascripts/libs/date.js"></script>
+  <script type="text/javascript" src="javascripts/constants.js"></script>
+  <script type="text/javascript" src="javascripts/localization.js"></script>
   <script type="text/javascript" src="javascripts/surveylist.js"></script>
+  <script type="text/javascript" src="javascripts/surveylistcombo.js"></script>
   <script type="text/javascript" src="javascripts/resultlist.js"></script>
   <script type="text/javascript" src="javascripts/sendsurvey.js"></script>
   <script type="text/javascript" src="javascripts/exportresults.js"></script>
+  <script type="text/javascript" src="javascripts/surveymodel.js"></script>
+  <script type="text/javascript" src="javascripts/editor.js"></script>
+  <script type="text/javascript" src="javascripts/usermanagement.js"></script>
 </head>
 
 <body>
-   <div id="container">
-     <div id="main">
+    <div id="container">
+            <div id="flags">
+                     <a href="#" id="flag_eua" ><img src="images/flag_eua.jpg"></a>
+                         <a href="#" id="flag_bra" ><img src="images/flag_bra.jpg"></a>
+                         <a href="#" id="flag_spa" ><img src="images/flag_spa.jpg"></a>
+                         <a href="#" id="flag_pol" ><img src="images/flag_pol.jpg"></a>
+            </div>
+            <div id="header">
+                <div id="headerLeft">
+                    <img src="images/brand.jpg">
+                    <div id=section>
+                        <H2 id="sectionTitle">Survey List</H2><a href="#" id="userManagement">User Admin</a>
+                    </div>
+                </div>
+                    <div id="user">Fulano da Silva<a href="">Logout</a>
+                    </div>
+                    <div id="search">
+                       <input class="searchTextField" type="search" name="s"><div class="searchComboBox" id="searchComboBox" ><span>ID</span></div>
+                    </div>
+            </div><!--END of header-->
+            <div id="leftcolumn">
+                <span class="plusButton" id="plusButton" >
+                        <a href="#"><img id ="plusButtonImage" src="images/plus.png"></a>
+                </span>
+                <div id=filter>
+                    <span id="leftColumnContent">
+                    </span>
+                </div>
+            </div><!--END of leftcolumn-->
 
-         <div id="header">
-          <img src="images/brand.jpg">
-             <div id="language">
-              <img src="images/flag_eua.jpg">&nbsp;<img src="images/flag_bra.jpg">&nbsp;<img src="images/flag_spa.jpg">
-             </div> <!--! end of #language -->
-               <div id="user">
-               Fulano da Silva &nbsp;&nbsp;<a href="">Logout</a>
-               </div>
-               <div id="search">
-               <input type=search name=s><img src="images/dropbox.jpg">
-               </div>
-         </div > <!--! end of #header -->
-
-       <div id="section">
-         <H2>Survey List</H2> &nbsp;&nbsp;<a href="">User Admin</a>
-       </div> <!--! end of #section -->
-
-       <div id="filter">
-       <h1>&nbsp;&nbsp;&nbsp;+</h1>
-       <h3>STATUS</h3>
-         <img src="images/status_all.jpg">
-       </div> <!--! end of #filter -->
-
-<div id="boxes">
+                <div id="content">
+                    <div id="contentMain">
+                        <div id="datatable">
+                            <table id="minimalist"></table>
+                        </div>
+                    </div>
+                    <div id="contentToolbar" >
+                    </div>
+                </div>
+            <div id="footer">
+                <p><b>Home | About | Documentation | Community</b></p>
+            </div>
+     </div>
+<div> 
+    <div id="popup-context" class="popup-context">
+    </div>
+    <div id="popup-selection-context" class="popup-selection-context">
+    </div>
     <div id="dialog-exportResults" class="dialogs">
         <div id="exportResults-step_1"></div>
         <div id="exportResults-step_2"></div>
@@ -92,6 +126,15 @@
     
     <div id="dialog-sendSurvey" class="dialogs">
         <div id="sendSurveyUsers"></div>
+    </div>
+
+    <div id="dialog-editorSwitchCategory" class="dialogs">
+        <div id="switchCategory">
+            <label>Choose category:</label>
+            <select id="combobox">
+            </select>
+            <div id="confirmCategoryButton"></div>
+        </div>
     </div>
     <!-- Mask to cover the whole screen -->
     <div id="mask"></div>
@@ -124,6 +167,15 @@ var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
 {
     autoOpen: false,
     modal: true,
+    width: 400,
+    zIndex: 9999
+});
+
+var switchCategoryDialog = $("#dialog-editorSwitchCategory").dialog(
+{
+    autoOpen: false,
+    modal: true,
+    width: 400,
     zIndex: 9999
 });
 
@@ -132,20 +184,6 @@ $(document).ready(function() {
 });
 
 </script>
-      <div id="content">
-        <div id="datatable">
-          <table id="minimalist">
-          </table>
-        </div>
-        <div id="navi">
-        </div>
-      </div> <!--! end of #content -->
-    </div> <!--! end of #main -->
-    <div id="footer">
-      <p><b>Home | About | Documentation | Community</b></p>
-    </div> <!--! end of footer -->
-  </div> <!--! end of #container -->
-
 
   <!-- JavaScript at the bottom for fast page loading -->
 
@@ -161,6 +199,12 @@ $(document).ready(function() {
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.6.2.min.js"><\/script>')</script>
 
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+  <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"><\/script>')</script>
+
+  <!--   Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script>document.write('<script src="javascripts/libs/jquery.checkbox.min.js"><\/script>')</script>
 
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="javascripts/plugins.js"></script>

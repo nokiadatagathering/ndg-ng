@@ -18,23 +18,23 @@ import play.db.jpa.Model;
 public class Company extends  Model {
   
     @Required
-    @Column(nullable=false)
+    @Column(nullable=false, name = "company_name")
     public String companyName;
     
     @Required
-    @Column(nullable=false)
+    @Column(nullable=false, name = "company_type")
     public String companyType;
     
     @Required
-    @Column(nullable=false)
+    @Column(nullable=false, name = "company_country")
     public String companyCountry;
     
     @Required
-    @Column(nullable=false)
+    @Column(nullable=false, name = "company_industry")
     public String companyIndustry;
     
     @Required
-    @Column(nullable=false)
+    @Column(nullable=false, name = "company_size")
     public String companySize;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "company")
