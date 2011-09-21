@@ -44,9 +44,9 @@
   <script type="text/javascript" src="javascripts/resultlist.js"></script>
   <script type="text/javascript" src="javascripts/sendsurvey.js"></script>
   <script type="text/javascript" src="javascripts/exportresults.js"></script>
-  <script type="text/javascript" src="javascripts/date.js"></script>
   <script type="text/javascript" src="javascripts/surveymodel.js"></script>
   <script type="text/javascript" src="javascripts/editor.js"></script>
+  <script type="text/javascript" src="javascripts/usermanagement.js"></script>
 </head>
 
 <body>
@@ -61,7 +61,7 @@
                 <div id="headerLeft">
                     <img src="images/brand.jpg">
                     <div id=section>
-                        <H2>Survey List</H2><a href="">User Admin</a>
+                        <H2 id="sectionTitle">Survey List</H2><a href="#" id="userManagement">User Admin</a>
                     </div>
                 </div>
                     <div id="user">Fulano da Silva<a href="">Logout</a>
@@ -71,10 +71,10 @@
                     </div>
             </div><!--END of header-->
             <div id="leftcolumn">
-                <div id=filter>
-                    <span class="plusButton" id="plusButton" >
+                <span class="plusButton" id="plusButton" >
                         <a href="#"><img id ="plusButtonImage" src="images/plus.png"></a>
-                    </span>
+                </span>
+                <div id=filter>
                     <span id="leftColumnContent">
                     </span>
                 </div>

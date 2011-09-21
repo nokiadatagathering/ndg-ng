@@ -29,6 +29,7 @@ import models.Question;
 import models.QuestionType;
 import models.Survey;
 import models.TransactionLog;
+import models.UserRole;
 import models.constants.TransactionlogConsts;
 import models.utils.NdgQuery;
 import models.utils.SurveyDuplicator;
@@ -117,16 +118,23 @@ public class Application extends Controller {
 
     public static void listSurveysCount() {
         long surveys =  Survey.count();
-        JSONSerializer surveyListSerializer = new JSONSerializer();
-        surveyListSerializer.include( "*" ).rootName( "surveysCount" );
-        renderJSON( surveyListSerializer.serialize( pages( surveys ) ) );
+        JSONSerializer surveysCountSerializer = new JSONSerializer();
+        surveysCountSerializer.include( "*" ).rootName( "surveysCount" );
+        renderJSON( surveysCountSerializer.serialize( pages( surveys ) ) );
+    }
+
+    public static void listUsersCount() {
+        long users = NdgUser.count();
+        JSONSerializer userCountSerializer = new JSONSerializer();
+        userCountSerializer.include( "*" ).rootName( "usersCount" );
+        renderJSON( userCountSerializer.serialize( pages( users ) ) );
     }
 
     public static void listResultsCount( int surveyId ) {
         long results =  NdgResult.find( "survey_id", String.valueOf( surveyId ) ).fetch().size();
-        JSONSerializer surveyListSerializer = new JSONSerializer();
-        surveyListSerializer.include( "*" ).rootName( "resultsCount" );
-        renderJSON( surveyListSerializer.serialize( pages( results) ) );
+        JSONSerializer resultsCountSerializer = new JSONSerializer();
+        resultsCountSerializer.include( "*" ).rootName( "resultsCount" );
+        renderJSON( resultsCountSerializer.serialize( pages( results) ) );
     }
 
     public static void listSurveys( int startIndex, boolean isAscending, String orderBy ) {
@@ -152,15 +160,27 @@ public class Application extends Controller {
         serializeSurveys( subList );
     }
 
-    public static void listUsers( String orderBy ) {
-        List<NdgUser> users = NdgUser.all().fetch();
+    public static void listUsers(int startIndex, boolean isAscending, String orderBy ) {
+        List<NdgUser> users = null;
+        if(orderBy.equals("userRoleCollection"))
+        {
+            users =  NdgUser.find("order by username asc").fetch();
+            Collections.sort( users, new NdgUserUserRoleCollectionComapator(isAscending) );
+            int subListEndIndex = startIndex * RESULTS_PER_SIDE + RESULTS_PER_SIDE < users.size() ?
+                                                startIndex * RESULTS_PER_SIDE + RESULTS_PER_SIDE :
+                                                users.size();
+            users = users.subList( startIndex * RESULTS_PER_SIDE , subListEndIndex);
+        } else {
+            String query = "order by "+ orderBy + ( isAscending ? " asc" : " desc" );
+            users =  NdgUser.find( query ).from( RESULTS_PER_SIDE * startIndex ).fetch( RESULTS_PER_SIDE );
+        }
         serializeUsers(users);
     }
 
     private static void serializeUsers(List<NdgUser> users) {
         JSONSerializer userListSerializer = new JSONSerializer();
         userListSerializer.transform(new NdgResultCollectionTransformer() , "resultCollection");
-        userListSerializer.include("id","username", "phoneNumber", "email" ).exclude("*").rootName("users");
+        userListSerializer.include("id","username", "phoneNumber", "email", "userRoleCollection.ndgRole.roleName" ).exclude("*").rootName("users");
         renderJSON(userListSerializer.serialize(users));
     }
 
@@ -181,6 +201,24 @@ public class Application extends Controller {
 
         public int compare( Survey o1, Survey o2 ) {
             return o1.resultCollection.size() < o2.resultCollection.size() ? 1 : -1;
+        }
+    }
+
+        private static class NdgUserUserRoleCollectionComapator implements Comparator<NdgUser> {
+
+        private boolean  isAscending = true;
+
+        NdgUserUserRoleCollectionComapator(boolean  isAscending)
+        {
+            this.isAscending = isAscending;
+        }
+
+        public int compare( NdgUser o1, NdgUser o2) {
+            int retval = 0;
+            UserRole role1 = (UserRole) o1.userRoleCollection.toArray()[0];
+            UserRole role2 = (UserRole) o2.userRoleCollection.toArray()[0];
+            retval = role1.ndgRole.id.compareTo(role2.ndgRole.id);
+            return isAscending ?  retval : -retval;
         }
     }
 

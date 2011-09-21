@@ -30,7 +30,11 @@ var LOC = (function() {
         LOC_RESULTS: 'Results',
         LOC_SURVEYID: 'SurveyId',
         LOC_NEW_SURVEY: 'New Survey',
-        LOC_CHECK: 'Check'
+        LOC_CHECK: 'Check',
+        LOC_NAME: 'NAME',
+        LOC_PHONE: 'PHONE',
+        LOC_EMAIL: 'E-MAIL',
+        LOC_PERMISSION: 'PERMISSION'
     };
 
     var constants_POL = {
@@ -61,7 +65,11 @@ var LOC = (function() {
         LOC_RESULTS: 'Resultaty',
         LOC_SURVEYID: 'ID ankiety',
         LOC_NEW_SURVEY: 'Nowa ankieta',
-        LOC_CHECK: 'Zaznacz'
+        LOC_CHECK: 'Zaznacz',
+        LOC_NAME: 'IMIĘ',
+        LOC_PHONE: 'TEL. NUMER',
+        LOC_EMAIL: 'E-MAIL',
+        LOC_PERMISSION: 'UPRAWNIENIA'
     };
 
 

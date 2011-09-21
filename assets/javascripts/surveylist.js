@@ -27,9 +27,16 @@ var SurveyList = function() {
     function showSurveyList (){
         prepareContentToolbar();
 
+        $('#minimalist').empty();
+
         $('#plusButton').mouseover( function(event) {SurveyListCombo.showMenu();});
         $('#leftColumnContent' ).empty();
         $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="markBuilding">Building</h4><h4 class="markAvailable">Available</h4>');
+
+        $('#sectionTitle').text('Survey List');
+        $('#userManagement').unbind('click');
+        $('#userManagement').text('User Admin');
+        $('#userManagement').click(function() {UserManagement.showUserManagement() });
 
         $('#minimalist').append( '<thead>'
                                + '<tr>'
@@ -189,7 +196,7 @@ function onButtonMouseDownHandler(source)
     source.addClass('pushed');
     $(document).mouseup(function() {
         $('.pushed').removeClass('pushed');
-        $('body').unbind('mouseup');
+        $(document).unbind('mouseup');
         return false; });
     return false;
 }
