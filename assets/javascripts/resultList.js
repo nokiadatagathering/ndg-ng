@@ -51,7 +51,7 @@ var ResultList = function() {
 
         if ( selectedResults.length > 0 ) {
             if ( document.getElementById('executeExportResults') == null ) {
-                $('#minimalist').before('<input type="button" id="executeExportResults" title="' + LOC.get(LOC_EXPORT_RESULTS) + '" value="' +  LOC.get(LOC_EXPORT_RESULTS) +'"/>');
+                $('#minimalist').before('<input type="button" id="executeExportResults" title="' + LOC.get('LOC_EXPORT_RESULTS') + '" value="' +  LOC.get('LOC_EXPORT_RESULTS') +'"/>');
                 $('#executeExportResults').click( function() { exportResults() } );
             }
         } else {
