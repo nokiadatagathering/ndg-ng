@@ -1,43 +1,121 @@
-div.menu button
-{
+.menubar {
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    width : 312px;
+    text-align: center;
+}
+
+.hoverRow {
+    background: #dbe4f1;
+}
+
+.menubar button {
     margin-left: 1px;
     margin-right: 1px;
     width: 50px;
-    height: 42px; 
+    height: 43px;
     visibility: hidden;
 }
 
-div.menu button.hover
-{
+.menubar button.hover {
     visibility: visible;
 }
 
-div.menu button.buttonDownload
-{
-    background: #edf0f6 url(../images/icon_download_off.jpg);
+
+.nextPrevText {
+    float: left;
+    text-align: center;
+    vertical-align: middle;
+    color: #3a77ca;
+    font-size: 14px;
+    font-family: "Myriad Pro Regular";
 }
 
-div.menu button.buttonUpload
-{
-    background: #edf0f6 url(../images/icon_upload_off.jpg);
+#buttonDownload {
+    float:left;
+    width: 50px;
+    height: 43px;
+    background: url(../images/icon_download_off.png) no-repeat top;
 }
 
-div.menu button.buttonSend
-{
-    background: #edf0f6 url(../images/icon_send_off.jpg);
+#buttonDownload:active {
+    background: #0161ad url(../images/icon_download_on.png) no-repeat bottom;
 }
 
-div.menu button.buttonEdit
-{
-    background: #edf0f6 url(../images/icon_edit_off.jpg);
+#buttonUpload {
+    float: left;
+    width: 50px;
+    height: 43px;
+    background: url(../images/icon_upload_off.png);
 }
 
-div.menu button.buttonDuplicate
-{
-    background: #edf0f6 url(../images/icon_duplicate_off.jpg);
+#buttonUpload:active {
+    background: #0161ad url(../images/icon_upload_on.png);
 }
 
-div.menu button.buttonDelete
-{
-    background: #edf0f6 url(../images/icon_trash_off.jpg);    
+#buttonPhone {
+    float: left;
+    width: 50px;
+    height: 43px;
+    background: url(../images/icon_phone_off.png);
+}
+
+#buttonPhone:active {
+    background: #0161ad  url(../images/icon_phone_on.png);
+}
+
+#buttonEdit {
+    float: left;
+    width: 50px;
+    height: 43px;
+    background: url(../images/icon_edit_off.png);
+}
+
+#buttonEdit:active {
+    background: #0161ad  url(../images/icon_edit_on.png);
+}
+
+#buttonDuplicate {
+    float: left;
+    width: 50px;
+    height: 43px;
+    background: url(../images/icon_duplicate_off.png);
+}
+
+#buttonDuplicate:active {
+    background: #0161ad  url(../images/icon_duplicate_on.png);
+}
+
+#buttonDelete {
+    float: left;
+    width: 50px;
+    height: 43px;
+    background: url(../images/icon_delete_off.png);
+}
+
+#buttonDelete:active {
+    background: #0161ad url(../images/icon_delete_on.png);
+}
+
+#buttonNext {
+    float: left;
+    width: 50px;
+    height: 43px;
+    background: url(../images/icon_next_off.png);
+}
+
+#buttonNext:active {
+    background: #0161ad url(../images/icon_next_on.png);
+
+}
+
+#buttonPrevious {
+    float: left;
+    width: 50px;
+    height: 43px;
+    background: url(../images/icon_previous_off.png);
+}
+
+#buttonPrevious:active {
+    background: #0161ad url(../images/icon_previous_on.png);
 }

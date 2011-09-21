@@ -20,10 +20,10 @@ var SurveyList = function() {
     function showSurveyList (){
         $('#minimalist').append( '<thead>'
                                + '<tr>'
-                               + '<th scope="col"><a href="#" id="executeSortBySurveyName">' + LOC.get('LOC_SURVEY_NAME') + '</th>'
-                               + '<th scope="col"><a href="#" id="executeSortByDatePublished">' + LOC.get('LOC_DATE_PUBLISHED') + '</th>'
-                               + '<th scope="col"><a href="#" id="executeSortByPublisher">' + LOC.get('LOC_PUBLISHER') + '</th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResults">' + LOC.get('LOC_RESULTS') + '</th>'
+                               + '<th scope="col"><a href="#" id="executeSortBySurveyName">' + LOC.get('LOC_SURVEY_NAME') + '</a></th>'
+                               + '<th scope="col"><a href="#" id="executeSortByDatePublished">' + LOC.get('LOC_DATE_PUBLISHED') + '</a></th>'
+                               + '<th scope="col"><a href="#" id="executeSortByPublisher">' + LOC.get('LOC_PUBLISHER') + '</a></th>'
+                               + '<th scope="col"><a href="#" id="executeSortByResults">' + LOC.get('LOC_RESULTS') + '</a></th>'
                                + '<th scope="col"></th>'
                                + '</tr>'
                                + '</thead>'
@@ -46,19 +46,13 @@ var SurveyList = function() {
 
     function updatePageNumber() {
         $('#navi').empty();
-        $('#navi').append( '<a href="#" id="executePreviousButton">'
-                         + '<img id="prev_button" src="images/icon_previous_off.jpg"></a>'
+        $('#navi').append( '<a class="buttonPrevious" id="buttonPrevious"/><a class="nextPrevText">'
                          + (surveyStartIndex + 1)
                          + ' of '
                          + totalPages
-                         + '<a href="#" id="executeNextButton">'
-                         + '<img id="next_button" src="images/icon_next_off.jpg"></a>' );
-        $('#prev_button').mouseover( function(){onMouseOverPrevious();} )
-        $('#prev_button').mouseout( function(){onMouseOutPrevious();} )
-        $('#next_button').mouseover( function(){onMouseOverNext();} )
-        $('#next_button').mouseout( function(){onMouseOutNext();} )
-        $("#executePreviousButton").click( function(){onPreviousClicked();} );
-        $("#executeNextButton").click( function(){onNextClicked();} );
+                         + '</a><a class="buttonNext"  id="buttonNext"/>' );
+        $("#buttonPrevious").click( function(){onPreviousClicked();} );
+        $("#buttonNext").click( function(){onNextClicked();} );
     }
 
     function fillSurveyData( orderByColumn, isAscending ) {
@@ -140,23 +134,36 @@ var SurveyList = function() {
     }
 
     function fillWithData(i, item) {
+        var date = new Date( item.uploadDate )
         $('#surveyListTable').append( '<tr id="Survey'+ item.id + '">'
-                                    + '<td id="testData">'+ item.title + '<br>ID ' + item.surveyId + '</td>'
-                                + '<td>' + new Date( item.uploadDate ).toLocaleDateString() + '</td>'
+                                    + '<td id="surveyNameCell">'+ item.title + '<br>ID: ' + item.surveyId + '</td>'
+                                + '<td>' + date.toString("dd/MM/yy") + '</td>'
                                 + '<td>' + item.ndgUser.username + '</td>'
-                                + '<td><a href="#" id="Item'+ item.id + '">' + item.resultCollection + '</a></td>'
-                                + '<td><div class="menu" id="menu' + item.id + '" >'
-                                + '<button type="button" class="buttonDownload" title="' + LOC.get('LOC_DOWNLOAD') + '"/>'
-                                + '<button type="button" class="buttonUpload" title="' + LOC.get('LOC_UPLOAD') + '"/>'
-                                + '<button type="button" class="buttonSend" title="' + LOC.get('LOC_SEND') + '"/>'
-                                + '<button type="button" class="buttonEdit" title="' + LOC.get('LOC_EDIT') + '"/>'
-                                + '<button type="button" class="buttonDuplicate" title="' + LOC.get('LOC_DUPLICATE') + '"/>'
-                                + '<button type="button" class="buttonDelete" title="' + LOC.get('LOC_DELETE') + '"/>'
-                                + '</div>' +'</td>'
+                                + '<td id="resultCollectionQuantityString' + item.id + '"></td>'
+                                + '<td class="menubar" id="menu' + item.id + '" >'
+                                + '<span title="' + LOC.get('LOC_DOWNLOAD') + '"<a class="buttonDownload" id="buttonDownload" /></span>'
+                                + '<span title="' + LOC.get('LOC_UPLOAD') + '"<a class="buttonUpload" id="buttonUpload" /></span>'
+                                + '<span title="' + LOC.get('LOC_SEND') + '"<a class="buttonPhone" id="buttonPhone" /></span>'
+                                + '<span title="' + LOC.get('LOC_EDIT') + '"<a class="classEdit" id="buttonEdit" /></span>'
+                                + '<span title="' + LOC.get('LOC_DUPLICATE') + '"<a class="buttonDuplicate" id="buttonDuplicate" /></span>'
+                                + '<span title="' + LOC.get('LOC_DELETE') + '"<a class="buttonDelete" id="buttonDelete" /></span>'
+                                + '</td>'
                                 + '</tr>' );
 
-        $( '#Survey' + item.id ).mouseover( item.id, function(i) { onMouseOverHandler(i); } );
-        $( '#Survey' + item.id ).mouseout( item.id, function(i) { onMouseOutHandler(i); } );
+        if ( item.resultCollection > 0 ) {
+            $('#resultCollectionQuantityString' + item.id ).append( '<a href="#" id="Item'+ item.id + '">' + item.resultCollection + '</a>' );
+        } else {
+            $('#resultCollectionQuantityString' + item.id ).append( '-' );
+        }
+
+        if( item.available ) {
+            $('#Survey'+item.id + ' td:first' ).addClass( 'markAvailable' );
+        } else {
+            $('#Survey'+item.id + ' td:first' ).addClass( 'markBuilding' );
+        }
+
+        $( '#Survey' + item.id ).mouseover( item.id, function(i) {onMouseOverHandler(i);} );
+        $( '#Survey' + item.id ).mouseout( item.id, function(i) {onMouseOutHandler(i);} );
         $( '#Item' + item.id ).click( item.id, function(i) {
             ResultList.showResultList(i);
         } );
@@ -165,6 +172,11 @@ var SurveyList = function() {
         $('#menu' + item.id +' .buttonDelete').click( item.surveyId, function(i){onDeleteSurveyClicked(i);} );
         $('#menu' + item.id +' .buttonDuplicate').click( item.surveyId, function(i){onDuplicateSurveyClicked(i);} );
         $('#menu' + item.id +' .buttonSend').click( item.surveyId, function(i){onSendSurveyClicked(i);} );
+        $('#menu' + item.id +' .buttonEdit').click( item.id, function(i){onEditSurveyClicked(i);} );
+    }
+
+    function onEditSurveyClicked(e) {
+        Editor.createEditor(e);
     }
 
     function onPreviousClicked(e) {
@@ -245,29 +257,31 @@ var SurveyList = function() {
 
     function onMouseOverHandler(e){
         $('#menu' + e.data + " button").addClass("hover");
+        $('#Survey'+ e.data).addClass("hoverRow");
     }
 
     function onMouseOutHandler(e){
         $('#menu' + e.data + " button").removeClass("hover");
+        $('#Survey'+ e.data).removeClass("hoverRow");
     }
 
     function onMouseOverNext(){
         this.bgColor='#dbe4f1';
-        document.getElementById('next_button').src='images/icon_next_on.jpg';
+        document.getElementById('next_button').src='images/icon_next_on.png';
     }
 
     function onMouseOutNext(){
         this.bgColor='#edf0f6';
-        document.getElementById('next_button').src='images/icon_next_off.jpg';
+        document.getElementById('next_button').src='images/icon_next_off.png';
     }
 
     function onMouseOverPrevious(){
         this.bgColor='#dbe4f1';
-        document.getElementById('prev_button').src='images/icon_previous_on.jpg';
+        document.getElementById('prev_button').src='images/icon_previous_on.png';
     }
 
     function onMouseOutPrevious(){
         this.bgColor='#edf0f6';
-        document.getElementById('prev_button').src='images/icon_previous_off.jpg';
+        document.getElementById('prev_button').src='images/icon_previous_off.png';
     }
 }();

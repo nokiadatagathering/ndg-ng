@@ -23,30 +23,34 @@ public class Survey extends Model {
     @Required
     @Column(nullable = false)
     public String surveyId;
-    
+
     @Required
     @Column(nullable = false)
     public String title;
-    
+
     public String lang;
-    
+
     public Integer available;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     public Date uploadDate;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     @OnDelete(action=OnDeleteAction.CASCADE)
     public List<Question> questionCollection;
-    
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
+    @OnDelete(action=OnDeleteAction.CASCADE)
+    public List<Category> categoryCollection;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<TransactionLog> transactionLogCollection;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<NdgResult> resultCollection;
-    
+
     @ManyToOne(optional = false)
     public NdgUser ndgUser;
 

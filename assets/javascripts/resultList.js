@@ -199,16 +199,14 @@ var ResultList = function() {
 
     function updatePageNumber() {
         $('#navi').empty();
-        $('#navi').append( '<a href="#" id="executePreviousButton">'
-                         + '<img id="prev_button" src="images/icon_previous_off.jpg"></a>'
+        $('#navi').append( '<a class="buttonPrevious" id="buttonPrevious"/><a class="nextPrevText">'
                          + (resultStartIndex + 1)
                          + ' of '
                          + totalPages
-                         + '<a href="#" id="executeNextButton">'
-                         + '<img id="next_button" src="images/icon_next_off.jpg"></a>' );
+                         + '</a><a class="buttonNext"  id="buttonNext"/>' );
 
-        $("#executePreviousButton").click( function(){onPreviousClicked();} );
-        $("#executeNextButton").click( function(){onNextClicked();} );
+        $("#buttonPrevious").click( function(){onPreviousClicked();} );
+        $("#buttonNext").click( function(){onNextClicked();} );
     }
 
     function onPreviousClicked(e) {

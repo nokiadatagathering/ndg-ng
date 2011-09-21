@@ -214,97 +214,223 @@ td { vertical-align: top; }
 
 
 
-body {
-            margin: 0px;
-            padding: 0px;
-            background: #20264a url(../images/background.jpg) repeat-x;
-     }
+    body {
+        margin: 0px;
+        padding: 0px;
+        background: #20264a url(../images/background.jpg) repeat-x;
+    }
 
-     #container{
-            width:1032px;
-            margin:40px auto;
-               }
+    #container {
+        width:970px;
+        margin:40px auto;
+    }
 
-     #main {
-     background: #edf0f6;
-     height: 700px;
-            }
+    #main {
+        float: left;
+        background: #edf0f6;
+        height: 800px;
+        width: 970px;
+    }
 
-     #header
-            {
-          /* make the parent position:relative, then #language #user and #search  will calculate positions relative to #header */
-          position: relative;
-          margin-left: 20px;
-            }
-     #language{
-          height: 20px; position: absolute; right: 0; top: 0;
-              }
-     #user{
-          color: #b7b7b7;
-          height: 20px; position: absolute; right:30px; top:30px;
-          }
-     #search{
-         height:60px; position: absolute; right:70px; top:60px;
-            }
+    #boxes {
+        height: 0px;
+        width: 0px;
+        visibility: hidden;
+    }
+
+    #header {
+         /* make the parent position:relative, then #language #user and #search  will calculate positions relative to #header */
+         position: relative;
+         margin-left: 20px;
+         margin-top: 20px;
+    }
+
+    #language {
+        height: 20px;
+        position: absolute;
+        right: 10px;
+        top: 0;
+    }
+
+    #language img {
+        margin-right: 5px;
+    }
+
+    #user {
+        color: #b7b7b7;
+        position: absolute;
+        right:0px;
+        top:30px;
+        font-size: 14px;
+        margin-right: 0px;
+        font-family: "Myriad Pro Regular";
+    }
+
+    #user a {
+        color: #9eadcd;
+        font-size: 14px;
+        margin-left: 10px;
+        margin-right: 29px;
+        font-family: "Myriad Pro Regular";
+    }
+
+    #search {
+         height:60px;
+         position: absolute;
+         right:0px;
+         margin-right: 29px;
+         top:60px;
+    }
 
      /* end of the header divs */
-     #section h2{
-         color: #0061ad;
-         display: inline;
-         margin-left: 20px;
-             }
-     #section{
-         color: #9eadcd;
-             }
+    #section h2 {
+        color: #0061ad;
+        display: inline;
+        margin-left: 20px;
+        font-size: 28px;
+        font-family: "Myriad Pro Semibold";
+    }
 
-     #filter {
-         float: left;
-         width: 70px;
-         margin-left: 20px;
-         color: #3a77ca;
-             }
+    #section a {
+        padding-left: 10px;
+        color: #3a77ca;
+        font-size: 14px;
+        font-family: "Myriad Pro Regular";
+    }
 
-     #content
-             {
-         float: right;
-         width: 892px;
-         margin-left: 20px;
-         margin-right: 20px;
-         color: #3a77ca;
-         margin-top: 10px;
-             }
-    /* table styles */
-     #minimalist
-                  {
-    background: #edf0f6;
-    border-collapse: collapse;
-        width: 892px;
+    #section {
+        color: #9eadcd;
+    }
 
-                 }
-     #minimalist th
-                 {
-    font-weight: bold;
-    padding: 10px 8px;
-    border-bottom: 2px solid #dadbe0;
-                }
-     #minimalist td
-                {
-    border-bottom: 1px solid #dadbe0;
-    color: #dccccc;
+    #plusButton {
+        display: block;
         text-align: center;
-        }
+        margin-top: 10px;
+        margin-bottom: 0px;
+    }
 
-     #footer{
-          font-size: 10pt;
-          color: #7b86ab;
-          text-align: center;
-            }
+    #filter h3 {
+        margin-top: 10px;
+        color: #3a77ca;
+        font-size: 16px;
+        font-family: "Myriad Pro Regular";
+        text-align: center;
+    }
+
+    #filter {
+        margin: 0 20px 0 20px;
+        width:70px;
+        float:left;
+        position:relative;
+        color: #3a77ca;
+    }
+
+    #content {
+        position: relative;
+        float:right;
+        color: #3a77ca;
+        width: 860px;
+    }
+
+    /* table styles */
+    #minimalist {
+        float: left;
+        width: 841px;
+/*        margin-right: 129px;
+        padding-right: 129px;*/
+    margin-top: 10px;
+        background: #edf0f6;
+    border-collapse: collapse;
+    }
+
+    #minimalist th {/*COLUMN HEADER*/
+        font-weight: bold;
+    border-bottom: 2px solid #dadbe0;
+        text-align: left;
+        font-size: 16px;
+        font-family: "Myriad Pro Semibold";
+        color: #3a77ca;
+    }
+
+    #minimalist thead tr th a{/*COLUMN HEADER*/
+         text-decoration: none;
+         text-transform: uppercase;
+         color: #3a77ca;
+    }
+
+    #minimalist td {/*ROWS*/
+        height: 43px;
+    border-bottom: 1px solid #dadbe0;
+        text-align: left;
+        vertical-align: middle;
+        font-size: 12px;
+        font-family: "Myriad Pro Regular";
+        color: #6388bb;
+    }
+
+    #surveyNameCell {
+        padding-left: 20px;
+    }
+
+    h4.markAvailable {
+        background: url('../images/marker_available.png') repeat center left;
+        color: #eeeff4;
+        font-size: 12px;
+        font-family: "Myriad Pro Regular";
+        text-align: center;
+        vertical-align: middle;
+        margin-top: 1px;
+        margin-bottom: 1px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+
+    h4.markBuilding {
+        background: url('../images/marker_building.png') repeat center left;
+        color: #eeeff4;
+        font-size: 12px;
+        font-family: "Myriad Pro Regular";
+        text-align: center;
+        vertical-align: middle;
+        margin-top: 1px;
+        margin-bottom: 1px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+
+    .markAvailable
+    {
+        background: url('../images/marker_available.png') no-repeat center left;
+    }
+
+    .markBuilding {
+        background: url('../images/marker_building.png') no-repeat center left;
+    }
+
+    #navi {
+        clear: both;
+    text-align: left;
+    padding-top: 10px;
+        color: #7b86ab;
+        font-size: 10pt;
+    }
+
+    #footer {
+        clear: both;
+    text-align: center;
+    padding: 20px;
+    height: 1%;
+        color: #7b86ab;
+        font-size: 16px;
+        font-family: "Myriad Pro Regular";
+    }
 
 
 @import url('menubar.css');
 @import url('exportresults.css');
 @import url('dialogcustom.css');
 @import url('sendsurvey.css');
+@import url('editor.css');
 
 
 

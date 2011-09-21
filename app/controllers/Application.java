@@ -16,8 +16,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import models.Category;
 import models.NdgResult;
 import models.NdgUser;
+import models.Question;
 import models.Survey;
 import models.TransactionLog;
 import models.constants.TransactionlogConsts;
@@ -26,10 +28,30 @@ import models.utils.SurveyDuplicator;
 
 public class Application extends Controller {
 
-    private static final int RESULTS_PER_SIDE = 10;
+    private static final int RESULTS_PER_SIDE = 12;
 
     public static void index() {
         render();
+    }
+
+    public static void questions( int categoryId ){
+        String query = "category_id = " + String.valueOf( categoryId ); //TODO order by index
+        List<Question> questions = Question.find(query).fetch();
+        JSONSerializer questionListSerializer = new JSONSerializer();
+        questionListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
+        questionListSerializer.include( "id","category", "label", "objectName", "ndgUser.username", "latitude" )
+            .exclude( "*" ).rootName( "questions" );
+        renderJSON(questionListSerializer.serialize(questions));
+    }
+
+    public static void categoryList( int surveyId){
+        String query = "survey_id = " + String.valueOf( surveyId ) + " order by categoryIndex";
+        List<Category> categories = Category.find(query).fetch();
+        JSONSerializer categoryListSerializer = new JSONSerializer();
+        categoryListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
+        categoryListSerializer.include( "id","categoryIndex", "label" )
+            .exclude( "*" ).rootName( "categories" );
+        renderJSON(categoryListSerializer.serialize(categories));
     }
 
     public static void listResults( int surveyId, int startIndex, boolean isAscending, String orderBy ) {
@@ -95,7 +117,7 @@ public class Application extends Controller {
     private static void serializeSurveys( List<Survey> subList ) {
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
-        surveyListSerializer.include( "id", "title", "uploadDate", "idUser", "surveyId", "ndgUser.username", "resultCollection" )
+        surveyListSerializer.include( "id", "title", "uploadDate", "idUser", "surveyId", "ndgUser.username", "resultCollection", "available" )
             .exclude( "*" ).rootName( "surveys" );
         renderJSON( surveyListSerializer.serialize( subList ) );
     }

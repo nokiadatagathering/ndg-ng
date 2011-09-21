@@ -41,6 +41,8 @@
   <script type="text/javascript" src="javascripts/resultlist.js"></script>
   <script type="text/javascript" src="javascripts/sendsurvey.js"></script>
   <script type="text/javascript" src="javascripts/exportresults.js"></script>
+  <script type="text/javascript" src="javascripts/date.js"></script>
+  <script type="text/javascript" src="javascripts/editor.js"></script>
 </head>
 
 <body>
@@ -50,7 +52,7 @@
          <div id="header">
           <img src="images/brand.jpg">
              <div id="language">
-              <img src="images/flag_eua.jpg">&nbsp;<img src="images/flag_bra.jpg">&nbsp;<img src="images/flag_spa.jpg">
+              <img src="images/flag_eua.jpg"><img src="images/flag_bra.jpg"><img src="images/flag_spa.jpg">
              </div> <!--! end of #language -->
                <div id="user">
                Fulano da Silva &nbsp;&nbsp;<a href="">Logout</a>
@@ -61,13 +63,17 @@
          </div > <!--! end of #header -->
 
        <div id="section">
-         <H2>Survey List</H2> &nbsp;&nbsp;<a href="">User Admin</a>
+         <H2>Survey List</H2><a href="">User Admin</a>
        </div> <!--! end of #section -->
 
        <div id="filter">
-       <h1>&nbsp;&nbsp;&nbsp;+</h1>
+       <span class="plusButton" id="plusButton" >
+         <img src="images/btn_plus.jpg">
+       </span>
+
        <h3>STATUS</h3>
-         <img src="images/status_all.jpg">
+       <h4 class="markBuilding">Building</h4>
+       <h4 class="markAvailable">Available</h4>
        </div> <!--! end of #filter -->
 
 <div id="boxes">
@@ -163,6 +169,10 @@ $(document).ready(function() {
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.6.2.min.js"><\/script>')</script>
+
+  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+  <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"><\/script>')</script>
 
 
   <!-- scripts concatenated and minified via ant build script-->
