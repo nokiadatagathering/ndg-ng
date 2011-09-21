@@ -27,7 +27,7 @@ var ResultList = function() {
     }
 
     function fillWithResults(i, item) {
-        $('#resultListTable').append( '<tr>'
+        $('#resultListTable').append( '<tr id="Result' + item.id + '">'
                                     + '<td><input type="checkbox" id="resultCheckbox' + item.id + '"/></td>'
                                     + '<td>'+ item.resultId + '</td>'
                                     + '<td>' + item.title + '</td>'
@@ -35,6 +35,9 @@ var ResultList = function() {
                                     + '<td>' + item.ndgUser.username + '</td>'
                                     + '<td>' + ( item.latitude!= null ? 'OK': 'NO GPS' ) + '</td>'
                                     + '</tr>' );
+
+        $( '#Result' + item.id ).mouseover( item.id, function(i) {onMouseOverHandler(i);} );
+        $( '#Result' + item.id ).mouseout( item.id, function(i) {onMouseOutHandler(i);} );
         $( '#resultCheckbox' + item.id ).click( item.resultId, function(i){resultCheckboxClicked(i);} );
     }
 
@@ -227,6 +230,14 @@ var ResultList = function() {
             updatePageNumber();
         }
         e.preventDefault();
+    }
+
+    function onMouseOverHandler(e){
+        $('#Result'+ e.data).addClass("hoverRow");
+    }
+
+    function onMouseOutHandler(e){
+        $('#Result'+ e.data).removeClass("hoverRow");
     }
 
     return {showResultList : function(i) {showResultList(i);}

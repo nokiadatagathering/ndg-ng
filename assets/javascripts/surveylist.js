@@ -18,6 +18,8 @@ var SurveyList = function() {
     };
 
     function showSurveyList (){
+        $('#plusButton').mouseover( function(event) { SurveyListCombo.showMenu();});
+
         $('#minimalist').append( '<thead>'
                                + '<tr>'
                                + '<th scope="col"><a href="#" id="executeSortBySurveyName">' + LOC.get('LOC_SURVEY_NAME') + '</a></th>'
@@ -144,7 +146,7 @@ var SurveyList = function() {
                                 + '<span title="' + LOC.get('LOC_DOWNLOAD') + '"<a class="buttonDownload" id="buttonDownload" /></span>'
                                 + '<span title="' + LOC.get('LOC_UPLOAD') + '"<a class="buttonUpload" id="buttonUpload" /></span>'
                                 + '<span title="' + LOC.get('LOC_SEND') + '"<a class="buttonPhone" id="buttonPhone" /></span>'
-                                + '<span title="' + LOC.get('LOC_EDIT') + '"<a class="classEdit" id="buttonEdit" /></span>'
+                                + '<span title="' + LOC.get('LOC_EDIT') + '"<a class="buttonEdit" id="buttonEdit" /></span>'
                                 + '<span title="' + LOC.get('LOC_DUPLICATE') + '"<a class="buttonDuplicate" id="buttonDuplicate" /></span>'
                                 + '<span title="' + LOC.get('LOC_DELETE') + '"<a class="buttonDelete" id="buttonDelete" /></span>'
                                 + '</td>'
@@ -171,7 +173,7 @@ var SurveyList = function() {
         $('#menu' + item.id +' .buttonUpload').click( item.surveyId, function(i){onUploadSurveyClicked(i);} );
         $('#menu' + item.id +' .buttonDelete').click( item.surveyId, function(i){onDeleteSurveyClicked(i);} );
         $('#menu' + item.id +' .buttonDuplicate').click( item.surveyId, function(i){onDuplicateSurveyClicked(i);} );
-        $('#menu' + item.id +' .buttonSend').click( item.surveyId, function(i){onSendSurveyClicked(i);} );
+        $('#menu' + item.id +' .buttonPhone').click( item.surveyId, function(i){onSendSurveyClicked(i);} );
         $('#menu' + item.id +' .buttonEdit').click( item.id, function(i){onEditSurveyClicked(i);} );
     }
 

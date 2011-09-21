@@ -35,9 +35,11 @@
   <script src="javascripts/libs/modernizr-2.0.6.min.js"></script>
   <script src="javascripts/libs/jquery-1.6.2.min.js"></script>
   <script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"></script>
+  <script src="javascripts/libs/date.js"></script>
   <script type="text/javascript" src="javascripts/constants.js"></script>
   <script type="text/javascript" src="javascripts/localization.js"></script>
   <script type="text/javascript" src="javascripts/surveylist.js"></script>
+  <script type="text/javascript" src="javascripts/surveylistcombo.js"></script>
   <script type="text/javascript" src="javascripts/resultlist.js"></script>
   <script type="text/javascript" src="javascripts/sendsurvey.js"></script>
   <script type="text/javascript" src="javascripts/exportresults.js"></script>
@@ -52,13 +54,12 @@
          <div id="header">
           <img src="images/brand.jpg">
              <div id="language">
-              <img src="images/flag_eua.jpg"><img src="images/flag_bra.jpg"><img src="images/flag_spa.jpg">
              </div> <!--! end of #language -->
                <div id="user">
                Fulano da Silva &nbsp;&nbsp;<a href="">Logout</a>
                </div>
                <div id="search">
-               <input type=search name=s><img src="images/dropbox.jpg">
+               <input class="searchTextField" type="search" name="s"><div class="searchComboBox" id="searchComboBox" ><span>ID</span></div>
                </div>
          </div > <!--! end of #header -->
 
@@ -68,7 +69,7 @@
 
        <div id="filter">
        <span class="plusButton" id="plusButton" >
-         <img src="images/btn_plus.jpg">
+         <a href="#"><img id ="plusButtonImage" src="images/btn_plus.jpg"></a>
        </span>
 
        <h3>STATUS</h3>
@@ -77,6 +78,9 @@
        </div> <!--! end of #filter -->
 
 <div id="boxes">
+    <div id="popup-context" class="popup-context">
+    </div>
+
     <div id="dialog-exportResults" class="dialogs">
         <div id="exportResults-step_1"></div>
         <div id="exportResults-step_2"></div>
@@ -137,6 +141,14 @@ var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
 });
 
 $(document).ready(function() {
+    $('#language').append( '<a href="#" id="flag_eua" ><img src="images/flag_eua.jpg"></a>'
+                         + '<a href="#" id="flag_bra" ><img src="images/flag_bra.jpg"></a>'
+                         + '<a href="#" id="flag_spa" ><img src="images/flag_spa.jpg"></a>'
+                         + '<a href="#" id="flag_pol" ><img src="images/flag_pol.jpg"></a>' );
+    $('#flag_eua').click( 'flag_eua',function(event){ LOC.selectLanguage(event)} );
+    $('#flag_bra').click( 'flag_bra',function(event){ LOC.selectLanguage(event)} );
+    $('#flag_spa').click( 'flag_spa',function(event){ LOC.selectLanguage(event)} );
+    $('#flag_pol').click( 'flag_pol',function(event){ LOC.selectLanguage(event)} );
     SurveyList.showSurveyList();
 });
 

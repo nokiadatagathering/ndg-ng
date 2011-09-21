@@ -282,6 +282,25 @@ td { vertical-align: top; }
          top:60px;
     }
 
+    .searchTextField {
+        font-size: 14px;
+        font-family: "Myriad Pro Regular";
+        color: #b7b7b7;
+        height: 26px;
+    }
+
+    #searchComboBox {
+        float: right;
+        height: 34px;
+        width: 88px;
+        background: url('../images/dropbox.jpg') no-repeat;
+        text-indent: 1em;
+        font-size: 17px;
+        font-family: "Myriad Pro Semibold";
+        color: #535076;
+        padding-top: 7px;
+    }
+
      /* end of the header divs */
     #section h2 {
         color: #0061ad;
@@ -307,6 +326,28 @@ td { vertical-align: top; }
         text-align: center;
         margin-top: 10px;
         margin-bottom: 0px;
+    }
+
+    .popup-context {
+        width: 200px;
+        position: absolute;
+        font-size: 26px;
+        font-family: "Myriad Pro Regular";
+        z-index: 1;
+        visibility: hidden;
+        background: #99ff00;
+        border: 2px dashed #ff0000;
+    }
+
+    .popup-context a {
+        display: block;
+        text-decoration: none;
+        padding-left: 6px;
+        color: #cc00cc;
+    }
+
+    .popup-context  a:hover {
+        background: #ff9999;
     }
 
     #filter h3 {
