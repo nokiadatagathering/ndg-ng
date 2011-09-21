@@ -276,21 +276,21 @@ body {
     /* table styles */
      #minimalist
                   {
-	background: #edf0f6;
-	border-collapse: collapse;
+    background: #edf0f6;
+    border-collapse: collapse;
         width: 892px;
 
                  }
      #minimalist th
                  {
-	font-weight: normal;
-	padding: 10px 8px;
-	border-bottom: 2px solid #dadbe0;
+    font-weight: bold;
+    padding: 10px 8px;
+    border-bottom: 2px solid #dadbe0;
                 }
      #minimalist td
                 {
-	border-bottom: 1px solid #dadbe0;
-	color: #dccccc;
+    border-bottom: 1px solid #dadbe0;
+    color: #dccccc;
         text-align: center;
         }
 

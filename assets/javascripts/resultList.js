@@ -3,20 +3,7 @@
  *
  **/
 
-const LOC_RESULTID = 'ResultId';
-const LOC_RESULTTITLE = 'Result Title';
-const LOC_DATESENT = 'Date Sent';
-const LOC_USER = 'User';
-const LOC_LOCATION = 'Location';
-const LOC_BACK_TO_SURVEY_LIST = 'Back To SurveyList';
-const LOC_EXPORT_RESULTS = 'Export Results';
-const LOC_EXPORT_ALL_RESULTS = 'Export All Results';
-
 var ResultList = function() {
-
-    const ASC = ' \u2191';
-    const DESC = ' \u2193';
-
     var currentSurveyId;
     var resultStartIndex = 0;
     var totalPages = 1;
@@ -64,7 +51,7 @@ var ResultList = function() {
 
         if ( selectedResults.length > 0 ) {
             if ( document.getElementById('executeExportResults') == null ) {
-                $('#minimalist').before('<input type="button" id="executeExportResults" title="' + LOC_EXPORT_RESULTS + '" value="' + LOC_EXPORT_RESULTS +'"/>');
+                $('#minimalist').before('<input type="button" id="executeExportResults" title="' + LOC.get(LOC_EXPORT_RESULTS) + '" value="' +  LOC.get(LOC_EXPORT_RESULTS) +'"/>');
                 $('#executeExportResults').click( function() { exportResults() } );
             }
         } else {
@@ -91,18 +78,18 @@ var ResultList = function() {
         currentSurveyId = i.data;
 
         $('#minimalist').empty();
-        $('#minimalist').before('<a href="#" id="executeBackToSurveyList">' + LOC_BACK_TO_SURVEY_LIST+ '</a>');
-        $('#minimalist').before('<input type="button" id="executeExportAllResults" title="' + LOC_EXPORT_ALL_RESULTS + '" value="' + LOC_EXPORT_ALL_RESULTS +'"/>');
+        $('#minimalist').before('<a href="#" id="executeBackToSurveyList">' +  LOC.get('LOC_BACK_TO_SURVEY_LIST')+ '</a>');
+        $('#minimalist').before('<input type="button" id="executeExportAllResults" title="' +  LOC.get('LOC_EXPORT_ALL_RESULTS') + '" value="' +  LOC.get('LOC_EXPORT_ALL_RESULTS') +'"/>');
         $('#executeBackToSurveyList').click( function(){backToSurveyList()} );
         $('#executeExportAllResults').click( function() { exportAllResults() } );
         $('#minimalist').append( '<thead>'
                                + '<tr>'
                                + '<th scope="col"></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResultId"><b>' + LOC_RESULTID + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResultTitle"><b>' + LOC_RESULTTITLE + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByDateSent"><b>' + LOC_DATESENT + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByUser"><b>' +LOC_USER + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByLocation"><b>'+ LOC_LOCATION + '</b></th>'
+                               + '<th scope="col"><a href="#" id="executeSortByResultId"><b>' +  LOC.get('LOC_RESULTID') + '</b></th>'
+                               + '<th scope="col"><a href="#" id="executeSortByResultTitle"><b>' +  LOC.get('LOC_RESULTTITLE') + '</b></th>'
+                               + '<th scope="col"><a href="#" id="executeSortByDateSent"><b>' +  LOC.get('LOC_DATESENT') + '</b></th>'
+                               + '<th scope="col"><a href="#" id="executeSortByUser"><b>' +  LOC.get('LOC_USER') + '</b></th>'
+                               + '<th scope="col"><a href="#" id="executeSortByLocation"><b>'+  LOC.get('LOC_LOCATION') + '</b></th>'
                                + '</tr>'
                                + '</thead>'
                                + '<tbody id="resultListTable">'
@@ -130,10 +117,10 @@ var ResultList = function() {
     function toggleSortByResultId() {
         resetColumnTitle();
         if ( resultIdAsc ) {
-            document.getElementById( 'executeSortByResultId' ).text = LOC_RESULTID + DESC;
+            document.getElementById( 'executeSortByResultId' ).text =  LOC.get('LOC_RESULTID') + CONST.get('DESC');
             resultIdAsc = false;
         } else {
-            document.getElementById( 'executeSortByResultId' ).text = LOC_RESULTID + ASC;
+            document.getElementById( 'executeSortByResultId' ).text =  LOC.get('LOC_RESULTID') + CONST.get('ASC');
             resultIdAsc = true;
         }
         fillSurveyData( 'resultId', resultIdAsc );
@@ -142,10 +129,10 @@ var ResultList = function() {
     function toggleSortByResultTitle() {
         resetColumnTitle();
         if ( resultTitleAsc ) {
-            document.getElementById( 'executeSortByResultTitle' ).text = LOC_RESULTTITLE + DESC;
+            document.getElementById( 'executeSortByResultTitle' ).text =  LOC.get('LOC_RESULTTITLE') + CONST.get('DESC');
             resultTitleAsc= false;
         } else {
-            document.getElementById( 'executeSortByResultTitle' ).text = LOC_RESULTTITLE + ASC;
+            document.getElementById( 'executeSortByResultTitle' ).text =  LOC.get('LOC_RESULTTITLE') + CONST.get('ASC');
             resultTitleAsc = true;
         }
         fillSurveyData( 'title', resultTitleAsc );
@@ -154,10 +141,10 @@ var ResultList = function() {
     function toggleSortByDateSent() {
         resetColumnTitle();
         if ( dateSentAsc ) {
-            document.getElementById( 'executeSortByDateSent' ).text = LOC_DATESENT + DESC;
+            document.getElementById( 'executeSortByDateSent' ).text =  LOC.get('LOC_DATESENT') + CONST.get('DESC');
             dateSentAsc = false;
         } else {
-            document.getElementById( 'executeSortByDateSent' ).text = LOC_DATESENT + ASC;
+            document.getElementById( 'executeSortByDateSent' ).text =  LOC.get('LOC_DATESENT') + CONST.get('ASC');
             dateSentAsc = true;
         }
         fillSurveyData( 'startTime', dateSentAsc );
@@ -166,10 +153,10 @@ var ResultList = function() {
     function toggleSortByUser() {
         resetColumnTitle();
         if ( userAsc ) {
-            document.getElementById( 'executeSortByUser' ).text = LOC_USER + DESC;
+            document.getElementById( 'executeSortByUser' ).text =  LOC.get('LOC_USER') + CONST.get('DESC');
             userAsc = false;
         } else {
-            document.getElementById( 'executeSortByUser' ).text = LOC_USER + ASC;
+            document.getElementById( 'executeSortByUser' ).text =  LOC.get('LOC_USER') + CONST.get('ASC');
             userAsc = true;
         }
         fillSurveyData( 'ndgUser.username', userAsc );
@@ -178,21 +165,21 @@ var ResultList = function() {
     function toggleSortByLocation() {
         resetColumnTitle();
         if ( locationAsc) {
-            document.getElementById( 'executeSortByLocation' ).text = LOC_LOCATION + DESC;
+            document.getElementById( 'executeSortByLocation' ).text =  LOC.get('LOC_LOCATION') + CONST.get('DESC');
             locationAsc = false;
         } else {
-            document.getElementById( 'executeSortByLocation' ).text = LOC_LOCATION + ASC;
+            document.getElementById( 'executeSortByLocation' ).text =  LOC.get('LOC_LOCATION') + CONST.get('ASC');
             locationAsc = true;
         }
         fillSurveyData( 'latitude', locationAsc );
     }
 
     function resetColumnTitle() {
-        document.getElementById( 'executeSortByResultId' ).text = LOC_RESULTID;
-        document.getElementById( 'executeSortByResultTitle' ).text = LOC_RESULTTITLE;
-        document.getElementById( 'executeSortByDateSent' ).text = LOC_DATESENT;
-        document.getElementById( 'executeSortByUser' ).text = LOC_USER;
-        document.getElementById( 'executeSortByLocation').text = LOC_LOCATION;
+        document.getElementById( 'executeSortByResultId' ).text =  LOC.get('LOC_RESULTID');
+        document.getElementById( 'executeSortByResultTitle' ).text =  LOC.get('LOC_RESULTTITLE');
+        document.getElementById( 'executeSortByDateSent' ).text =  LOC.get('LOC_DATESENT');
+        document.getElementById( 'executeSortByUser' ).text =  LOC.get('LOC_USER');
+        document.getElementById( 'executeSortByLocation').text =  LOC.get('LOC_LOCATION');
     }
 
     function fillSurveyData( orderByColumn, isAscending ) {

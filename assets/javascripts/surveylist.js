@@ -2,22 +2,9 @@
  * File encapsulates action related to Survey List view
  *
  **/
-const LOC_DOWNLOAD = 'Download';
-const LOC_UPLOAD = 'Upload';
-const LOC_EDIT = 'Edit';
-const LOC_DUPLICATE = 'Duplicate';
-const LOC_DELETE = 'Delete';
-const LOC_SEND= 'Send';
-const LOC_SURVEY_NAME = 'Survey Name';
-const LOC_DATE_PUBLISHED = 'Date Published';
-const LOC_PUBLISHER = 'Publisher';
-const LOC_RESULTS = 'Results';
-const LOC_SURVEYID = 'SurveyId';
+
 
 var SurveyList = function() {
-    const ASC = ' \u2191';
-    const DESC = ' \u2193';
-
     var surveyStartIndex = 0;
     var surveyNameSortAscending = true;
     var datePublishedSortAscending = true;
@@ -33,10 +20,10 @@ var SurveyList = function() {
     function showSurveyList (){
         $('#minimalist').append( '<thead>'
                                + '<tr>'
-                               + '<th scope="col"><a href="#" id="executeSortBySurveyName"><b>' + LOC_SURVEY_NAME + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByDatePublished"><b>' + LOC_DATE_PUBLISHED + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByPublisher"><b>' + LOC_PUBLISHER + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResults"><b>' + LOC_RESULTS + '</b></th>'
+                               + '<th scope="col"><a href="#" id="executeSortBySurveyName">' + LOC.get('LOC_SURVEY_NAME') + '</th>'
+                               + '<th scope="col"><a href="#" id="executeSortByDatePublished">' + LOC.get('LOC_DATE_PUBLISHED') + '</th>'
+                               + '<th scope="col"><a href="#" id="executeSortByPublisher">' + LOC.get('LOC_PUBLISHER') + '</th>'
+                               + '<th scope="col"><a href="#" id="executeSortByResults">' + LOC.get('LOC_RESULTS') + '</th>'
                                + '<th scope="col"></th>'
                                + '</tr>'
                                + '</thead>'
@@ -100,10 +87,10 @@ var SurveyList = function() {
     function toggleSortByResults() {
         resetColumnTitle();
         if ( resultsSortAscending ) {
-            document.getElementById( 'executeSortByResults' ).text = LOC_RESULTS+ DESC;
+            document.getElementById( 'executeSortByResults' ).text = LOC.get('LOC_RESULTS')+ CONST.get('DESC');
             lastSortAscending = resultsSortAscending = false;
         } else {
-            document.getElementById( 'executeSortByResults' ).text = LOC_RESULTS + ASC;
+            document.getElementById( 'executeSortByResults' ).text = LOC.get('LOC_RESULTS') + CONST.get('ASC');
             lastSortAscending = resultsSortAscending = true;
         }
         fillSurveyData( 'resultCollection', resultsSortAscending );
@@ -112,10 +99,10 @@ var SurveyList = function() {
     function toggleSortByPublisher() {
         resetColumnTitle();
         if ( publisherSortAscending ) {
-            document.getElementById( 'executeSortByPublisher' ).text = LOC_PUBLISHER + DESC;
+            document.getElementById( 'executeSortByPublisher' ).text = LOC.get('LOC_PUBLISHER') + CONST.get('DESC');
             lastSortAscending = publisherSortAscending = false;
         } else {
-            document.getElementById( 'executeSortByPublisher' ).text = LOC_PUBLISHER + ASC
+            document.getElementById( 'executeSortByPublisher' ).text = LOC.get('LOC_PUBLISHER') + CONST.get('ASC')
             lastSortAscending = publisherSortAscending = true;
         }
         fillSurveyData( 'ndgUser.username', publisherSortAscending );
@@ -124,10 +111,10 @@ var SurveyList = function() {
     function toggleSortByDatePublished() {
         resetColumnTitle();
         if ( datePublishedSortAscending ) {
-            document.getElementById( 'executeSortByDatePublished' ).text = LOC_DATE_PUBLISHED + DESC;
+            document.getElementById( 'executeSortByDatePublished' ).text = LOC.get('LOC_DATE_PUBLISHED') + CONST.get('DESC');
             lastSortAscending = datePublishedSortAscending = false;
         } else {
-            document.getElementById( 'executeSortByDatePublished' ).text= LOC_DATE_PUBLISHED + ASC;
+            document.getElementById( 'executeSortByDatePublished' ).text= LOC.get('LOC_DATE_PUBLISHED') + CONST.get('ASC');
             lastSortAscending = datePublishedSortAscending = true;
         }
         fillSurveyData( 'uploadDate', datePublishedSortAscending );
@@ -136,20 +123,20 @@ var SurveyList = function() {
     function toggleSortBySurveyName() {
         resetColumnTitle();
         if ( surveyNameSortAscending ) {
-            document.getElementById( 'executeSortBySurveyName' ).text = LOC_SURVEY_NAME + DESC;
+            document.getElementById( 'executeSortBySurveyName' ).text = LOC.get('LOC_SURVEY_NAME') + CONST.get('DESC');
             surveyNameSortAscending = false;
         } else {
-            document.getElementById( 'executeSortBySurveyName' ).text = LOC_SURVEY_NAME + ASC;
+            document.getElementById( 'executeSortBySurveyName' ).text = LOC.get('LOC_SURVEY_NAME') + CONST.get('ASC');
             surveyNameSortAscending = true;
         }
         fillSurveyData( 'title', surveyNameSortAscending );
     }
 
     function resetColumnTitle() {
-        document.getElementById( 'executeSortBySurveyName' ).text = LOC_SURVEY_NAME;
-        document.getElementById( 'executeSortByDatePublished' ).text = LOC_DATE_PUBLISHED;
-        document.getElementById( 'executeSortByPublisher' ).text = LOC_PUBLISHER;
-        document.getElementById( 'executeSortByResults' ).text = LOC_RESULTS;
+        document.getElementById( 'executeSortBySurveyName' ).text = LOC.get('LOC_SURVEY_NAME');
+        document.getElementById( 'executeSortByDatePublished' ).text = LOC.get('LOC_DATE_PUBLISHED');
+        document.getElementById( 'executeSortByPublisher' ).text = LOC.get('LOC_PUBLISHER');
+        document.getElementById( 'executeSortByResults' ).text = LOC.get('LOC_RESULTS');
     }
 
     function fillWithData(i, item) {
@@ -159,12 +146,12 @@ var SurveyList = function() {
                                 + '<td>' + item.ndgUser.username + '</td>'
                                 + '<td><a href="#" id="Item'+ item.id + '">' + item.resultCollection + '</a></td>'
                                 + '<td><div class="menu" id="menu' + item.id + '" >'
-                                + '<button type="button" class="buttonDownload" title="' + LOC_DOWNLOAD + '"/>'
-                                + '<button type="button" class="buttonUpload" title="' + LOC_UPLOAD + '"/>'
-                                + '<button type="button" class="buttonSend" title="' + LOC_SEND + '"/>'
-                                + '<button type="button" class="buttonEdit" title="' + LOC_EDIT + '"/>'
-                                + '<button type="button" class="buttonDuplicate" title="' + LOC_DUPLICATE + '"/>'
-                                + '<button type="button" class="buttonDelete" title="' + LOC_DELETE + '"/>'
+                                + '<button type="button" class="buttonDownload" title="' + LOC.get('LOC_DOWNLOAD') + '"/>'
+                                + '<button type="button" class="buttonUpload" title="' + LOC.get('LOC_UPLOAD') + '"/>'
+                                + '<button type="button" class="buttonSend" title="' + LOC.get('LOC_SEND') + '"/>'
+                                + '<button type="button" class="buttonEdit" title="' + LOC.get('LOC_EDIT') + '"/>'
+                                + '<button type="button" class="buttonDuplicate" title="' + LOC.get('LOC_DUPLICATE') + '"/>'
+                                + '<button type="button" class="buttonDelete" title="' + LOC.get('LOC_DELETE') + '"/>'
                                 + '</div>' +'</td>'
                                 + '</tr>' );
 
@@ -208,12 +195,12 @@ var SurveyList = function() {
        uploadDialog.dialog("open");
        $("#uploadSurveyId").val(e.data);
     }
-    
+
     function onDeleteSurveyClicked(e) {
         confirmDeleteDialog.dialog("open");
         $("#buttonDeleteYes").click( e.data, function(e){
             $.post( "/delete/" + e.data, function(data) {
-            confirmDeleteDialog.dialog("close");      
+            confirmDeleteDialog.dialog("close");
             $('#surveyListTable').empty();
             fillSurveyData( lastSortByColumn, surveyNameSortAscending );
         });
@@ -223,22 +210,22 @@ var SurveyList = function() {
        $("#buttonDeleteNo").click( function(){
            $("#buttonDeleteYes").unbind("click");
            $("#buttonDeleteNo").unbind("click");
-           confirmDeleteDialog.dialog("close"); 
+           confirmDeleteDialog.dialog("close");
        });
     }
-    
+
     function onDuplicateSurveyClicked(e) {
        $.post( "/duplicate/" + e.data, function(data) {
             $('#surveyListTable').empty();
             fillSurveyData( lastSortByColumn, surveyNameSortAscending );
         });
     }
-    
+
     function onSendSurveyClicked(e) {
         SendSurvey.showUserList(e);
         sendSurveyDialog.dialog("open");
     }
-    
+
     function uploadNewSurvey() {
         var resultFrame = $('#uploadSurveyResult').load(function ()
         {
@@ -255,7 +242,7 @@ var SurveyList = function() {
         });
         return true;
     }
-    
+
     function onMouseOverHandler(e){
         $('#menu' + e.data + " button").addClass("hover");
     }
