@@ -1,45 +1,41 @@
-#sortableList 
-{ 
-    list-style-type: none; 
-    margin: 0; 
-    padding: 0; 
-    width: 60%; 
-}
-/*#sortableList li 
-{ 
-    margin: 0 3px 3px 3px; 
-    padding: 0.4em; 
-    padding-left: 1.5em;
-    font-size: 1.4em; 
-    height: 18px; 
-}
-
-#sortableList li span { 
-    position: absolute; 
-    margin-left: -1.3em; 
-}*/
-
-#categories ul
+#sortableList
 {
-    list-style-type: none; 
-    margin: 0; 
+    list-style-type: none;
     padding: 0;
-    width: 90%; 
+    width: 60%;
 }
 
-#categories li
+
+#sortableList li.listCategory
 {
-    margin: 0 3px 3px 3px; 
-    font-size: 1em; 
+    margin: 10px 10px 10px 10px;
+    padding: 10px 10px 10px 10px;
+    font-size: 16px;
+    vertical-align:middle;
+}
+
+#categories ul.listQuestion
+{
+    list-style-type: none;
+    margin: 5px;
+    padding: 5px;
+    width: 90%;
+}
+
+#categories li.listItemQuestion
+{
+    margin: 0 3px 3px 3px;
+    font-size: 12px;
+    vertical-align:bottom;
 }
 
 #categories button
 {
     width: 36px;
-    height: 36px; 
+    height: 36px;
 }
 
-#categories img.deleteCategory
+#categories img.deleteElement
 {
     float: right;
     margin-left: 10px;

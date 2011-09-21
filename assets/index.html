@@ -105,6 +105,19 @@
     <div id="dialog-sendSurvey" class="dialogs">
         <div id="sendSurveyUsers"></div>
     </div>
+
+    <div id="dialog-editorSwitchCategory" class="dialogs">
+        <div id="switchCategory">
+            <label>Choose category:</label>
+            <select id="combobox">
+            </select>
+            <div id="confirmCategoryButton"></div>
+        </div>
+    </div>
+
+
+
+    
     <!-- Mask to cover the whole screen -->
     <div id="mask"></div>
 </div>
@@ -133,6 +146,14 @@ var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
 });
 
 var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
+{
+    autoOpen: false,
+    modal: true,
+    width: 400,
+    zIndex: 9999
+});
+
+var switchCategoryDialog = $("#dialog-editorSwitchCategory").dialog(
 {
     autoOpen: false,
     modal: true,
