@@ -10,7 +10,7 @@ var LOC = (function() {
         LOC_EXPORT_FORMAT: 'Please, select below the file format to export results.',
         LOC_YES: 'Yes',
         LOC_NO: 'No',
-        LOC_RESULTID: 'ResultId',
+        LOC_RESULTID: 'Result Id',
         LOC_RESULTTITLE: 'Result Title',
         LOC_DATESENT: 'Date Sent',
         LOC_USER: 'User',

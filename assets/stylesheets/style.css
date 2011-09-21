@@ -214,7 +214,8 @@ td { vertical-align: top; }
 body {
     margin: 0px;
     padding: 0px;
-    background: #20264a url(../images/background.jpg) repeat-x;
+    background: #20264a url(../images/bg_pattern.png) repeat-x;
+    background-position: center;
 }
 
 #container {
@@ -349,7 +350,11 @@ body {
 #plusButton {
     margin-left: 38px;
     margin-top: 13px;
-    margin-bottom: 4px;
+}
+
+#backButtonImage  {
+    margin-left: 38px;
+    margin-top: 4px;
 }
 
 .popup-context {
@@ -412,6 +417,30 @@ body {
     text-decoration: none;
     text-transform: uppercase;
     color: #3a77ca;
+}
+
+.checkColumn {
+    width: 50px;
+}
+
+.resultIdColumn {
+    width: 170px;
+}
+
+.resultTitleColumn {
+    width: 170px;
+}
+
+.dataSentColumn {
+    width: 170px;
+}
+
+.userColumn {
+    width: 170px;
+}
+
+.locationColumn {
+    width: 85px;
 }
 
 #minimalist td {/*ROWS*/

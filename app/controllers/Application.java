@@ -28,7 +28,7 @@ import models.utils.SurveyDuplicator;
 
 public class Application extends Controller {
 
-    private static final int RESULTS_PER_SIDE = 12;
+    private static final int RESULTS_PER_SIDE = 10;
 
     public static void index() {
         render();

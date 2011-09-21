@@ -17,8 +17,19 @@ var SurveyList = function() {
     return {showSurveyList : function(){showSurveyList();}
     };
 
+    function prepareContentToolbar() {
+        $('#contentToolbar').empty();
+        $('#contentToolbar').append( '<span class="buttonNext"  id="buttonNext"></span>'
+                                   + '<span class="buttonPrevious" id="buttonPrevious"></span>'
+                                   + '<span id="pageIndexText"><small>0</small> <strong>of 0</strong></span>' );
+    }
+
     function showSurveyList (){
+        prepareContentToolbar();
+
         $('#plusButton').mouseover( function(event) {SurveyListCombo.showMenu();});
+        $('#leftColumnContent' ).empty();
+        $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="markBuilding">Building</h4><h4 class="markAvailable">Available</h4>');
 
         $('#minimalist').append( '<thead>'
                                + '<tr>'
@@ -176,7 +187,7 @@ var SurveyList = function() {
 function onButtonMouseDownHandler(source)
 {
     source.addClass('pushed');
-    $('body').mouseup(function() {
+    $(document).mouseup(function() {
         $('.pushed').removeClass('pushed');
         $('body').unbind('mouseup');
         return false; });

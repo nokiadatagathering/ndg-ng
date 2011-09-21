@@ -38,7 +38,7 @@ var ResultList = function() {
 
         $( '#Result' + item.id ).mouseover( item.id, function(i) {onMouseOverHandler(i);} );
         $( '#Result' + item.id ).mouseout( item.id, function(i) {onMouseOutHandler(i);} );
-        $( '#resultCheckbox' + item.id ).click( item.resultId, function(i){resultCheckboxClicked(i);} );
+        $( '#resultCheckbox' + item.id ).bind( 'check uncheck', i, function(i){resultCheckboxClicked(i);} )
     }
 
     function resultCheckboxClicked(i) {
@@ -47,19 +47,19 @@ var ResultList = function() {
                 selectedResults.push( i.data );
             }
         } else {
-            if ( -1 != jQuery.inArray( i.data.toString(), selectedResults ) ) {
-                selectedResults.splice(jQuery.inArray( i.data.toString(), selectedResults ), 1 );
+            if ( -1 != jQuery.inArray( i.data, selectedResults ) ) {
+                selectedResults.splice(jQuery.inArray( i.data, selectedResults ), 1 );
             }
         }
 
-        if ( selectedResults.length > 0 ) {
-            if ( document.getElementById('executeExportResults') == null ) {
-                $('#minimalist').before('<input type="button" id="executeExportResults" title="' + LOC.get('LOC_EXPORT_RESULTS') + '" value="' +  LOC.get('LOC_EXPORT_RESULTS') +'"/>');
-                $('#executeExportResults').click( function() { exportResults() } );
-            }
-        } else {
-            $('#executeExportResults').remove();
-        }
+//        if ( selectedResults.length > 0 ) {
+//            if ( document.getElementById('executeExportResults') == null ) {
+//                $('#minimalist').before('<input type="button" id="executeExportResults" title="' + LOC.get('LOC_EXPORT_RESULTS') + '" value="' +  LOC.get('LOC_EXPORT_RESULTS') +'"/>');
+//                $('#executeExportResults').click( function() { exportResults() } );
+//            }
+//        } else {
+//            $('#executeExportResults').remove();
+//        }
     }
 
     function exportResults() {
@@ -75,24 +75,40 @@ var ResultList = function() {
         $.each(data.results,function(i,item) {
             fillWithResults(i,item);
         });
+
+        $('input:checkbox:not([safari])').checkbox({cls:'customCheckbox', empty:'../images/empty.png'});
+    }
+
+    function prepareContentToolbar() {
+        $('#contentToolbar').empty();
+        $('#contentToolbar').append( '<span class="buttonNext"  id="buttonNext" unselectable="on"></span>'
+                                   + '<span class="buttonPrevious" id="buttonPrevious" unselectable="on"></span>'
+                                   + '<span id="pageIndexText"><small>0</small> <strong>of 0</strong></span>' );
+        $('#contentToolbar').append( '<span class="comboBoxSelection" id="comboBoxSelection" unselectable="on"/></span>');
+        $('#contentToolbar').append( '<span class="buttonExportExcel" id="buttonExportExcel" unselectable="on"/></span>');
+        $('#contentToolbar').append( '<span class="buttonExportKML" id="buttonExportKML" unselectable="on"/></span>');
+        $('#contentToolbar').append( '<span class="buttonExportExternal" id="buttonExportExternal" unselectable="on"/></span>');
+        $('#contentToolbar span').mousedown(function() { onButtonMouseDownHandler($(this));} );
     }
 
     function showResultList(i) {
         currentSurveyId = i.data;
 
+        $('#leftColumnContent' ).empty();
+        $('#leftColumnContent' ).append( '<a href="#"><img id ="backButtonImage" src="images/back.png"></a>');
+        $('#backButtonImage').click( function(){backToSurveyList()} );
+
+        prepareContentToolbar();
+
         $('#minimalist').empty();
-        $('#minimalist').before('<a href="#" id="executeBackToSurveyList">' +  LOC.get('LOC_BACK_TO_SURVEY_LIST')+ '</a>');
-        $('#minimalist').before('<input type="button" id="executeExportAllResults" title="' +  LOC.get('LOC_EXPORT_ALL_RESULTS') + '" value="' +  LOC.get('LOC_EXPORT_ALL_RESULTS') +'"/>');
-        $('#executeBackToSurveyList').click( function(){backToSurveyList()} );
-        $('#executeExportAllResults').click( function() { exportAllResults() } );
         $('#minimalist').append( '<thead>'
                                + '<tr>'
-                               + '<th scope="col"><a>' + LOC.get('LOC_CHECK')+ '</a></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResultId">' +  LOC.get('LOC_RESULTID') + '</th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResultTitle">' +  LOC.get('LOC_RESULTTITLE') + '</th>'
-                               + '<th scope="col"><a href="#" id="executeSortByDateSent">' +  LOC.get('LOC_DATESENT') + '</th>'
-                               + '<th scope="col"><a href="#" id="executeSortByUser">' +  LOC.get('LOC_USER') + '</th>'
-                               + '<th scope="col"><a href="#" id="executeSortByLocation">'+  LOC.get('LOC_LOCATION') + '</th>'
+                               + '<th scope="col" class="checkColumn" ></th>'
+                               + '<th scope="col" class="resultIdColumn"><a href="#" id="executeSortByResultId">' +  LOC.get('LOC_RESULTID') + '</th>'
+                               + '<th scope="col" class="resultTitleColumn"><a href="#" id="executeSortByResultTitle">' +  LOC.get('LOC_RESULTTITLE') + '</th>'
+                               + '<th scope="col" class="dataSentColumn"><a href="#" id="executeSortByDateSent">' +  LOC.get('LOC_DATESENT') + '</th>'
+                               + '<th scope="col" class="userColumn"><a href="#" id="executeSortByUser">' +  LOC.get('LOC_USER') + '</th>'
+                               + '<th scope="col" class="locationColumn"><a href="#" id="executeSortByLocation">'+  LOC.get('LOC_LOCATION') + '</th>'
                                + '</tr>'
                                + '</thead>'
                                + '<tbody id="resultListTable">'
@@ -114,6 +130,15 @@ var ResultList = function() {
                                                'isAscending': true,
                                                'orderBy': "title"},
                                                function(i) {fillResultsTable(i);} );
+    }
+
+    function onButtonMouseDownHandler(source) {
+        source.addClass('pushed');
+        $(document).mouseup(function() {
+            $('.pushed').removeClass('pushed');
+            $('body').unbind('mouseup');
+            return false; });
+        return false;
     }
 
     function toggleSortByResultId() {
@@ -194,7 +219,7 @@ var ResultList = function() {
                                                function(i) { fillResultsTable(i); } );
     }
 
-    function updateTotalPages(data){
+    function updateTotalPages(data) {
         totalPages = data.resultsCount;
         updatePageNumber();
     }
