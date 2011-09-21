@@ -31,7 +31,7 @@ var ResultList = function() {
                                     + '<td><input type="checkbox" id="resultCheckbox' + item.id + '"/></td>'
                                     + '<td>'+ item.resultId + '</td>'
                                     + '<td>' + item.title + '</td>'
-                                    + '<td>' + new Date( item.startTime ) + '</td>'
+                                    + '<td>' + new Date( item.startTime ).toString("dd/MM/yy") + '</td>'
                                     + '<td>' + item.ndgUser.username + '</td>'
                                     + '<td>' + ( item.latitude!= null ? 'OK': 'NO GPS' ) + '</td>'
                                     + '</tr>' );
@@ -87,12 +87,12 @@ var ResultList = function() {
         $('#executeExportAllResults').click( function() { exportAllResults() } );
         $('#minimalist').append( '<thead>'
                                + '<tr>'
-                               + '<th scope="col"></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResultId"><b>' +  LOC.get('LOC_RESULTID') + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByResultTitle"><b>' +  LOC.get('LOC_RESULTTITLE') + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByDateSent"><b>' +  LOC.get('LOC_DATESENT') + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByUser"><b>' +  LOC.get('LOC_USER') + '</b></th>'
-                               + '<th scope="col"><a href="#" id="executeSortByLocation"><b>'+  LOC.get('LOC_LOCATION') + '</b></th>'
+                               + '<th scope="col"><a>' + LOC.get('LOC_CHECK')+ '</a></th>'
+                               + '<th scope="col"><a href="#" id="executeSortByResultId">' +  LOC.get('LOC_RESULTID') + '</th>'
+                               + '<th scope="col"><a href="#" id="executeSortByResultTitle">' +  LOC.get('LOC_RESULTTITLE') + '</th>'
+                               + '<th scope="col"><a href="#" id="executeSortByDateSent">' +  LOC.get('LOC_DATESENT') + '</th>'
+                               + '<th scope="col"><a href="#" id="executeSortByUser">' +  LOC.get('LOC_USER') + '</th>'
+                               + '<th scope="col"><a href="#" id="executeSortByLocation">'+  LOC.get('LOC_LOCATION') + '</th>'
                                + '</tr>'
                                + '</thead>'
                                + '<tbody id="resultListTable">'
@@ -114,7 +114,6 @@ var ResultList = function() {
                                                'isAscending': true,
                                                'orderBy': "title"},
                                                function(i) {fillResultsTable(i);} );
-
     }
 
     function toggleSortByResultId() {
@@ -201,12 +200,8 @@ var ResultList = function() {
     }
 
     function updatePageNumber() {
-        $('#navi').empty();
-        $('#navi').append( '<a class="buttonPrevious" id="buttonPrevious"/><a class="nextPrevText">'
-                         + (resultStartIndex + 1)
-                         + ' of '
-                         + totalPages
-                         + '</a><a class="buttonNext"  id="buttonNext"/>' );
+        $("#pageIndexText").empty();
+        $("#pageIndexText").append( '<small>' + (resultStartIndex + 1) + '</small>' + '<strong> of ' + totalPages + '</strong>' );
 
         $("#buttonPrevious").click( function(){onPreviousClicked();} );
         $("#buttonNext").click( function(){onNextClicked();} );

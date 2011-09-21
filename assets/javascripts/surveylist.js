@@ -18,7 +18,7 @@ var SurveyList = function() {
     };
 
     function showSurveyList (){
-        $('#plusButton').mouseover( function(event) { SurveyListCombo.showMenu();});
+        $('#plusButton').mouseover( function(event) {SurveyListCombo.showMenu();});
 
         $('#minimalist').append( '<thead>'
                                + '<tr>'
@@ -47,12 +47,8 @@ var SurveyList = function() {
     }
 
     function updatePageNumber() {
-        $('#navi').empty();
-        $('#navi').append( '<a class="buttonPrevious" id="buttonPrevious"/><a class="nextPrevText">'
-                         + (surveyStartIndex + 1)
-                         + ' of '
-                         + totalPages
-                         + '</a><a class="buttonNext"  id="buttonNext"/>' );
+        $("#pageIndexText").empty();
+        $("#pageIndexText").append( '<small>' + (surveyStartIndex + 1) + '</small>' + '<strong> of ' + totalPages + '</strong>' );
         $("#buttonPrevious").click( function(){onPreviousClicked();} );
         $("#buttonNext").click( function(){onNextClicked();} );
     }
@@ -143,15 +139,15 @@ var SurveyList = function() {
                                 + '<td>' + item.ndgUser.username + '</td>'
                                 + '<td id="resultCollectionQuantityString' + item.id + '"></td>'
                                 + '<td class="menubar" id="menu' + item.id + '" >'
-                                + '<span title="' + LOC.get('LOC_DOWNLOAD') + '"<a class="buttonDownload" id="buttonDownload" /></span>'
-                                + '<span title="' + LOC.get('LOC_UPLOAD') + '"<a class="buttonUpload" id="buttonUpload" /></span>'
-                                + '<span title="' + LOC.get('LOC_SEND') + '"<a class="buttonPhone" id="buttonPhone" /></span>'
-                                + '<span title="' + LOC.get('LOC_EDIT') + '"<a class="buttonEdit" id="buttonEdit" /></span>'
-                                + '<span title="' + LOC.get('LOC_DUPLICATE') + '"<a class="buttonDuplicate" id="buttonDuplicate" /></span>'
-                                + '<span title="' + LOC.get('LOC_DELETE') + '"<a class="buttonDelete" id="buttonDelete" /></span>'
+                                + '<span title="' + LOC.get('LOC_DOWNLOAD') + '"class="buttonDownload" id="buttonDownload" unselectable="on"/></span>'
+                                + '<span title="' + LOC.get('LOC_UPLOAD') + '"class="buttonUpload" id="buttonUpload" unselectable="on"/></span>'
+                                + '<span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"/></span>'
+                                + '<span title="' + LOC.get('LOC_EDIT') + '" class="buttonEdit" id="buttonEdit" unselectable="on"/></span>'
+                                + '<span title="' + LOC.get('LOC_DUPLICATE') + '"class="buttonDuplicate" id="buttonDuplicate" unselectable="on"/></span>'
+                                + '<span title="' + LOC.get('LOC_DELETE') + '"class="buttonDelete" id="buttonDelete" unselectable="on"/></span>'
                                 + '</td>'
                                 + '</tr>' );
-
+        $('#menu' + item.id + ' span').mousedown(function() { onButtonMouseDownHandler($(this));} );
         if ( item.resultCollection > 0 ) {
             $('#resultCollectionQuantityString' + item.id ).append( '<a href="#" id="Item'+ item.id + '">' + item.resultCollection + '</a>' );
         } else {
@@ -169,13 +165,23 @@ var SurveyList = function() {
         $( '#Item' + item.id ).click( item.id, function(i) {
             ResultList.showResultList(i);
         } );
-        $('#menu' + item.id +' .buttonDownload').click( item.surveyId, function(i){onDownloadSurveyClicked(i);} );
-        $('#menu' + item.id +' .buttonUpload').click( item.surveyId, function(i){onUploadSurveyClicked(i);} );
-        $('#menu' + item.id +' .buttonDelete').click( item.surveyId, function(i){onDeleteSurveyClicked(i);} );
-        $('#menu' + item.id +' .buttonDuplicate').click( item.surveyId, function(i){onDuplicateSurveyClicked(i);} );
-        $('#menu' + item.id +' .buttonPhone').click( item.surveyId, function(i){onSendSurveyClicked(i);} );
-        $('#menu' + item.id +' .buttonEdit').click( item.id, function(i){onEditSurveyClicked(i);} );
+        $('#menu' + item.id +' #buttonDownload').click( item.surveyId, function(i){onDownloadSurveyClicked(i);} );
+        $('#menu' + item.id +' #buttonUpload').click( item.surveyId, function(i){onUploadSurveyClicked(i);} );
+        $('#menu' + item.id +' #buttonDelete').click( item.surveyId, function(i){onDeleteSurveyClicked(i);} );
+        $('#menu' + item.id +' #buttonDuplicate').click( item.surveyId, function(i){onDuplicateSurveyClicked(i);} );
+        $('#menu' + item.id +' #buttonPhone').click( item.surveyId, function(i){onSendSurveyClicked(i);} );
+        $('#menu' + item.id +' #buttonEdit').click( item.id, function(i){onEditSurveyClicked(i);} );
     }
+
+function onButtonMouseDownHandler(source)
+{
+    source.addClass('pushed');
+    $('body').mouseup(function() {
+        $('.pushed').removeClass('pushed');
+        $('body').unbind('mouseup');
+        return false; });
+    return false;
+}
 
     function onEditSurveyClicked(e) {
         Editor.createEditor(e);
@@ -258,12 +264,12 @@ var SurveyList = function() {
     }
 
     function onMouseOverHandler(e){
-        $('#menu' + e.data + " button").addClass("hover");
+        $('#menu' + e.data + " span" ).addClass("hover");
         $('#Survey'+ e.data).addClass("hoverRow");
     }
 
     function onMouseOutHandler(e){
-        $('#menu' + e.data + " button").removeClass("hover");
+        $('#menu' + e.data+ " span" ).removeClass("hover");
         $('#Survey'+ e.data).removeClass("hoverRow");
     }
 

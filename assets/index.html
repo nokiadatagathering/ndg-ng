@@ -48,39 +48,56 @@
 </head>
 
 <body>
-   <div id="container">
-     <div id="main">
+    <div id="container">
+            <div id="flags">
+                     <a href="#" id="flag_eua" ><img src="images/flag_eua.jpg"></a>
+                         <a href="#" id="flag_bra" ><img src="images/flag_bra.jpg"></a>
+                         <a href="#" id="flag_spa" ><img src="images/flag_spa.jpg"></a>
+                         <a href="#" id="flag_pol" ><img src="images/flag_pol.jpg"></a>
+            </div>
+            <div id="header">
+                <div id="headerLeft">
+                    <img src="images/brand.jpg">
+                    <div id=section>
+                        <H2>Survey List</H2><a href="">User Admin</a>
+                    </div>
+                </div>
+                    <div id="user">Fulano da Silva<a href="">Logout</a>
+                    </div>
+                    <div id="search">
+                       <input class="searchTextField" type="search" name="s"><div class="searchComboBox" id="searchComboBox" ><span>ID</span></div>
+                    </div>
+            </div><!--END of header-->
+            <div id="leftcolumn">
+                <div id=filter>
+                    <span class="plusButton" id="plusButton" >
+                        <a href="#"><img id ="plusButtonImage" src="images/plus.png"></a>
+                    </span>
+                    <h3>STATUS</h3>
+                    <h4 class="markBuilding">Building</h4>
+                    <h4 class="markAvailable">Available</h4>
+                </div>
+            </div><!--END of leftcolumn-->
 
-         <div id="header">
-          <img src="images/brand.jpg">
-             <div id="language">
-             </div> <!--! end of #language -->
-               <div id="user">
-               Fulano da Silva &nbsp;&nbsp;<a href="">Logout</a>
-               </div>
-               <div id="search">
-               <input class="searchTextField" type="search" name="s"><div class="searchComboBox" id="searchComboBox" ><span>ID</span></div>
-               </div>
-         </div > <!--! end of #header -->
-
-       <div id="section">
-         <H2>Survey List</H2><a href="">User Admin</a>
-       </div> <!--! end of #section -->
-
-       <div id="filter">
-       <span class="plusButton" id="plusButton" >
-         <a href="#"><img id ="plusButtonImage" src="images/btn_plus.jpg"></a>
-       </span>
-
-       <h3>STATUS</h3>
-       <h4 class="markBuilding">Building</h4>
-       <h4 class="markAvailable">Available</h4>
-       </div> <!--! end of #filter -->
-
-<div id="boxes">
+                <div id="content">
+                    <div id="contentMain">
+                        <div id="datatable">
+                            <table id="minimalist"></table>
+                        </div>
+                    </div>
+                    <div id="contentToolbar" >
+                        <a class="buttonNext"  id="buttonNext"></a>
+                        <a class="buttonPrevious" id="buttonPrevious"></a>
+                        <span id="pageIndexText"><small>0</small> <strong>of 0</strong></span>
+                    </div>
+                </div>
+            <div id="footer">
+                <p><b>Home | About | Documentation | Community</b></p>
+            </div>
+     </div>
+<div> 
     <div id="popup-context" class="popup-context">
     </div>
-
     <div id="dialog-exportResults" class="dialogs">
         <div id="exportResults-step_1"></div>
         <div id="exportResults-step_2"></div>
@@ -114,10 +131,6 @@
             <div id="confirmCategoryButton"></div>
         </div>
     </div>
-
-
-
-    
     <!-- Mask to cover the whole screen -->
     <div id="mask"></div>
 </div>
@@ -162,32 +175,10 @@ var switchCategoryDialog = $("#dialog-editorSwitchCategory").dialog(
 });
 
 $(document).ready(function() {
-    $('#language').append( '<a href="#" id="flag_eua" ><img src="images/flag_eua.jpg"></a>'
-                         + '<a href="#" id="flag_bra" ><img src="images/flag_bra.jpg"></a>'
-                         + '<a href="#" id="flag_spa" ><img src="images/flag_spa.jpg"></a>'
-                         + '<a href="#" id="flag_pol" ><img src="images/flag_pol.jpg"></a>' );
-    $('#flag_eua').click( 'flag_eua',function(event){ LOC.selectLanguage(event)} );
-    $('#flag_bra').click( 'flag_bra',function(event){ LOC.selectLanguage(event)} );
-    $('#flag_spa').click( 'flag_spa',function(event){ LOC.selectLanguage(event)} );
-    $('#flag_pol').click( 'flag_pol',function(event){ LOC.selectLanguage(event)} );
     SurveyList.showSurveyList();
 });
 
 </script>
-      <div id="content">
-        <div id="datatable">
-          <table id="minimalist">
-          </table>
-        </div>
-        <div id="navi">
-        </div>
-      </div> <!--! end of #content -->
-    </div> <!--! end of #main -->
-    <div id="footer">
-      <p><b>Home | About | Documentation | Community</b></p>
-    </div> <!--! end of footer -->
-  </div> <!--! end of #container -->
-
 
   <!-- JavaScript at the bottom for fast page loading -->
 

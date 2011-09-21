@@ -9,7 +9,7 @@
     background: #dbe4f1;
 }
 
-.menubar button {
+.menubar span {
     margin-left: 1px;
     margin-right: 1px;
     width: 50px;
@@ -17,10 +17,16 @@
     visibility: hidden;
 }
 
-.menubar button.hover {
+.menubar span.hover {
     visibility: visible;
 }
 
+.menubar span {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   user-select: none;
+}
 
 .nextPrevText {
     float: left;
@@ -31,91 +37,113 @@
     font-family: "Myriad Pro Regular";
 }
 
-#buttonDownload {
+.buttonDownload {
     float:left;
     width: 50px;
     height: 43px;
     background: url(../images/icon_download_off.png) no-repeat top;
 }
 
-#buttonDownload:active {
+.buttonDownload.pushed {
     background: #0161ad url(../images/icon_download_on.png) no-repeat bottom;
 }
 
-#buttonUpload {
+.buttonUpload {
     float: left;
     width: 50px;
     height: 43px;
     background: url(../images/icon_upload_off.png);
 }
 
-#buttonUpload:active {
+.buttonUpload.pushed {
     background: #0161ad url(../images/icon_upload_on.png);
 }
 
-#buttonPhone {
+.buttonPhone {
     float: left;
     width: 50px;
     height: 43px;
     background: url(../images/icon_phone_off.png);
 }
 
-#buttonPhone:active {
+.buttonPhone.pushed {
     background: #0161ad  url(../images/icon_phone_on.png);
 }
 
-#buttonEdit {
+.buttonEdit {
     float: left;
     width: 50px;
     height: 43px;
     background: url(../images/icon_edit_off.png);
 }
 
-#buttonEdit:active {
+.buttonEdit.pushed {
     background: #0161ad  url(../images/icon_edit_on.png);
 }
 
-#buttonDuplicate {
+.buttonDuplicate {
     float: left;
     width: 50px;
     height: 43px;
     background: url(../images/icon_duplicate_off.png);
 }
 
-#buttonDuplicate:active {
+.buttonDuplicate.pushed {
     background: #0161ad  url(../images/icon_duplicate_on.png);
 }
 
-#buttonDelete {
+.buttonDelete {
     float: left;
     width: 50px;
     height: 43px;
     background: url(../images/icon_delete_off.png);
 }
 
-#buttonDelete:active {
+.buttonDelete.pushed {
     background: #0161ad url(../images/icon_delete_on.png);
 }
 
-#buttonNext {
-    float: left;
-    width: 50px;
-    height: 43px;
-    background: url(../images/icon_next_off.png);
-}
-
-#buttonNext:active {
-    background: #0161ad url(../images/icon_next_on.png);
-
-}
-
 #buttonPrevious {
-    float: left;
-    width: 50px;
-    height: 43px;
-    background: url(../images/icon_previous_off.png);
+    float: right;
+    width: 32px;
+    height: 33px;
+    margin-right: 11px;
+    background: url(../images/back.png) no-repeat;
 }
 
 #buttonPrevious:active {
-    background: #0161ad url(../images/icon_previous_on.png);
+    background: #0161ad url(../images/back.png) no-repeat;
+}
+
+#buttonNext {
+    float: right;
+    width: 32px;
+    height: 33px;
+    margin-right: 19px;
+    background: url(../images/next.png) no-repeat;
+}
+
+#buttonNext:active {
+    background: #0161ad url(../images/next.png) no-repeat;
+
+}
+
+#pageIndexText {
+    float: right;
+    text-align: right;
+    vertical-align: middle;
+    margin-top: 10px;
+    margin-right: 14px;
+}
+
+#pageIndexText small {
+    font-size: 13px;
+    font-family: "Myriad Semibold";
+    color: #6388bb;
+}
+
+#pageIndexText strong {
+    font-size: 13px;
+    font-family: "Myriad Regular";
+    color: #6388bb;
 }

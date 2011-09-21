@@ -29,37 +29,39 @@ var LOC = (function() {
         LOC_PUBLISHER: 'Publisher',
         LOC_RESULTS: 'Results',
         LOC_SURVEYID: 'SurveyId',
-        LOC_NEW_SURVEY: 'New Survey'
+        LOC_NEW_SURVEY: 'New Survey',
+        LOC_CHECK: 'Check'
     };
 
     var constants_POL = {
-        LOC_CSV: 'Sci1gnij w formacie CSV',
-        LOC_XLS: 'Oci1gnij w fgormacie XLS',
+        LOC_CSV: 'Sciągnij w formacie CSV',
+        LOC_XLS: 'Ściągnij w fgormacie XLS',
         LOC_CLOSE: 'Zamknij',
-        LOC_EXPORT_IMAGES: 'Rezultaty tej ankiety zawieraj1 zdjecia. Czy do31czyc je do wynik�w?',
+        LOC_EXPORT_IMAGES: 'Rezultaty tej ankiety zawierają zdjęcia. Czy dołączyc je do wyników?',
         LOC_EXPORT_FORMAT: 'Wybierz format pliku z wynikami',
         LOC_YES: 'Tak',
         LOC_NO: 'Nie',
         LOC_RESULTID: 'ID Resultat',
         LOC_RESULTTITLE: 'Tytul',
-        LOC_DATESENT: 'Data wys3ania',
+        LOC_DATESENT: 'Data wysłania',
         LOC_USER: 'Uzytkownik',
         LOC_LOCATION: 'Lokalizacja',
-        LOC_BACK_TO_SURVEY_LIST: 'Wr�c do list ankiet',
+        LOC_BACK_TO_SURVEY_LIST: 'Wróc do list ankiet',
         LOC_EXPORT_RESULTS: 'Exportuj resultaty',
         LOC_EXPORT_ALL_RESULTS: 'Export wszytkie resultaty',
-        LOC_DOWNLOAD: 'Oci1gnij',
-        LOC_UPLOAD: 'Za3aduj',
+        LOC_DOWNLOAD: 'Ściągnij',
+        LOC_UPLOAD: 'Załaduj',
         LOC_EDIT: 'Edituj',
         LOC_DUPLICATE: 'Duplikuj',
         LOC_DELETE: 'Skasuj',
-        LOC_SEND: 'Wyolij',
+        LOC_SEND: 'Wyślij',
         LOC_SURVEY_NAME: 'Nazwa ankiety',
         LOC_DATE_PUBLISHED: 'Data publikacji',
         LOC_PUBLISHER: 'Autor',
         LOC_RESULTS: 'Resultaty',
         LOC_SURVEYID: 'ID ankiety',
-        LOC_NEW_SURVEY: 'Nowa ankieta'
+        LOC_NEW_SURVEY: 'Nowa ankieta',
+        LOC_CHECK: 'Zaznacz'
     };
 
 
