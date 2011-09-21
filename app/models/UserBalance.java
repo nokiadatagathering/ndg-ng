@@ -4,7 +4,9 @@
  */
 package models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import play.db.jpa.Model;
@@ -17,6 +19,7 @@ public class UserBalance extends Model {
 
     public Integer imeis;
 
+    @Column( name = "send_alerts")
     public Integer sendAlerts;
 
     public Integer results;
@@ -24,6 +27,7 @@ public class UserBalance extends Model {
     public Integer surveys;
     
     @ManyToOne
+    @JoinColumn( name = "ndg_user_id")
     public NdgUser ndgUser;
 
     public UserBalance() {

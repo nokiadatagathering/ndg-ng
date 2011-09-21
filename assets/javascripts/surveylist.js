@@ -67,8 +67,8 @@ var SurveyList = function() {
     function updatePageNumber() {
         $("#pageIndexText").empty();
         $("#pageIndexText").append( '<small>' + (surveyStartIndex + 1) + '</small>' + '<strong> of ' + totalPages + '</strong>' );
-        $("#buttonPrevious").click( function(){onPreviousClicked();} );
-        $("#buttonNext").click( function(){onNextClicked();} );
+        $("#buttonPrevious").click( function(event){onPreviousClicked(event);} );
+        $("#buttonNext").click( function(event){onNextClicked(event);} );
     }
 
     function fillSurveyData( orderByColumn, isAscending ) {

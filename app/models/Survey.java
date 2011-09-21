@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,34 +23,36 @@ import play.db.jpa.Model;
 public class Survey extends Model {
 
     @Required
-    @Column(nullable = false)
+    @Column(nullable = false, name="survey_id")
     public String surveyId;
-
+    
     @Required
     @Column(nullable = false)
     public String title;
-
+    
     public String lang;
-
+    
     public Integer available;
-
+    
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="upload_date")
     public Date uploadDate;
-
-
+    
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     @OnDelete(action=OnDeleteAction.CASCADE)
     public List<Category> categoryCollection;
-
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<TransactionLog> transactionLogCollection;
-
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     @OnDelete(action=OnDeleteAction.CASCADE)
     public Collection<NdgResult> resultCollection;
-
+    
     @ManyToOne(optional = false)
+    @JoinColumn(name = "ndg_user_id")
     public NdgUser ndgUser;
 
     public Survey() {
@@ -63,7 +66,7 @@ public class Survey extends Model {
         this.surveyId = surveyId;
         this.title = title;
     }
-
+    
     public List<Question> getQuestions(){
         ArrayList<Question> questions = new ArrayList<Question>();
         for(Category category : categoryCollection){

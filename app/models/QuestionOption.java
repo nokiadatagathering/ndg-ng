@@ -16,7 +16,7 @@ import play.db.jpa.Model;
 @Table(name = "question_option")
 public class QuestionOption extends Model {
     @Required
-    @Column(nullable=false)
+    @Column(nullable=false, name = "option_index")
     public int optionIndex;
     
     @Required
@@ -24,7 +24,7 @@ public class QuestionOption extends Model {
     public String label;
     
     @Required
-    @Column(nullable=false)
+    @Column(nullable=false, name = "option_value")
     public String optionValue;
     
     @ManyToOne(optional = false)

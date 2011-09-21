@@ -20,7 +20,7 @@ import play.db.jpa.Model;
 @Table( name = "ndg_role" )
 public class NdgRole extends Model {
 
-    @Column( unique = true )
+    @Column( unique = true, name = "role_name" )
     public String roleName;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ndgRole")

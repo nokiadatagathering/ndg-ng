@@ -6,6 +6,7 @@ package models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -21,15 +22,15 @@ import play.db.jpa.Model;
 public class Answer extends Model 
 {
     @Required
-    @Column( name = "answerIndex", nullable= false )
+    @Column( name = "answer_index", nullable= false )
     public int answerIndex;
     
     @Lob
     @MaxSize(10000) 
-    @Column( name = "textData" )
+    @Column( name = "text_data" )
     public String textData;
     
-    @Column( name = "binaryData" )
+    @Column( name = "binary_data" )
     public Blob binaryData;
     
     @Required
@@ -38,6 +39,7 @@ public class Answer extends Model
     
     @Required
     @ManyToOne(optional=false)
+    @JoinColumn(name="ndg_result_id")
     public NdgResult ndgResult;
 
     public Answer(int index ) {

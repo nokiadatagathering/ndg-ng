@@ -50,7 +50,7 @@ var SurveyListCombo = function() {
             var event = window.event;
         }
         event.cancelBubble = true;
-    if (event.stopPropagation) {
+        if (event.stopPropagation) {
             event.stopPropagation();
         }
     }

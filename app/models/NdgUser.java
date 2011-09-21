@@ -35,35 +35,39 @@ public class NdgUser extends Model {
     public String email;
     
     @Required
-    @Column(nullable = false)
+    @Column(nullable = false, name = "first_name")
     public String firstName;
     
     @Required
-    @Column(nullable = false)
+    @Column(nullable = false, name = "last_name")
     public String lastName;
     
+    @Column(name = "country_code")
     public String countryCode;
     
+    @Column(name = "area_code")
     public String areaCode;
     
+    @Column(name = "phone_number")
     public String phoneNumber;
     
     @Required
-    @Column( nullable = false )
+    @Column( nullable = false, name = "user_admin" )
     public String userAdmin;
     
     @Required
-    @Column( nullable = false )
+    @Column( nullable = false, name = "user_validated" )
     public char userValidated;
     
     @Required
-    @Column( nullable = false )
+    @Column( nullable = false, name = "email_preferences" )
     public char emailPreferences;
     
+    @Column( name = "validation_key")
     public String validationKey;
     
     @Required
-    @Column( nullable = false )
+    @Column( nullable = false, name = "has_full_permissions" )
     public char hasFullPermissions;
     
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgUser"  )

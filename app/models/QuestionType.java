@@ -18,7 +18,7 @@ import play.db.jpa.Model;
 public class QuestionType extends Model {
 
     @Required
-    @Column(name = "typeName", nullable = false)
+    @Column(name = "type_name", nullable = false)
     public String typeName;
     
     public Integer supported;
