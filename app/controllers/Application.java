@@ -19,6 +19,9 @@ import java.util.Date;
 import models.NdgResult;
 import models.NdgUser;
 import models.Survey;
+import models.TransactionLog;
+import models.constants.TransactionlogConsts;
+import models.utils.NdgQuery;
 import models.utils.SurveyDuplicator;
 
 public class Application extends Controller {
@@ -149,5 +152,23 @@ public class Application extends Controller {
         Survey copy = SurveyDuplicator.plainCopy(origin, newId);
 
         copy.save();
+    }
+
+    public static void sendSurveys(String formID, String users[])
+    {
+        for (int i = 0; i < users.length; i++) {
+            TransactionLog transaction = new TransactionLog();
+            transaction.transactionDate =new Date();
+            transaction.transactionType = TransactionlogConsts.TransactionType.TYPE_SEND_SURVEY;
+            transaction.transactionStatus = TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE;
+            transaction.transmissionMode = TransactionlogConsts.TransactionMode.MODE_HTTP;
+
+            transaction.address = request.remoteAddress;
+            transaction.ndgUser  = NdgQuery.getUsersbyId(Long.parseLong(users[i]));
+            transaction.survey = NdgQuery.getSurveyById(formID);
+
+            transaction.save();
+        }
+
     }
 }
