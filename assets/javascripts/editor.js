@@ -2,6 +2,8 @@
 var Editor = function() {
 
     var surveyId;
+    var jsonSurvey;
+
 
     return {
         createEditor : function(id) {
@@ -63,10 +65,6 @@ var Editor = function() {
     }
 
     function prepereSurveyJSON(){
-//        var category1 = new Category("test", 2);
-//        var jsonCategory = JSON.stringify(category1);
-
-
         var categoryList = [];
         var catElemList = $( "#categories" ).find(".listCategory");
 
@@ -133,13 +131,16 @@ var Editor = function() {
 
     function fillEditor(id){
         $.getJSON('/application/categoryList', {'surveyId': parseInt(id)},
-                                                    function(data){fillCategoryList(data);} );
+                                                    function(data){
+                                                        jsonSurvey = data;
+                                                        fillCategoryList(data);
+                                                    } );
     }
 
     function fillCategoryList(data){
         $.each(data.categories,function(i,item) {
             appendCategoryElement(item.id, item.label);
-            fillQuestions(item.id);
+            fillQuestions(item.questionCollection, item.id );
         });
     }
 
@@ -168,14 +169,9 @@ var Editor = function() {
         $('#' + itemId.data).empty().remove();
     }
 
-    function fillQuestions(categoryId){
+    function fillQuestions(data, categoryId ){
         var listId = 'questions' + categoryId;
-        $.getJSON('/application/questions', {'categoryId': parseInt(categoryId)},
-                                                    function(data){fillQuestionList(data, listId);} );
-    }
-
-    function fillQuestionList(data, listId){
-        $.each(data.questions,function(i,item) {
+        $.each(data, function(i,item) {
             appendQuestionElement(item.id, item.label, listId);
         });
     }

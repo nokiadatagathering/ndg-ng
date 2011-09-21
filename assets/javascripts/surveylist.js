@@ -191,15 +191,15 @@ var SurveyList = function() {
         $('#menu' + item.id +' #buttonEdit').click( item.id, function(i){onEditSurveyClicked(i);} );
     }
 
-function onButtonMouseDownHandler(source)
-{
-    source.addClass('pushed');
-    $(document).mouseup(function() {
-        $('.pushed').removeClass('pushed');
-        $(document).unbind('mouseup');
-        return false; });
-    return false;
-}
+    function onButtonMouseDownHandler(source)
+    {
+        source.addClass('pushed');
+        $(document).bind('mouseup.menubutton',function() {
+            $('.pushed').removeClass('pushed');
+            $(document).unbind('mouseup.menubutton');
+            return false; });
+        return false;
+    }
 
     function onEditSurveyClicked(e) {
         Editor.createEditor(e);

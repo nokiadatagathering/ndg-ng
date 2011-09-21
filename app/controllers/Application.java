@@ -85,23 +85,13 @@ public class Application extends Controller {
 
     }
 
-    public static void questions( int categoryId ){
-        String query = "category_id = " + String.valueOf( categoryId ); //TODO order by index
-        List<Question> questions = Question.find(query).fetch();
-        JSONSerializer questionListSerializer = new JSONSerializer();
-        questionListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
-        questionListSerializer.include( "id","category", "label", "objectName", "ndgUser.username", "latitude" )
-            .exclude( "*" ).rootName( "questions" );
-        renderJSON(questionListSerializer.serialize(questions));
-    }
-
     public static void categoryList( int surveyId){
         String query = "survey_id = " + String.valueOf( surveyId ) + " order by categoryIndex";
         List<Category> categories = Category.find(query).fetch();
         JSONSerializer categoryListSerializer = new JSONSerializer();
         categoryListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
         categoryListSerializer.include( "id","categoryIndex", "questionCollection", "label" )
-            .exclude( "*" ).rootName( "categories" );
+            .rootName( "categories" );
         renderJSON(categoryListSerializer.serialize(categories));
     }
 

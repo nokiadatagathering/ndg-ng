@@ -37,7 +37,7 @@ INSERT INTO `ndg_user` (`areaCode`, `countryCode`, `email`, `emailPreferences`, 
 -- Dumping data for table `question`
 --
 
-INSERT INTO `question` ( `constraintText`, `hint`, `label`, `objectName`, `readonly`, `required`, `defaultAnswer_id`, `questionType_id`, `survey_id`,`category_id`) VALUES (NULL,NULL,'What is your name ?','TextQuestion',0,0,NULL,1,1,1),(NULL,NULL,'On average, how often do you laugh per day ?','IntegerQuestion',0,0,NULL,2,1,1),(NULL,NULL,'Are you a thinker, a talker or a doer ?','ExclusiveQuestion',0,0,NULL,10,1,1),(NULL,NULL,'Which continents have you visited ?','MultipleQuestion',0,0,NULL,11,1,2),(NULL,NULL,'What do you like most about Finland?','TextQuestion2',0,0,NULL,1,1,2),(NULL,NULL,'Date','DateQuestion',0,0,NULL,4,1,2);
+INSERT INTO `question` ( `constraintText`, `hint`, `label`, `objectName`, `readonly`, `required`, `defaultAnswer_id`, `questionType_id`,`category_id`) VALUES (NULL,NULL,'What is your name ?','TextQuestion',0,0,NULL,1,1),(NULL,NULL,'On average, how often do you laugh per day ?','IntegerQuestion',0,0,NULL,2,1),(NULL,NULL,'Are you a thinker, a talker or a doer ?','ExclusiveQuestion',0,0,NULL,10,1),(NULL,NULL,'Which continents have you visited ?','MultipleQuestion',0,0,NULL,11,2),(NULL,NULL,'What do you like most about Finland?','TextQuestion2',0,0,NULL,1,2),(NULL,NULL,'Date','DateQuestion',0,0,NULL,4,2);
 
 --
 -- Dumping data for table `question_option`
