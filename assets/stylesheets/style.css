@@ -348,7 +348,7 @@ body {
 }
 
 #plusButton {
-    margin-left: 38px;
+    margin-left: 58px;
     margin-top: 13px;
 }
 
@@ -364,18 +364,43 @@ body {
     font-family: "Myriad Pro Regular";
     z-index: 1;
     visibility: hidden;
-    background: #99ff00;
-    border: 2px dashed #ff0000;
+    background: url('../images/submenu_bg.png') repeat;
+    border: 1px solid #dadadf;
 }
 
 .popup-context a {
     display: block;
     text-decoration: none;
     padding-left: 6px;
-    color: #cc00cc;
+    color: #535076;
 }
 
 .popup-context  a:hover {
+    background: #ff9999;
+}
+
+.popup-selection-context {
+    width: auto;
+    height: 66px;
+    line-height: 22px;
+    position: absolute;
+    z-index: 1;
+    visibility: hidden;
+    background: url('../images/submenu_bg.png') repeat;
+    border: 1px solid #dadadf;
+    font-size: 12px;
+    font-family: "Myriad Semibold";
+}
+
+.popup-selection-context a {
+    padding-left: 10px;
+    padding-right: 30px;
+    display: block;
+    text-decoration: none;
+    color: #535076;
+}
+
+.popup-selection-context  a:hover {
     background: #ff9999;
 }
 

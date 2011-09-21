@@ -34,18 +34,14 @@ var ExportResults = function() {
         $('#exportResults-step_2').empty();
         $('#exportResults-step_3').empty();
 
-        $('#exportResults-step_1').append( LOC.get('LOC_EXPORT_FORMAT') );
-        $('#exportResults-step_1').append( '<button id="buttonCSV" class="buttonCSV" type="button" title="' + LOC.get('LOC_CSV') + '"/>' );
-        $('#exportResults-step_1').append( '<button id="buttonXLS" class="buttonXLS" type="button" title="' + LOC.get('LOC_XLS') + '"/>' );
-        $('#buttonCSV').click( function() {exportCSVResults()} );
-        $('#buttonXLS').click( function() {exportXLSResults()} );
+        exportXLSResults();
     }
 
-    function exportCSVResults() {
-        $.getJSON( '/service/surveyHasImages',
-                   { 'surveyId': surveyId },
-                   function(result) { proceedExportResults( ".CSV", result.hasImages ); } );
-    }
+//    function exportCSVResults() {
+//        $.getJSON( '/service/surveyHasImages',
+//                   { 'surveyId': surveyId },
+//                   function(result) { proceedExportResults( ".CSV", result.hasImages ); } );
+//    }
 
     function exportXLSResults() {
         $.getJSON( '/service/surveyHasImages',

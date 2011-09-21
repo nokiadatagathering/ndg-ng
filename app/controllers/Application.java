@@ -108,7 +108,7 @@ public class Application extends Controller {
     public static void listResults( int surveyId, int startIndex, boolean isAscending, String orderBy ) {
         String query = "survey_id = "+ String.valueOf( surveyId ) + " order by "+ orderBy + ( isAscending ? " asc" : " desc" );
 
-        List<NdgResult> results = NdgResult.find( query ).fetch();//.from( RESULTS_PER_SIDE * startIndex ).fetch( RESULTS_PER_SIDE );
+        List<NdgResult> results = NdgResult.find( query ).from( RESULTS_PER_SIDE * startIndex ).fetch( RESULTS_PER_SIDE );
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
         surveyListSerializer.include( "id","resultId", "title", "startTime", "ndgUser.username", "latitude" )

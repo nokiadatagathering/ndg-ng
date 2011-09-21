@@ -34,7 +34,10 @@ var LOC = (function() {
         LOC_NAME: 'NAME',
         LOC_PHONE: 'PHONE',
         LOC_EMAIL: 'E-MAIL',
-        LOC_PERMISSION: 'PERMISSION'
+        LOC_PERMISSION: 'PERMISSION',
+        LOC_ALL: 'All',
+        LOC_ALL_PAGES: 'All Pages',
+        LOC_NONE: 'None'
     };
 
     var constants_POL = {
@@ -69,7 +72,10 @@ var LOC = (function() {
         LOC_NAME: 'IMIĘ',
         LOC_PHONE: 'TEL. NUMER',
         LOC_EMAIL: 'E-MAIL',
-        LOC_PERMISSION: 'UPRAWNIENIA'
+        LOC_PERMISSION: 'UPRAWNIENIA',
+        LOC_ALL: 'Widoczne',
+        LOC_ALL_PAGES: 'Wszytskie',
+        LOC_NONE: 'Odznacz'
     };
 
 

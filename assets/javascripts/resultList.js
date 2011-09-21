@@ -15,20 +15,22 @@ var ResultList = function() {
     var userAsc = true;
     var locationAsc = true;
 
+    var allResultSelected = false;
+
     var selectedResults = new Array();
 
     function backToSurveyList() {
         $('#minimalist').empty();
-        $('#executeBackToSurveyList').remove();
-        $('#executeExportAllResults').remove();
-        $('#executeExportResults').remove();
+//        $('#executeBackToSurveyList').remove();
+//        $('#executeExportAllResults').remove();
+//        $('#executeExportResults').remove();
         selectedResults = new Array();
         SurveyList.showSurveyList();
     }
 
     function fillWithResults(i, item) {
         $('#resultListTable').append( '<tr id="Result' + item.id + '">'
-                                    + '<td><input type="checkbox" id="resultCheckbox' + item.id + '"/></td>'
+                                    + '<td><input type="checkbox" class="resultCheckboxClass" id="resultCheckbox' + item.id + '"/></td>'
                                     + '<td>'+ item.resultId + '</td>'
                                     + '<td>' + item.title + '</td>'
                                     + '<td>' + new Date( item.startTime ).toString("dd/MM/yy") + '</td>'
@@ -63,11 +65,11 @@ var ResultList = function() {
     }
 
     function exportResults() {
-        ExportResults.exportResults( currentSurveyId, selectedResults );
-    }
-
-    function exportAllResults() {
-        ExportResults.exportAllResults( currentSurveyId );
+        if( allResultSelected ) {
+            ExportResults.exportAllResults( currentSurveyId );
+        } else {
+            ExportResults.exportResults( currentSurveyId, selectedResults );
+        }
     }
 
     function fillResultsTable(data) {
@@ -77,6 +79,10 @@ var ResultList = function() {
         });
 
         $('input:checkbox:not([safari])').checkbox({cls:'customCheckbox', empty:'../images/empty.png'});
+
+        if( allResultSelected ) {
+            doSelectAllVisibleResults();
+        }
     }
 
     function prepareContentToolbar() {
@@ -89,6 +95,9 @@ var ResultList = function() {
         $('#contentToolbar').append( '<span class="buttonExportKML" id="buttonExportKML" unselectable="on"/></span>');
         $('#contentToolbar').append( '<span class="buttonExportExternal" id="buttonExportExternal" unselectable="on"/></span>');
         $('#contentToolbar span').mousedown(function() { onButtonMouseDownHandler($(this));} );
+        $('#comboBoxSelection').click( function(event) { SurveyListCombo.showSelectionMenu(event); } );
+        $('#buttonExportExcel').click( function(event) { exportResults(); } );
+
     }
 
     function showResultList(i) {
@@ -260,7 +269,44 @@ var ResultList = function() {
         $('#Result'+ e.data).removeClass("hoverRow");
     }
 
-    return {showResultList : function(i) {showResultList(i);}
-    };
+    function selectAllVisibleResults() {
+        var checkboxes = $(".resultCheckboxClass");
 
+        $.each( checkboxes ,function( i, item ) {
+            item.checked = true;
+        });
+    }
+
+    function selectAllVisibleResults() {
+        doSelectAllVisibleResults();
+        allResultSelected = false;
+    }
+
+    function doSelectAllVisibleResults() {
+        var checkboxes = $(".resultCheckboxClass");
+
+        $.each( checkboxes ,function( i, item ) {
+            item.checked = true;
+        });
+    }
+
+    function selectAllResults() {
+        selectAllVisibleResults();
+        allResultSelected = true;
+    }
+
+    function unselectAllResults() {
+        var checkboxes = $(".resultCheckboxClass");
+
+        $.each( checkboxes ,function( i, item ) {
+            item.checked = false;
+        });
+        allResultSelected = false;
+    }
+
+    return {showResultList : function(i) { showResultList(i);},
+            selectAllResults : function(){ selectAllResults();},
+            selectAllVisibleResults : function() { selectAllVisibleResults();},
+            unselectAllResults : function(){ unselectAllResults();}
+    };
 }();
