@@ -21,6 +21,8 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
 
   <link rel="stylesheet" href="stylesheets/jquery-ui-1.8.16.custom.css">
+  <link rel="stylesheet" href="stylesheets/fileinput.css" />
+
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
   <link rel='stylesheet' href='stylesheets/exportresults.css'>
@@ -29,6 +31,7 @@
   <link rel='stylesheet' href='stylesheets/menubar.css'>
   <link rel='stylesheet' href='stylesheets/exportresults.css'>
   <link rel='stylesheet' href='stylesheets/dialogcustom.css'>
+  <link rel='stylesheet' href='stylesheets/sendsurvey.css'>
   <!-- end CSS-->
 
 
@@ -41,16 +44,17 @@
   <script src="javascripts/libs/jquery-1.6.2.min.js"></script>
   <script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"></script>
   <script src="javascripts/libs/jquery.checkbox.min.js"></script>
+  <script src="javascripts/libs/jquery.fileinput.min.js"></script>
   <script src="javascripts/libs/date.js"></script>
   <script type="text/javascript" src="javascripts/constants.js"></script>
   <script type="text/javascript" src="javascripts/localization.js"></script>
   <script type="text/javascript" src="javascripts/surveylist.js"></script>
+  <script type="text/javascript" src="javascripts/surveymodel.js"></script>
+  <script type="text/javascript" src="javascripts/editor.js"></script>
   <script type="text/javascript" src="javascripts/surveylistcombo.js"></script>
   <script type="text/javascript" src="javascripts/resultlist.js"></script>
   <script type="text/javascript" src="javascripts/sendsurvey.js"></script>
   <script type="text/javascript" src="javascripts/exportresults.js"></script>
-  <script type="text/javascript" src="javascripts/surveymodel.js"></script>
-  <script type="text/javascript" src="javascripts/editor.js"></script>
   <script type="text/javascript" src="javascripts/usermanagement.js"></script>
   <script type="text/javascript" src="javascripts/dynamictable.js"></script>
 </head>
@@ -112,28 +116,26 @@
 
     <div id="dialog-upload" class="dialogs">
         #{form @upload(), id:'uploadForm', enctype:'multipart/form-data', target:'cgiFrame'}
-        <p><label><b>Choose a survey to upload</b></label></p>
-        <p><label> <input type=file name="filename" ></label></p>
+        <span id="dialog-upload-query" ></span>
+        <input type="file" name="filename" id="uploadSurveyForm"/>
         <input type="hidden" name="uploadSurveyId" id="uploadSurveyId" />
-        <p><button>Send File</button><p>
+        <div class="buttonMedium" ><span id="buttonSendFile" ></span></div>
         #{/form}
     </div>
     <iframe id="uploadSurveyResult" name="cgiFrame" src="about:blank" style="visibility:hidden; width:0px; height:0px"></iframe>
     
     <div id="dialog-confirmDelete" >
 
-        <p><span>Are you sure?</span></p>
+        <p><span id="dialog-confirmDelete-query" ></span></p>
         <div>
-            <span>
-             <ul>
-                <li id="buttonDeleteYes" class="buttonSmall" ></li>
-                <li id="buttonDeleteNo" class="buttonSmall" ></li>
-             </ul>
-             </span>
+            <span id="buttonDeleteYes" class="buttonSmall" ></span>
+            <span id="buttonDeleteNo" class="buttonSmall" ></span>
         </div>
     </div>
+
     <div id="dialog-sendSurvey" class="dialogs">
         <div id="sendSurveyUsers"></div>
+        <div><span id="buttonSendSurveyDone" class="buttonSmall" ></span></div>
     </div>
 
     <div id="dialog-editorSwitchCategory" class="dialogs">
@@ -151,9 +153,9 @@
 var uploadDialog = $("#dialog-upload").dialog(
 {
     autoOpen: false,
-    modal: true,
-    zIndex: 9999,
-    resizable: false });
+    modal: false,//TODO: fix - MUST NOT BE MODAL. ON MODAL FILEINPUT PLUGIN DOES NOT WORK
+    resizable: false 
+});
 
 var exportDialog = $("#dialog-exportResults").dialog(
 {
@@ -177,7 +179,7 @@ var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
 var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
 {
     autoOpen: false,
-    modal: true,
+//    modal: true,//TODO - fix : MUST NOT BE MODAL. ON MODAL CHECKBOX BLUGIN DOES NOT WORK
     zIndex: 9999,
     resizable: false
 });
@@ -215,6 +217,8 @@ $(document).ready(function() {
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
   <script>window.jQuery.ui || document.write('<script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"><\/script>')</script>
 
+  <script>document.write('<script src="javascripts/libs/jquery.checkbox.min.js"><\/script>')</script>
+  <script>document.write('<script src="javascripts/libs/jquery.fileinput.min.js"><\/script>')</script>
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="javascripts/plugins.js"></script>
   <script defer src="javascripts/script.js"></script>

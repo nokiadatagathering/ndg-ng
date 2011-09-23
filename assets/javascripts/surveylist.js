@@ -18,7 +18,7 @@ var SurveyList = function() {
 
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "listsurveys", SurveyList);
 
-        $('#plusButton').mouseover( function(event) {SurveyListCombo.showMenu();});
+        $('#plusButton').bind('mouseover.surveyList', function(event) {SurveyListCombo.showMenu();});
         $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="markBuilding">Building</h4><h4 class="markAvailable">Available</h4>');
         $('#sectionTitle').text('Survey List');
         $('#userManagement').text('User Admin');
@@ -69,6 +69,7 @@ var SurveyList = function() {
 
 
     function onEditSurveyClicked(e) {
+        $('#plusButton').unbind('mouseover.surveyList');
         Editor.createEditor(e);
     }
 
@@ -77,7 +78,13 @@ var SurveyList = function() {
     }
 
     function onUploadSurveyClicked(e) {
+       $('#uploadSurveyForm').fileinput();
+       uploadDialog.dialog( { title: LOC.get('LOC_SURVEY_UPLOAD') });
+       document.getElementById('dialog-upload-query').textContent = LOC.get('LOC_CHOOSE_SURVEY_UPLOAD');
+       document.getElementById('buttonSendFile').textContent = LOC.get('LOC_SEND_FILE');
+
        uploadDialog.dialog("open");
+
        $("#uploadSurveyId").val(e.data);
     }
 
@@ -85,16 +92,17 @@ var SurveyList = function() {
         confirmDeleteDialog.dialog( {title: LOC.get('LOC_EXPORT_RESULTS')} );
         document.getElementById('buttonDeleteYes').textContent = LOC.get('LOC_YES');
         document.getElementById('buttonDeleteNo').textContent = LOC.get('LOC_NO');
+        document.getElementById('dialog-confirmDelete-query').textContent = LOC.get('LOC_SURVEY_DELETE_CONFIRM');
         confirmDeleteDialog.dialog("open");
-        $("#buttonDeleteYes").click( e.data, function(e){
+        $("#buttonDeleteYes").click( e.data, function(e) {
             $.post( "/delete/" + e.data, function(data) {
-            confirmDeleteDialog.dialog("close");
-            DynamicTable.refresh();
+                confirmDeleteDialog.dialog("close");
+                DynamicTable.refresh();
+            });
+            $("#buttonDeleteYes").unbind("click");
+            $("#buttonDeleteNo").unbind("click");
         });
-        $("#buttonDeleteYes").unbind("click");
-        $("#buttonDeleteNo").unbind("click");
-        });
-       $("#buttonDeleteNo").click( function(){
+       $("#buttonDeleteNo").click( function() {
            $("#buttonDeleteYes").unbind("click");
            $("#buttonDeleteNo").unbind("click");
            confirmDeleteDialog.dialog("close");
@@ -109,6 +117,8 @@ var SurveyList = function() {
 
     function onSendSurveyClicked(e) {
         SendSurvey.showUserList(e);
+        sendSurveyDialog.dialog( {title: LOC.get('LOC_SEND_SURVEY')} );
+        document.getElementById('buttonSendSurveyDone').textContent = LOC.get('LOC_DONE');
         sendSurveyDialog.dialog("open");
     }
 

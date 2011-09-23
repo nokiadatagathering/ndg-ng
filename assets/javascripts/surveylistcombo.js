@@ -7,7 +7,8 @@
 var SurveyListCombo = function() {
 
     return {showMenu : function(){showMenu();},
-            showSelectionMenu : function(event){showSelectionMenu(event);}
+            showSelectionMenu : function(event){showSelectionMenu(event);},
+            showEditorMenu : function(event){showEditorMenu(event);}
     };
 
     function showMenu(){
@@ -20,6 +21,25 @@ var SurveyListCombo = function() {
         var pos = objectPosition(document.getElementById("plusButtonImage"));
 
         $('#newSurveyAction').click( function(){alert( "!!!" );});
+
+        document.getElementById("popup-context").style.left = pos[0] + document.getElementById("plusButtonImage").clientWidth + "px";
+        document.getElementById("popup-context").style.top = pos[1] + "px";
+        document.getElementById("popup-context").style.visibility="visible";
+    }
+    
+    function showEditorMenu(event){
+          document.onclick=closeMenu;
+        if ( document.getElementById('popup-context').innerHTML.trim() != "" ) {
+            return;
+        }
+
+        $('#popup-context').append( '<a id="newCategiryAction" href="#">' + 'New Category' + '</a>' );
+        $('#popup-context').append( '<a id="newQuestinAction" href="#">' + 'New Question' + '</a>' );
+        
+        $('#newCategiryAction').click( function(){Editor.addCategory();} );
+        $('#newQuestinAction').click( function(){Editor.addQuestion();});
+        
+        var pos = objectPosition(document.getElementById("plusButtonImage"));
 
         document.getElementById("popup-context").style.left = pos[0] + document.getElementById("plusButtonImage").clientWidth + "px";
         document.getElementById("popup-context").style.top = pos[1] + "px";

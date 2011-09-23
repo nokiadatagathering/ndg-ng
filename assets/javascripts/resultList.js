@@ -24,7 +24,7 @@ var ResultList = function() {
                                     + '<td>' + ( item.latitude!= null ? 'OK': 'NO GPS' ) + '</td>'
                                     + '</tr>' );
 
-        $( '#resultCheckbox' + item.id ).bind( 'check uncheck', i, function(i){resultCheckboxClicked(i);} )
+        $( '#resultCheckbox' + item.id ).bind( 'check uncheck', item.id, function(i){resultCheckboxClicked(i);} )
     }
 
     function resultCheckboxClicked(i) {

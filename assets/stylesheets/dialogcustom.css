@@ -1,6 +1,6 @@
 .ui-widget {
     width:333px;
-    height:203px;
+    height: auto;
     padding: 0 !important;
     margin: 0 !important;
     border: none;
@@ -12,7 +12,7 @@
 
 .ui-widget-content {
     padding: 0 !important;
-    margin: 0 25px 0 25px  !important;
+    margin: 0 25px 0 25px !important;
     top: 0px;
     font-size: 18px;
     color: #3a77ca;
@@ -23,7 +23,7 @@
 .ui-dialog-titlebar {
     top: -8px;
     height: 30px !important;
-    padding-left: 25px !important;
+/*    padding-left: 25px !important;*/
     text-decoration: none;
     background: #3a77ca;
     border: none;
@@ -46,8 +46,8 @@
 
 .ui-dialog-titlebar-close:hover,
 .ui-dialog-titlebar-close:focus {
-    margin: -10px 0 0 0;
-    padding: 1px !important;
+/*    margin: -10px 0 0 0;
+    padding: 1px !important;*/
     border: none;
     width: 30px !important;
     height: 31px !important;
@@ -62,16 +62,14 @@
     left: 0;
  }
 
-ul.buttonSmall {text-align: center;}
-li.buttonSmall {display:inline; padding:0 0 0 0;}
-
 .buttonSmall {
-     float: left;
-     padding: 0 !important;
-     margin: 31px 16px 31px 0px  !important;
-     height: 32px;
-     width: 82px;
+     display: inline-block;
+     padding: 0;
+     margin: 0 0 31px 0;
+     height: 32px !important;
+     width: 84px;
      background: url('../images/bt-small.png') no-repeat;
+     background-position: center;
      font-size: 17px;
      font-family: "Myriad Pro Semibold";
      color: #3a77ca;
@@ -79,3 +77,51 @@ li.buttonSmall {display:inline; padding:0 0 0 0;}
      text-align: center;
      text-transform: uppercase;
  }
+
+ .buttonMedium {
+     display: inline-block;
+     padding: 0;
+     margin: 0 0 31px 0;
+     height: 32px;
+     width: 121px;
+     background: url('../images/bt-med.png') no-repeat;
+     background-position: center;
+     font-size: 17px;
+     font-family: "Myriad Pro Semibold";
+     color: #3a77ca;
+     line-height: 32px;
+     text-align: center;
+     text-transform: uppercase;
+ }
+
+.uploadFormClass {
+     width: 150px;
+     font-family: "Myriad Pro Semibold";
+     color: #3a77ca;
+     font-size: 14px;
+     margin-top: 39px;
+     margin-bottom: 39px;
+ }
+
+.fileinput-input {
+    height:20px;
+    width:150px;
+    background: url('gradient-input.gif') repeat-x;
+        margin: 39px 0 0 0 !important;
+    border:0 !important;
+        padding: 0 !important;
+}
+
+.fileinput-button {
+    height:20px;
+    width: 70px;
+    margin: 39px 0 0 0 !important;
+    padding: 0 !important;
+    background: #617798;
+    border: 0;
+    color: #FFFFFF;
+}
+
+.fileinput-button-text {
+    padding: 0px !important;
+}

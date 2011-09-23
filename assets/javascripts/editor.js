@@ -6,28 +6,44 @@ var Editor = function() {
 
 
     return {
-        createEditor : function(id) {
-            createEditor(id);
-        }
+        createEditor : function(id) {createEditor(id);},
+        addCategory : function(id) {addCategory(id);},
+        addQuestion : function(id) {addQuestion(id);}
     };
-
+    
+//    function addCategory(){
+//        onAddCategoryClicked();
+//    }
+//    
+//    function addQuestion(){
+//        onAddQuestionClicked();
+//    }
+    
     function createEditor(id){
         surveyId = id.data;
+        
         $('#content').empty();
+        
+        $('#leftColumnContent' ).empty();
+        $('#leftColumnContent' ).append( 
+//              '<div id="menuButton">'
+             '<div class="button">'
+            + '<span id="executeBackButton" class="leftMenuButton"></span>'
+            + '</div>'
+            + '<div class="button">'
+            + '<span id="executeSave" class="leftMenuButton"></span>'
+            + '</div>'
+            + '</div>'
+        );
+
         $('#content').append(
-
             '<div id="editor">'
-            + '<a href="#" id="executeBackButton">'
-            + '<img id="back_button" src="images/back.png"></a>'
 
-            + '<a href="#" id="executeAddCategory">'
-            + '<img id="add_button" src="images/plus.png"></a>'
-
-            + '<a href="#" id="executeAddQuestion">'
-            + '<img id="add_button" src="images/plus.png"></a>'
-
-            + '<a href="#" id="executeSave">'
-            + '<img id="save_button" src="images/check1.png"></a>'
+//            + '<a href="#" id="executeAddCategory">'
+//            + '<img id="add_button" src="images/plus.png"></a>'
+//
+//            + '<a href="#" id="executeAddQuestion">'
+//            + '<img id="add_button" src="images/plus.png"></a>'
 
             + '<ul id="sortableList">'
             + '<div id="categories"></div>'
@@ -35,12 +51,13 @@ var Editor = function() {
             + '</div>'
             );
 
-
         fillEditor(surveyId);
 
+        $( "#plusButton").mouseover( function(event) {SurveyListCombo.showEditorMenu(event);});
+        
         $( "#executeBackButton" ).click( function(){onBackClicked();} );
-        $( "#executeAddCategory" ).click( function(){onAddCategoryClicked();} );
-        $( "#executeAddQuestion" ).click( function(){onAddQuestionClicked();} );
+//        $( "#executeAddCategory" ).click( function(){onAddCategoryClicked();} );
+//        $( "#executeAddQuestion" ).click( function(){onAddQuestionClicked();} );
         $( "#executeSave" ).click( function(){onSaveClicked();} );
     }
 
@@ -94,13 +111,13 @@ var Editor = function() {
         SurveyList.showSurveyList();
     }
 
-    function onAddCategoryClicked(){
+    function addCategory(){
         var numRand = Math.floor(Math.random()*10000); //TODO maybe exist better way to get rundom id
         appendCategoryElement(parseInt(numRand),'New Category'); //TODO localize
         setAccordion();
     }
 
-    function onAddQuestionClicked(){
+    function addQuestion(){
         var children = $( "#categories" ).find(".listCategory");
 
         $( "#combobox" ).empty();
@@ -160,7 +177,7 @@ var Editor = function() {
             }
         });
     }
-
+    
     function fillCategoryList(data){
         $.each(data.categories,function(i,item) {
             appendCategoryElement(item.id, item.label);

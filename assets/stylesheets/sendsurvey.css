@@ -1,10 +1,57 @@
-#sendSurveyUsers
-{
-    width: 100%;
-    padding: 5px;
+.tableSendSurvey-header {
+    background: #ffffff;
+    height: 26px !important;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 18px;
+    font-family: "Myriad Pro Regular";
+    color: #3a77ca;
+    border-right: #edf0f6 solid 2px;
 }
 
-#sendSurveyUsers table
-{
-    width: 100%;
+.tableSendSurvey-content {
+    background: #f8f9fc;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    border: #edf0f6 solid 2px;
+}
+
+#sendSurvey-check {
+    background: #edf0f6;
+    width: 40px !important;
+}
+
+#sendSurvey-username {
+    width: 105px !important;
+}
+
+#sendSurvey-phone {
+    width: 141px !important;
+}
+
+.sendSurvey-customCheckbox {
+    display: inline;
+    font-size: 20px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.sendSurvey-customCheckbox img {
+    background: transparent url(../images/check2.png) no-repeat;
+}
+
+.sendSurvey-customCheckbox .mark {
+    display: inline;
+}
+
+.sendSurvey-customCheckbox img {
+    vertical-align: middle;
+    width: 33px;
+    height: 35px;
+}
+
+.sendSurvey-customCheckbox-checked img{
+    background: transparent url(../images/check1.png) no-repeat;
 }

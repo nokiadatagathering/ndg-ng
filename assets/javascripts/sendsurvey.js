@@ -8,23 +8,18 @@ var SendSurvey = function() {
     function showUserList(i) {
         currentSurveyId = i.data;
         $('#sendSurveyUsers').empty();
-        $('#sendSurveyUsers').append( '<p><b>Select survey receipents</b></p>');
         $('#sendSurveyUsers').append( '<table><thead>'
-                               + '<tr>'
-                               + '<th scope="col"></th>'
-                               + '<th scope="col"><b>' + "Username" + '</b></th>'
-                               + '<th scope="col"><b>' + "phone number" + '</b></th>'
-                               + '<th scope="col"><b>' + "email" + '</b></th>'
+                               + '<tr >'
+                               + '<th scope="col" class="tableSendSurvey-header" id="sendSurvey-check"></th>'
+                               + '<th scope="col" class="tableSendSurvey-header" id="sendSurvey-username">' + "Username" + '</th>'
+                               + '<th scope="col" class="tableSendSurvey-header" id="sendSurvey-phone">' + "phone number" + '</th>'
                                + '</tr>'
                                + '</thead>'
                                + '<tbody id="userListTable">'
                                + '</tbody></table>' );
 
-        $('#sendSurveyUsers').append( '<div><button id="startSendingButton">Send Surveys</button><button id="clearUsersButton">Clear</button></div>');
         $.getJSON('/application/listUsers', {'orderBy': "id"}, function(i) {fillUserTable(i);} );
-        $('#startSendingButton').click( function(){onStartSendingClicked();} );
-        $('#clearUsersButton').click( function(){onClearUsersClicked();} );
-
+        $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );
     }
 
     function fillUserTable(data) {
@@ -32,16 +27,16 @@ var SendSurvey = function() {
         $.each(data.items,function(i,item) {
             fillWithResults(i,item);
         });
+        $('input:checkbox:not([safari])').checkbox({cls:'sendSurvey-customCheckbox', empty:'../images/empty.png'});
     }
 
     function fillWithResults(i, item) {
-        $('#userListTable').append( '<tr>'
-                                    + '<td><input type="checkbox" id="userCheckbox' + item.id + '"/></td>'
-                                    + '<td>'+ item.username + '</td>'
-                                    + '<td>' + item.phoneNumber + '</td>'
-                                    + '<td>' + item.email + '</td>'
+        $('#userListTable').append( '<tr class="tableSendSurvey-content">'
+                                    + '<td class="tableSendSurvey-content" ><input type="checkbox" id="userCheckbox' + item.id + '"/></td>'
+                                    + '<td class="tableSendSurvey-content" >'+ item.username + '</td>'
+                                    + '<td class="tableSendSurvey-content" >' + item.phoneNumber + '</td>'
                                     + '</tr>' );
-        $( '#userCheckbox' + item.id ).click( item.id, function(i){userCheckboxClicked(i);} );
+        $( '#userCheckbox' + item.id ).bind( 'check uncheck', item.id, function(i){userCheckboxClicked(i);} )
     }
 
     function onStartSendingClicked() {
@@ -68,10 +63,10 @@ var SendSurvey = function() {
         }
     }
 
-    function onClearUsersClicked() {
-      $('input[id^="userCheckbox"]').attr('checked', false);
-      selectedUsers = new Array();
-    }
+//    function onClearUsersClicked() {
+//        $('input[id^="userCheckbox"]').attr('checked', false);
+//        selectedUsers = new Array();
+//    }
 
     function userCheckboxClicked(i) {
         if( i.currentTarget.checked ) {
@@ -79,15 +74,12 @@ var SendSurvey = function() {
                 selectedUsers.push( i.data );
             }
         } else {
-            if ( -1 != jQuery.inArray( i.data.toString(), selectedUsers ) ) {
-                selectedUsers.splice(jQuery.inArray( i.data.toString(), selectedUsers ), 1 );
+            if ( -1 != jQuery.inArray( i.data, selectedUsers ) ) {
+                selectedUsers.splice(jQuery.inArray( i.data, selectedUsers ), 1 );
             }
         }
     }
 
         return {showUserList : function(i) {showUserList(i);}
     };
-
-
-
 }();
