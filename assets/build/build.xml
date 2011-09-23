@@ -416,7 +416,7 @@
         <echo message="We're going to get the server all ship-shape and ready for prime time."/>
         <echo message=" "/>
         <echo message="This should take somewhere between 15 seconds and a few minutes,"/>
-        <echo message="mostly depending on how many images there aer to compress."/>
+        <echo message="mostly depending on how many images there are to compress."/>
         <echo message=" "/>
         <echo message="Feel free to come back or stay here and follow along."/>
         <echo message="====================================================================="/>

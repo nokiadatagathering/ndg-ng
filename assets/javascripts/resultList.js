@@ -237,8 +237,8 @@ var ResultList = function() {
         $("#pageIndexText").empty();
         $("#pageIndexText").append( '<small>' + (resultStartIndex + 1) + '</small>' + '<strong> of ' + totalPages + '</strong>' );
 
-        $("#buttonPrevious").click( function(){onPreviousClicked();} );
-        $("#buttonNext").click( function(){onNextClicked();} );
+        $("#buttonPrevious").click( function(e){onPreviousClicked(e);} );
+        $("#buttonNext").click( function(e){onNextClicked(e);} );
     }
 
     function onPreviousClicked(e) {

@@ -109,14 +109,14 @@ public class Application extends Controller {
     public static void listSurveysCount() {
         long surveys =  Survey.count();
         JSONSerializer surveysCountSerializer = new JSONSerializer();
-        surveysCountSerializer.include( "*" ).rootName( "surveysCount" );
+        surveysCountSerializer.include( "*" ).rootName( "itemsCount" );
         renderJSON( surveysCountSerializer.serialize( pages( surveys ) ) );
     }
 
     public static void listUsersCount() {
         long users = NdgUser.count();
         JSONSerializer userCountSerializer = new JSONSerializer();
-        userCountSerializer.include( "*" ).rootName( "usersCount" );
+        userCountSerializer.include( "*" ).rootName( "itemsCount" );
         renderJSON( userCountSerializer.serialize( pages( users ) ) );
     }
 
@@ -128,31 +128,30 @@ public class Application extends Controller {
     }
 
     public static void listSurveys( int startIndex, boolean isAscending, String orderBy ) {
-        String query = "order by "+ orderBy + ( isAscending ? " asc" : " desc" );
+        List<Survey> surveys = null;
+        if(orderBy != null && orderBy.equals("resultCollection"))
+        {
+            surveys =  Survey.all().fetch();
+            Collections.sort( surveys, new SurveyNdgResultCollectionComapator() );
+            if( !isAscending ) {
+                Collections.reverse( surveys );
+            }
 
-        List<Survey> surveys =  Survey.find( query ).from( RESULTS_PER_SIDE * startIndex ).fetch( RESULTS_PER_SIDE );
-        serializeSurveys( surveys );
-    }
-
-    public static void listSurveysByResults( int startIndex, boolean isAscending ) {
-
-        List<Survey> surveys =  Survey.all().fetch();
-        Collections.sort( surveys, new SurveyNdgResultCollectionComapator() );
-        if( !isAscending ) {
-            Collections.reverse( surveys );
+            int subListEndIndex = startIndex * RESULTS_PER_SIDE + RESULTS_PER_SIDE < surveys.size() ?
+                                                    startIndex * RESULTS_PER_SIDE + RESULTS_PER_SIDE :
+                                                    surveys.size();
+            surveys = surveys.subList( startIndex * RESULTS_PER_SIDE , subListEndIndex );
+        } else
+        {
+            String query = "order by "+ orderBy + ( isAscending ? " asc" : " desc" );
+            surveys =  Survey.find( query ).from( RESULTS_PER_SIDE * startIndex ).fetch( RESULTS_PER_SIDE );
         }
-
-        int subListEndIndex = startIndex * RESULTS_PER_SIDE + RESULTS_PER_SIDE < surveys.size() ?
-                                                startIndex * RESULTS_PER_SIDE + RESULTS_PER_SIDE :
-                                                surveys.size();
-
-        List<Survey> subList = surveys.subList( startIndex * RESULTS_PER_SIDE , subListEndIndex );
-        serializeSurveys( subList );
+        serializeSurveys( surveys );
     }
 
     public static void listUsers(int startIndex, boolean isAscending, String orderBy ) {
         List<NdgUser> users = null;
-        if(orderBy.equals("userRoleCollection"))
+        if(orderBy != null && orderBy.equals("userRoleCollection"))
         {
             users =  NdgUser.find("order by username asc").fetch();
             Collections.sort( users, new NdgUserUserRoleCollectionComapator(isAscending) );
@@ -170,7 +169,7 @@ public class Application extends Controller {
     private static void serializeUsers(List<NdgUser> users) {
         JSONSerializer userListSerializer = new JSONSerializer();
         userListSerializer.transform(new NdgResultCollectionTransformer() , "resultCollection");
-        userListSerializer.include("id","username", "phoneNumber", "email", "userRoleCollection.ndgRole.roleName" ).exclude("*").rootName("users");
+        userListSerializer.include("id","username", "phoneNumber", "email", "userRoleCollection.ndgRole.roleName" ).exclude("*").rootName("items");
         renderJSON(userListSerializer.serialize(users));
     }
 
@@ -178,7 +177,7 @@ public class Application extends Controller {
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
         surveyListSerializer.include( "id", "title", "uploadDate", "idUser", "surveyId", "ndgUser.username", "resultCollection", "available" )
-            .exclude( "*" ).rootName( "surveys" );
+            .exclude( "*" ).rootName( "items" );
         renderJSON( surveyListSerializer.serialize( subList ) );
     }
 

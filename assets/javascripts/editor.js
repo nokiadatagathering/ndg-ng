@@ -18,13 +18,13 @@ var Editor = function() {
 
             '<div id="editor">'
             + '<a href="#" id="executeBackButton">'
-            + '<img id="back_button" src="images/btn_back.jpg"></a>'
+            + '<img id="back_button" src="images/back.png"></a>'
 
             + '<a href="#" id="executeAddCategory">'
-            + '<img id="add_button" src="images/btn_plus.jpg"></a>'
+            + '<img id="add_button" src="images/plus.png"></a>'
 
             + '<a href="#" id="executeAddQuestion">'
-            + '<img id="add_button" src="images/btn_plus.jpg"></a>'
+            + '<img id="add_button" src="images/plus.png"></a>'
 
             + '<a href="#" id="executeSave">'
             + '<img id="save_button" src="images/check1.png"></a>'
