@@ -18,13 +18,14 @@ package controllers.logic;
 
 import controllers.exceptions.ResultSaveException;
 import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
 import models.Answer;
+import models.Category;
 import models.NdgResult;
 import java.io.Reader;
 import java.util.Hashtable;
 import models.NdgUser;
 import models.Question;
+import models.Survey;
 import models.constants.QuestionTypesConsts;
 import org.javarosa.xform.parse.XFormParser;
 import org.joda.time.format.ISODateTimeFormat;
@@ -113,7 +114,9 @@ public class ResultParser {
     }
 
     private void parseAnswer( Element element ) {
-        Question answeredQuestion = Question.find( "byObjectNameAndSurvey_id", element.getName(), result.survey.id ).first();
+        Survey survey = Survey.find("bySurveyId",  result.survey.surveyId ).first();
+        Category getCategory = survey.categoryCollection.get(0);
+        Question answeredQuestion = Question.find( "byObjectNameAndCategory_id", element.getName(), getCategory.id ).first();
         if ( answeredQuestion != null ) {
             Answer answer = new Answer( result.answerCollection.size() );
             answer.ndgResult = result;

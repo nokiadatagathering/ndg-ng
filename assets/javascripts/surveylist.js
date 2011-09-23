@@ -82,6 +82,9 @@ var SurveyList = function() {
     }
 
     function onDeleteSurveyClicked(e) {
+        confirmDeleteDialog.dialog( {title: LOC.get('LOC_EXPORT_RESULTS')} );
+        document.getElementById('buttonDeleteYes').textContent = LOC.get('LOC_YES');
+        document.getElementById('buttonDeleteNo').textContent = LOC.get('LOC_NO');
         confirmDeleteDialog.dialog("open");
         $("#buttonDeleteYes").click( e.data, function(e){
             $.post( "/delete/" + e.data, function(data) {

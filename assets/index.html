@@ -120,11 +120,18 @@
     </div>
     <iframe id="uploadSurveyResult" name="cgiFrame" src="about:blank" style="visibility:hidden; width:0px; height:0px"></iframe>
     
-    <div id="dialog-confirmDelete" class="dialogs">
-        <p><label><b>Are you sure ?</b></label></p>
-        <div><button id="buttonDeleteYes">yes</button><button id="buttonDeleteNo">no</button></div>
+    <div id="dialog-confirmDelete" >
+
+        <p><span>Are you sure?</span></p>
+        <div>
+            <span>
+             <ul>
+                <li id="buttonDeleteYes" class="buttonSmall" ></li>
+                <li id="buttonDeleteNo" class="buttonSmall" ></li>
+             </ul>
+             </span>
+        </div>
     </div>
-    
     <div id="dialog-sendSurvey" class="dialogs">
         <div id="sendSurveyUsers"></div>
     </div>
@@ -145,22 +152,25 @@ var uploadDialog = $("#dialog-upload").dialog(
 {
     autoOpen: false,
     modal: true,
-    zIndex: 9999});
+    zIndex: 9999,
+    resizable: false });
 
 var exportDialog = $("#dialog-exportResults").dialog(
 {
     autoOpen: false,
     modal: true,
-    zIndex: 9999});
+    zIndex: 9999,
+    resizable: false});
 
 var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
 {
     autoOpen: false,
     modal: true,
     zIndex: 9999,
+    resizable: false,
     open: function(event, ui) { 
-    //hide close button.
-    $(this).parent().children().children('.ui-dialog-titlebar-close').hide();
+//    //hide close button.
+//    $(this).parent().children().children('.ui-dialog-titlebar-close').hide();
     }
 });
 
@@ -168,8 +178,8 @@ var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
 {
     autoOpen: false,
     modal: true,
-    width: 400,
-    zIndex: 9999
+    zIndex: 9999,
+    resizable: false
 });
 
 var switchCategoryDialog = $("#dialog-editorSwitchCategory").dialog(
@@ -177,7 +187,8 @@ var switchCategoryDialog = $("#dialog-editorSwitchCategory").dialog(
     autoOpen: false,
     modal: true,
     width: 400,
-    zIndex: 9999
+    zIndex: 9999,
+    resizable: false
 });
 
 $(document).ready(function() {
@@ -202,10 +213,7 @@ $(document).ready(function() {
 
   <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-  <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"><\/script>')</script>
-
-  <!--   Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-  <script>document.write('<script src="javascripts/libs/jquery.checkbox.min.js"><\/script>')</script>
+  <script>window.jQuery.ui || document.write('<script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"><\/script>')</script>
 
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="javascripts/plugins.js"></script>

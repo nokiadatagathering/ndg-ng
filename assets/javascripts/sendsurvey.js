@@ -29,7 +29,7 @@ var SendSurvey = function() {
 
     function fillUserTable(data) {
         $('#userListTable').empty();
-        $.each(data.users,function(i,item) {
+        $.each(data.items,function(i,item) {
             fillWithResults(i,item);
         });
     }

@@ -1,46 +1,57 @@
 .ui-widget {
-  width:375px;
-  height:203px;
-  padding:10px;
-  z-index:9999;
-  background: #edf0f6;
-  border-radius: 5px;
-  border-style: solid;
-  border-width: 2px;
-  padding:  10px 10px 10px 10px;
-  text-align: center;
-  vertical-align: middle;
+    width:333px;
+    height:203px;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    border-radius: 0;
+    z-index:9999;
+    background: #edf0f6;
+    text-align: center;
 }
 
 .ui-widget-content {
-    font-size:12px;
-    font-family:arial;
-}
-.ui-widget-header {
-    border:none;
-    background-image:none;
+    padding: 0 !important;
+    margin: 0 25px 0 25px  !important;
+    top: 0px;
+    font-size: 18px;
+    color: #3a77ca;
+    background: #edf0f7;
+    font-family: "Myriad Pro Regular";
 }
 
 .ui-dialog-titlebar {
-    background: #6699ff;
-    border:none;
+    top: -8px;
+    height: 30px !important;
+    padding-left: 25px !important;
+    text-decoration: none;
+    background: #3a77ca;
+    border: none;
+    border-radius: 0;
+    font-size: 24px;
+    color: #ffffff;
+    font-family: "Myriad Pro Regular";
 }
 
 .ui-dialog-titlebar-close {
-    background-color:transparent;
-    border:none;
-    background-image:url(../images/quit.png);
+    width: 30px !important;
+    height: 31px !important;
+    background: url(../images/quit.png) no-repeat;
+}
+
+.ui-widget-header .ui-icon {
+    border: none;
+    background: none;
 }
 
 .ui-dialog-titlebar-close:hover,
 .ui-dialog-titlebar-close:focus {
-    background-color:transparent;
-    border:none;
-    background-image:url(../images/quit.png);
-}
-
-.ui-dialog-titlebar-close span {
-    display:none;
+    margin: -10px 0 0 0;
+    padding: 1px !important;
+    border: none;
+    width: 30px !important;
+    height: 31px !important;
+    background: url(../images/quit_on.png) no-repeat;
 }
 
 .ui-widget-overlay {
@@ -49,4 +60,22 @@
     position: absolute;
     top: 0;
     left: 0;
+ }
+
+ul.buttonSmall {text-align: center;}
+li.buttonSmall {display:inline; padding:0 0 0 0;}
+
+.buttonSmall {
+     float: left;
+     padding: 0 !important;
+     margin: 31px 16px 31px 0px  !important;
+     height: 32px;
+     width: 82px;
+     background: url('../images/bt-small.png') no-repeat;
+     font-size: 17px;
+     font-family: "Myriad Pro Semibold";
+     color: #3a77ca;
+     line-height: 32px;
+     text-align: center;
+     text-transform: uppercase;
  }

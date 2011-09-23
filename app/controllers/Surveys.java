@@ -31,7 +31,7 @@ public class Surveys extends Controller {
 
     public static void list() {
 
-        List<TransactionLog> transactionList = TransactionLog.find("byNdgUser_idAndTransactionStatus",
+        List<TransactionLog> transactionList = TransactionLog.find("byNdg_user_idAndTransactionStatus",
                 getCurrentUser().id,
                 TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE).fetch();
         ArrayList<TransactionLog> transactions = (ArrayList<TransactionLog>) transactionList;
@@ -45,7 +45,7 @@ public class Surveys extends Controller {
 
     public static void download(String formID) throws SurveyXmlCreatorException, IOException {
 
-        TransactionLog transaction = TransactionLog.find("byNdgUser_idAndTransactionStatusAndSurvey_id",
+        TransactionLog transaction = TransactionLog.find("byNdg_user_idAndTransactionStatusAndSurvey_id",
                 getCurrentUser().id,
                 TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE,
                 formID).first();
