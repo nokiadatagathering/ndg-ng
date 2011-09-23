@@ -32,15 +32,11 @@ var Editor = function() {
             + '<ul id="sortableList">'
             + '<div id="categories"></div>'
             + '</ul>'
-
             + '</div>'
             );
 
-        fillEditor(surveyId);
 
-        $( "#categories" ).sortable();
-        $( "#categories" ).disableSelection();
-//       $( "#sortableList" ).accordion();
+        fillEditor(surveyId);
 
         $( "#executeBackButton" ).click( function(){onBackClicked();} );
         $( "#executeAddCategory" ).click( function(){onAddCategoryClicked();} );
@@ -49,12 +45,11 @@ var Editor = function() {
     }
 
     function onSaveClicked(){
-//        prepereSurveyJSON();
         $.ajax(
         {
             type: "POST",
             url: "/saveSurvey",
-            data: {surveyData : prepereSurveyJSON(), id : surveyId}, //TODO
+            data: {surveyData : prepereSurveyJSON(), id : surveyId},
             success: function(msg){
                alert( "Success");
             },
@@ -102,6 +97,7 @@ var Editor = function() {
     function onAddCategoryClicked(){
         var numRand = Math.floor(Math.random()*10000); //TODO maybe exist better way to get rundom id
         appendCategoryElement(parseInt(numRand),'New Category'); //TODO localize
+        setAccordion();
     }
 
     function onAddQuestionClicked(){
@@ -135,6 +131,34 @@ var Editor = function() {
                                                         jsonSurvey = data;
                                                         fillCategoryList(data);
                                                     } );
+
+    }
+
+    function setAccordion(){
+        $( "#categories" )
+                .accordion("destroy");
+
+        $( "#categories" )
+                .accordion({
+                        header: "h3",
+                        collapsible: true,
+                        active: false,
+                        autoHeight: false,
+                        icons: false
+                })
+                .sortable().disableSelection();
+
+        $( ".listCategory h3" ).droppable({
+            accept: ".listQuestion li",
+            drop: function( event, ui ) {
+                var $item = $( this ).parent();
+                var $list = $item.find( ".listQuestion" );
+
+                ui.draggable.hide( "slow", function() {
+                    $( this ).appendTo( $list ).show( "fast" );
+                });
+            }
+        });
     }
 
     function fillCategoryList(data){
@@ -142,6 +166,7 @@ var Editor = function() {
             appendCategoryElement(item.id, item.label);
             fillQuestions(item.questionCollection, item.id );
         });
+        setAccordion();
     }
 
     function appendCategoryElement(id, value){
@@ -149,19 +174,20 @@ var Editor = function() {
         var deleteId = "executeDeleteCategory" + id;
         var listId = 'questions' + id;
 
-        $('#categories').append('<li id="'+ categoryId + '" class="ui-state-default listCategory">'
-            +'<div>'
-            +'<a id="test" href="#" class="categoryName">' + value + '</a>'
-            +'<a href="#" id="'+ deleteId +'"><img class="deleteElement" src="images/btn_editor_delete.jpg" title="' + LOC.get('LOC_DELETE') + '"/></a>'
+        $('#categories').append(
+            '<li id="'+ categoryId + '" class="ui-state-default listCategory">'
+            +'<h3><a href="#" class="categoryName">' + value + '</a>'
+            +'<span id="'+ deleteId +'" class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
             +'<div style="clear:both;"></div>'
-            + '<ul id="' + listId +'" class="listQuestion"></ul>'
+            + '</h3>'
+            +'<ul id="' + listId +'" class="listQuestion"></ul>'
             +'</div>'
             +'</li>');
 
-        $('#'+ deleteId).click( categoryId, function(i){onDeleteElementClicked(i);} );
+        $( '#' + deleteId).click( categoryId, function(i){onDeleteElementClicked(i);} );
 
         $( '#' + listId ).sortable({
-            connectWith: '.' + "listQuestion"
+            connectWith: + ".listQuestion"
         }).disableSelection();
     }
 
@@ -180,11 +206,13 @@ var Editor = function() {
         var deleteId = 'executeDeleteQuestion' + id;
         var questionId = 'question' + id;
         $("#" + listId).append(
-                '<li id="' + questionId +'"class="ui-state-default listItemQuestion">'
-//                    + '<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>'
-                    + '<div class="questionText">' + value
-                    + '<a href="#" id="'+ deleteId +'"><img class="deleteElement" src="images/btn_editor_delete.jpg" title="' + LOC.get('LOC_DELETE') + '"/></a>'
-                    +'<div style="clear:both;"></div></div></li>');
+                      '<li id="' + questionId +'"class="ui-state-default listItemQuestion"><div>'
+                    + '<div class="questionText"> <span> ' + value + '</span></div>'
+                    + '<div class="deleteElement">'
+                    + '<span id="'+ deleteId +'" class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
+                    + '</div>'
+                    + '<div style="clear:both;"></div>'
+                    + '</li>');
 
         $('#'+ deleteId).click( questionId, function(i){onDeleteElementClicked(i);} );
     }

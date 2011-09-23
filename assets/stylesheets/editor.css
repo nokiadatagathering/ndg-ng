@@ -1,33 +1,89 @@
 #sortableList
 {
     list-style-type: none;
-    padding: 0;
     width: 60%;
+    height: auto;
+    border:none;
 }
 
+#categories
+{
+    height: auto;
+    border: none;
+    width: 100%;
+}
+
+#categories li.listCategory h3
+{
+    font-size: 16px;
+    font-family: "Myriad Semibold";
+    height: auto;
+    padding-left: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    text-align: left;
+
+    border: none;
+    border: 1px solid #CCC;
+    border-radius: 0px;
+}
+
+#categories h3.ui-state-focus, h3.ui-state-active, li.listItemQuestion{
+    background: #fffaaa !important;/*  change this line #F0F7FF*/
+}
+
+#categories h3:hover{
+    background: #11F7AA;/*  change this line #F0F7AA*/
+}
+
+#categories a.categoryName
+{
+    color: #3a77ca;
+}
 
 #sortableList li.listCategory
 {
-    margin: 10px 10px 10px 10px;
-    padding: 10px 10px 10px 10px;
-    font-size: 16px;
+    margin-top: 2px;
     vertical-align:middle;
+    height: auto;
+    border:none;
 }
+
 
 #categories ul.listQuestion
 {
     list-style-type: none;
-    margin: 5px;
     padding: 5px;
-    width: 90%;
+    height: auto;
+    border-bottom: 1px solid #CCC;
+    border-left:  1px solid #CCC;/*  optimize??  */
+    border-right: 1px solid #CCC;
+    background: #E4Eaaa;/*  change this line #E4EBF3*/
+    border-radius: 0px;
+
+
 }
 
 #categories li.listItemQuestion
 {
-    margin: 0 3px 3px 3px;
     font-size: 12px;
+    font-weight: normal;
+    font-family: "Myriad Pro Regular";
+    margin: 2px;
     vertical-align:bottom;
+    border: 1px solid #CCC;
+    text-align: left;
+    padding-left: 5px;
 }
+
+div.questionText
+{
+    float:left;
+    width: 80%;
+    border: 1px blue;
+    font-size: 12px;
+}
+
 
 #categories button
 {
@@ -35,9 +91,19 @@
     height: 36px;
 }
 
-#categories img.deleteElement
+div.deleteElement
+{
+    float:right;
+    width: 10%;
+    border: 1px red;
+}
+
+
+span.deleteElement
 {
     float: right;
-    margin-left: 10px;
-    margin-right: 10px;
+    width: 32px;
+    height: 34px;
+    margin-right: 5px;
+    background: url(../images/btn_editor_delete.jpg) no-repeat;
 }
