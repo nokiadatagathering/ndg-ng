@@ -45,6 +45,7 @@
   <script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"></script>
   <script src="javascripts/libs/jquery.checkbox.min.js"></script>
   <script src="javascripts/libs/jquery.fileinput.min.js"></script>
+  <script src="javascripts/libs/jquery.blockUI.js"></script>
   <script src="javascripts/libs/date.js"></script>
   <script type="text/javascript" src="javascripts/constants.js"></script>
   <script type="text/javascript" src="javascripts/localization.js"></script>
@@ -153,7 +154,6 @@
 var uploadDialog = $("#dialog-upload").dialog(
 {
     autoOpen: false,
-    modal: false,//TODO: fix - MUST NOT BE MODAL. ON MODAL FILEINPUT PLUGIN DOES NOT WORK
     resizable: false 
 });
 
@@ -179,7 +179,6 @@ var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
 var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
 {
     autoOpen: false,
-//    modal: true,//TODO - fix : MUST NOT BE MODAL. ON MODAL CHECKBOX BLUGIN DOES NOT WORK
     zIndex: 9999,
     resizable: false
 });
@@ -219,6 +218,7 @@ $(document).ready(function() {
 
   <script>document.write('<script src="javascripts/libs/jquery.checkbox.min.js"><\/script>')</script>
   <script>document.write('<script src="javascripts/libs/jquery.fileinput.min.js"><\/script>')</script>
+  <script>document.write('<script src="javascripts/libs/jquery.blockUI.js"><\/script>')</script>
   <!-- scripts concatenated and minified via ant build script-->
   <script defer src="javascripts/plugins.js"></script>
   <script defer src="javascripts/script.js"></script>

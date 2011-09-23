@@ -14,7 +14,7 @@ var UserManagement = function() {
     function showUserManagement (){
 
         var columnIds = ["executeSortByName", "executeSortByEmail", "executeSortByPhone", "executeSortByPermission"];
-        var columnTexts = ["LOC_NAME", "LOC_EMAIL", "LOC_PHONE", "LOC_RESULTS"];
+        var columnTexts = ["LOC_NAME", "LOC_EMAIL", "LOC_PHONE", "LOC_PERMISSION"];
         var columnDbFields = ["username","email", "phoneNumber", "userRoleCollection"];
 
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "listusers", UserManagement);

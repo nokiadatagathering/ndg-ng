@@ -83,9 +83,11 @@ var SurveyList = function() {
        document.getElementById('dialog-upload-query').textContent = LOC.get('LOC_CHOOSE_SURVEY_UPLOAD');
        document.getElementById('buttonSendFile').textContent = LOC.get('LOC_SEND_FILE');
 
+       uploadDialog.dialog({close: function(){$.unblockUI();}} )
        uploadDialog.dialog("open");
 
        $("#uploadSurveyId").val(e.data);
+       $.blockUI( {message: null} );
     }
 
     function onDeleteSurveyClicked(e) {
@@ -119,7 +121,9 @@ var SurveyList = function() {
         SendSurvey.showUserList(e);
         sendSurveyDialog.dialog( {title: LOC.get('LOC_SEND_SURVEY')} );
         document.getElementById('buttonSendSurveyDone').textContent = LOC.get('LOC_DONE');
+        sendSurveyDialog.dialog({close: function(){$.unblockUI();}} )
         sendSurveyDialog.dialog("open");
+        $.blockUI( {message: null} );
     }
 
     function uploadNewSurvey() {
