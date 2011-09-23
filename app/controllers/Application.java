@@ -102,7 +102,7 @@ public class Application extends Controller {
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
         surveyListSerializer.include( "id","resultId", "title", "startTime", "ndgUser.username", "latitude" )
-            .exclude( "*" ).rootName( "results" );
+            .exclude( "*" ).rootName( "items" );
         renderJSON( surveyListSerializer.serialize( results ) );
     }
 
@@ -123,7 +123,7 @@ public class Application extends Controller {
     public static void listResultsCount( int surveyId ) {
         long results =  NdgResult.find( "survey_id", String.valueOf( surveyId ) ).fetch().size();
         JSONSerializer resultsCountSerializer = new JSONSerializer();
-        resultsCountSerializer.include( "*" ).rootName( "resultsCount" );
+        resultsCountSerializer.include( "*" ).rootName( "itemsCount" );
         renderJSON( resultsCountSerializer.serialize( pages( results) ) );
     }
 

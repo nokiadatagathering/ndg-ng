@@ -15,8 +15,9 @@ var DynamicTable = function() {
     var totalPages = 1;
     var contentUrl;
     var contentHandler;
+    var ajaxParams;
 
-    return {showList : function(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler){showList(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler);},
+    return {showList : function(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams){showList(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams);},
             refresh: function() {refresh();}
     };
 
@@ -27,13 +28,14 @@ var DynamicTable = function() {
                                    + '<span id="pageIndexText"><small>0</small> <strong>of 0</strong></span>' );
     }
 
-    function showList (_columnIds, _columnTexts, _columnDbFields, remoteAction, _contentHandler){
+    function showList (_columnIds, _columnTexts, _columnDbFields, remoteAction, _contentHandler, _ajaxParams){
         columnIds= _columnIds;
         columnTexts = _columnTexts;
         contentHandler = _contentHandler;
         columnDbFields = _columnDbFields;
         lastSortByColumn = undefined;
-        
+        ajaxParams = _ajaxParams;
+
         prepareContentToolbar();
         $('#minimalist').empty();
         $('#leftColumnContent' ).empty();
@@ -43,22 +45,28 @@ var DynamicTable = function() {
         htmlContent += '<thead>' + '<tr>';
         $.each(columnIds,function(i,item) {
         htmlContent += '<th scope="col">'
-                    + '<a href="#" class = "sortHeader" id="' 
-                    + item 
-                    + '" >'
-                    + LOC.get(columnTexts[i]) 
-                    + '</a></th>';
-        });                
+                    + '<a href="#"' ;
+        if(item != null) {
+            htmlContent +='class = "sortHeader" id="'
+                        + item
+                        + '"';
+                    }
+        htmlContent += '" >';
+        if(LOC.get(columnTexts[i]) != null) {
+            htmlContent += LOC.get(columnTexts[i]);
+            }
+        htmlContent +='</a></th>';
+        });
         htmlContent +=  '<th scope="col"></th>'
                        + '</tr>'
                        + '</thead>'
                        + '<tbody id="dynamicListTable">'
-                       + '</tbody>';           
+                       + '</tbody>';
         $('#minimalist').append(htmlContent);
                            var i = 0;
 
         $('.sortHeader' ).click( function(event){toggleSortByColumn(event);} );
-        
+
         contentUrl = '/application/' + remoteAction;
         $.getJSON(contentUrl + 'count', function(data){updateTotalPages(data);});
         fillListData( lastSortByColumn, true );
@@ -91,7 +99,7 @@ var DynamicTable = function() {
         lastSortByColumn = columnDbFields[columnIndex];
         fillListData( lastSortByColumn, columnSortAscending[columnIndex] );
     }
-    
+
     function resetColumnTitle() {
         $.each(columnIds,function(i,item) {
             $('#' + item).text = LOC.get(columnTexts[i]);
@@ -105,12 +113,13 @@ var DynamicTable = function() {
     function fillListData( orderByColumn, isAscending ) {
 
         lastSortByColumn = orderByColumn;
-            $.getJSON(contentUrl, {'startIndex': elementStartIndex,
+        var params = {'startIndex': elementStartIndex,
                                                    'isAscending': isAscending,
-                                                    'orderBy': orderByColumn},
-                                                    function(data){refreshTable(data);} );
+                                                    'orderBy': orderByColumn};
+        jQuery.extend(params, ajaxParams);
+        $.getJSON(contentUrl, params, function(data){refreshTable(data);} );
     }
-   
+
     function refreshTable(data) {
         $('#dynamicListTable').empty();
         $.each(data.items,function(i,item) {
@@ -119,8 +128,12 @@ var DynamicTable = function() {
             $( '#dynamicRow' + i ).mouseover( i, function(i) {onMouseOverHandler(i);} );
             $( '#dynamicRow' + i ).mouseout( i, function(i) {onMouseOutHandler(i);} );
         });
+        if(contentHandler.loadingFinished)
+            {
+            contentHandler.loadingFinished();
+            }
     }
-    
+
     function onButtonMouseDownHandler(source) {
         source.addClass('pushed');
         $(document).bind('mouseup.menubutton',function() {
@@ -135,7 +148,7 @@ var DynamicTable = function() {
         if ( --elementStartIndex < 0 ) {
             elementStartIndex = 0;
         } else {
-            fillSurveyData( lastSortByColumn, lastSortAscending );
+            refresh();
             updatePageNumber();
         }
         e.preventDefault();
@@ -145,7 +158,7 @@ var DynamicTable = function() {
         if( ++elementStartIndex >= totalPages ) {
             elementStartIndex--;
         } else {
-            fillSurveyData( lastSortByColumn, lastSortAscending );
+            refresh();
             updatePageNumber();
         }
         e.preventDefault();
