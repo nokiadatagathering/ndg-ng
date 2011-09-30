@@ -26,7 +26,7 @@ var Editor = function() {
     function createEditor(id){
         surveyId = id;
 
-        $('#sectionTitle').text('Survey Editor'); //TODO localize
+        $('#sectionTitle').text( 'Survey Editor' ); //TODO localize
         $('#userManagement').remove();
 
         $('#content').empty();
@@ -63,7 +63,7 @@ var Editor = function() {
         $( "#executeBackButton" ).click( function(){onBackClicked();} );
         $( "#executeSave" ).click( function(){onSaveClicked();} );
 
-        questionPanel = new QuestionPanel( function(label){ refreshCurrentQuestionLabel(label); });
+        questionPanel = new QuestionPanel( function(label){refreshCurrentQuestionLabel(label);});
         questionPanel.createQuestionPanel();
 
         $( "#categories" ).sortable( {delay: 50} ).disableSelection();
@@ -94,7 +94,7 @@ var Editor = function() {
     }
 
     function onSaveClicked(){
-        $.ajax(
+        $.ajax(//TODO
         {
             type: "POST",
             url: "/saveSurvey",
@@ -137,18 +137,19 @@ var Editor = function() {
     }
 
     function addCategory(){
-        var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
-        appendCategoryElement( parseInt( numRand ), 'New Category' ); //TODO localize
+        var category = surveyModel.newCategory();
+        appendCategoryElement( category );
     }
 
     function addQuestion(){
-        var children = $( "#categories" ).find(".listCategory");
+        var children = $( "#categories" ).find( ".listCategory" );
         $( "#combobox" ).empty();
 
         $.each(children, function(i, item){
-            var catName = $( '#' + item.id ).find('.categoryName');
-            var listId = $( '#' + item.id ).find('.listQuestion');
-            $( "#combobox" ).append('<option value="'+ listId[0].id +'">' + catName[0].text + '</option>'); //TODO label
+            var categoryId = item.id;
+            var catName = $( '#' + item.id + ' span.categoryName').text();
+
+            $( "#combobox" ).append('<option value="'+ categoryId +'">' + catName + '</option>');
         });
 
         $( '#confirmCategoryButton' ).empty();
@@ -157,12 +158,12 @@ var Editor = function() {
         switchCategoryDialog.dialog( "open" );
     }
 
-    function onConfirmCategory(){
+    function onConfirmCategory(){ //TODO change - append to structure
         var selectElem = $( "#combobox" ).val();
-        var numRand = Math.floor(Math.random()*10000); //TODO maybe exist better way to get rundom id
-        appendQuestionElement(numRand, "New question", selectElem); //TODO localize
+        var listElem = $( "#" + selectElem ).find( '.listQuestion' )[0].id;
 
-        switchCategoryDialog.dialog("close");
+        appendQuestionElement( surveyModel.newQuestion( selectElem ), listElem );
+        switchCategoryDialog.dialog( "close" );
     }
 
     function fillEditor(id){
@@ -176,22 +177,32 @@ var Editor = function() {
     function fillCategoryList(){
         $( '#surveyTitle' ).text( surveyModel.getSurvey().title );
         $.each( surveyModel.getSurvey().categoryCollection, function( i, item) {
-            appendCategoryElement( item.id, item.label );
+            appendCategoryElement( item );
             fillQuestions( item.questionCollection, item.id );
         });
     }
 
-    function appendCategoryElement(id, value){
-        var categoryId = "category" + id;
-        var deleteId = "executeDeleteCategory" + id;
-        var listId = 'questions' + id;
+    function appendCategoryElement( category ){
+
+        var categoryId;
+        if( !category.hasOwnProperty('id') ){
+            var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
+            categoryId = "category" + numRand;
+        }else{
+            categoryId = "category" + category.id;
+        }
+
+        var deleteId = "executeDeleteCategory" + category.id;// TODO this id is not necessary
+        var listId = 'questions' + category.id;
+
+        category.uiId = categoryId;
 
         //TODO localize
         $("#categories").append(
              '<li id="'+ categoryId + '" class="ui-state-default listCategory">'
             + '<h3>'
             + '<span class="expandIcon"></span>'
-            + '<span class="categoryName">' + value + '</span><span class="edit">Edit</span>'
+            + '<span class="categoryName">' + category.label + '</span><span class="edit">Edit</span>'
             + '<span id="'+ deleteId +'" class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
             + '<div style="clear:both;"></div>'
             + '</h3>'
@@ -260,24 +271,26 @@ var Editor = function() {
     function fillQuestions(data, categoryId ){
         var listId = 'questions' + categoryId;
         $.each(data, function(i,item) {
-            appendQuestionElement(item.id, item.label, listId);
+            appendQuestionElement(item, listId);
         });
     }
 
-    function appendQuestionElement(id, value, listId){
-        var deleteId = 'executeDeleteQuestion' + id;
-        var questionId = 'question' + id;
-        $("#" + listId).append(
-                      '<li id="' + questionId +'"class="ui-state-default listItemQuestion"><div>'
-                    + '<div class="questionText"> <span> ' + value + '</span></div>'
+    function appendQuestionElement( question, listId ){
+
+        var deleteId = 'executeDeleteQuestion' + question.id; //TODO this is nocessary, can be acces by questionId and class
+        question.uiId = 'question' + question.id;
+
+        $( "#" + listId ).append(
+                      '<li id="' + question.uiId +'" class="ui-state-default listItemQuestion"><div>'
+                    + '<div class="questionText"> <span> ' + question.label + '</span></div>'
                     + '<div class="deleteElement">'
                     + '<span id="'+ deleteId +'" class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
                     + '</div>'
                     + '<div style="clear:both;"></div>'
                     + '</li>');
 
-        $('#'+ deleteId).click( questionId, function(i){onDeleteElementClicked(i);} );
-        $('#'+ questionId).click( questionId, function(i){onQuestionClicked(i);} );
+        $( '#'+ deleteId ).click( question.uiId, function(i){onDeleteElementClicked(i);} );
+        $( '#'+ question.uiId ).click( question.uiId, function(i){onQuestionClicked(i);} );
     }
 
     function onCategorySaveClicked(event){
@@ -288,7 +301,7 @@ var Editor = function() {
         $( "#" + categoryId + " span.edit" ).text( "Edit" ); //TODO localize
         $( "#" + categoryId + " span.edit" ).unbind('click.save');
 
-        surveyModel.updateCategory( categoryId.replace( "category", "" ), editedVal );
+        surveyModel.updateCategory( categoryId, editedVal ); ///.replace( "category", "" )
 
         setListParams(categoryId);
         event.stopPropagation();
@@ -298,21 +311,18 @@ var Editor = function() {
         $( '#' + currentSelectionId ).removeClass( 'elementSelected' );
     }
 
-    function onDeleteElementClicked(itemId){
-        $('#' + itemId.data).empty().remove();
+    function onDeleteElementClicked( event ){
+        $('#' + event.data).empty().remove();
     }
 
-    function onQuestionClicked(questionId){
+    function onQuestionClicked( event ){
         removePreviousSelction();
-        currentSelectionId = questionId.data;
+        currentSelectionId = event.data;
 
         var categoryElemId = $( '#' +  currentSelectionId ).parents( '.listCategory' )[0].id;
         $( '#' + currentSelectionId ).addClass( 'elementSelected' );
 
-        var qId = questionId.data.replace( "question", "");
-        var cId = categoryElemId.replace( "category", "");
-        var currenQuestion = surveyModel.getQuestion(cId, qId);
-
+        var currenQuestion = surveyModel.getQuestion( categoryElemId, currentSelectionId );
         questionPanel.fillRightPanel( currenQuestion );
     }
 
