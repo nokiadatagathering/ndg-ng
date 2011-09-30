@@ -13,12 +13,14 @@ var SurveyModel = function(s){
         survey.title = newTitle;
     }
 
-    this.getQuestion = function ( cId, qId ){
+    this.getQuestion = function ( qId ){
         var quest;
-        $.each(getCategory(cId).questionCollection, function(i, item){
-           if(item.uiId == qId){
-               quest = item;
-           }
+        $.each(survey.categoryCollection, function( i, cateItem ){
+            $.each(cateItem.questionCollection, function( i, qItem ){
+               if( qItem.uiId == qId ){
+                   quest = qItem;
+               }
+            });
         });
         return quest;
     }
