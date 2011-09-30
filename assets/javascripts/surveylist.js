@@ -70,7 +70,7 @@ var SurveyList = function() {
 
     function onEditSurveyClicked(e) {
         $('#plusButton').unbind('mouseover.surveyList');
-        Editor.createEditor(e);
+        Editor.createEditor(e.data);
     }
 
     function onDownloadSurveyClicked(e) {

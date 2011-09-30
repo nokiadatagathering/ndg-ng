@@ -4,47 +4,39 @@ var Editor = function() {
     var surveyId;
     var jsonSurvey;
 
-
     return {
+        newSurvey : function() {newSurvey();},
         createEditor : function(id) {createEditor(id);},
         addCategory : function(id) {addCategory(id);},
         addQuestion : function(id) {addQuestion(id);}
     };
-    
-//    function addCategory(){
-//        onAddCategoryClicked();
-//    }
-//    
-//    function addQuestion(){
-//        onAddQuestionClicked();
-//    }
-    
+
+    function newSurvey(){
+        $.getJSON('/application/createSurvey', {'surveyName': 'New survey'},// TODO localize
+                                                    function(data){
+                                                        surveyId = data.survey.id;
+                                                        createEditor(surveyId);
+                                                        addCategory();
+                                                    } );
+    }
+
     function createEditor(id){
-        surveyId = id.data;
-        
+        surveyId = id;
+
         $('#content').empty();
-        
+
         $('#leftColumnContent' ).empty();
-        $('#leftColumnContent' ).append( 
-//              '<div id="menuButton">'
-             '<div class="button">'
-            + '<span id="executeBackButton" class="leftMenuButton"></span>'
+        $('#leftColumnContent' ).append(
+             '<div class="leftMenuButtonBlock">'
+            + '<span id="executeBackButton" class="leftMenuButton" />'
             + '</div>'
-            + '<div class="button">'
-            + '<span id="executeSave" class="leftMenuButton"></span>'
-            + '</div>'
+            + '<div class="leftMenuButtonBlock">'
+            + '<span id="executeSave" class="leftMenuButton" />'
             + '</div>'
         );
 
         $('#content').append(
             '<div id="editor">'
-
-//            + '<a href="#" id="executeAddCategory">'
-//            + '<img id="add_button" src="images/plus.png"></a>'
-//
-//            + '<a href="#" id="executeAddQuestion">'
-//            + '<img id="add_button" src="images/plus.png"></a>'
-
             + '<ul id="sortableList">'
             + '<div id="categories"></div>'
             + '</ul>'
@@ -53,11 +45,9 @@ var Editor = function() {
 
         fillEditor(surveyId);
 
+        $( "#plusButton").unbind('mouseover');
         $( "#plusButton").mouseover( function(event) {SurveyListCombo.showEditorMenu(event);});
-        
         $( "#executeBackButton" ).click( function(){onBackClicked();} );
-//        $( "#executeAddCategory" ).click( function(){onAddCategoryClicked();} );
-//        $( "#executeAddQuestion" ).click( function(){onAddQuestionClicked();} );
         $( "#executeSave" ).click( function(){onSaveClicked();} );
     }
 
@@ -148,7 +138,6 @@ var Editor = function() {
                                                         jsonSurvey = data;
                                                         fillCategoryList(data);
                                                     } );
-
     }
 
     function setAccordion(){
@@ -177,7 +166,7 @@ var Editor = function() {
             }
         });
     }
-    
+
     function fillCategoryList(data){
         $.each(data.categories,function(i,item) {
             appendCategoryElement(item.id, item.label);
@@ -191,14 +180,15 @@ var Editor = function() {
         var deleteId = "executeDeleteCategory" + id;
         var listId = 'questions' + id;
 
-        $('#categories').append(
+
+
+        $("#categories").append(
             '<li id="'+ categoryId + '" class="ui-state-default listCategory">'
             +'<h3><a href="#" class="categoryName">' + value + '</a>'
             +'<span id="'+ deleteId +'" class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
             +'<div style="clear:both;"></div>'
             + '</h3>'
             +'<ul id="' + listId +'" class="listQuestion"></ul>'
-            +'</div>'
             +'</li>');
 
         $( '#' + deleteId).click( categoryId, function(i){onDeleteElementClicked(i);} );

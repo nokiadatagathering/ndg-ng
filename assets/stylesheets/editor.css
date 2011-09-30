@@ -1,7 +1,7 @@
-#sortableList 
-{ 
-    list-style-type: none;     
-    width: 60%; 
+#sortableList
+{
+    list-style-type: none;
+    width: 60%;
     height: auto;
     border:none;
 }
@@ -36,14 +36,14 @@
     background: #11F7AA;/*  change this line #F0F7AA*/
 }
 
-#categories a.categoryName 
+#categories a.categoryName
 {
     color: #3a77ca;
 }
 
 #sortableList li.listCategory
-{ 
-    margin-top: 2px; 
+{
+    margin-top: 2px;
     vertical-align:middle;
     height: auto;
     border:none;
@@ -58,16 +58,16 @@
 
 #categories ul.listQuestion
 {
-    list-style-type: none; 
-    padding: 5px; 
+    list-style-type: none;
+    padding: 5px;
     height: auto;
     border-bottom: 1px solid #CCC;
     border-left:  1px solid #CCC;/*  optimize??  */
     border-right: 1px solid #CCC;
     background: #E4Eaaa;/*  change this line #E4EBF3*/
     border-radius: 0px;
-    
-    
+
+
 }
 
 #categories li.listItemQuestion
@@ -79,27 +79,22 @@
     vertical-align:bottom;
     border: 1px solid #CCC;
     text-align: left;
-    padding-left: 5px;   
+    padding-left: 5px;
 }
 
-div.questionText 
+div.questionText
 {
-    float:left; 
+    float:left;
     width: 80%;
     border: 1px blue;
     font-size: 12px;
 }
 
 
-/*#categories button
-{
-    width: 36px;
-    height: 36px; 
-}*/
 
 div.deleteElement
 {
-    float:right; 
+    float:right;
     width: 10%;
     border: 1px red;
 }
@@ -113,10 +108,9 @@ span.deleteElement
     background: url(../images/btn_editor_delete.jpg) no-repeat;
 }
 
-
-#leftColumnContent div.menuButton
-{
-/*    float:right;*/
+.leftMenuButtonBlock{
+    width: 100%;
+    float:right;
 }
 
 
@@ -126,7 +120,6 @@ span.deleteElement
     display: block;
     width: 32px;
     height: 34px;
-/*    margin-right: px;*/
 }
 
 #executeBackButton{
@@ -136,5 +129,3 @@ span.deleteElement
 #executeSave{
     background: url(../images/check1.png) no-repeat;
 }
-
-    
