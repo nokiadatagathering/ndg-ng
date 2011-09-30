@@ -34,6 +34,10 @@ public class Question extends Model {
     @Lob
     public String hint;
     
+    
+    @Column(name="question_index")
+    public Integer questionIndex;
+    
     @Column( name = "constraint_text")
     public String constraintText;
     

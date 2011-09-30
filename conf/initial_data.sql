@@ -55,7 +55,7 @@ INSERT INTO `question_type` ( `supported`, `type_name`) VALUES (1,'string'),(1,'
 -- Dumping data for table `survey`
 --
 
-INSERT INTO `category` (`category_index`, `label`, `survey_id`) VALUES (1,'Default',1), (2,'Other',1);
+INSERT INTO `category` (`category_index`, `label`, `object_name`, `survey_id`) VALUES (1,'Default','category1',1), (2,'Other','category2',1);
 
 INSERT INTO `survey` (`survey_id`, `available`, `lang`, `title`, `upload_date`, `ndg_user_id`) VALUES ('1263929563',1,'eng','Demo Survey','2011-07-25 10:10:00',1);
 

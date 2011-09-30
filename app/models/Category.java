@@ -25,6 +25,10 @@ public class Category extends Model{
     @Column(nullable=false)
     public  String label;
 
+    @Required
+    @Column( nullable= false, name = "object_name")
+    public String objectName;
+
     @Column(name="category_index")
     public Integer categoryIndex;
 
