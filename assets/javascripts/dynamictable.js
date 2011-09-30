@@ -1,4 +1,4 @@
-/*
+    /*
  * File encapsulates action related to Survey List view
  *
  **/
@@ -24,8 +24,8 @@ var DynamicTable = function() {
     function prepareContentToolbar() {
         $('#contentToolbar').empty();
         $('#contentToolbar').append( '<span class="buttonNext"  id="buttonNext"></span>'
-                                   + '<span class="buttonPrevious" id="buttonPrevious"></span>'
-                                   + '<span id="pageIndexText"><small>0</small> <strong>of 0</strong></span>' );
+                                   + '<span class="buttonPrevious" id="buttonPrevious"></span>' +
+                                      '<span class="toolbarText" id="totalItems"></span>');
     }
 
     function showList (_columnIds, _columnTexts, _columnDbFields, remoteAction, _contentHandler, _ajaxParams){
@@ -35,6 +35,18 @@ var DynamicTable = function() {
         columnDbFields = _columnDbFields;
         lastSortByColumn = undefined;
         ajaxParams = _ajaxParams;
+
+        if( !$('#datatable').length ){
+            $('#content').append(
+                '<div id="datatable">'
+                    +'<table id="minimalist">'
+                    +'</table>'
+                +'</div>');
+        }
+
+        if( !$('#contentToolbar').length ){
+            $('#content').append('<div id=contentToolbar></div>');
+        }
 
         prepareContentToolbar();
         $('#minimalist').empty();
@@ -73,15 +85,17 @@ var DynamicTable = function() {
     }
 
     function updateTotalPages(data){
-        totalPages = data.itemsCount;
-        updatePageNumber();
+        totalPages = Math.floor(data.itemsCount / 10);
+
+        $('#totalItems').append( '<small>' + data.itemsCount + '</small>');
+        updateItemCount();
     }
 
-    function updatePageNumber() {
-        $("#pageIndexText").empty();
-        $("#pageIndexText").append( '<small>' + (elementStartIndex + 1) + '</small>' + '<strong> of ' + totalPages + '</strong>' );
-        $("#buttonPrevious").click( function(event){onPreviousClicked(event);} );
-        $("#buttonNext").click(  function(event){onNextClicked(event);} );
+    function updateItemCount() {
+      //  $("#pageIndexText").empty();
+      //  $("#pageIndexText").append( '<small>' + (elementStartIndex + 1) + '</small>' + '<strong> of ' + totalPages + '</strong>' );
+        $('#buttonPrevious').click( function(event){onPreviousClicked(event);} );
+        $('#buttonNext').click(  function(event){onNextClicked(event);} );
     }
 
     function toggleSortByColumn(event)
@@ -149,7 +163,6 @@ var DynamicTable = function() {
             elementStartIndex = 0;
         } else {
             refresh();
-            updatePageNumber();
         }
         e.preventDefault();
     }
@@ -159,7 +172,6 @@ var DynamicTable = function() {
             elementStartIndex--;
         } else {
             refresh();
-            updatePageNumber();
         }
         e.preventDefault();
     }

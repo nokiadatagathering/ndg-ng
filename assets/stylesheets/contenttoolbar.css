@@ -1,0 +1,125 @@
+#buttonPrevious {
+    float: right;
+    width: 32px;
+    height: 33px;
+    margin-right: 11px;
+    background: url(../images/back.png) no-repeat;
+}
+
+#buttonPrevious:active {
+    background: #0161ad url(../images/back.png) no-repeat;
+}
+
+#buttonNext {
+    float: right;
+    width: 32px;
+    height: 33px;
+    margin-right: 19px;
+    background: url(../images/next.png) no-repeat;
+}
+
+#buttonNext:active {
+    background: #0161ad url(../images/next.png) no-repeat;
+
+}
+
+.toolbarText {
+    float: right;
+    text-align: right;
+    vertical-align: middle;
+    margin-top: 10px;
+    margin-right: 14px;
+}
+
+.toolbarText small {
+    font-size: 13px;
+    font-family: "Myriad Semibold";
+    color: #6388bb;
+}
+
+.toolbarText strong {
+    font-size: 13px;
+    font-family: "Myriad Regular";
+    color: #6388bb;
+}
+
+.comboBoxSelection {
+    float: left;
+    text-align: left;
+    margin-left: 3px;
+    width: 61px;
+    height: 34px;
+    text-align: center;
+    background: url(../images/combobox_select_checkbox.png) no-repeat;
+}
+
+.buttonExportExcel {
+    float: left;
+    text-align: left;
+    margin-top: 5px;
+    margin-left: 13px;
+    width: 121px;
+    height: 26px;
+    text-align: center;
+    background: url(../images/btn_exp_excel.png) no-repeat;
+}
+
+.buttonExportKML {
+    float: left;
+    text-align: left;
+    margin-top: 5px;
+    margin-left: 13px;
+    width: 113px;
+    height: 26px;
+    text-align: center;
+    background: url(../images/btn_exp_kml.png) no-repeat;
+}
+
+.buttonExportExternal {
+    float: left;
+    text-align: left;
+    margin-top: 5px;
+    margin-left: 13px;
+    width: 196px;
+    height: 26px;
+    text-align: center;
+    background: url(../images/btn_exp_services.png) no-repeat;
+}
+
+.buttonExportExcel:active {
+    background: url(../images/btn_exp_excel_on.png) no-repeat;
+}
+
+.buttonExportKML:active {
+    background: url(../images/btn_exp_kml_on.png) no-repeat;
+}
+
+.buttonExportExternal:active {
+    background: url(../images/btn_exp_services_on.png) no-repeat;
+}
+
+.customCheckbox {
+    display: inline;
+    font-size: 20px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.customCheckbox img {
+    background: transparent url(../images/checkbox_off.png) no-repeat;
+}
+
+.customCheckbox .mark {
+    display: inline;
+}
+
+.customCheckbox img {
+    vertical-align: middle;
+    width: 24px;
+    height: 20px;
+}
+
+.customCheckbox-checked img{
+    background: transparent url(../images/checkbox_on.png) no-repeat;
+}
+

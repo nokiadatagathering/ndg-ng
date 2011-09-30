@@ -23,6 +23,9 @@ var Editor = function() {
     function createEditor(id){
         surveyId = id;
 
+        $('#sectionTitle').text('Survey Editor'); //TODO localize
+        $('#userManagement').remove();
+
         $('#content').empty();
 
         $('#leftColumnContent' ).empty();
@@ -92,13 +95,7 @@ var Editor = function() {
 
     function onBackClicked(){
          $('#content').empty();
-         $('#content').append(
-         '<div id="datatable">'
-                +'<table id="minimalist">'
-                +'</table>'
-            +'</div>');//TODO refactor this
-
-        SurveyList.showSurveyList();
+         SurveyList.showSurveyList();
     }
 
     function addCategory(){

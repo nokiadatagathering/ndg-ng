@@ -20,8 +20,10 @@ var SurveyList = function() {
 
         $('#plusButton').bind('mouseover.surveyList', function(event) {SurveyListCombo.showMenu();});
         $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="markBuilding">Building</h4><h4 class="markAvailable">Available</h4>');
-        $('#sectionTitle').text('Survey List');
-        $('#userManagement').text('User Admin');
+
+
+        $('#section').empty();
+        $('#section').append('<H2 id=sectionTitle>Survey List</H2><a href="#" id=userManagement>User Admin</a>');
         $('#userManagement').click(function() {UserManagement.showUserManagement() });
 
         $('#uploadForm').submit(function () {uploadNewSurvey();} );
