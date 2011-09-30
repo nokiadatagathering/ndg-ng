@@ -17,6 +17,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import models.Category;
 import models.NdgUser;
 import models.Question;
@@ -45,6 +46,14 @@ public class Application extends Controller {
             }
             return qType;
         }
+    }
+
+    public static void questionType(){
+        List<QuestionType> types = QuestionType.find("bySupported", 1).fetch();
+
+        JSONSerializer typeSerializer = new JSONSerializer();
+        typeSerializer.include("typeName", "id").exclude("*").rootName("types");
+        renderJSON(typeSerializer.serialize(types));
     }
 
     public static void createSurvey(String surveyName){
@@ -91,9 +100,18 @@ public class Application extends Controller {
             survey.categoryCollection.add(cat);
             cat.save();
         }
-
     }
 
+    public static void getSurvey( long surveyId){
+        Survey survey = Survey.findById( surveyId );
+        JSONSerializer surveySerializer = new JSONSerializer();
+        surveySerializer.include("categoryCollection",
+                "categoryCollection.questionCollection",
+                "categoryCollection.questionCollection.questionType").exclude(
+                "transactionLogCollection", "uploadDate", "surveyId", "resultCollection", "ndgUser" )
+            .rootName( "survey" );
+        renderJSON(surveySerializer.serialize(survey));
+    }
 
     public static void upload(File filename, String uploadSurveyId) throws IOException, SurveySavingException {
         InputStreamReader is = null;

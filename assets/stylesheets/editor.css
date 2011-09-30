@@ -1,9 +1,11 @@
 #sortableList
 {
     list-style-type: none;
-    width: 60%;
+    width: 100%;
     height: auto;
-    border:none;
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
 #categories
@@ -27,15 +29,13 @@
     border: 1px solid #CCC;
     border-radius: 0px;
 }
-
-#categories h3.ui-state-focus, h3.ui-state-active, li.listItemQuestion{
-    background: #fffaaa !important;/*  change this line #F0F7FF*/
+#categories li.listCategory a
+{
+    cursor:pointer;
 }
 
-#categories h3:hover{
-    background: #11F7AA;/*  change this line #F0F7AA*/
-}
 
+/*TODO create state actovie for category */
 #categories a.categoryName
 {
     color: #3a77ca;
@@ -49,13 +49,6 @@
     border:none;
 }
 
-/*#leftColumnContent img{
-    float:right;
-    display:block;
-    position:absolute;
-    margin: 0  0 auto auto;
-}*/
-
 #categories ul.listQuestion
 {
     list-style-type: none;
@@ -64,11 +57,11 @@
     border-bottom: 1px solid #CCC;
     border-left:  1px solid #CCC;/*  optimize??  */
     border-right: 1px solid #CCC;
-    background: #E4Eaaa;/*  change this line #E4EBF3*/
+    background: #E4EBF3;/*  change this line #E4EBF3, #E4Eaaa*/
     border-radius: 0px;
 
-
 }
+
 
 #categories li.listItemQuestion
 {
@@ -79,7 +72,15 @@
     vertical-align:bottom;
     border: 1px solid #CCC;
     text-align: left;
-    padding-left: 5px;
+    padding-left: 10px;
+}
+
+#categories  li.listItemQuestion {
+    background: #F0F7FF ;
+}
+
+#categories  li.listItemQuestion.elementSelected {
+    background: black ;
 }
 
 div.questionText
@@ -113,7 +114,6 @@ span.deleteElement
     float:right;
 }
 
-
 #leftColumnContent span.leftMenuButton
 {
     float:right;
@@ -128,4 +128,47 @@ span.deleteElement
 
 #executeSave{
     background: url(../images/check1.png) no-repeat;
+}
+
+span.expandIcon{
+    float: left;
+    width: 15px;
+    height: 15px;
+    margin: 10px 10px 10px 0px;
+    background: url(../images/arrow.jpg) no-repeat;
+}
+
+span.expandIcon.expanded{
+    background: url(../images/arrow_rotate.jpg) no-repeat;
+}
+
+#surveyTitle
+{
+    font-size: 28px;
+    font-family: "Myriad Semibold";
+    color: #0061ad;
+}
+
+#editorMain
+{
+    width: 60%;
+    float:left;
+}
+
+#editorRight
+{
+    float:right;
+    width: 30%;
+    height: 300px;
+    border: 1px solid #CCC;
+    margin-right: 50px;
+}
+
+span.edit
+{
+    margin-left: 10px;
+    font-size: 10px;
+    font-family: "Myriad Pro Regular";
+    color: #0061ad;
+    cursor: pointer;
 }
