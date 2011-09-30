@@ -107,7 +107,8 @@ public class Application extends Controller {
         JSONSerializer surveySerializer = new JSONSerializer();
         surveySerializer.include("categoryCollection",
                 "categoryCollection.questionCollection",
-                "categoryCollection.questionCollection.questionType").exclude(
+                "categoryCollection.questionCollection.questionType",
+                "categoryCollection.questionCollection.questionType.id").exclude(
                 "transactionLogCollection", "uploadDate", "surveyId", "resultCollection", "ndgUser" )
             .rootName( "survey" );
         renderJSON(surveySerializer.serialize(survey));

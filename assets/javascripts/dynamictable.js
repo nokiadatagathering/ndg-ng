@@ -48,6 +48,12 @@ var DynamicTable = function() {
         $('#leftColumnContent' ).empty();
         $('#plusButton').unbind('mouseover');
         $('#userManagement').unbind('click');
+
+        $('#searchComboBox').unbind('click');
+        $('#searchComboText').empty();
+
+        $('#searchTextField').val("");
+
         var htmlContent = '';
         htmlContent += '<thead>' + '<tr>';
         $.each(columnIds,function(i,item) {
@@ -75,7 +81,19 @@ var DynamicTable = function() {
         $('.sortHeader' ).click( function(event){toggleSortByColumn(event);} );
 
         contentUrl = 'listData/' + remoteAction;
+
+        $('#searchTextField').unbind('keyup');
+        $('#searchTextField').keyup( function(event){performSearch(event)});
+
         fillListData( lastSortByColumn, true );
+    }
+
+    function performSearch(event) {
+        if ( event.which == 13 ) {
+            event.preventDefault();
+        }
+        elementStartIndex = 0;
+        DynamicTable.refresh();
     }
 
     function recreateContainers()
@@ -141,6 +159,14 @@ var DynamicTable = function() {
                                                    'isAscending': isAscending,
                                                     'orderBy': orderByColumn};
         jQuery.extend(params, ajaxParams);
+        var searchText = $('#searchTextField').val();
+        if( searchText != "") {
+            var searchParams = {
+                'searchField' : contentHandler.getSearchBy(),
+                'searchText' : escape(searchText)
+            };
+            jQuery.extend(params, searchParams);
+        }
         $.getJSON( contentUrl, params, function(data){refreshTable(data);} );
     }
 

@@ -2,9 +2,8 @@
 var SurveyModel = function(s){
     var survey = s;
 
-
     //public methods
-    this.getSurvey = function(){ return survey; };
+    this.getSurvey = function(){return survey;};
 
     this.updateCategory = function ( catId, newLabel ){
         getCategory(catId).label = newLabel;

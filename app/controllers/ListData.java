@@ -38,10 +38,23 @@ public class ListData extends Controller{
         renderJSON(categoryListSerializer.serialize(categories));
     }
 
-    public static void results( int surveyId, int startIndex, boolean isAscending, String orderBy ) {
-        String query = "survey_id = "+ String.valueOf( surveyId ) + " order by "+ orderBy + ( isAscending ? " asc" : " desc" );
+    public static void results( int surveyId, int startIndex, boolean isAscending, String orderBy, String searchField, String searchText ) {
+        StringBuilder searchFilter = null;
+        if(searchField != null && searchText != null)
+        {
+            searchFilter = new StringBuilder();
+            searchFilter.append(searchField).append(" like '").append(searchText).append("%' ");
+        }
+        StringBuilder query = new StringBuilder();
+        if(searchFilter != null)
+        {
+            query.append(searchFilter);
+            query.append(" and ");
+        }
+        query.append("survey_id = ").append(String.valueOf( surveyId ));
+        query.append(" order by ").append(orderBy).append(isAscending ? " asc" : " desc");
 
-        List<NdgResult> results = NdgResult.find( query ).from( startIndex ).fetch( RESULTS_PER_SIDE );
+        List<NdgResult> results = NdgResult.find( query.toString() ).from( startIndex ).fetch( RESULTS_PER_SIDE );
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.include( "id","resultId", "title", "startTime", "ndgUser.username", "latitude" )
             .exclude( "*" ).rootName( "items" );
@@ -49,11 +62,29 @@ public class ListData extends Controller{
         renderJSON( addRangeToJson(surveyListSerializer.serialize( results ), startIndex, results.size()) );
     }
 
-    public static void surveys( int startIndex, boolean isAscending, String orderBy ) {
+    public static void surveys( int startIndex, boolean isAscending, String orderBy, String searchField, String searchText ) {
         List<Survey> surveys = null;
+        StringBuilder searchFilter = null;
+        long totalItems = 0;
+        if(searchField != null && searchText != null)
+        {
+            searchFilter = new StringBuilder();
+            searchFilter.append(searchField).append(" like '").append(searchText).append("%' ");
+            totalItems = Survey.count(searchFilter.toString());
+        }
+        else
+        {
+            totalItems = Survey.count();
+        }
         if(orderBy != null && orderBy.equals("resultCollection"))
         {
-            surveys =  Survey.all().fetch();
+            if(searchFilter != null)
+            {
+                surveys = Survey.find(searchFilter.toString()).fetch();
+            }else
+            {
+                surveys = Survey.all().fetch();
+            }
             Collections.sort( surveys, new SurveyNdgResultCollectionComapator() );
             if( !isAscending ) {
                 Collections.reverse( surveys );
@@ -65,27 +96,48 @@ public class ListData extends Controller{
             surveys = surveys.subList( startIndex , subListEndIndex );
         } else
         {
-            String query = "order by "+ orderBy + ( isAscending ? " asc" : " desc" );
-            surveys =  Survey.find( query ).from( startIndex ).fetch( RESULTS_PER_SIDE );
+            StringBuilder query = new StringBuilder();
+            if(searchFilter != null)
+            {
+                query.append(searchFilter);
+            }
+            query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
+            surveys =  Survey.find( query.toString() ).from( startIndex ).fetch( RESULTS_PER_SIDE );
         }
-        serializeSurveys( surveys,  startIndex, Survey.count());
+        serializeSurveys( surveys,  startIndex, totalItems);
     }
 
-    public static void users(int startIndex, boolean isAscending, String orderBy ) {
+    public static void users(int startIndex, boolean isAscending, String orderBy, String searchField, String searchText) {
         List<NdgUser> users = null;
+        StringBuilder searchFilter = null;
+        long totalItems = 0;
+        if(searchField != null && searchText != null)
+        {
+            searchFilter = new StringBuilder();
+            searchFilter.append(searchField).append(" like '").append(searchText).append("%' ");
+            totalItems = NdgUser.count(searchFilter.toString());
+        } else
+        {
+            totalItems = NdgUser.count();
+        }
         if(orderBy != null && orderBy.equals("userRoleCollection"))
         {
-            users =  NdgUser.find("order by username asc").fetch();
+            users =  NdgUser.find(searchFilter.toString()).fetch();
             Collections.sort( users, new NdgUserUserRoleCollectionComapator(isAscending) );
             int subListEndIndex = startIndex + RESULTS_PER_SIDE < users.size() ?
                                                 startIndex + RESULTS_PER_SIDE :
                                                 users.size();
             users = users.subList( startIndex, subListEndIndex);
         } else {
-            String query = "order by "+ orderBy + ( isAscending ? " asc" : " desc" );
-            users =  NdgUser.find( query ).from( startIndex ).fetch( RESULTS_PER_SIDE );
+            StringBuilder query = new StringBuilder();
+            if(searchFilter != null)
+            {
+                query.append(searchFilter);
+            }
+            query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
+            users =  NdgUser.find( query.toString() ).from( startIndex ).fetch( RESULTS_PER_SIDE );
         }
-        serializeUsers(users, startIndex, NdgUser.count());
+        serializeUsers(users, startIndex, totalItems);
     }
 
     private static void serializeUsers(List<NdgUser> users, int startIndex, long totalSize) {

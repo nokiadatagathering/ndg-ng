@@ -314,16 +314,24 @@ body {
     height: 26px;
 }
 
+#searchComboText {
+    width: 98px;
+    overflow:  hidden;
+    float: left;
+}
+
 #searchComboBox {
     float: right;
     height: 34px;
-    width: 88px;
-    background: url('../images/combobox_empty.png') no-repeat;
+    width: 124px;
+    background: url('../images/combobox_empty2.png') no-repeat;
     text-indent: 1em;
     font-size: 17px;
     font-family: "Myriad Pro Semibold";
     color: #535076;
     line-height: 34px;
+    overflow:  hidden;
+    white-space: nowrap;
 }
 
 /* end of the header divs */
@@ -476,6 +484,7 @@ h4.markBuilding {
 @import url('dialogcustom.css');
 @import url('sendsurvey.css');
 @import url('editor.css');
+@import url('questionpanel.css');
 @import url('contextpopup.css');
 
 

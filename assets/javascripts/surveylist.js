@@ -6,8 +6,15 @@
 
 var SurveyList = function() {
 
+    var searchLabels;
+    var searchIds;
+    var searchDbFields = ["surveyId", "title", "ndgUser.username"];
+    var searchBy = "surveyId";
+
     return {showSurveyList : function(){showSurveyList();},
-            fillWithData : function(i, item){fillWithData(i, item)}
+            fillWithData : function(i, item){fillWithData(i, item);},
+            searchFieldChange: function(event){searchFieldChange(event);},
+            getSearchBy: function() {return searchBy;}
     };
 
     function showSurveyList (){
@@ -29,9 +36,14 @@ var SurveyList = function() {
         $('#uploadForm').submit( function () { uploadNewSurvey(); } );
         $('#buttonSendFile').click( function() {  $('#uploadForm').submit( ) });
 
-        $('#searchComboBox').click( function(event) {
-            SurveyListCombo.showSearchMenu(event)
-        });
+        $('#searchComboText').text("ID");
+        $('#searchComboBox').click( function(event) {createSearchList(event);});
+    }
+
+    function createSearchList(event) {
+       searchLabels = ["ID", LOC.get("LOC_SURVEY_NAME"), LOC.get("LOC_PUBLISHER")];
+       searchIds = ["searchById", "searchBySurveyName", "searchByPublisher"];
+       SurveyListCombo.showSearchMenu(event, searchLabels, searchIds, SurveyList);
     }
 
     function fillWithData(i, item) {
@@ -73,7 +85,6 @@ var SurveyList = function() {
         $('#menu' + i +' #buttonPhone').click( item.surveyId, function(i){onSendSurveyClicked(i);} );
         $('#menu' + i +' #buttonEdit').click( item.id, function(i){onEditSurveyClicked(i);} );
     }
-
 
     function onEditSurveyClicked(e) {
         $('#plusButton').unbind('mouseover.surveyList');
@@ -150,6 +161,14 @@ var SurveyList = function() {
            $(':file', '#uploadForm' ).val('');
         });
         return true;
+    }
+
+    function searchFieldChange(event) {
+        var fieldId = event.currentTarget.id;
+        var nameIndex = jQuery.inArray( fieldId, searchIds );
+        $('#searchComboText').text(searchLabels[nameIndex]);
+        searchBy = searchDbFields[nameIndex];
+        $('#searchTextField').val("");
     }
 
 }();

@@ -4,14 +4,52 @@
  **/
 
 var ResultList = function() {
+
     var currentSurveyId;
-
     var allResultSelected = false;
-
     var selectedResults = new Array();
+    var searchLabels;
+    var searchIds;
+    var searchDbFields = ["resultId", "ndgUser.username"];
+    var searchBy = "resultId";
+
+    return {showResultList : function(i) { showResultList(i);},
+            selectAllResults : function(){ selectAllResults();},
+            selectAllVisibleResults : function() { selectAllVisibleResults();},
+            unselectAllResults : function(){ unselectAllResults();},
+            fillWithData: function(i, item) {fillWithData(i, item);},
+            loadingFinished: function() {loadingFinished();},
+            searchFieldChange: function(event){searchFieldChange(event);},
+            getSearchBy: function() {return searchBy;}
+    };
 
     function backToSurveyList() {
         SurveyList.showSurveyList();
+    }
+
+    function showResultList(i) {
+        selectedResults = new Array();
+        currentSurveyId = i.data;
+
+        var columnIds = [null, "executeSortByResultId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation"];
+        var columnTexts = [null, "LOC_RESULTID", "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
+        var columnDbFields = [null, "resultId", "title", "startTime", "ndgUser.username", "latitude"];
+        var ajaxParams = { surveyId: currentSurveyId};
+        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList, ajaxParams);
+
+        $('#leftColumnContent' ).append( '<a href="#"><img id ="backButtonImage" src="images/back.png"></a>');
+        $('#backButtonImage').click( function(){backToSurveyList()} );
+
+        $('#searchComboBox').click( function(event) {createSearchList(event);});
+        $('#searchComboText').text(LOC.get("LOC_RESULTID"));
+
+        prepareContentToolbar();
+    }
+
+    function createSearchList(event) {
+       searchLabels = [LOC.get("LOC_RESULTID"), LOC.get("LOC_USER")];
+       searchIds = ["searchByResultId", "searchByUser"];
+       SurveyListCombo.showSearchMenu(event, searchLabels, searchIds, ResultList);
     }
 
     function fillWithData(i, item) {
@@ -55,23 +93,6 @@ var ResultList = function() {
         $('#contentToolbar span').mousedown(function() { onButtonMouseDownHandler($(this));} );
         $('#comboBoxSelection').click( function(event) { SurveyListCombo.showResultSelectionMenu(event); } );
         $('#buttonExportExcel').click( function(event) { exportResults(); } );
-
-    }
-
-    function showResultList(i) {
-        selectedResults = new Array();
-        currentSurveyId = i.data;
-
-        var columnIds = [null, "executeSortByResultId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation"];
-        var columnTexts = [null, "LOC_RESULTID", "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
-        var columnDbFields = ["resultId", "title", "startTime", "ndgUser.username", "latitude"];
-        var ajaxParams = { surveyId: currentSurveyId};
-        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList, ajaxParams);
-
-        $('#leftColumnContent' ).append( '<a href="#"><img id ="backButtonImage" src="images/back.png"></a>');
-        $('#backButtonImage').click( function(){backToSurveyList()} );
-
-        prepareContentToolbar();
 
     }
 
@@ -126,11 +147,12 @@ var ResultList = function() {
          }
     }
 
-    return {showResultList : function(i) { showResultList(i);},
-            selectAllResults : function(){ selectAllResults();},
-            selectAllVisibleResults : function() { selectAllVisibleResults();},
-            unselectAllResults : function(){ unselectAllResults();},
-            fillWithData: function(i, item) {fillWithData(i, item);},
-            loadingFinished: function() {loadingFinished();}
-    };
+    function searchFieldChange(event) {
+        var fieldId = event.currentTarget.id;
+        var nameIndex = jQuery.inArray( fieldId, searchIds );
+        $('#searchComboText').text(searchLabels[nameIndex]);
+        searchBy = searchDbFields[nameIndex];
+        $('#searchTextField').val("");
+    }
+
 }();

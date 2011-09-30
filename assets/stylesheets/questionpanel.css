@@ -1,0 +1,36 @@
+
+.rightPanelLabel
+{
+    width : 100%;
+    display : block;
+    font-size : 16px;
+    font-weight : bolder;
+    font-family : "Myriad Pro Regular";
+    color : #3a77ca;
+/*    text-transform : uppercase;*/
+    margin-top:10px;
+}
+
+.rightPanelInput
+{
+
+    margin-bottom:10px;
+    width : 100%;
+    display : block;
+    font-size : 14px;
+    font-weight : normal;
+    font-family : "Myriad Pro Regular";
+    color : #b7b7b7;
+}
+
+#editorRight
+{
+    float:left;
+    width: 25%;
+    height: auto;
+    border: 1px solid #CCC;
+    margin-right: 50px;
+    padding : 15px;
+    background: #F9F9F9;
+    margin-left: 15px;
+}

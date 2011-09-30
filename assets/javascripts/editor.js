@@ -2,9 +2,10 @@
 var Editor = function() {
 
     var surveyId;
-    var typeList;
-    var currentSelectionId;
     var surveyModel;
+
+    var currentSelectionId;
+    var questionPanel;
 
     return {
         newSurvey : function() {newSurvey();},
@@ -62,13 +63,10 @@ var Editor = function() {
         $( "#executeBackButton" ).click( function(){onBackClicked();} );
         $( "#executeSave" ).click( function(){onSaveClicked();} );
 
-        $.getJSON('/application/questionType', function(data){
-                                                       typeList = data.types;
-                                                       createRightPanel();
-                                                    } );
+        questionPanel = new QuestionPanel( function(label){ refreshCurrentQuestionLabel(label); });
+        questionPanel.createQuestionPanel();
 
         $( "#categories" ).sortable( {delay: 50} ).disableSelection();
-
         $( "#surveyHeader span.edit" ).bind( 'click.edit', function(){onEditTitleClick();} );
     }
 
@@ -90,7 +88,7 @@ var Editor = function() {
         $( "#surveyHeader span.edit" ).text( "Edit" ); //TODO localize
         $( "#surveyHeader span.edit" ).unbind( 'click.save' );
 
-        $( "#surveyHeader span.edit" ).bind( 'click.edit', function(){ onEditTitleClick();} );
+        $( "#surveyHeader span.edit" ).bind( 'click.edit', function(){onEditTitleClick();} );
         surveyModel.updateSurveyTitle( editedVal );
 
     }
@@ -123,20 +121,6 @@ var Editor = function() {
         return JSON.stringify(categoryList);
     }
 
-    function createRightPanel(){
-        $('#editorRight').append(
-                '<h4> Question type </h4>'
-                + '<select id=qType></select>'
-                + '<h4> Label </h4>'
-                + '<input id="qLabel" type="text"/>'
-                + '<h4> Object id </h4>'
-                + '<input id="objId" type="text"/>'
-        );
-        $.each(typeList, function(idx, type){
-            $('#qType').append('<option value="'+ type.id +'">' + type.typeName + '</option>');
-        });
-    }
-
     function prepereQuestions(catItem){
         var questionElemList = $( '#' + catItem.id ).find(".listItemQuestion");
         var questionList = [];
@@ -153,8 +137,8 @@ var Editor = function() {
     }
 
     function addCategory(){
-        var numRand = Math.floor(Math.random()*10000); //TODO maybe exist better way to get rundom id
-        appendCategoryElement(parseInt(numRand),'New Category'); //TODO localize
+        var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
+        appendCategoryElement( parseInt( numRand ), 'New Category' ); //TODO localize
     }
 
     function addQuestion(){
@@ -167,10 +151,10 @@ var Editor = function() {
             $( "#combobox" ).append('<option value="'+ listId[0].id +'">' + catName[0].text + '</option>'); //TODO label
         });
 
-        $('#confirmCategoryButton').empty();
-        $('#confirmCategoryButton').append('<button id="confirmCategory">Confirm</button>');
-        $('#confirmCategory').click( function(){onConfirmCategory();} );
-        switchCategoryDialog.dialog("open");
+        $( '#confirmCategoryButton' ).empty();
+        $( '#confirmCategoryButton' ).append( '<button id="confirmCategory">Confirm</button>' );
+        $( '#confirmCategory').click( function(){onConfirmCategory();} );
+        switchCategoryDialog.dialog( "open" );
     }
 
     function onConfirmCategory(){
@@ -311,7 +295,7 @@ var Editor = function() {
     }
 
     function removePreviousSelction(){
-        $(currentSelectionId).removeClass('elementSelected');
+        $( '#' + currentSelectionId ).removeClass( 'elementSelected' );
     }
 
     function onDeleteElementClicked(itemId){
@@ -320,22 +304,20 @@ var Editor = function() {
 
     function onQuestionClicked(questionId){
         removePreviousSelction();
-        currentSelectionId = '#' + questionId.data;
+        currentSelectionId = questionId.data;
 
-        var categoryElemId = $( currentSelectionId ).parents('.listCategory')[0].id;
-        $( currentSelectionId ).addClass('elementSelected');
+        var categoryElemId = $( '#' +  currentSelectionId ).parents( '.listCategory' )[0].id;
+        $( '#' + currentSelectionId ).addClass( 'elementSelected' );
 
         var qId = questionId.data.replace( "question", "");
         var cId = categoryElemId.replace( "category", "");
-        var question = surveyModel.getQuestion(cId, qId);
+        var currenQuestion = surveyModel.getQuestion(cId, qId);
 
-        fillQuestionDetailsPanel( question );
+        questionPanel.fillRightPanel( currenQuestion );
     }
 
-    function fillQuestionDetailsPanel( question ){
-        $( '#qType' ).val( question.questionType.id );
-        $( '#qLabel' ).val( $.trim(question.label) );
-        $( '#objId' ).val( question.objectName );
+    function refreshCurrentQuestionLabel( label ){
+        $( '#' + currentSelectionId + ' .questionText span' ).text( label );
     }
 
 }();

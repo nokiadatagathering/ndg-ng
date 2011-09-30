@@ -9,7 +9,7 @@ var SurveyListCombo = function() {
     return {showSurveyMenu : function(){showSurveyMenu();},
             showResultSelectionMenu : function(event){showResultSelectionMenu(event);},
             showEditorMenu : function(event){showEditorMenu(event);},
-            showSearchMenu : function(event){showSearchMenu(event)}
+            showSearchMenu : function(event, searchLabels, searchIds, contentHandler){showSearchMenu(event, searchLabels, searchIds, contentHandler)}
     };
 
     function showSurveyMenu(){
@@ -45,18 +45,20 @@ var SurveyListCombo = function() {
         showMenu(pos.left, pos.top, $('#plusButtonImage').width(), 0) ;
     }
 
-        function showSearchMenu(event) {
+    function showSearchMenu(event, searchLabels, searchIds, contentHandler) {
         document.onclick=closeMenu;
         if ( menuBeingShown() ) {
             return;
         }
 
         $('#popup-context').addClass("popup-search-context");
+        $.each(searchIds,function(i,item) {
+            $('#popup-context').append( '<a id="' + item + '" class="searchBy" href="#">' + searchLabels[i] + '</a>' );
+        } );
 
-        $('#popup-context').append( '<a id="searchById" href="#">Id</a>'
-                                    + '<a id="searchBySurveyName" href="#">' + LOC.get( 'LOC_SURVEY_NAME' ) + '</a>'
-                                    + '<a id="searchByPublisher" href="#">' + LOC.get( 'LOC_PUBLISHER' ) + '</a>' );
-
+        $('.searchBy').click( function(event){
+            contentHandler.searchFieldChange(event);
+        });
 
         var pos = $('#searchComboBox').offset();
         showMenu(pos.left, pos.top, 0, $('#searchComboBox').height());
