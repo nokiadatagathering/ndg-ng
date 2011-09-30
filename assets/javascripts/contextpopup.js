@@ -22,7 +22,7 @@ var SurveyListCombo = function() {
 
         $('#popup-context').addClass("popup-context");
 
-        $('#newSurveyAction').click( function(){Editor.newSurvey();});
+        $('#newSurveyAction').click( function(){Editor.createSurvey();});
         var pos = $('#plusButtonImage').position();
         showMenu(pos.left, pos.top, $('#plusButtonImage').width(), 0);
     }
@@ -77,8 +77,8 @@ var SurveyListCombo = function() {
                                             + '<a id="selectAllPagesAction" href="#">' + LOC.get( 'LOC_ALL_PAGES' ) + '</a>'
                                             + '<a id="unselectAll" href="#">' + LOC.get( 'LOC_NONE' ) + '</a>' );
 
-        $('#selectAllVisibleAction').click( function(){ ResultList.selectAllVisibleResults(); } );
-        $('#selectAllPagesAction').click( function(){ ResultList.selectAllResults(); });
+        $('#selectAllVisibleAction').click( function(){ResultList.selectAllVisibleResults();} );
+        $('#selectAllPagesAction').click( function(){ResultList.selectAllResults();});
         $('#unselectAll').click( function(){ResultList.unselectAllResults();});
 
         var pos = $('#comboBoxSelection').position();

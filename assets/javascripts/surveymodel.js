@@ -25,33 +25,23 @@ var SurveyModel = function(s){
         return quest;
     }
 
+    this.createNewSurvey = function(){
+        survey = new Survey();
+        return survey;
+    }
+
     this.newCategory = function (){
-        //TODO how to generate uniqe objectName
-        var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
-        var newCategory = new Object();
-        newCategory.label = "New Category";
-        newCategory.objectName = "category" + numRand;
-        newCategory.questionCollection = [];
+        var newCategory = new Category();        
         survey.categoryCollection.push( newCategory );
-
-
-
+        
         return newCategory;
     }
 
     this.newQuestion = function( categoryId ){
-        var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
-
-        var newQuestion = new Object();
-        newQuestion.label = "New question";
-        newQuestion.objectName = "category" + numRand;
-        newQuestion.questionType = new Object();
-        newQuestion.questionType.id = 1;
-
-
+        var newQuestion = new Question();
         var category = getCategory( categoryId );
+        
         category.questionCollection.push( newQuestion );
-
         return newQuestion;
     }
 
@@ -67,21 +57,25 @@ var SurveyModel = function(s){
     }
 }
 
-
-//TODO remove this
-var Category = function(lab, catIdx){
-    this.label = lab;
-    this.categoryIndex = catIdx;
+var Category = function(){
+    var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
+    this.label = "New Category";
+    this.objectName = "category" + numRand;
     this.questionCollection = [];
 }
 
-var Question = function(label, objectName){
-    this.label = label;
-    this.objectName = objectName;
-    this.questionType = new QuestionType('1');//TODO fix this
+var Question = function(){
+    var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
+
+    this.label = "New question";
+    this.objectName = "category" + numRand;
+    this.questionType = new Object();
+    this.questionType.id = 1;
 }
 
-var QuestionType = function(type){
-    this.type = type;
+var Survey = function(){
+    this.title = "New survey";
+    this.categoryCollection = [];
+    this.categoryCollection.push( new Category() );
 }
 

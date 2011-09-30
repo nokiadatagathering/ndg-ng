@@ -56,25 +56,6 @@ public class Application extends Controller {
         renderJSON(typeSerializer.serialize(types));
     }
 
-    public static void createSurvey(String surveyName){
-        if(surveyName == null || surveyName.isEmpty()){
-            surveyName = "New Survey"; //TODO
-        }
-
-        SecureRandom random = new SecureRandom();
-        String newId = new BigInteger(40, random).toString(32);
-
-        Survey survey = new Survey();
-        survey.surveyId = newId;
-        survey.title = surveyName;
-        survey.ndgUser = NdgUser.find("byId", new Long(1)).first(); //TODO get current user
-        survey.save();
-
-        JSONSerializer surveySerializer = new JSONSerializer();
-        surveySerializer.include( "id","title", "surveyId").rootName( "survey" );
-        renderJSON( surveySerializer.serialize( survey ) );
-    }
-
     public static void saveSurvey(String id, String surveyData){
 
         JSONDeserializer<ArrayList<Category>> deserializer = new JSONDeserializer<ArrayList<Category>>();

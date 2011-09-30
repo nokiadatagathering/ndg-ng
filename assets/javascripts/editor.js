@@ -8,23 +8,27 @@ var Editor = function() {
     var questionPanel;
 
     return {
-        newSurvey : function() {newSurvey();},
-        createEditor : function(id) {createEditor(id);},
+        openSurvey : function(id) {openSurvey(id);},
+        createSurvey : function() {createSurvey();},
         addCategory : function(id) {addCategory(id);},
         addQuestion : function(id) {addQuestion(id);}
     };
 
-    function newSurvey(){
-        $.getJSON('/application/createSurvey', {'surveyName': 'New survey'},// TODO localize
-                                                    function(data){
-                                                        surveyId = data.survey.id;
-                                                        createEditor(surveyId);
-                                                        addCategory();
-                                                    } );
+    function createSurvey(){
+        createEditor();
+        surveyModel = new SurveyModel();
+        surveyModel.createNewSurvey();
+
+        fillCategoryList();
     }
 
-    function createEditor(id){
-        surveyId = id;
+    function openSurvey( id ){
+        createEditor();
+        fillEditor( id );
+    }
+
+
+    function createEditor(){
 
         $('#sectionTitle').text( 'Survey Editor' ); //TODO localize
         $('#userManagement').remove();
@@ -54,8 +58,6 @@ var Editor = function() {
             +'<div style="clear:both;"></div>'
             + '</div>'
             );
-
-        fillEditor(surveyId);
 
 
         $( "#plusButton").unbind('mouseover');
@@ -158,9 +160,8 @@ var Editor = function() {
         switchCategoryDialog.dialog( "open" );
     }
 
-    function onConfirmCategory(){ //TODO change - append to structure
+    function onConfirmCategory(){
         var selectElem = $( "#combobox" ).val();
-//        var listElem = $( "#" + selectElem ).find( '.listQuestion' )[0].id;
 
         appendQuestionElement( surveyModel.newQuestion( selectElem ), selectElem );
         switchCategoryDialog.dialog( "close" );
@@ -184,14 +185,11 @@ var Editor = function() {
 
     function appendCategoryElement( category ){
 
-//        var listId;
         if( !category.hasOwnProperty( 'id' ) ){
             var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
             category.uiId = "category" + numRand;
-//            listId = 'questions' + numRand;
         }else{
             category.uiId = "category" + category.id;
-//            listId = 'questions' + category.id;
         }
 
         //TODO localize
@@ -289,7 +287,7 @@ var Editor = function() {
                     + '<div style="clear:both;"></div>'
                     + '</li>');
 
-        $( '#'+ question.uiId + ' span.deleteElement' ).click( question.uiId, function( i ){ onDeleteElementClicked ( i );} );
+        $( '#'+ question.uiId + ' span.deleteElement' ).click( question.uiId, function( i ){onDeleteElementClicked ( i );} );
         $( '#'+ question.uiId ).click( question.uiId, function( i ){onQuestionClicked(i);} );
     }
 
