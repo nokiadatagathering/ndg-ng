@@ -163,7 +163,12 @@ var Editor = function() {
     function onConfirmCategory(){
         var selectElem = $( "#combobox" ).val();
 
-        appendQuestionElement( surveyModel.newQuestion( selectElem ), selectElem );
+        var question = surveyModel.newQuestion( selectElem );
+        appendQuestionElement( question, selectElem );
+        
+        showCategory( selectElem );
+        $( '#' + question.uiId ).trigger( 'click' );
+        
         switchCategoryDialog.dialog( "close" );
     }
 
@@ -206,11 +211,19 @@ var Editor = function() {
 
         $( '#' + category.uiId + ' span.deleteElement').click( category.uiId, function(i){onDeleteElementClicked(i);} );
 
-        setListParams(category.uiId);
-        $( '#' + category.uiId + ' .listQuestion' ).hide();
+        setListParams( category.uiId );
+        hideCatogry ( category.uiId );
+    }
+    
+    function hideCatogry( categoryId ){
+        $( '#' + categoryId + ' .listQuestion' ).hide();
+    }
+    
+    function showCategory( categoryId ){
+        $( '#' + categoryId + ' .listQuestion' ).show();
     }
 
-    function setListParams(categoryId){
+    function setListParams( categoryId ){
         var listRef = '#' + categoryId + ' .listQuestion';
         var catHeaderRef = "#" + categoryId + " h3";
         var expandIconElem = "#" + categoryId + ' span.expandIcon';
