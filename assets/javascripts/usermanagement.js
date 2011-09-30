@@ -17,7 +17,7 @@ var UserManagement = function() {
         var columnTexts = ["LOC_NAME", "LOC_EMAIL", "LOC_PHONE", "LOC_PERMISSION"];
         var columnDbFields = ["username","email", "phoneNumber", "userRoleCollection"];
 
-        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "listusers", UserManagement);
+        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "users", UserManagement);
 
         //todo plus button handling
         $('#sectionTitle').text('User Admin');

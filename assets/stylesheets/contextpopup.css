@@ -1,0 +1,41 @@
+.popup-base {
+    position: absolute;
+    z-index: 1;
+    display: none;
+    border: 1px solid #dadadf;
+}
+
+.popup-base  a:hover {
+    background: #ff9999;
+}
+
+.popup-context, .popup-search-context {
+    width: 200px;
+    font-size: 26px;
+    font-family: "Myriad Pro Regular";
+    background: url('../images/submenu_bg.png') repeat;
+}
+
+.popup-context a, .popup-search-context a{
+    display: block;
+    text-decoration: none;
+    padding-left: 6px;
+    color: #535076;
+}
+
+.popup-selection-context {
+    width: auto;
+    height: 66px;
+    line-height: 22px;
+    background: url('../images/submenu_bg.png') repeat;
+    font-size: 12px;
+    font-family: "Myriad Semibold";
+}
+
+.popup-selection-context a {
+    padding-left: 10px;
+    padding-right: 30px;
+    display: block;
+    text-decoration: none;
+    color: #535076;
+}

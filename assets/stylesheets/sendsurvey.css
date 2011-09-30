@@ -10,10 +10,16 @@
     border-right: #edf0f6 solid 2px;
 }
 
-.tableSendSurvey-content {
+.tableSendSurvey-row {
     background: #f8f9fc;
-    height: 50px;
-    line-height: 50px;
+/*    height: 12px;*/
+/*    line-height: 35px;*/
+    font-family: "Myriad Pro Regular";
+    color: #3a77ca;
+    font-size: 18px;
+}
+
+.tableSendSurvey-cell {
     font-size: 18px;
     border: #edf0f6 solid 2px;
 }
@@ -47,11 +53,11 @@
 }
 
 .sendSurvey-customCheckbox img {
-    vertical-align: middle;
-    width: 33px;
-    height: 35px;
+    width: 34px;
+    background-position: center;
 }
 
 .sendSurvey-customCheckbox-checked img{
     background: transparent url(../images/check1.png) no-repeat;
+    background-position: center;
 }

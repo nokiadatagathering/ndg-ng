@@ -21,7 +21,7 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
 
   <link rel="stylesheet" href="stylesheets/jquery-ui-1.8.16.custom.css">
-  <link rel="stylesheet" href="stylesheets/fileinput.css" />
+  <link rel="stylesheet" href="stylesheets/fileinput.css">
 
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
@@ -32,6 +32,8 @@
   <link rel='stylesheet' href='stylesheets/exportresults.css'>
   <link rel='stylesheet' href='stylesheets/dialogcustom.css'>
   <link rel='stylesheet' href='stylesheets/sendsurvey.css'>
+  <link rel='stylesheet' href='stylesheets/contenttoolbar.css'>
+  <link rel='stylesheet' href='stylesheets/contextpopup.css'>  
   <!-- end CSS-->
 
 
@@ -52,7 +54,7 @@
   <script type="text/javascript" src="javascripts/surveylist.js"></script>
   <script type="text/javascript" src="javascripts/surveymodel.js"></script>
   <script type="text/javascript" src="javascripts/editor.js"></script>
-  <script type="text/javascript" src="javascripts/surveylistcombo.js"></script>
+  <script type="text/javascript" src="javascripts/contextpopup.js"></script>
   <script type="text/javascript" src="javascripts/resultlist.js"></script>
   <script type="text/javascript" src="javascripts/sendsurvey.js"></script>
   <script type="text/javascript" src="javascripts/exportresults.js"></script>
@@ -105,9 +107,7 @@
             </div>
      </div>
 <div> 
-    <div id="popup-context" class="popup-context">
-    </div>
-    <div id="popup-selection-context" class="popup-selection-context">
+    <div id="popup-context" class="popup-base">
     </div>
     <div id="dialog-exportResults" class="dialogs">
         <div id="exportResults-step_1"></div>
@@ -118,9 +118,9 @@
     <div id="dialog-upload" class="dialogs">
         #{form @upload(), id:'uploadForm', enctype:'multipart/form-data', target:'cgiFrame'}
         <span id="dialog-upload-query" ></span>
-        <input type="file" name="filename" id="uploadSurveyForm"/>
+        <input type="file" name="filename" id="uploadSurveyForm" />
         <input type="hidden" name="uploadSurveyId" id="uploadSurveyId" />
-        <div class="buttonMedium" ><span id="buttonSendFile" ></span></div>
+        <div class="buttonMedium extraTopMargin" ><span id="buttonSendFile" ></span></div>
         #{/form}
     </div>
     <iframe id="uploadSurveyResult" name="cgiFrame" src="about:blank" style="visibility:hidden; width:0px; height:0px"></iframe>
@@ -154,6 +154,7 @@
 var uploadDialog = $("#dialog-upload").dialog(
 {
     autoOpen: false,
+    zIndex: 9999,
     resizable: false 
 });
 

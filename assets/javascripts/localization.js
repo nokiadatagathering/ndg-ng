@@ -43,7 +43,8 @@ var LOC = (function() {
         LOC_SURVEY_UPLOAD: 'Survey upload',
         LOC_SEND_FILE: 'Send File',
         LOC_SEND_SURVEY: 'Send Survey',
-        LOC_DONE: 'Done'
+        LOC_DONE: 'Done',
+        LOC_SEARCH: 'Search...'
     };
 
     var constants_POL = {
@@ -87,7 +88,8 @@ var LOC = (function() {
         LOC_SURVEY_UPLOAD: '\u0141aduj ankiet\u0119',
         LOC_SEND_FILE: 'Wy\u015blij',
         LOC_SEND_SURVEY: 'Wy\u015blij ankiet\u0119',
-        LOC_DONE: 'Wy\u015blij'
+        LOC_DONE: 'Wy\u015blij',
+        LOC_SEARCH: 'Szukaj...'
     };
 
 

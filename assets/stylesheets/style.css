@@ -357,53 +357,6 @@ body {
     margin-top: 4px;
 }
 
-.popup-context {
-    width: 200px;
-    position: absolute;
-    font-size: 26px;
-    font-family: "Myriad Pro Regular";
-    z-index: 1;
-    visibility: hidden;
-    background: url('../images/submenu_bg.png') repeat;
-    border: 1px solid #dadadf;
-}
-
-.popup-context a {
-    display: block;
-    text-decoration: none;
-    padding-left: 6px;
-    color: #535076;
-}
-
-.popup-context  a:hover {
-    background: #ff9999;
-}
-
-.popup-selection-context {
-    width: auto;
-    height: 66px;
-    line-height: 22px;
-    position: absolute;
-    z-index: 1;
-    visibility: hidden;
-    background: url('../images/submenu_bg.png') repeat;
-    border: 1px solid #dadadf;
-    font-size: 12px;
-    font-family: "Myriad Semibold";
-}
-
-.popup-selection-context a {
-    padding-left: 10px;
-    padding-right: 30px;
-    display: block;
-    text-decoration: none;
-    color: #535076;
-}
-
-.popup-selection-context  a:hover {
-    background: #ff9999;
-}
-
 #filter h3 {
     margin-top: 10px;
     color: #3a77ca;
@@ -523,6 +476,7 @@ h4.markBuilding {
 @import url('dialogcustom.css');
 @import url('sendsurvey.css');
 @import url('editor.css');
+@import url('contextpopup.css');
 
 
 

@@ -65,7 +65,7 @@
 .buttonSmall {
      display: inline-block;
      padding: 0;
-     margin: 0 0 31px 0;
+     margin: 10px 0 31px 0;
      height: 32px !important;
      width: 84px;
      background: url('../images/bt-small.png') no-repeat;
@@ -93,6 +93,10 @@
      text-align: center;
      text-transform: uppercase;
  }
+
+.extraTopMargin {
+    margin-top: 20px !important;
+}
 
 .uploadFormClass {
      width: 150px;

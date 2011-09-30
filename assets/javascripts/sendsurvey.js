@@ -18,7 +18,7 @@ var SendSurvey = function() {
                                + '<tbody id="userListTable">'
                                + '</tbody></table>' );
 
-        $.getJSON('/application/listUsers', {'orderBy': "id"}, function(i) {fillUserTable(i);} );
+        $.getJSON('/listData/users', {'orderBy': "id"}, function(i) {fillUserTable(i);} );
         $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );
     }
 
@@ -31,10 +31,10 @@ var SendSurvey = function() {
     }
 
     function fillWithResults(i, item) {
-        $('#userListTable').append( '<tr class="tableSendSurvey-content">'
-                                    + '<td class="tableSendSurvey-content" ><input type="checkbox" id="userCheckbox' + item.id + '"/></td>'
-                                    + '<td class="tableSendSurvey-content" >'+ item.username + '</td>'
-                                    + '<td class="tableSendSurvey-content" >' + item.phoneNumber + '</td>'
+        $('#userListTable').append( '<tr class="tableSendSurvey-row">'
+                                    + '<td class="tableSendSurvey-cell" ><input type="checkbox" id="userCheckbox' + item.id + '"/></td>'
+                                    + '<td class="tableSendSurvey-cell" >'+ item.username + '</td>'
+                                    + '<td class="tableSendSurvey-cell" >' + item.phoneNumber + '</td>'
                                     + '</tr>' );
         $( '#userCheckbox' + item.id ).bind( 'check uncheck', item.id, function(i){userCheckboxClicked(i);} )
     }

@@ -130,7 +130,7 @@ var Editor = function() {
     }
 
     function fillEditor(id){
-        $.getJSON('/application/categoryList', {'surveyId': parseInt(id)},
+        $.getJSON('/listData/categories', {'surveyId': parseInt(id)},
                                                     function(data){
                                                         jsonSurvey = data;
                                                         fillCategoryList(data);

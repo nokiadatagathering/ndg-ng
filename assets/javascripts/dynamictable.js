@@ -12,23 +12,28 @@ var DynamicTable = function() {
     var columnDbFields;
     var lastSortByColumn;
     var lastSortAscending = true;
-    var totalPages = 1;
     var contentUrl;
     var contentHandler;
     var ajaxParams;
+    var totalItems = 0;
 
     return {showList : function(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams){showList(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams);},
-            refresh: function() {refresh();}
+            refresh: function() {refresh();},
+            checkIfDeletingLast: function() {checkIfDeletingLast();}
     };
 
     function prepareContentToolbar() {
         $('#contentToolbar').empty();
         $('#contentToolbar').append( '<span class="buttonNext"  id="buttonNext"></span>'
                                    + '<span class="buttonPrevious" id="buttonPrevious"></span>' +
-                                      '<span class="toolbarText" id="totalItems"></span>');
+                                      '<span class="toolbarText" id="itemRangeLabel"></span>');
+        $('#buttonPrevious').click( function(event){onPreviousClicked(event);} );
+        $('#buttonNext').click(  function(event){onNextClicked(event);} );
     }
 
     function showList (_columnIds, _columnTexts, _columnDbFields, remoteAction, _contentHandler, _ajaxParams){
+        elementStartIndex = 0;
+        totalItems = 0;
         columnIds= _columnIds;
         columnTexts = _columnTexts;
         contentHandler = _contentHandler;
@@ -36,24 +41,14 @@ var DynamicTable = function() {
         lastSortByColumn = undefined;
         ajaxParams = _ajaxParams;
 
-        if( !$('#datatable').length ){
-            $('#content').append(
-                '<div id="datatable">'
-                    +'<table id="minimalist">'
-                    +'</table>'
-                +'</div>');
-        }
-
-        if( !$('#contentToolbar').length ){
-            $('#content').append('<div id=contentToolbar></div>');
-        }
+        recreateContainers();
 
         prepareContentToolbar();
         $('#minimalist').empty();
         $('#leftColumnContent' ).empty();
         $('#plusButton').unbind('mouseover');
         $('#userManagement').unbind('click');
-        var htmlContent;
+        var htmlContent = '';
         htmlContent += '<thead>' + '<tr>';
         $.each(columnIds,function(i,item) {
         htmlContent += '<th scope="col">'
@@ -79,23 +74,31 @@ var DynamicTable = function() {
 
         $('.sortHeader' ).click( function(event){toggleSortByColumn(event);} );
 
-        contentUrl = '/application/' + remoteAction;
-        $.getJSON(contentUrl + 'count', function(data){updateTotalPages(data);});
+        contentUrl = 'listData/' + remoteAction;
         fillListData( lastSortByColumn, true );
     }
 
-    function updateTotalPages(data){
-        totalPages = Math.floor(data.itemsCount / 10);
+    function recreateContainers()
+    {
+        if( !$('#datatable').length ){
+            $('#content').append( '<div id="datatable">'
+                                 +'<table id="minimalist">'
+                                 +'</table>'
+                                 +'</div>');
+        }
 
-        $('#totalItems').append( '<small>' + data.itemsCount + '</small>');
-        updateItemCount();
+        if( !$('#contentToolbar').length ){
+            $('#content').append('<div id=contentToolbar></div>');
+        }
     }
 
-    function updateItemCount() {
-      //  $("#pageIndexText").empty();
-      //  $("#pageIndexText").append( '<small>' + (elementStartIndex + 1) + '</small>' + '<strong> of ' + totalPages + '</strong>' );
-        $('#buttonPrevious').click( function(event){onPreviousClicked(event);} );
-        $('#buttonNext').click(  function(event){onNextClicked(event);} );
+    function updateToolbar(startIndex, totalCount) {
+        var endIndex = startIndex + CONST.get('TABLE_ROW_COUNT') < totalCount ?
+                       startIndex + CONST.get('TABLE_ROW_COUNT') : totalCount ;
+        totalItems = totalCount;
+        $('#itemRangeLabel').empty();
+        $('#itemRangeLabel').append( '<strong>' + (startIndex + 1) + '-' + endIndex + '</strong> <small> of </small>');
+        $('#itemRangeLabel').append( '<strong>' + totalCount + '</strong>');
     }
 
     function toggleSortByColumn(event)
@@ -104,10 +107,10 @@ var DynamicTable = function() {
         var columnIndex = jQuery.inArray( columnId, columnIds );
         resetColumnTitle();
         if ( columnSortAscending[columnIndex] ) {
-            $('#' + columnId).text = LOC.get(columnTexts[columnIndex])+ CONST.get('DESC');
+            $('#' + columnId).text( LOC.get(columnTexts[columnIndex])+ CONST.get('DESC') );
             lastSortAscending = columnSortAscending[columnIndex] = false;
         } else {
-            $('#' + columnId).text = LOC.get(columnTexts[columnIndex]) + CONST.get('ASC');
+            $('#' + columnId).text( LOC.get(columnTexts[columnIndex]) + CONST.get('ASC') );
             lastSortAscending = columnSortAscending[columnIndex] = true;
         }
         lastSortByColumn = columnDbFields[columnIndex];
@@ -116,8 +119,15 @@ var DynamicTable = function() {
 
     function resetColumnTitle() {
         $.each(columnIds,function(i,item) {
-            $('#' + item).text = LOC.get(columnTexts[i]);
+            $('#' + item).text( LOC.get(columnTexts[i]) );
         });
+    }
+
+    function checkIfDeletingLast() {
+        if( (totalItems - 1) % CONST.get('TABLE_ROW_COUNT') == 0 && elementStartIndex > 0)
+            {
+                elementStartIndex -= CONST.get('TABLE_ROW_COUNT');
+            }
     }
 
     function refresh() {
@@ -131,14 +141,15 @@ var DynamicTable = function() {
                                                    'isAscending': isAscending,
                                                     'orderBy': orderByColumn};
         jQuery.extend(params, ajaxParams);
-        $.getJSON(contentUrl, params, function(data){refreshTable(data);} );
+        $.getJSON( contentUrl, params, function(data){refreshTable(data);} );
     }
 
     function refreshTable(data) {
         $('#dynamicListTable').empty();
+        updateToolbar(data.startIndex, data.totalSize);
         $.each(data.items,function(i,item) {
                 contentHandler.fillWithData(i,item);
-            $('#menu' + i+ ' span').mousedown(function() { onButtonMouseDownHandler($(this));} );
+            $('#menu' + i+ ' span').mousedown( function() {onButtonMouseDownHandler($(this));} );
             $( '#dynamicRow' + i ).mouseover( i, function(i) {onMouseOverHandler(i);} );
             $( '#dynamicRow' + i ).mouseout( i, function(i) {onMouseOutHandler(i);} );
         });
@@ -159,18 +170,17 @@ var DynamicTable = function() {
 
 
     function onPreviousClicked(e) {
-        if ( --elementStartIndex < 0 ) {
-            elementStartIndex = 0;
-        } else {
+        if ( elementStartIndex - CONST.get('TABLE_ROW_COUNT') >= 0 ) {
+            elementStartIndex -= CONST.get('TABLE_ROW_COUNT')
             refresh();
         }
         e.preventDefault();
     }
 
     function onNextClicked(e) {
-        if( ++elementStartIndex >= totalPages ) {
-            elementStartIndex--;
-        } else {
+        if( elementStartIndex + CONST.get('TABLE_ROW_COUNT') < totalItems )
+        {
+            elementStartIndex += CONST.get('TABLE_ROW_COUNT');
             refresh();
         }
         e.preventDefault();

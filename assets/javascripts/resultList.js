@@ -48,12 +48,12 @@ var ResultList = function() {
     }
 
     function prepareContentToolbar() {
-        $('#contentToolbar').append( '<span class="comboBoxSelection" id="comboBoxSelection" unselectable="on"/></span>');
-        $('#contentToolbar').append( '<span class="buttonExportExcel" id="buttonExportExcel" unselectable="on"/></span>');
-        $('#contentToolbar').append( '<span class="buttonExportKML" id="buttonExportKML" unselectable="on"/></span>');
-        $('#contentToolbar').append( '<span class="buttonExportExternal" id="buttonExportExternal" unselectable="on"/></span>');
+        $('#contentToolbar').append( '<span class="comboBoxSelection" id="comboBoxSelection" unselectable="on"></span>');
+        $('#contentToolbar').append( '<span class="buttonExportExcel" id="buttonExportExcel" unselectable="on"></span>');
+        $('#contentToolbar').append( '<span class="buttonExportKML" id="buttonExportKML" unselectable="on"></span>');
+        $('#contentToolbar').append( '<span class="buttonExportExternal" id="buttonExportExternal" unselectable="on"></span>');
         $('#contentToolbar span').mousedown(function() { onButtonMouseDownHandler($(this));} );
-        $('#comboBoxSelection').click( function(event) { SurveyListCombo.showSelectionMenu(event); } );
+        $('#comboBoxSelection').click( function(event) { SurveyListCombo.showResultSelectionMenu(event); } );
         $('#buttonExportExcel').click( function(event) { exportResults(); } );
 
     }
@@ -66,7 +66,7 @@ var ResultList = function() {
         var columnTexts = [null, "LOC_RESULTID", "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
         var columnDbFields = ["resultId", "title", "startTime", "ndgUser.username", "latitude"];
         var ajaxParams = { surveyId: currentSurveyId};
-        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "listresults", ResultList, ajaxParams);
+        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList, ajaxParams);
 
         $('#leftColumnContent' ).append( '<a href="#"><img id ="backButtonImage" src="images/back.png"></a>');
         $('#backButtonImage').click( function(){backToSurveyList()} );

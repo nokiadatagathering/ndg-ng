@@ -16,9 +16,9 @@ var SurveyList = function() {
         var columnTexts = ["LOC_SURVEY_NAME", "LOC_DATE_PUBLISHED", "LOC_PUBLISHER", "LOC_RESULTS"];
         var columnDbFields = ["title","uploadDate", "ndgUser.username", "resultCollection"];
 
-        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "listsurveys", SurveyList);
+        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "surveys", SurveyList);
 
-        $('#plusButton').bind('mouseover.surveyList', function(event) {SurveyListCombo.showMenu();});
+        $('#plusButton').bind('mouseover.surveyList', function(event) {SurveyListCombo.showSurveyMenu();});
         $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="markBuilding">Building</h4><h4 class="markAvailable">Available</h4>');
 
 
@@ -26,7 +26,12 @@ var SurveyList = function() {
         $('#section').append('<H2 id=sectionTitle>Survey List</H2><a href="#" id=userManagement>User Admin</a>');
         $('#userManagement').click(function() {UserManagement.showUserManagement() });
 
-        $('#uploadForm').submit(function () {uploadNewSurvey();} );
+        $('#uploadForm').submit( function () { uploadNewSurvey(); } );
+        $('#buttonSendFile').click( function() {  $('#uploadForm').submit( ) });
+
+        $('#searchComboBox').click( function(event) {
+            SurveyListCombo.showSearchMenu(event)
+        });
     }
 
     function fillWithData(i, item) {
@@ -37,12 +42,12 @@ var SurveyList = function() {
                                 + '<td>' + item.ndgUser.username + '</td>'
                                 + '<td id="resultCollectionQuantityString' + item.id + '"></td>'
                                 + '<td class="menubar" id="menu' + i + '" >'
-                                + '<span title="' + LOC.get('LOC_DOWNLOAD') + '"class="buttonDownload" id="buttonDownload" unselectable="on"/></span>'
-                                + '<span title="' + LOC.get('LOC_UPLOAD') + '"class="buttonUpload" id="buttonUpload" unselectable="on"/></span>'
-                                + '<span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"/></span>'
-                                + '<span title="' + LOC.get('LOC_EDIT') + '" class="buttonEdit" id="buttonEdit" unselectable="on"/></span>'
-                                + '<span title="' + LOC.get('LOC_DUPLICATE') + '"class="buttonDuplicate" id="buttonDuplicate" unselectable="on"/></span>'
-                                + '<span title="' + LOC.get('LOC_DELETE') + '"class="buttonDelete" id="buttonDelete" unselectable="on"/></span>'
+                                + '<span title="' + LOC.get('LOC_DOWNLOAD') + '"class="buttonDownload" id="buttonDownload" unselectable="on"></span>'
+                                + '<span title="' + LOC.get('LOC_UPLOAD') + '"class="buttonUpload" id="buttonUpload" unselectable="on"></span>'
+                                + '<span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"></span>'
+                                + '<span title="' + LOC.get('LOC_EDIT') + '" class="buttonEdit" id="buttonEdit" unselectable="on"></span>'
+                                + '<span title="' + LOC.get('LOC_DUPLICATE') + '"class="buttonDuplicate" id="buttonDuplicate" unselectable="on"></span>'
+                                + '<span title="' + LOC.get('LOC_DELETE') + '"class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
                                 + '</td>'
                                 + '</tr>' );
 
@@ -80,8 +85,9 @@ var SurveyList = function() {
     }
 
     function onUploadSurveyClicked(e) {
-       $('#uploadSurveyForm').fileinput();
-       uploadDialog.dialog( { title: LOC.get('LOC_SURVEY_UPLOAD') });
+       $('#uploadSurveyForm').fileinput( { buttonText: LOC.get('LOC_SEARCH'),
+                                           inputText:""});
+       uploadDialog.dialog( {title: LOC.get('LOC_SURVEY_UPLOAD')});
        document.getElementById('dialog-upload-query').textContent = LOC.get('LOC_CHOOSE_SURVEY_UPLOAD');
        document.getElementById('buttonSendFile').textContent = LOC.get('LOC_SEND_FILE');
 
@@ -101,6 +107,7 @@ var SurveyList = function() {
         $("#buttonDeleteYes").click( e.data, function(e) {
             $.post( "/delete/" + e.data, function(data) {
                 confirmDeleteDialog.dialog("close");
+                DynamicTable.checkIfDeletingLast();
                 DynamicTable.refresh();
             });
             $("#buttonDeleteYes").unbind("click");
