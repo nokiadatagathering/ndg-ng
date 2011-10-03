@@ -122,7 +122,13 @@ public class ListData extends Controller{
         }
         if(orderBy != null && orderBy.equals("userRoleCollection"))
         {
+            if(searchFilter != null)
+            {
             users =  NdgUser.find(searchFilter.toString()).fetch();
+            } else
+            {
+                users =  NdgUser.all().fetch();
+            }
             Collections.sort( users, new NdgUserUserRoleCollectionComapator(isAscending) );
             int subListEndIndex = startIndex + RESULTS_PER_SIDE < users.size() ?
                                                 startIndex + RESULTS_PER_SIDE :
@@ -142,7 +148,7 @@ public class ListData extends Controller{
 
     private static void serializeUsers(List<NdgUser> users, int startIndex, long totalSize) {
         JSONSerializer userListSerializer = new JSONSerializer();
-        userListSerializer.include("id","username", "phoneNumber", "email", "userRoleCollection.ndgRole.roleName" ).exclude("*").rootName("items");
+        userListSerializer.include("id","username", "phoneNumber", "email", "userRoleCollection.ndgRole.roleName", "firstName" ).exclude("*").rootName("items");
         renderJSON(addRangeToJson(userListSerializer.serialize(users), startIndex, totalSize));
     }
 

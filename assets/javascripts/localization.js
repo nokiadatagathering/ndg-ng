@@ -44,7 +44,9 @@ var LOC = (function() {
         LOC_SEND_FILE: 'Send File',
         LOC_SEND_SURVEY: 'Send Survey',
         LOC_DONE: 'Done',
-        LOC_SEARCH: 'Search...'
+        LOC_SEARCH: 'Search...',
+        LOC_USERNAME: 'Username',
+        LOC_CONFIRM_DELETE: 'Click here to confirm deletion'
     };
 
     var constants_POL = {
@@ -89,7 +91,9 @@ var LOC = (function() {
         LOC_SEND_FILE: 'Wy\u015blij',
         LOC_SEND_SURVEY: 'Wy\u015blij ankiet\u0119',
         LOC_DONE: 'Wy\u015blij',
-        LOC_SEARCH: 'Szukaj...'
+        LOC_SEARCH: 'Szukaj...',
+        LOC_USERNAME: 'Imie',
+        LOC_CONFIRM_DELETE: 'Kliknij tutaj aby potwierdzić kasowanie'
     };
 
 

@@ -90,7 +90,7 @@ var SurveyListCombo = function() {
 
 
     function menuBeingShown() {
-        return ( $('#popup-context').html().trim() != "" );
+        return ( $.trim($('#popup-context').html()) != "" );
     }
 
     function showMenu(left, top, offsetX, offsetY){

@@ -5,6 +5,11 @@
     text-align: center;
 }
 
+.menubar.users {
+    max-width: 50px;
+    width : 5%;
+ }
+
 .hoverRow {
     background: #dbe4f1;
 }

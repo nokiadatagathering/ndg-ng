@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 import models.Category;
 import models.NdgUser;
 import models.Question;
@@ -114,6 +115,12 @@ public class Application extends Controller {
     public static void delete(String formID)
     {
         Survey deleted = Survey.find("bySurveyId", formID).first();
+        deleted.delete();
+    }
+
+    public static void deleteUser(String userId)
+    {
+        NdgUser deleted = NdgUser.find("byId", Long.parseLong(userId)).first();
         deleted.delete();
     }
 

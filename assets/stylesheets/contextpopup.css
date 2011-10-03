@@ -39,3 +39,18 @@
     text-decoration: none;
     color: #535076;
 }
+
+.configDeleteBar {
+    position: absolute;
+    z-index: 1;
+    background: black;
+}
+
+.configDeleteBar p {
+    text-align: center;
+    color: white;
+    font-weight: 600;
+    line-height: 100%;
+    vertical-align: middle;
+}
+
