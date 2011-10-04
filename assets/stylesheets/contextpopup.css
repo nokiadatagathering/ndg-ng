@@ -12,7 +12,7 @@
 .popup-context, .popup-search-context {
     width: 200px;
     font-size: 26px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
     background: url('../images/submenu_bg.png') repeat;
 }
 
@@ -29,7 +29,7 @@
     line-height: 22px;
     background: url('../images/submenu_bg.png') repeat;
     font-size: 12px;
-    font-family: "Myriad Semibold";
+    font-family: "Nokia Pure Semibold";
 }
 
 .popup-selection-context a {

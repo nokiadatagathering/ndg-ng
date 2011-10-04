@@ -31,10 +31,11 @@ POST    /PostResults                            PostResults.upload
 
 # Map static resources from the /app/public folder to the /public path
 GET     /public/                                staticDir:public
-GET     /javascripts/                                staticDir:public/javascripts
-GET     /stylesheets/                                staticDir:public/stylesheets
-GET     /images/                                     staticDir:public/images
-GET     /ndg-ota/client/                             staticDir:public/ndg-ota/client
+GET     /javascripts/                           staticDir:public/javascripts
+GET     /stylesheets/                           staticDir:public/stylesheets
+GET     /images/                                staticDir:public/images
+GET     /ndg-ota/client/                        staticDir:public/ndg-ota/client
+GET     /other/                                 staticDir:public/other
 
 
 # Catch all

@@ -211,6 +211,27 @@ td { vertical-align: top; }
 /* ==|== primary styles =====================================================
    Author:Ian Lawrence
    ========================================================================== */
+@font-face {
+    font-family: 'Nokia Pure Regular';
+    src: url('/other/NokiaPureTextReg.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nokia Pure Semibold';
+    src: url('/other/NokiaPureTextMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nokia Pure Bold';
+    src: url('/other/NokiaPureTextBold.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     margin: 0px;
     padding: 0px;
@@ -253,7 +274,7 @@ body {
     text-align: right;
     color: #b7b7b7;
     font-size: 14px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
     width: 100%;
 }
 
@@ -262,7 +283,7 @@ body {
     font-size: 14px;
     margin-left: 10px;
     margin-right: 29px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
 }
 
 #search {
@@ -292,7 +313,7 @@ body {
     text-align: center;
     color: #7b86ab;
     font-size: 16px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
 }
 
 #contentMain {
@@ -309,7 +330,7 @@ body {
 
 .searchTextField {
     font-size: 14px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
     color: #b7b7b7;
     height: 26px;
 }
@@ -327,7 +348,7 @@ body {
     background: url('../images/combobox_empty2.png') no-repeat;
     text-indent: 1em;
     font-size: 17px;
-    font-family: "Myriad Pro Semibold";
+    font-family: "Nokia Pure Semibold";
     color: #535076;
     line-height: 34px;
     overflow:  hidden;
@@ -340,14 +361,14 @@ body {
     display: inline;
     margin-left: 20px;
     font-size: 28px;
-    font-family: "Myriad Pro Semibold";
+    font-family: "Nokia Pure Semibold";
 }
 
 #section a {
     padding-left: 10px;
     color: #3a77ca;
     font-size: 14px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
 }
 
 #section {
@@ -369,7 +390,7 @@ body {
     margin-top: 10px;
     color: #3a77ca;
     font-size: 16px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
     text-align: center;
 }
 
@@ -395,7 +416,7 @@ body {
     border-bottom: 2px solid #dadbe0;
     text-align: left;
     font-size: 16px;
-    font-family: "Myriad Pro Semibold";
+    font-family: "Nokia Pure Semibold";
     color: #3a77ca;
 }
 
@@ -435,7 +456,7 @@ body {
     text-align: left;
     vertical-align: middle;
     font-size: 12px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
     color: #6388bb;
 }
 
@@ -447,7 +468,7 @@ h4.markAvailable {
     background: url('../images/marker_available.png') repeat center left;
     color: #eeeff4;
     font-size: 12px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
     text-align: center;
     vertical-align: middle;
     margin-top: 1px;
@@ -460,7 +481,7 @@ h4.markBuilding {
     background: url('../images/marker_building.png') repeat center left;
     color: #eeeff4;
     font-size: 12px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
     text-align: center;
     vertical-align: middle;
     margin-top: 1px;

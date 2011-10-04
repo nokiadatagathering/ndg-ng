@@ -18,7 +18,7 @@
 #categories li.listCategory h3
 {
     font-size: 16px;
-    font-family: "Myriad Semibold";
+    font-family: "Nokia Pure Semibold";
     height: auto;
     padding-left: 20px;
     padding-top: 5px;
@@ -68,7 +68,7 @@
 {
     font-size: 12px;
     font-weight: normal;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
     margin: 2px;
     vertical-align:bottom;
     border: 1px solid #CCC;
@@ -146,7 +146,7 @@ span.expandIcon.expanded{
 #surveyTitle
 {
     font-size: 28px;
-    font-family: "Myriad Semibold";
+    font-family: "Nokia Pure Semibold";
     color: #0061ad;
 }
 
@@ -169,7 +169,7 @@ span.edit
 {
     margin-left: 10px;
     font-size: 10px;
-    font-family: "Myriad Pro Regular";
+    font-family: "Nokia Pure Regular";
     color: #0061ad;
     cursor: pointer;
 }
