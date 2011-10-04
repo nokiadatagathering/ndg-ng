@@ -26,7 +26,7 @@ var DynamicTable = function() {
         $('#contentToolbar').empty();
         $('#contentToolbar').append( '<span class="buttonNext"  id="buttonNext"></span>'
                                    + '<span class="buttonPrevious" id="buttonPrevious"></span>' +
-                                      '<span class="toolbarText" id="itemRangeLabel"></span>');
+                                     '<span class="toolbarText" id="itemRangeLabel"></span>');
         $('#buttonPrevious').click( function(event){onPreviousClicked(event);} );
         $('#buttonNext').click(  function(event){onNextClicked(event);} );
     }
@@ -99,10 +99,12 @@ var DynamicTable = function() {
     function recreateContainers()
     {
         if( !$('#datatable').length ){
-            $('#content').append( '<div id="datatable">'
-                                 +'<table id="minimalist">'
-                                 +'</table>'
-                                 +'</div>');
+            $('#content').append( '<div id="contentMain">'
+                                + '<div id="datatable">'
+                                + '<table id="minimalist">'
+                                + '</table>'
+                                + '</div>'
+                                + '</div>');
         }
 
         if( !$('#contentToolbar').length ){
