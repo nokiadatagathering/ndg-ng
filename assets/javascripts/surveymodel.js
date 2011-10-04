@@ -3,7 +3,13 @@ var SurveyModel = function(s){
     var survey = s;
 
     //public methods
-    this.getSurvey = function(){return survey;};
+    this.getSurvey = function(){
+        return survey;
+    }
+    
+    this.getSurveyId = function(){
+        return survey.id;
+    }
 
     this.updateCategory = function ( catId, newLabel ){
         getCategory( catId).label = newLabel;
@@ -43,6 +49,11 @@ var SurveyModel = function(s){
         
         category.questionCollection.push( newQuestion );
         return newQuestion;
+    }
+    
+    this.getSurveyString = function (){
+        //TODO reorginize question, set indexes
+        return JSON.stringify( survey );
     }
 
     //private methods

@@ -100,38 +100,38 @@ var Editor = function() {
         {
             type: "POST",
             url: "/saveSurvey",
-            data: {surveyData : prepereSurveyJSON(), id : surveyId},
+            data: { surveyData : surveyModel.getSurveyString() },
             success: function( msg ){
-               alert( "Success");
+               alert( "Survey saved successfully" ); //TODo localize
             },
             error: function( request, error ) {
-                alert("Failure" + error);
+                alert("Problem with saving survey. Original error: " + error);
             }
         });
     }
 
-    function prepereSurveyJSON(){
-        var categoryList = [];
-        var catElemList = $( "#categories" ).find( ".listCategory" );
+//    function prepereSurveyJSON(){
+//        var categoryList = [];
+//        var catElemList = $( "#categories" ).find( ".listCategory" );
+//
+//        $.each(catElemList, function(i, item){
+//            var catName = $( '#' + item.id ).find('.categoryName');
+//            categoryList[i] = new Category(catName[0].text, i);
+//            categoryList[i].questionCollection = prepereQuestions(item);
+//        });
+//
+//        return JSON.stringify(categoryList);
+//    }
 
-        $.each(catElemList, function(i, item){
-            var catName = $( '#' + item.id ).find('.categoryName');
-            categoryList[i] = new Category(catName[0].text, i);
-            categoryList[i].questionCollection = prepereQuestions(item);
-        });
-
-        return JSON.stringify(categoryList);
-    }
-
-    function prepereQuestions(catItem){
-        var questionElemList = $( '#' + catItem.id ).find(".listItemQuestion");
-        var questionList = [];
-        $.each( questionElemList, function( i, item ){
-            var questionLabel = $( '#' + item.id ).find('.questionText');
-            questionList[i] = new Question(questionLabel[0].innerText, item.id);
-        } );
-        return questionList;
-    }
+//    function prepereQuestions(catItem){
+//        var questionElemList = $( '#' + catItem.id ).find(".listItemQuestion");
+//        var questionList = [];
+//        $.each( questionElemList, function( i, item ){
+//            var questionLabel = $( '#' + item.id ).find('.questionText');
+//            questionList[i] = new Question(questionLabel[0].innerText, item.id);
+//        } );
+//        return questionList;
+//    }
 
     function onBackClicked(){
          $('#content').empty();

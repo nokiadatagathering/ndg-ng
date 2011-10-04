@@ -29,71 +29,85 @@ import models.constants.TransactionlogConsts;
 import models.utils.NdgQuery;
 import models.utils.SurveyDuplicator;
 
-
-
 public class Application extends Controller {
 
     public static void index() {
         render();
     }
-
     static class QuestionTypeObjectFactory implements ObjectFactory{
-        public Object instantiate(ObjectBinder ob, Object o, Type type, Class type1) {
+        
+        public Object instantiate( ObjectBinder ob, Object o, Type type, Class type1 ) {
             QuestionType qType = null;
-            HashMap map = (HashMap)o;
-            if(map.containsKey("type")){
-                String typeId = (String)map.get("type");
-                qType = QuestionType.findById(Long.decode(typeId));
+            HashMap map = ( HashMap )o;
+            if( map.containsKey( "id" ) ){
+                Integer typeId = ( Integer ) map.get( "id" );
+                qType = QuestionType.findById(  new Long(typeId) );
             }
             return qType;
+        }
+    }    
+    
+    static class NdgUserObjectFactory implements ObjectFactory{
+
+        public Object instantiate( ObjectBinder ob, Object o, Type type, Class type1 ) {
+            NdgUser user = null;
+
+            HashMap map = ( HashMap )o;
+            if( map.containsKey( "id" ) ){
+                Integer typeId = ( Integer ) map.get( "id" );
+                user = NdgUser.findById( new Long( typeId ) );
+            }
+            return user;
         }
     }
 
     public static void questionType(){
-        List<QuestionType> types = QuestionType.find("bySupported", 1).fetch();
+        List<QuestionType> types = QuestionType.find( "bySupported", 1 ).fetch();
 
         JSONSerializer typeSerializer = new JSONSerializer();
-        typeSerializer.include("typeName", "id").exclude("*").rootName("types");
-        renderJSON(typeSerializer.serialize(types));
+        typeSerializer.include( "typeName", "id" ).exclude( "*" ).rootName( "types" );
+        renderJSON( typeSerializer.serialize( types ) );
     }
 
-    public static void saveSurvey(String id, String surveyData){
+    public static void saveSurvey( String surveyData ){
 
-        JSONDeserializer<ArrayList<Category>> deserializer = new JSONDeserializer<ArrayList<Category>>();
+        JSONDeserializer<Survey> deserializer = new JSONDeserializer<Survey>();
         deserializer
-                .use("values", Category.class)
-                .use("values.questionCollection", ArrayList.class)
-                .use("values.questionCollection.values", Question.class)
-                .use("values.questionCollection.values.questionType", new QuestionTypeObjectFactory());
-        ArrayList<Category> categoryList = deserializer.deserialize(surveyData, ArrayList.class);
-
-
-        Survey survey = Survey.findById( Long.decode( id ) );
-
-        for(Category cat : survey.categoryCollection){
-            cat.delete();
-        }
-
-        for(Category cat : categoryList){
-            for(Question q : cat.questionCollection){
+                .use( null, Survey.class )
+                .use( "ndgUser", new NdgUserObjectFactory() )
+                .use( "categoryCollection", ArrayList.class )
+                .use( "categoryCollection.values", Category.class )
+                .use( "categoryCollection.values.questionCollection", ArrayList.class )
+                .use( "categoryCollection.values.questionCollection.values", Question.class )
+                .use( "categoryCollection.values.questionCollection.values.questionType", new QuestionTypeObjectFactory());
+        
+        Survey survey = deserializer.deserialize( surveyData, Survey.class );
+        survey = survey.merge();
+        
+        for( Category cat : survey.categoryCollection ){
+            cat.survey = survey;
+            for( Question q : cat.questionCollection ){
                 q.category = cat;
             }
-            cat.survey = survey;
-            survey.categoryCollection.add(cat);
-            cat.save();
         }
+        survey.save();
     }
 
-    public static void getSurvey( long surveyId){
+    public static void getSurvey( long surveyId ){//TODO exclude more not needed params
         Survey survey = Survey.findById( surveyId );
         JSONSerializer surveySerializer = new JSONSerializer();
-        surveySerializer.include("categoryCollection",
-                "categoryCollection.questionCollection",
-                "categoryCollection.questionCollection.questionType",
-                "categoryCollection.questionCollection.questionType.id").exclude(
-                "transactionLogCollection", "uploadDate", "surveyId", "resultCollection", "ndgUser" )
+        surveySerializer.include(
+                    "categoryCollection",
+                    "categoryCollection.questionCollection",
+                    "categoryCollection.questionCollection.questionType.id" )
+                .exclude(
+                    "transactionLogCollection", 
+                    "uploadDate", 
+                    "resultCollection", 
+                    "categoryCollection.survey",
+                    "categoryCollection.questionCollection.category" )
             .rootName( "survey" );
-        renderJSON(surveySerializer.serialize(survey));
+        renderJSON( surveySerializer.serialize( survey ) );
     }
 
     public static void upload(File filename, String uploadSurveyId) throws IOException, SurveySavingException {
