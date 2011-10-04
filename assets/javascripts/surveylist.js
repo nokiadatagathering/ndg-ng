@@ -88,7 +88,7 @@ var SurveyList = function() {
 
     function onEditSurveyClicked(e) {
         $('#plusButton').unbind('mouseover.surveyList');
-        Editor.createEditor(e.data);
+        Editor.openSurvey(e.data);
     }
 
     function onDownloadSurveyClicked(e) {
