@@ -1,0 +1,23 @@
+#executeSortByUsernameWidth {
+    width: 100px;    
+}
+
+#executeSortByNameWidth {
+    width: 200px;
+}
+
+#executeSortByEmailWidth {
+    width: 200px;
+}
+
+#executeSortByPhoneWidth {
+    width: 200px;
+}
+
+#executeSortByPermissionWidth {
+    width: 120px;
+}
+
+#itemToolbarColumnIdWidth {
+    width: 45px;
+}

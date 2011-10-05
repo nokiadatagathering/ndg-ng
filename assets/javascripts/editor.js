@@ -100,7 +100,7 @@ var Editor = function() {
         {
             type: "POST",
             url: "/saveSurvey",
-            data: { surveyData : surveyModel.getSurveyString() },
+            data: {surveyData : surveyModel.getSurveyString()},
             success: function( msg ){
                alert( "Survey saved successfully" ); //TODo localize
             },
@@ -165,10 +165,10 @@ var Editor = function() {
 
         var question = surveyModel.newQuestion( selectElem );
         appendQuestionElement( question, selectElem );
-        
+
         showCategory( selectElem );
         $( '#' + question.uiId ).trigger( 'click' );
-        
+
         switchCategoryDialog.dialog( "close" );
     }
 
@@ -182,7 +182,7 @@ var Editor = function() {
 
     function fillCategoryList(){
         $( '#surveyTitle' ).text( surveyModel.getSurvey().title );
-        $.each( surveyModel.getSurvey().categoryCollection, function( i, item) {
+        $.each( surveyModel.getSurvey().categoryCollection, function( i, item ) {
             appendCategoryElement( item );
             fillQuestions( item.questionCollection, item.uiId );
         });
@@ -209,16 +209,16 @@ var Editor = function() {
             + '<ul class="listQuestion"></ul>'
             + '</li>');
 
-        $( '#' + category.uiId + ' span.deleteElement').click( category.uiId, function(i){onDeleteElementClicked(i);} );
+        $( '#' + category.uiId + ' span.deleteElement').click( category.uiId, function(i){onDeleteCategoryClicked(i);} );
 
         setListParams( category.uiId );
         hideCatogry ( category.uiId );
     }
-    
+
     function hideCatogry( categoryId ){
         $( '#' + categoryId + ' .listQuestion' ).hide();
     }
-    
+
     function showCategory( categoryId ){
         $( '#' + categoryId + ' .listQuestion' ).show();
     }
@@ -270,8 +270,8 @@ var Editor = function() {
         $( "#" + categoryId + " input.labelEdit" ).val( catLabel );
 
         $( "#" + categoryId + " span.edit" ).text( "Save" );
-        $( "#" + categoryId + " span.edit" ).unbind('click.edit');
-        $( "#" + categoryId + " span.edit" ).bind('click.save',categoryId, function(e){onCategorySaveClicked(e);});
+        $( "#" + categoryId + " span.edit" ).unbind( 'click.edit' );
+        $( "#" + categoryId + " span.edit" ).bind( 'click.save', categoryId, function(e){onCategorySaveClicked(e);});
 
         $( "#" + categoryId + " h3").unbind('click');
     }
@@ -300,7 +300,7 @@ var Editor = function() {
                     + '<div style="clear:both;"></div>'
                     + '</li>');
 
-        $( '#'+ question.uiId + ' span.deleteElement' ).click( question.uiId, function( i ){onDeleteElementClicked ( i );} );
+        $( '#'+ question.uiId + ' span.deleteElement' ).click( question.uiId, function( i ){onDeleteQuestionClicked ( i );} );
         $( '#'+ question.uiId ).click( question.uiId, function( i ){onQuestionClicked(i);} );
     }
 
@@ -322,8 +322,14 @@ var Editor = function() {
         $( '#' + currentSelectionId ).removeClass( 'elementSelected' );
     }
 
-    function onDeleteElementClicked( event ){
-        $('#' + event.data).empty().remove();
+    function onDeleteCategoryClicked( event ){
+        $( '#' + event.data ).empty().remove();
+        surveyModel.deleteCategory( event.data );
+    }
+
+    function onDeleteQuestionClicked( event ){
+        $( '#' + event.data ).empty().remove();
+        surveyModel.deleteQuestion( event.data );
     }
 
     function onQuestionClicked( event ){

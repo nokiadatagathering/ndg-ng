@@ -57,7 +57,7 @@ var DynamicTable = function() {
         var htmlContent = '';
         htmlContent += '<thead>' + '<tr>';
         $.each(columnIds,function(i,item) {
-        htmlContent += '<th scope="col">'
+        htmlContent += '<th scope="col" id="' + item + 'Width">'
                     + '<a href="#"' ;
         if(item != null) {
             htmlContent +='class = "sortHeader" id="'
@@ -70,11 +70,9 @@ var DynamicTable = function() {
             }
         htmlContent +='</a></th>';
         });
-        htmlContent +=  '<th scope="col"></th>'
-                       + '</tr>'
-                       + '</thead>'
-                       + '<tbody id="dynamicListTable">'
-                       + '</tbody>';
+        htmlContent += '</thead>'
+                     + '<tbody id="dynamicListTable">'
+                     + '</tbody>';
         $('#minimalist').append(htmlContent);
                            var i = 0;
 

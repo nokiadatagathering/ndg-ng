@@ -1,0 +1,27 @@
+.resultCheckboxPaddingClass {
+    padding-left: 14px;
+}
+
+#checkboxColumnIdWidth {
+    width: 76px;
+}
+
+#executeSortByResultIdWidth {
+    width: 158px;
+}
+
+#executeSortByResultTitleWidth {
+    width: 180px;
+}
+
+#executeSortByDateSentWidth {
+    width: 163px;
+}
+
+#executeSortByUserWidth {
+    width: 152px;
+}
+
+#executeSortByLocationWidth {
+    width: 96px;
+}

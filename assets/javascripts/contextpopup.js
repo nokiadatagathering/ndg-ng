@@ -24,7 +24,7 @@ var SurveyListCombo = function() {
 
         $('#newSurveyAction').click( function(){Editor.createSurvey();});
         var pos = $('#plusButtonImage').position();
-        showMenu(pos.left, pos.top, $('#plusButtonImage').width(), 0);
+        showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3);
     }
 
     function showEditorMenu(event){
@@ -74,8 +74,8 @@ var SurveyListCombo = function() {
         $('#popup-context').addClass("popup-selection-context");
 
         $('#popup-context').append( '<a id="selectAllVisibleAction" href="#">' + LOC.get( 'LOC_ALL' ) + '</a>'
-                                            + '<a id="selectAllPagesAction" href="#">' + LOC.get( 'LOC_ALL_PAGES' ) + '</a>'
-                                            + '<a id="unselectAll" href="#">' + LOC.get( 'LOC_NONE' ) + '</a>' );
+                                  + '<a id="selectAllPagesAction" href="#">' + LOC.get( 'LOC_ALL_PAGES' ) + '</a>'
+                                  + '<a id="unselectAll" href="#">' + LOC.get( 'LOC_NONE' ) + '</a>' );
 
         $('#selectAllVisibleAction').click( function(){ResultList.selectAllVisibleResults();} );
         $('#selectAllPagesAction').click( function(){ResultList.selectAllResults();});

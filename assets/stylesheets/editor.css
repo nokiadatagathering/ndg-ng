@@ -87,21 +87,18 @@
 div.questionText
 {
     float:left;
-    width: 80%;
-    border: 1px blue;
+    width: 70%;
+/*    border: 1px blue;*/
     font-size: 12px;
 }
-
-
 
 div.deleteElement
 {
     float:right;
-    width: 10%;
-    border: 1px red;
+    width: 15%;
 }
 
-span.deleteElement
+div.deleteElement span, span.deleteElement
 {
     float: right;
     width: 32px;

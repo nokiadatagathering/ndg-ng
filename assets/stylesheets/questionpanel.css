@@ -34,3 +34,60 @@
     background: #F9F9F9;
     margin-left: 15px;
 }
+
+#questionOptions
+{
+    width: auto;
+    height: auto;
+    margin-top: 15px;
+}
+
+#optionsLabel
+{
+    float : left;
+    width : 70%;
+    font-size : 16px;
+    font-weight : bolder;
+    font-family : "Myriad Pro Regular";
+    color : #3a77ca;
+}
+
+#addOption
+{
+    float: right;
+    width: 15%;
+}
+
+#addOption span
+{
+    float: right;
+    width: 25px;
+    height: 25px;
+    background: url(../images/btn_small_plus.jpg) no-repeat;
+}
+
+div.optionInputLabel
+{
+    float:left;
+    width: 80%;
+}
+
+div.optionInputLabel input
+{
+    height: 100%;
+}
+
+div.deleteOption
+{
+    float:right;
+    width: 32px;
+}
+
+
+div.deleteOption span
+{
+    float: right;
+    width: 32px;
+    height: 32px;
+    background: url(../images/btn_editor_delete.jpg) no-repeat;
+}

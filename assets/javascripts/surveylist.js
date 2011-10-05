@@ -19,7 +19,7 @@ var SurveyList = function() {
 
     function showSurveyList (){
 
-        var columnIds = ["executeSortBySurveyName", "executeSortByDatePublished", "executeSortByPublisher", "executeSortByResults"];
+        var columnIds = ["executeSortBySurveyName", "executeSortByDatePublished", "executeSortByPublisher", "executeSortByResults",null];//null is for item toolbar
         var columnTexts = ["LOC_SURVEY_NAME", "LOC_DATE_PUBLISHED", "LOC_PUBLISHER", "LOC_RESULTS"];
         var columnDbFields = ["title","uploadDate", "ndgUser.username", "resultCollection"];
 

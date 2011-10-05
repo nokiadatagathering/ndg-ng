@@ -18,22 +18,22 @@ public class QuestionOption extends Model {
     @Required
     @Column(nullable=false, name = "option_index")
     public int optionIndex;
-    
+
     @Required
     @Column(nullable=false)
     public String label;
-    
+
     @Required
     @Column(nullable=false, name = "option_value")
     public String optionValue;
-    
+
     @ManyToOne(optional = false)
     public Question question;
 
     public QuestionOption()
     {
     }
-    
+
     public QuestionOption(int index, String label, String optionValue) {
         this.optionIndex = index;
         this.label = label;
@@ -44,5 +44,5 @@ public class QuestionOption extends Model {
     public String toString() {
         return "br.org.indt.ndg.server.persistence.structure.QuestionOptions[ idQuestionOptions=" + getId() + " ]";
     }
-    
+
 }

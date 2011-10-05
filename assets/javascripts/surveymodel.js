@@ -6,7 +6,7 @@ var SurveyModel = function(s){
     this.getSurvey = function(){
         return survey;
     }
-    
+
     this.getSurveyId = function(){
         return survey.id;
     }
@@ -37,23 +37,48 @@ var SurveyModel = function(s){
     }
 
     this.newCategory = function (){
-        var newCategory = new Category();        
+        var newCategory = new Category();
         survey.categoryCollection.push( newCategory );
-        
+
         return newCategory;
     }
 
     this.newQuestion = function( categoryId ){
         var newQuestion = new Question();
         var category = getCategory( categoryId );
-        
+
         category.questionCollection.push( newQuestion );
         return newQuestion;
     }
-    
+
     this.getSurveyString = function (){
         //TODO reorginize question, set indexes
         return JSON.stringify( survey );
+    }
+
+    this.deleteCategory = function ( catId ){
+        var remIdx;
+        $.each( survey.categoryCollection, function( i, item ){
+           if( item.uiId == catId ){
+               remIdx = i;
+           }
+        });
+        survey.categoryCollection.splice( remIdx, 1 );
+    }
+
+    this.deleteQuestion = function ( queId ){
+        var remIdx;
+        var questionColl;
+        $.each(survey.categoryCollection, function( i, cateItem ){
+            $.each(cateItem.questionCollection, function( i, qItem ){
+                if( qItem.uiId == queId ){
+                   questionColl = cateItem.questionCollection;
+                   remIdx = i;
+                }
+            });
+        });
+
+        questionColl.splice( remIdx, 1 );
     }
 
     //private methods
@@ -88,5 +113,10 @@ var Survey = function(){
     this.title = "New survey";
     this.categoryCollection = [];
     this.categoryCollection.push( new Category() );
+}
+
+var QuestionOption = function(){
+    this.label = "New option";
+    this.optionValue = "val"; //TODO
 }
 

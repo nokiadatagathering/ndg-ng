@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import models.Category;
 import models.NdgUser;
 import models.Question;
+import models.QuestionOption;
 import models.QuestionType;
 import models.Survey;
 import models.TransactionLog;
@@ -35,7 +36,7 @@ public class Application extends Controller {
         render();
     }
     static class QuestionTypeObjectFactory implements ObjectFactory{
-        
+
         public Object instantiate( ObjectBinder ob, Object o, Type type, Class type1 ) {
             QuestionType qType = null;
             HashMap map = ( HashMap )o;
@@ -45,8 +46,8 @@ public class Application extends Controller {
             }
             return qType;
         }
-    }    
-    
+    }
+
     static class NdgUserObjectFactory implements ObjectFactory{
 
         public Object instantiate( ObjectBinder ob, Object o, Type type, Class type1 ) {
@@ -79,17 +80,25 @@ public class Application extends Controller {
                 .use( "categoryCollection.values", Category.class )
                 .use( "categoryCollection.values.questionCollection", ArrayList.class )
                 .use( "categoryCollection.values.questionCollection.values", Question.class )
+                .use( "categoryCollection.values.questionCollection.values.questionOptionCollection", ArrayList.class )
+                .use( "categoryCollection.values.questionCollection.values.questionOptionCollection.values", QuestionOption.class )
                 .use( "categoryCollection.values.questionCollection.values.questionType", new QuestionTypeObjectFactory());
-        
+
         Survey survey = deserializer.deserialize( surveyData, Survey.class );
         survey = survey.merge();
-        
+
         for( Category cat : survey.categoryCollection ){
             cat.survey = survey;
             for( Question q : cat.questionCollection ){
                 q.category = cat;
+                if(q.questionOptionCollection != null){
+                    for( QuestionOption opt : q.questionOptionCollection ){
+                        opt.question = q;
+                    }
+                }
             }
         }
+
         survey.save();
     }
 
@@ -99,13 +108,15 @@ public class Application extends Controller {
         surveySerializer.include(
                     "categoryCollection",
                     "categoryCollection.questionCollection",
-                    "categoryCollection.questionCollection.questionType.id" )
+                    "categoryCollection.questionCollection.questionType.id",
+                    "categoryCollection.questionCollection.questionOptionCollection")
                 .exclude(
-                    "transactionLogCollection", 
-                    "uploadDate", 
-                    "resultCollection", 
+                    "transactionLogCollection",
+                    "uploadDate",
+                    "resultCollection",
                     "categoryCollection.survey",
-                    "categoryCollection.questionCollection.category" )
+                    "categoryCollection.questionCollection.category",
+                    "categoryCollection.questionCollection.questionOptionCollection.question")
             .rootName( "survey" );
         renderJSON( surveySerializer.serialize( survey ) );
     }

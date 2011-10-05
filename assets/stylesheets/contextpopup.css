@@ -5,27 +5,28 @@
     border: 1px solid #dadadf;
 }
 
-.popup-base  a:hover {
+.popup-base a:hover {
     background: #ff9999;
 }
 
 .popup-context, .popup-search-context {
-    width: 200px;
-    font-size: 26px;
-    font-family: "Nokia Pure Regular";
+    width: auto;
+    font-size: 12px;
+    font-family: "Nokia Pure Semibold";
     background: url('../images/submenu_bg.png') repeat;
+    line-height: 22px;
 }
 
 .popup-context a, .popup-search-context a{
     display: block;
     text-decoration: none;
     padding-left: 6px;
-    color: #535076;
+    padding-right: 30px;
+    color: #5172b4;
 }
 
 .popup-selection-context {
     width: auto;
-    height: 66px;
     line-height: 22px;
     background: url('../images/submenu_bg.png') repeat;
     font-size: 12px;

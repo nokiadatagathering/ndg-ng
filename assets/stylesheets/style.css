@@ -507,10 +507,9 @@ h4.markBuilding {
 @import url('editor.css');
 @import url('questionpanel.css');
 @import url('contextpopup.css');
-
-
-
-
+@import url('surveylist.css');
+@import url('resultlist.css');
+@import url('userlist.css');
 
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
