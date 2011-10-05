@@ -27,8 +27,7 @@ import models.Survey;
 
 public class SurveyDuplicator {
 
-    public static Survey plainCopy(Survey origin, String newId)
-    {
+    public static Survey plainCopy(Survey origin, String newId) {
         Survey copy = new Survey();
         copy.available = origin.available;
         copy.lang = origin.lang;
@@ -50,6 +49,7 @@ public class SurveyDuplicator {
             copiedCategory = new Category();
             copiedCategory.survey = newSurvey;
             copiedCategory.label = category.label;
+            copiedCategory.objectName = category.objectName;
             copiedCategory.categoryIndex = category.categoryIndex;
             copiedCategory.questionCollection = copyQuestions(category.questionCollection, copiedCategory);
             copy.add(copiedCategory);
