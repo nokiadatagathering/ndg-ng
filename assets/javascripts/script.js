@@ -1,7 +1,7 @@
 
 /* Author: Ian Lawrence
 
-*/
+
 
 var App = {
     Views: {},
@@ -15,7 +15,7 @@ var App = {
 };
 
 
-
+*/
 
 
 
