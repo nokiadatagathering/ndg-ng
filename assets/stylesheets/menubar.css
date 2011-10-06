@@ -37,7 +37,7 @@
     background: url(../images/icon_download_off.png) no-repeat top;
 }
 
-#buttonDownload:active {
+#buttonDownload:hover {
     background: #0161ad url(../images/icon_download_on.png) no-repeat bottom;
 }
 
@@ -48,7 +48,7 @@
     background: url(../images/icon_upload_off.png);
 }
 
-#buttonUpload:active {
+#buttonUpload:hover {
     background: #0161ad url(../images/icon_upload_on.png);
 }
 
@@ -59,7 +59,7 @@
     background: url(../images/icon_phone_off.png);
 }
 
-#buttonPhone:active {
+#buttonPhone:hover {
     background: #0161ad  url(../images/icon_phone_on.png);
 }
 
@@ -70,7 +70,7 @@
     background: url(../images/icon_edit_off.png);
 }
 
-#buttonEdit:active {
+#buttonEdit:hover {
     background: #0161ad  url(../images/icon_edit_on.png);
 }
 
@@ -81,7 +81,7 @@
     background: url(../images/icon_duplicate_off.png);
 }
 
-#buttonDuplicate:active {
+#buttonDuplicate:hover {
     background: #0161ad  url(../images/icon_duplicate_on.png);
 }
 
@@ -92,6 +92,6 @@
     background: url(../images/icon_delete_off.png);
 }
 
-#buttonDelete:active {
+#buttonDelete:hover {
     background: #0161ad url(../images/icon_delete_on.png);
 }
