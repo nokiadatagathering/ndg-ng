@@ -31,7 +31,7 @@ var ResultList = function() {
         selectedResults = new Array();
         currentSurveyId = i.data;
 
-        var columnIds = ["checkboxColumnId", "executeSortByResultId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation"];
+        var columnIds = [null, "executeSortByResultId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation"];
         var columnTexts = [null, "LOC_RESULTID", "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
         var columnDbFields = [null, "resultId", "title", "startTime", "ndgUser.username", "latitude"];
         var ajaxParams = { surveyId: currentSurveyId};
@@ -54,7 +54,7 @@ var ResultList = function() {
 
     function fillWithData(i, item) {
         $('#dynamicListTable').append( '<tr id="dynamicRow' + i + '">'
-                                    + '<td class="resultCheckboxPaddingClass"><input type="checkbox" class="resultCheckboxClass" id="resultCheckbox' + item.id + '"/></td>'
+                                    + '<td><input type="checkbox" class="resultCheckboxClass" id="resultCheckbox' + item.id + '"/></td>'
                                     + '<td>'+ item.resultId + '</td>'
                                     + '<td>' + item.title + '</td>'
                                     + '<td>' + new Date( item.startTime ).toString("dd/MM/yy") + '</td>'
