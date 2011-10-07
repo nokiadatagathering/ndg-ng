@@ -10,8 +10,8 @@ var ResultList = function() {
     var selectedResults = new Array();
     var searchLabels;
     var searchIds;
-    var searchDbFields = ["resultId", "ndgUser.username"];
-    var searchBy = "resultId";
+    var searchDbFields = ["title", "latitude", "startTime", "ndgUser.username"];
+    var searchBy = "title";
 
     return {showResultList : function(i) { showResultList(i);},
             selectAllResults : function(){ selectAllResults();},
@@ -41,14 +41,14 @@ var ResultList = function() {
         $('#backButtonImage').click( function(){backToSurveyList()} );
 
         $('#searchComboBox').click( function(event) {createSearchList(event);});
-        $('#searchComboText').text(LOC.get("LOC_RESULTID"));
+        $('#searchComboText').text(LOC.get("LOC_RESULTTITLE"));
 
         prepareContentToolbar();
     }
 
     function createSearchList(event) {
-       searchLabels = [LOC.get("LOC_RESULTID"), LOC.get("LOC_USER")];
-       searchIds = ["searchByResultId", "searchByUser"];
+       searchLabels = [LOC.get("LOC_RESULTTITLE"), LOC.get("LOC_LOCATION"), "LOC_DATESENT", "LOC_USER"];
+       searchIds = [ "searchByTitle", "searchByLocation", "searchByDate", "searchByUser"];
        SurveyListCombo.showSearchMenu(event, searchLabels, searchIds, ResultList);
     }
 

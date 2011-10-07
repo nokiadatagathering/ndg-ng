@@ -55,3 +55,55 @@
     vertical-align: middle;
 }
 
+.newUserTable {
+    position: absolute;
+    z-index: 2;
+    background: gray;
+}
+
+.newUserTable form{
+    width: 100%;
+}
+
+.newUserTable form table{
+    width: 100%;
+}
+
+.newUserTable form table tr td input, .newUserTable form table tr td select, .addUserField{
+    width: 160px;
+    height: 40px;
+    border: 5px solid cyan;
+    padding: 5px 5px 5px 5px;
+    margin: 2px 2px 2px 2px;
+    font-size: 18px;
+}
+
+.newUserInput {
+    
+}
+
+.grayed
+{
+    color: #a1a1a1; 
+    font-style: italic;
+    font-size: 18px;
+}
+
+.newUserPassword
+{
+    display: none;
+}
+
+.dimmedBackground {
+    height: 100%;
+    width: 100%;
+    position:fixed;
+    top: 0px;
+    left: 0px;
+    background: #000000 repeat;
+    opacity: 0.7;
+    -moz-opacity: 0.70;
+    filter: alpha(opacity=70);
+    z-index: 1;
+}
+

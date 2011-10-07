@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
 import java.util.Collection;
@@ -20,9 +16,9 @@ public class QuestionType extends Model {
     @Required
     @Column(name = "type_name", nullable = false)
     public String typeName;
-    
+
     public Integer supported;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionType")
     public Collection<Question> questionCollection;
 

@@ -79,7 +79,7 @@ var QuestionPanel = function ( callback ){
             );
 
         $( '#'+ optionId + ' input').val( option.label );
-        $( '#'+ optionId + ' div.deleteOption' ).click( optionId, function( optId ){deleteOption( optId );});
+        $( '#'+ optionId + ' div.deleteOption' ).click( optionId, function( optId ){deleteOption( optId.data );});
         $( '#'+ optionId + ' input.rightPanelInput').keyup( optionId, function( event ){onOptionValueChanged( event.data );} );
     }
 
@@ -102,7 +102,10 @@ var QuestionPanel = function ( callback ){
     }
 
     function deleteOption( optId ){
-        $( '#'+ optId.data ).remove();
+        var option = getOption( optId );
+        option.isDelete = 'true';
+
+        $( '#'+ optId ).remove();
     }
 
     function onQuestionLabelChanged(){
@@ -115,8 +118,8 @@ var QuestionPanel = function ( callback ){
     }
 
     function onTypeChanged(){
-        currentQuestion.questionType.id = $( '#qType' ).val();
-        if(question.questionType.id == 10 || question.questionType.id == 11){
+        currentQuestion.questionType.id = parseInt( $( '#qType' ).val() ) ;
+        if( currentQuestion.questionType.id == 10 || currentQuestion.questionType.id == 11 ){
             $( '#questionOptions' ).show();
         }
     }

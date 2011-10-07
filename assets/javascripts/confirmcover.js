@@ -1,12 +1,13 @@
 var ConfirmCover = (function() {
-    
-    var isShown = false;
-    
+
+    var visible = false;
+
     return {
         show : function(position, userId) {return showConfirm(position, userId);},
-        isShown : function() {return beingShown}
+        isShown : function() {return visible},
+        close : function() { close(); }
     };
-    
+
     function showConfirm(position, userId) {
         var stopBreakPoint = 0;
         var coverDiv = jQuery('<div></div>', {
@@ -25,9 +26,14 @@ var ConfirmCover = (function() {
             });
         });
         coverDiv.mouseleave( function(){
-            $('#confirmDeleteBar').remove();
+            close();
         })
-        isShown = true;
+        visible = true;
     }
-    
+
+    function close() {
+       $('#confirmDeleteBar').remove();
+       visible = false;
+    }
+
 })();

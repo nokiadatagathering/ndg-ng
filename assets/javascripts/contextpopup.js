@@ -9,7 +9,8 @@ var SurveyListCombo = function() {
     return {showSurveyMenu : function(){showSurveyMenu();},
             showResultSelectionMenu : function(event){showResultSelectionMenu(event);},
             showEditorMenu : function(event){showEditorMenu(event);},
-            showSearchMenu : function(event, searchLabels, searchIds, contentHandler){showSearchMenu(event, searchLabels, searchIds, contentHandler)}
+            showSearchMenu : function(event, searchLabels, searchIds, contentHandler){showSearchMenu(event, searchLabels, searchIds, contentHandler)},
+            showUserManagementMenu: function(){showUserManagementMenu()}
     };
 
     function showSurveyMenu(){
@@ -23,6 +24,31 @@ var SurveyListCombo = function() {
         $('#popup-context').addClass("popup-context");
 
         $('#newSurveyAction').click( function(){Editor.createSurvey();});
+        var pos = $('#plusButtonImage').position();
+        showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3);
+    }
+
+    function showUserManagementMenu(){
+        document.onclick=closeMenu;
+        if(menuBeingShown()) {
+            return;
+        }
+
+        $('#popup-context').append( '<a id="newUserAction" href="#">' + LOC.get( 'LOC_NEW_USER' ) + '</a>' );
+
+        $('#popup-context').addClass("popup-context");
+
+         var currentItem = $('#minimalist');
+         var rect = new Object();
+         rect.top = currentItem.position().top;
+         rect.left = currentItem.position().left;
+         rect.width = currentItem.width();
+         rect.height = 140;
+         $('#newUserAction').click( function(){
+             if(!NewUserTable.isShown()) {
+                 NewUserTable.show(rect)
+             }
+         });
         var pos = $('#plusButtonImage').position();
         showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3);
     }
@@ -42,7 +68,7 @@ var SurveyListCombo = function() {
         $('#newQuestionAction').click( function(){Editor.addQuestion();});
 
         var pos = $('#plusButtonImage').position();
-        showMenu(pos.left, pos.top, $('#plusButtonImage').width(), 0) ;
+        showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3) ;
     }
 
     function showSearchMenu(event, searchLabels, searchIds, contentHandler) {

@@ -26,13 +26,16 @@ var UserManagement = function() {
 
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "users", UserManagement);
 
-        //todo plus button handling
+
+        $('#plusButton').bind('mouseover.userManagement', function(event) {SurveyListCombo.showUserManagementMenu();});
+
         $('#sectionTitle').text('User Admin');
         $('#userManagement').text('Survey List');
         $('#userManagement').click(function() {SurveyList.showSurveyList();});
 
         $('#searchComboBox').click( function(event) {createSearchList(event);});
         $('#searchComboText').text(LOC.get("LOC_NAME"));
+
 
     }
 
@@ -55,13 +58,16 @@ var UserManagement = function() {
                                 + '</tr>' );
         $('#menu' + i +' #buttonDelete').click( {index: i, id: item.id}, function(event){onDeleteUserClicked(event);} );
      }
-     
+
      function onDeleteUserClicked(event) {
+         if ( ConfirmCover.isShown() ) {
+            ConfirmCover.close();
+         }
          var currentRow = $('#dynamicRow' + event.data.index);
          var rect = new Object();
          rect.top = currentRow.position().top;
          rect.left = currentRow.position().left;
-         rect.width = currentRow.width();
+         rect.width = currentRow.width() - $('#buttonDelete').width();
          rect.height = currentRow.height();
          ConfirmCover.show(rect, event.data.id);
      }

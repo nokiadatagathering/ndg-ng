@@ -19,16 +19,8 @@ var SurveyModel = function(s){
         survey.title = newTitle;
     }
 
-    this.getQuestion = function ( qId ){
-        var quest;
-        $.each(survey.categoryCollection, function( i, cateItem ){
-            $.each(cateItem.questionCollection, function( i, qItem ){
-               if( qItem.uiId == qId ){
-                   quest = qItem;
-               }
-            });
-        });
-        return quest;
+    this.getQuestion = function( qId ){
+        return getQue( qId );
     }
 
     this.createNewSurvey = function(){
@@ -57,28 +49,61 @@ var SurveyModel = function(s){
     }
 
     this.deleteCategory = function ( catId ){
-        var remIdx;
-        $.each( survey.categoryCollection, function( i, item ){
-           if( item.uiId == catId ){
-               remIdx = i;
-           }
-        });
-        survey.categoryCollection.splice( remIdx, 1 );
+
+        var cat = getCategory( catId );
+        cat.isDelete = 'true';
     }
 
     this.deleteQuestion = function ( queId ){
-        var remIdx;
-        var questionColl;
+
+        var que = getQue( queId );
+        que.isDelete = 'true';
+    }
+
+    this.reorderCategory = function( newOrder ){
+        $.each( newOrder, function( idx, item ){
+            var category = getCategory( item );
+            if( category != null ){
+                category.categoryIndex = idx;
+            }
+        });
+    }
+
+    this.reorderQuestion = function ( newOrder, currentCategoryId ){
+        var currentCategory = getCategory( currentCategoryId );
+
+        $.each( newOrder, function( idx, item ){
+            var question = getQue( item );
+            question.questionIndex = idx;
+
+            var index = $.inArray( question, currentCategory.questionCollection );
+
+            if( index == -1){
+                removeFromOldCategory(question);
+                currentCategory.questionCollection.push( question );
+            }
+        });
+    }
+
+    function removeFromOldCategory( question ){
+        $.each( survey.categoryCollection, function( idx, item ){
+            var index = $.inArray( question, item.questionCollection );
+            if( index != -1 ){
+                item.questionCollection.splice( index, 1 );
+            }
+        });
+    }
+
+    function getQue( qId ){
+        var quest;
         $.each(survey.categoryCollection, function( i, cateItem ){
             $.each(cateItem.questionCollection, function( i, qItem ){
-                if( qItem.uiId == queId ){
-                   questionColl = cateItem.questionCollection;
-                   remIdx = i;
-                }
+               if( qItem.uiId == qId ){
+                   quest = qItem;
+               }
             });
         });
-
-        questionColl.splice( remIdx, 1 );
+        return quest;
     }
 
     //private methods
@@ -87,7 +112,9 @@ var SurveyModel = function(s){
         $.each(survey.categoryCollection, function( i, item ){
            if( item.uiId == catId ){
                category = item;
+               return false;
            }
+           return true;
         });
         return category;
     }
@@ -107,6 +134,7 @@ var Question = function(){
     this.objectName = "category" + numRand;
     this.questionType = new Object();
     this.questionType.id = 1;
+    this.questionOptionCollection = [];
 }
 
 var Survey = function(){

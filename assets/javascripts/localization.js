@@ -46,7 +46,8 @@ var LOC = (function() {
         LOC_DONE: 'Done',
         LOC_SEARCH: 'Search...',
         LOC_USERNAME: 'Username',
-        LOC_CONFIRM_DELETE: 'Deleting user will remove all related surveys and results ! Click here to continue'
+        LOC_CONFIRM_DELETE: 'Deleting user will remove all related surveys and results ! Click to continue',
+        LOC_NEW_USER: 'New User'
     };
 
     var constants_POL = {
@@ -92,8 +93,9 @@ var LOC = (function() {
         LOC_SEND_SURVEY: 'Wy\u015blij ankiet\u0119',
         LOC_DONE: 'Wy\u015blij',
         LOC_SEARCH: 'Szukaj...',
-        LOC_USERNAME: 'Imie',
-        LOC_CONFIRM_DELETE: 'Usunięcie użytkownika spowoduje usunięcie wszystkich przypisanych ankiet i rezultatów ! Kliknij tutaj aby kontynuować'
+        LOC_USERNAME: 'Nazwa Użytkownika',
+        LOC_CONFIRM_DELETE: 'Kliknij tutaj aby potwierdzić kasowanie',
+        LOC_NEW_USER: 'Nowy Użytkownik'
     };
 
 

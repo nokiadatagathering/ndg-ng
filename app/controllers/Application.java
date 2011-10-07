@@ -1,13 +1,16 @@
 package controllers;
 
+import controllers.deserializer.CategoryObjectFactory;
+import controllers.deserializer.NdgUserObjectFactory;
+import controllers.deserializer.QuestionObjectFactory;
+import controllers.deserializer.QuestionOptionObjectFactory;
+import controllers.deserializer.QuestionTypeObjectFactory;
+import controllers.deserializer.SurveyObjectFactory;
 import controllers.exceptions.SurveySavingException;
 import controllers.logic.SurveyPersister;
 import flexjson.JSONDeserializer;
-import flexjson.ObjectBinder;
-import java.lang.reflect.Type;
 import play.mvc.Controller;
 import flexjson.JSONSerializer;
-import flexjson.ObjectFactory;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,17 +18,19 @@ import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
 import models.Category;
+import models.Company;
+import models.NdgRole;
 import models.NdgUser;
 import models.Question;
-import models.QuestionOption;
 import models.QuestionType;
 import models.Survey;
 import models.TransactionLog;
+import models.UserRole;
 import models.constants.TransactionlogConsts;
 import models.utils.NdgQuery;
 import models.utils.SurveyDuplicator;
@@ -34,32 +39,6 @@ public class Application extends Controller {
 
     public static void index() {
         render();
-    }
-    static class QuestionTypeObjectFactory implements ObjectFactory{
-
-        public Object instantiate( ObjectBinder ob, Object o, Type type, Class type1 ) {
-            QuestionType qType = null;
-            HashMap map = ( HashMap )o;
-            if( map.containsKey( "id" ) ){
-                Integer typeId = ( Integer ) map.get( "id" );
-                qType = QuestionType.findById(  new Long(typeId) );
-            }
-            return qType;
-        }
-    }
-
-    static class NdgUserObjectFactory implements ObjectFactory{
-
-        public Object instantiate( ObjectBinder ob, Object o, Type type, Class type1 ) {
-            NdgUser user = null;
-
-            HashMap map = ( HashMap )o;
-            if( map.containsKey( "id" ) ){
-                Integer typeId = ( Integer ) map.get( "id" );
-                user = NdgUser.findById( new Long( typeId ) );
-            }
-            return user;
-        }
     }
 
     public static void questionType(){
@@ -74,33 +53,20 @@ public class Application extends Controller {
 
         JSONDeserializer<Survey> deserializer = new JSONDeserializer<Survey>();
         deserializer
-                .use( null, Survey.class )
                 .use( "ndgUser", new NdgUserObjectFactory() )
                 .use( "categoryCollection", ArrayList.class )
-                .use( "categoryCollection.values", Category.class )
+                .use( "categoryCollection.values", new CategoryObjectFactory() )
                 .use( "categoryCollection.values.questionCollection", ArrayList.class )
-                .use( "categoryCollection.values.questionCollection.values", Question.class )
+                .use( "categoryCollection.values.questionCollection.values", new QuestionObjectFactory() )
                 .use( "categoryCollection.values.questionCollection.values.questionOptionCollection", ArrayList.class )
-                .use( "categoryCollection.values.questionCollection.values.questionOptionCollection.values", QuestionOption.class )
+                .use( "categoryCollection.values.questionCollection.values.questionOptionCollection.values", new QuestionOptionObjectFactory() )
                 .use( "categoryCollection.values.questionCollection.values.questionType", new QuestionTypeObjectFactory());
 
-        Survey survey = deserializer.deserialize( surveyData, Survey.class );
-        survey = survey.merge();
-
-        for( Category cat : survey.categoryCollection ){
-            cat.survey = survey;
-            for( Question q : cat.questionCollection ){
-                q.category = cat;
-                if(q.questionOptionCollection != null){
-                    for( QuestionOption opt : q.questionOptionCollection ){
-                        opt.question = q;
-                    }
-                }
-            }
-        }
-
+        Survey survey = deserializer.deserialize( surveyData, new SurveyObjectFactory() );
         survey.save();
-    }
+
+        renderText( survey.id );
+}
 
     public static void getSurvey( long surveyId ){//TODO exclude more not needed params
         Survey survey = Survey.findById( surveyId );
@@ -109,15 +75,38 @@ public class Application extends Controller {
                     "categoryCollection",
                     "categoryCollection.questionCollection",
                     "categoryCollection.questionCollection.questionType.id",
-                    "categoryCollection.questionCollection.questionOptionCollection")
+                    "categoryCollection.questionCollection.questionOptionCollection"
+                )
                 .exclude(
                     "transactionLogCollection",
                     "uploadDate",
                     "resultCollection",
                     "categoryCollection.survey",
-                    "categoryCollection.questionCollection.category",
-                    "categoryCollection.questionCollection.questionOptionCollection.question")
+                    "categoryCollection.questionCollection.category" )
             .rootName( "survey" );
+
+        for( Category cat : survey.categoryCollection ){
+            Collections.sort( cat.questionCollection, new Comparator<Question>(){
+                public int compare( Question q, Question q1 ) {
+                    if( q1.questionIndex == null || q.questionIndex == null ){
+                        return 0;
+                    }else{
+                        return q.questionIndex - q1.questionIndex;
+                    }
+                }
+            });
+        }
+
+        Collections.sort( survey.categoryCollection,  new Comparator<Category>(){
+            public int compare( Category t, Category t1 ) {
+                if( t1.categoryIndex == null || t.categoryIndex == null ){
+                    return 0;
+                }else{
+                    return t.categoryIndex - t1.categoryIndex;
+                }
+            }
+        });
+
         renderJSON( surveySerializer.serialize( survey ) );
     }
 
@@ -141,6 +130,18 @@ public class Application extends Controller {
     {
         Survey deleted = Survey.find("bySurveyId", formID).first();
         deleted.delete();
+    }
+
+    public static void addUser(String username, String password, String fullName, String email, String role)
+    {
+        NdgUser user = new NdgUser(password, username, email, fullName, fullName, "Y", 'Y', 'Y', 'Y');
+        Company userCompany = Company.all().first();
+        user.company = userCompany;
+        user.save();
+        UserRole mapRole = new UserRole();
+        mapRole.ndgUser = user;
+        mapRole.ndgRole = NdgRole.find("byRoleName", role).first();
+        mapRole.save();
     }
 
     public static void deleteUser(String userId)

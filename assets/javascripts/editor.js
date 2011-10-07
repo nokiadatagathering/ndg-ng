@@ -68,7 +68,7 @@ var Editor = function() {
         questionPanel = new QuestionPanel( function(label){refreshCurrentQuestionLabel(label);});
         questionPanel.createQuestionPanel();
 
-        $( "#categories" ).sortable( {delay: 50} ).disableSelection();
+        $( "#categories" ).sortable( {delay: 50} );
         $( "#surveyHeader span.edit" ).bind( 'click.edit', function(){onEditTitleClick();} );
     }
 
@@ -96,13 +96,15 @@ var Editor = function() {
     }
 
     function onSaveClicked(){
-        $.ajax(//TODO
+        updateSurveyIndexes();
+        $.ajax(
         {
             type: "POST",
             url: "/saveSurvey",
             data: {surveyData : surveyModel.getSurveyString()},
             success: function( msg ){
-               alert( "Survey saved successfully" ); //TODo localize
+               refresh( msg );
+//               alert( "Survey saved successfully "); //TODo localize
             },
             error: function( request, error ) {
                 alert("Problem with saving survey. Original error: " + error);
@@ -110,28 +112,21 @@ var Editor = function() {
         });
     }
 
-//    function prepereSurveyJSON(){
-//        var categoryList = [];
-//        var catElemList = $( "#categories" ).find( ".listCategory" );
-//
-//        $.each(catElemList, function(i, item){
-//            var catName = $( '#' + item.id ).find('.categoryName');
-//            categoryList[i] = new Category(catName[0].text, i);
-//            categoryList[i].questionCollection = prepereQuestions(item);
-//        });
-//
-//        return JSON.stringify(categoryList);
-//    }
 
-//    function prepereQuestions(catItem){
-//        var questionElemList = $( '#' + catItem.id ).find(".listItemQuestion");
-//        var questionList = [];
-//        $.each( questionElemList, function( i, item ){
-//            var questionLabel = $( '#' + item.id ).find('.questionText');
-//            questionList[i] = new Question(questionLabel[0].innerText, item.id);
-//        } );
-//        return questionList;
-//    }
+    function refresh( id ){
+        openSurvey( id );
+    }
+
+    function updateSurveyIndexes(){
+        var catOrder = $( "#categories" ).sortable('toArray');
+        $.each(catOrder, function(i, catId){
+            var queOrder = $( '#' + catId + ' .listQuestion').sortable('toArray');
+            surveyModel.reorderQuestion( queOrder, catId );
+        });
+
+        surveyModel.reorderCategory( catOrder );
+    }
+
 
     function onBackClicked(){
          $('#content').empty();

@@ -151,6 +151,8 @@ span.expandIcon.expanded{
 {
     width: 60%;
     float:left;
+    height: 400px;
+    overflow: auto;
 }
 
 /*#editorRight
