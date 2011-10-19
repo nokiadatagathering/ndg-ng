@@ -15,6 +15,7 @@ GETTING STARTED
     git clone git@github.com:nokiadatagathering/ndg-ng.git
     cd assets/build/
     ant build
+    (install necessary tools to optimize assets using apt until ant stops complaining)
     cd ../..
     play run
     http://localhost:9000/
