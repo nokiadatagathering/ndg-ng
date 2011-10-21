@@ -22,6 +22,8 @@ import controllers.util.XFormsTypeMappings;
 import java.io.IOException;
 import java.io.PrintWriter;
 import org.javarosa.core.model.FormDef;
+import org.javarosa.core.model.GroupDef;
+import org.javarosa.core.model.IFormElement;
 import org.javarosa.core.model.QuestionDef;
 import org.javarosa.core.model.instance.TreeElement;
 import org.javarosa.core.services.locale.Localizer;
@@ -57,6 +59,7 @@ public class SurveyXmlBuilder {
 
     }
 
+
     private void printFormDef(FormDef formDef, PrintWriter writer) throws SurveyXmlCreatorException, IOException {
         Document xmlDocument = new Document();
 
@@ -64,6 +67,7 @@ public class SurveyXmlBuilder {
         xmlDocument.addChild(Node.ELEMENT, html);
 
         setupHead(html, formDef);
+
         setupBody(html, formDef);
 
         KXmlSerializer serializer = new KXmlSerializer();
@@ -97,7 +101,7 @@ public class SurveyXmlBuilder {
         Element model = head.createElement(null, "model");
         addInstanceToModel(model, formDef);
         addItextToModel(model, formDef);
-        addBindings(model, formDef);
+        addBindings(model, formDef, formDef);
         head.addChild(Node.ELEMENT, model);
     }
 
@@ -107,14 +111,22 @@ public class SurveyXmlBuilder {
         data.setAttribute(null, "id", formDef.getInstance().getRoot().getAttributeValue("", "id"));
 
         int childCount = formDef.getInstance().getRoot().getNumChildren();
-        for (int i = 0; i < childCount; i++) {
-            TreeElement element = formDef.getInstance().getRoot().getChildAt(i);
-            Element child = data.createElement(null, element.getName());
-            data.addChild(Node.ELEMENT, child);
-        }
+        fillModelTree(formDef.getInstance().getRoot(), data);
 
         instance.addChild(Node.ELEMENT, data);
         model.addChild(Node.ELEMENT, instance);
+    }
+
+    private void fillModelTree(TreeElement parent, Element data) {
+        for (int i = 0; i < parent.getNumChildren(); i++) {
+            TreeElement element = parent.getChildAt(i);
+            Element child = data.createElement(null, element.getName());
+            data.addChild(Node.ELEMENT, child);
+            if(element.getNumChildren() > 0)
+            {
+                fillModelTree(element, child);
+            }
+        }
     }
 
     private void addItextToModel(Element model, FormDef formDef) {
@@ -145,52 +157,65 @@ public class SurveyXmlBuilder {
         model.addChild(Node.ELEMENT, iText);
     }
 
-    private void addBindings(Element model, FormDef formDef) {
-        for (Object formChild : formDef.getChildren()) {
+    private void addBindings(Element model, FormDef formDef, IFormElement currentNode) {
+        for (Object formChild : currentNode.getChildren()) {
             if (formChild instanceof QuestionDef) {
-                QuestionDef question = (QuestionDef) formChild;
-                Element binding = model.createElement(null, "bind");
-                String nodeset = getNodesetFromTextId(question); //hack to reach object name
-                binding.setAttribute(null, "nodeset", nodeset);
-                TreeElement questionModelElement = formDef.getInstance().resolveReference(question.getBind());
-                binding.setAttribute(null, "type", XFormsTypeMappings.getIntegerToType(questionModelElement.dataType));
-                if (questionModelElement.required) {
-                    binding.setAttribute(null, "required", "true()");
-                }
-                if (!questionModelElement.isEnabled()) {
-                    binding.setAttribute(null, "readonly", "true()");
-                }
-
-                if (questionModelElement.getConstraint() != null) {
-                    XPathConditional expression = (XPathConditional) questionModelElement.getConstraint().constraint;
-                    binding.setAttribute(null, "constraint", expression.xpath);
-                }
-                model.addChild(Node.ELEMENT, binding);
+                addQuestionBinding( formChild, model, formDef);
+            } else if(formChild instanceof GroupDef) {
+                addBindings(model, formDef, (GroupDef) formChild);
             }
         }
     }
+
+        private void addQuestionBinding(Object formChild, Element model, FormDef formDef) {
+        QuestionDef question = (QuestionDef) formChild;
+        Element binding = model.createElement(null, "bind");
+        String nodeset = getNodesetFromTextId(question); //hack to reach object name
+        binding.setAttribute(null, "nodeset", nodeset);
+        TreeElement questionModelElement = formDef.getInstance().resolveReference(question.getBind());
+        binding.setAttribute(null, "type", XFormsTypeMappings.getIntegerToType(questionModelElement.dataType));
+        if (questionModelElement.required) {
+            binding.setAttribute(null, "required", "true()");
+        }
+        if (!questionModelElement.isEnabled()) {
+            binding.setAttribute(null, "readonly", "true()");
+        }
+
+        if (questionModelElement.getConstraint() != null) {
+            XPathConditional expression = (XPathConditional) questionModelElement.getConstraint().constraint;
+            binding.setAttribute(null, "constraint", expression.xpath);
+        }
+        model.addChild(Node.ELEMENT, binding);
+    }
+
 
     private String getNodesetFromTextId(QuestionDef question) {
         String textId = question.getTextID();
         return textId.substring(0, textId.indexOf(":"));
     }
 
-    private void setupBody(Element html, FormDef formDef) {
-        Element body = html.createElement(null, "h:body");
+    private void setupBody(Element parent, IFormElement formDef) {
+        Element body = parent.createElement(null, "h:body");
+        fillBodyTree(formDef, body);
 
+        parent.addChild(Node.ELEMENT, body);
+    }
+
+    private void fillBodyTree(IFormElement formDef, Element body) {
         for (Object formChild : formDef.getChildren()) {
             if (formChild instanceof QuestionDef) {
                 QuestionDef question = (QuestionDef) formChild;
-                addQuestionElement(question, body, formDef);
+                addQuestionElement(question, body);
+            } else if(formChild instanceof GroupDef) {
+                GroupDef group = (GroupDef) formChild;
+                addGroupElement(group, body);
             }
         }
-
-        html.addChild(Node.ELEMENT, body);
     }
 
-    private void addQuestionElement(QuestionDef question, Element body, FormDef formDef) {
+    private void addQuestionElement(QuestionDef question, Element parent) {
         String type = XFormsTypeMappings.getIntegerToControlType(question.getControlType());
-        Element questionNode = body.createElement(null, type);
+        Element questionNode = parent.createElement(null, type);
         questionNode.setAttribute(null, "ref", getNodesetFromTextId(question));
         if(type.equals("upload"))
         {
@@ -225,13 +250,25 @@ public class SurveyXmlBuilder {
         }
 
         if (type.equals(SELECT) || type.equals(SELECTONE)) {
-            addChoiceItems(questionNode, question, formDef);
+            addChoiceItems(questionNode, question);
         }
 
-        body.addChild(Node.ELEMENT, questionNode);
+        parent.addChild(Node.ELEMENT, questionNode);
     }
 
-    private void addChoiceItems(Element questionNode, QuestionDef question, FormDef formDef) {
+    private void addGroupElement(GroupDef groupDef, Element parent) {
+        Element groupNode = parent.createElement(null, "group");
+
+        Element label = groupNode.createElement(null, "label");
+        label.setAttribute(null, "ref", buildItextRef(groupDef.getTextID()));
+        groupNode.addChild(Node.ELEMENT, label);
+
+        fillBodyTree(groupDef, groupNode);
+
+        parent.addChild(Node.ELEMENT, groupNode);
+    }
+
+    private void addChoiceItems(Element questionNode, QuestionDef question) {
         for (int i = 0; i < question.getNumChoices(); i++) {
             Element item = questionNode.createElement(null, "item");
 
@@ -254,4 +291,5 @@ public class SurveyXmlBuilder {
         builder.append(ITEXT_CLOSE);
         return builder.toString();
     }
+
 }

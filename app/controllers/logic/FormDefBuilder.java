@@ -5,18 +5,22 @@
 package controllers.logic;
 
 import controllers.exceptions.SurveyXmlCreatorException;
+import models.Category;
 import models.QuestionOption;
 import models.Question;
 import models.Survey;
 import controllers.util.XFormsTypeMappings;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.Category;
 import org.javarosa.core.model.FormDef;
+import org.javarosa.core.model.GroupDef;
 import org.javarosa.core.model.IDataReference;
+import org.javarosa.core.model.IFormElement;
 import org.javarosa.core.model.QuestionDef;
 import org.javarosa.core.model.SelectChoice;
 import org.javarosa.core.model.condition.Constraint;
@@ -38,18 +42,17 @@ public class FormDefBuilder {
     public FormDefBuilder() {
     }
 
-
     public FormDef readFormDefinitionFromDb(String surveyId) throws SurveyXmlCreatorException {
         Survey survey = getSurveyFromDb(surveyId);
 
         return readFormDefinition(survey);
     }
 
-
     public FormDef readFormDefinition(Survey survey) throws SurveyXmlCreatorException {
         FormDef formDefinition = new FormDef();
 
         List<Question> questions = survey.getQuestions();
+        Collections.sort(questions, new QuestionComparator());
 
 
         formDefinition.setName(survey.title);
@@ -58,7 +61,7 @@ public class FormDefBuilder {
 
         formDefinition.setInstance(setupInstance(survey, questions));
 
-        addQuestions(formDefinition, survey);
+        addChilds(formDefinition, survey, questions);
 
         return formDefinition;
     }
@@ -69,73 +72,119 @@ public class FormDefBuilder {
         return retval;
     }
 
-    private void addQuestions(FormDef formDefinition, Survey survey) {
-        Collection<Question> questions = survey.getQuestions();
+    private void addChilds(FormDef formDefinition, Survey survey, List<Question> questions) {
         TableLocaleSource localization = new TableLocaleSource();
-        for (Question question : questions) {
-            QuestionDef newQuestion = new QuestionDef();
-
-            newQuestion.setTextID(getRefString(question, "data", "label"));
-            localization.setLocaleMapping(newQuestion.getTextID(), question.label);
-
-            if (question.hint != null && !question.hint.isEmpty()) {
-                newQuestion.setHelpTextID(getRefString(question, "data", "hint"));
-                localization.setLocaleMapping(newQuestion.getHelpTextID(), question.hint);
+        IFormElement currentElement = formDefinition;
+        ListIterator<Question> questionIterator = questions.listIterator();
+        while (questionIterator.hasNext()) {
+            Question question = questionIterator.next();
+            if(!question.category.categoryIndex.equals(new Integer(0)))
+            {
+                addGroupDef(question, localization, questionIterator, currentElement);
+            } else
+            {
+                addQuestionDef(question, localization, currentElement, null);
             }
-
-            newQuestion.setControlType(findControlType(question));
-            if (newQuestion.getControlType() == org.javarosa.core.model.Constants.CONTROL_SELECT_ONE
-                    || newQuestion.getControlType() == org.javarosa.core.model.Constants.CONTROL_SELECT_MULTI) {
-                addOptions(newQuestion, question, localization);
-            }
-            IDataReference dataRef = null;
-            dataRef = new XPathReference(getRefString(question, "data", null));
-            newQuestion.setBind(dataRef);
-
-            formDefinition.addChild(newQuestion);
         }
         if (survey.lang != null) {
             formDefinition.getLocalizer().registerLocaleResource(survey.lang, localization);
         }
     }
 
+     private void addQuestionDef(Question question, TableLocaleSource localization, IFormElement currentElement, String parentXPath) {
+        QuestionDef newQuestion = new QuestionDef();
+        String xPath = parentXPath == null ?
+                getRefString(question.objectName, "data", null) :
+                getRefString(question.objectName, "data/" + parentXPath, null);
+        newQuestion.setTextID(xPath +  ":label");
+        localization.setLocaleMapping(newQuestion.getTextID(), question.label);
 
-    private void addOptions(QuestionDef newQuestion, Question dbQuestion, TableLocaleSource localization) {
+        if (question.hint != null && !question.hint.isEmpty()) {
+            newQuestion.setHelpTextID(xPath + ":hint");
+            localization.setLocaleMapping(newQuestion.getHelpTextID(), question.hint);
+        }
+
+        newQuestion.setControlType(findControlType(question));
+        if (newQuestion.getControlType() == org.javarosa.core.model.Constants.CONTROL_SELECT_ONE
+                || newQuestion.getControlType() == org.javarosa.core.model.Constants.CONTROL_SELECT_MULTI) {
+            addOptions(newQuestion, question, localization, xPath);
+        }
+        IDataReference dataRef = null;
+        dataRef = new XPathReference(xPath);
+        newQuestion.setBind(dataRef);
+
+        currentElement.addChild(newQuestion);
+    }
+
+    private void addGroupDef(Question question, TableLocaleSource localization, ListIterator<Question> questionIterator, IFormElement currentElement) {
+        Category currentCategory = question.category;
+        GroupDef currentGroup = new GroupDef();
+        currentGroup.setTextID(getRefString(currentCategory.objectName, "data", "label"));
+        localization.setLocaleMapping(currentGroup.getTextID(), currentCategory.label);
+        addQuestionDef(question, localization, currentGroup, currentCategory.objectName);
+        for(int i = 1 ; i < currentCategory.questionCollection.size() && questionIterator.hasNext(); i++)
+        {
+            addQuestionDef(questionIterator.next(), localization, currentGroup, currentCategory.objectName);
+        }
+        currentElement.addChild(currentGroup);
+    }
+
+    private void addOptions(QuestionDef newQuestion, Question dbQuestion, TableLocaleSource localization, String xPath) {
         Collection<QuestionOption> questionOptions = dbQuestion.questionOptionCollection;
         for (QuestionOption questionOption : questionOptions) {
-            String reference = getRefString(dbQuestion, "data", "option" + questionOption.optionIndex);
+            String reference = new StringBuilder(xPath).append(":option").append(questionOption.optionIndex).toString();
             SelectChoice choice = new SelectChoice(reference, questionOption.optionValue);
             localization.setLocaleMapping(reference, questionOption.label);
             newQuestion.addSelectChoice(choice);
         }
     }
 
-    private FormInstance setupInstance(Survey survey, Collection<Question> questions) {
+    private FormInstance setupInstance(Survey survey, List<Question> questions) {
         FormInstance retval = null;
         TreeElement dataElement = new TreeElement("data");
         dataElement.setAttribute(null, "id", survey.surveyId);
         //todo add orx meta
-        for (Question question : questions) {
-            TreeElement questionMeta = new TreeElement(question.objectName);
-            dataElement.addChild(questionMeta);
-            questionMeta.setRequired(question.required == 0 ? false : true);
-            questionMeta.setEnabled(question.readonly != null && question.readonly == 1 ? false : true);
-            questionMeta.dataType = XFormsTypeMappings.getTypeToInteger(question.questionType.typeName);
-
-            if(question.constraintText != null && !question.constraintText.isEmpty())
-            {
-                try {
-                    IConditionExpr constraint = new XPathConditional(question.constraintText);
-                     questionMeta.setConstraint(new Constraint(constraint, null));
-                } catch (XPathSyntaxException ex) {
-                    Logger.getLogger(FormDefBuilder.class.getName()).log(Level.SEVERE, null, ex);
+        ListIterator<Question> iterator = questions.listIterator();
+        TreeElement currentCategory = null;
+        while (iterator.hasNext()) {
+            Question currentQuestion = iterator.next();
+            if (currentQuestion.category.categoryIndex.equals(new Integer(0))) {
+                currentCategory = null;
+                addQuestionToModel(dataElement, currentQuestion);
+            } else {
+                if (currentCategory == null || !currentQuestion.category.objectName.equals(currentCategory.getName())) {
+                    currentCategory = addCategoryToModel(dataElement, currentQuestion.category, iterator);
                 }
+                addQuestionToModel(currentCategory, currentQuestion);
             }
         }
         retval = new FormInstance(dataElement);
         retval.addNamespace("orx", "http://openrosa.org/xforms/metadata");
         retval.setName(survey.title);
         return retval;
+    }
+
+    private void addQuestionToModel(TreeElement parent, Question question) {
+        TreeElement questionMeta = new TreeElement(question.objectName);
+        parent.addChild(questionMeta);
+        questionMeta.setRequired(question.required == 0 ? false : true);
+        questionMeta.setEnabled(question.readonly != null && question.readonly == 1 ? false : true);
+        questionMeta.dataType = XFormsTypeMappings.getTypeToInteger(question.questionType.typeName);
+
+        if (question.constraintText != null && !question.constraintText.isEmpty()) {
+            try {
+                IConditionExpr constraint = new XPathConditional(question.constraintText);
+                questionMeta.setConstraint(new Constraint(constraint, null));
+            } catch (XPathSyntaxException ex) {
+                Logger.getLogger(FormDefBuilder.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private TreeElement addCategoryToModel(TreeElement parent, Category category, ListIterator<Question> iterator) {
+        TreeElement categoryElement = new TreeElement(category.objectName);
+        parent.addChild(categoryElement);
+        return categoryElement;
     }
 
     private int findControlType(Question question) {
@@ -173,14 +222,23 @@ public class FormDefBuilder {
         }
     }
 
-    private String getRefString(Question question, String instanceName, String type) {
+    private String getRefString(String objectName, String instanceName, String type) {
         StringBuilder builder = new StringBuilder();
         builder.append("/").append(instanceName).append("/");
-        builder.append(question.objectName);
-        if(type != null)
-        {
+        builder.append(objectName);
+        if (type != null) {
             builder.append(":").append(type);
         }
         return builder.toString();
+    }
+
+    private static class QuestionComparator implements Comparator<Question> {
+
+        public QuestionComparator() {
+        }
+
+        public int compare(Question o1, Question o2) {
+            return o1.questionIndex > o2.questionIndex ? 1 : -1;
+        }
     }
 }
