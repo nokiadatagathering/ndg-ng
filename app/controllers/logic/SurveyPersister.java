@@ -14,6 +14,8 @@ import java.util.Vector;
 import javax.persistence.EntityManager;
 import models.Category;
 import org.javarosa.core.model.FormDef;
+import org.javarosa.core.model.GroupDef;
+import org.javarosa.core.model.IFormElement;
 import org.javarosa.core.model.QuestionDef;
 import org.javarosa.core.model.SelectChoice;
 import org.javarosa.core.model.instance.TreeElement;
@@ -26,6 +28,7 @@ public class SurveyPersister {
     private InputStreamReader is = null;
     private Survey survey = null;
     private Category defCategory = null;
+    private int currentQuestionIndex = 0;
 
     public SurveyPersister(InputStreamReader is) {
         this.is = is;
@@ -41,7 +44,7 @@ public class SurveyPersister {
         FormDef formDefinition = parser.parse();
         Survey newSurvey = findOrCreateSurvey(surveyId, formDefinition);
         persistSurvey(formDefinition, newSurvey);
-        persistQuestionSet(formDefinition);
+        persistChildSet(formDefinition, formDefinition, defCategory);
     }
 
     private void persistSurvey(FormDef formDefinition, Survey newSurvey) throws SurveySavingException {
@@ -63,6 +66,9 @@ public class SurveyPersister {
         defCategory = new Category();
         defCategory.survey = newSurvey;
         defCategory.label = "Default";
+        defCategory.objectName = "DefaultCategory";
+        defCategory.categoryIndex  = 0;
+
         newSurvey.categoryCollection = new ArrayList<Category>();
         newSurvey.categoryCollection.add(defCategory);
 
@@ -70,35 +76,39 @@ public class SurveyPersister {
         survey = newSurvey;
     }
 
-    private void persistQuestionSet(FormDef formDefinition) throws SurveySavingException {
-        Vector /* <IFormElement> */ formElements = formDefinition.getChildren();
-        for (int i = 0; i < formElements.size(); i++) {
-            if (formElements.get(i) instanceof QuestionDef) {
-                QuestionDef question = (QuestionDef) formElements.get(i);
-                TreeElement questionModelElement = formDefinition.getInstance().resolveReference(question.getBind());
-                persistQuestion(question, questionModelElement, formDefinition.getLocalizer());
+    private void persistChildSet(FormDef formDefinition, IFormElement currentNode, Category questionCategory) throws SurveySavingException {
+        Vector /* <IFormElement> */ elementChildren = currentNode.getChildren();
+        for (int i = 0; i < elementChildren.size(); i++) {
+            if (elementChildren.get(i) instanceof QuestionDef) {
+                QuestionDef question = (QuestionDef) elementChildren.get(i);
+                persistQuestion(question, formDefinition, questionCategory);
+            } else if(elementChildren.get(i) instanceof GroupDef) {
+                GroupDef group = (GroupDef) elementChildren.get(i);
+                TreeElement groupModelElement = formDefinition.getInstance().resolveReference(group.getBind()).getChildAt(i);
+                persistCategory(group, formDefinition, groupModelElement);
             }
         }
     }
 
-    private void persistQuestion(QuestionDef questionDef, TreeElement questionModel, Localizer localizer)
+    private void persistQuestion(QuestionDef questionDef, FormDef formDefinition, Category questionCategory)
             throws SurveySavingException {
+        TreeElement questionModel = formDefinition.getInstance().resolveReference(questionDef.getBind());
 
         String questionText = questionDef.getLabelInnerText();
         if (questionText == null) {
-            localizer.setLocale("eng");// TODO
-            questionText = localizer.getLocalizedText(questionDef.getTextID());
+            formDefinition.getLocalizer().setLocale("eng");// TODO
+            questionText = formDefinition.getLocalizer().getLocalizedText(questionDef.getTextID());
         }
 
         String questionHint = questionDef.getHelpText();
         if (questionHint == null && questionDef.getHelpTextID() != null) {
-            questionHint = localizer.getLocalizedText(questionDef.getHelpTextID());
+            questionHint = formDefinition.getLocalizer().getLocalizedText(questionDef.getHelpTextID());
         }
 
         QuestionType type = findQuestionType(questionModel.dataType, questionDef.getControlType());
 
         Question newQuestion = new Question();
-        newQuestion.category = defCategory;
+        newQuestion.category = questionCategory;
         newQuestion.questionType = type;
         newQuestion.objectName = questionModel.getName();
         newQuestion.label = questionText;
@@ -110,12 +120,14 @@ public class SurveyPersister {
         newQuestion.required = questionModel.required ? new Integer(1) : new Integer(0);
 
         newQuestion.readonly = questionModel.isEnabled() ? new Integer(0) : new Integer(1);
+        newQuestion.questionIndex = currentQuestionIndex;
 
         newQuestion.save();
+        currentQuestionIndex ++;
 
         if (type.typeName.equals(XFormsTypeMappings.SELECT)
                 || type.typeName.equals(XFormsTypeMappings.SELECTONE)) {
-            persistQuestionOptions(questionDef, newQuestion, localizer);
+            persistQuestionOptions(questionDef, newQuestion, formDefinition.getLocalizer());
         }
     }
 
@@ -142,6 +154,25 @@ public class SurveyPersister {
             retval = QuestionType.find("byTypeName", controlTypeDecoded.toString()).first();
         }
         return retval;
+    }
+
+    private void persistCategory(GroupDef groupDef, FormDef formDefinition, TreeElement groupModelElement) throws SurveySavingException {
+
+        Category newCategory = new Category();
+        newCategory.categoryIndex = survey.categoryCollection.size();
+        newCategory.survey = survey;
+        newCategory.objectName = groupModelElement.getName();
+
+        String groupLabel = groupDef.getLabelInnerText();
+        if (groupLabel == null) {
+            formDefinition.getLocalizer().setLocale("eng");// TODO
+            groupLabel = formDefinition.getLocalizer().getLocalizedText(groupDef.getTextID());
+        }
+        newCategory.label = groupLabel;
+        newCategory.save();
+        survey.categoryCollection.add(newCategory);
+
+        persistChildSet(formDefinition, groupDef, newCategory);
     }
 
     private NdgUser getOwner(Long userId) {

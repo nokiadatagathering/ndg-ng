@@ -52,7 +52,10 @@ var QuestionPanel = function ( callback ){
         if(question.questionType.id == 10 || question.questionType.id == 11){
             $( '#questionOptions' ).show();
             $.each( currentQuestion.questionOptionCollection, function( i, item ){
-                appendOption( item);
+                if( !item.hasOwnProperty( 'isDelete' ) ){
+                    appendOption( item);
+                }
+
             });
         }else{
             $( '#questionOptions' ).hide();

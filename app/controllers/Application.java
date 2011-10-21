@@ -50,64 +50,11 @@ public class Application extends Controller {
     }
 
     public static void saveSurvey( String surveyData ){
-
-        JSONDeserializer<Survey> deserializer = new JSONDeserializer<Survey>();
-        deserializer
-                .use( "ndgUser", new NdgUserObjectFactory() )
-                .use( "categoryCollection", ArrayList.class )
-                .use( "categoryCollection.values", new CategoryObjectFactory() )
-                .use( "categoryCollection.values.questionCollection", ArrayList.class )
-                .use( "categoryCollection.values.questionCollection.values", new QuestionObjectFactory() )
-                .use( "categoryCollection.values.questionCollection.values.questionOptionCollection", ArrayList.class )
-                .use( "categoryCollection.values.questionCollection.values.questionOptionCollection.values", new QuestionOptionObjectFactory() )
-                .use( "categoryCollection.values.questionCollection.values.questionType", new QuestionTypeObjectFactory());
-
-        Survey survey = deserializer.deserialize( surveyData, new SurveyObjectFactory() );
-        survey.save();
-
-        renderText( survey.id );
+        renderText( SurveyJsonTransformer.saveSurvey( surveyData ) );
 }
 
     public static void getSurvey( long surveyId ){//TODO exclude more not needed params
-        Survey survey = Survey.findById( surveyId );
-        JSONSerializer surveySerializer = new JSONSerializer();
-        surveySerializer.include(
-                    "categoryCollection",
-                    "categoryCollection.questionCollection",
-                    "categoryCollection.questionCollection.questionType.id",
-                    "categoryCollection.questionCollection.questionOptionCollection"
-                )
-                .exclude(
-                    "transactionLogCollection",
-                    "uploadDate",
-                    "resultCollection",
-                    "categoryCollection.survey",
-                    "categoryCollection.questionCollection.category" )
-            .rootName( "survey" );
-
-        for( Category cat : survey.categoryCollection ){
-            Collections.sort( cat.questionCollection, new Comparator<Question>(){
-                public int compare( Question q, Question q1 ) {
-                    if( q1.questionIndex == null || q.questionIndex == null ){
-                        return 0;
-                    }else{
-                        return q.questionIndex - q1.questionIndex;
-                    }
-                }
-            });
-        }
-
-        Collections.sort( survey.categoryCollection,  new Comparator<Category>(){
-            public int compare( Category t, Category t1 ) {
-                if( t1.categoryIndex == null || t.categoryIndex == null ){
-                    return 0;
-                }else{
-                    return t.categoryIndex - t1.categoryIndex;
-                }
-            }
-        });
-
-        renderJSON( surveySerializer.serialize( survey ) );
+         renderJSON( SurveyJsonTransformer.getJsonSurvey( surveyId ) );
     }
 
     public static void upload(File filename, String uploadSurveyId) throws IOException, SurveySavingException {

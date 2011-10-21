@@ -151,18 +151,9 @@ span.expandIcon.expanded{
 {
     width: 60%;
     float:left;
-    height: 400px;
+    max-height: 400px;
     overflow: auto;
 }
-
-/*#editorRight
-{
-    float:right;
-    width: 30%;
-    height: 300px;
-    border: 1px solid #CCC;
-    margin-right: 50px;
-}*/
 
 span.edit
 {
