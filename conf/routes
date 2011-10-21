@@ -27,6 +27,11 @@ GET     /ReceiveSurvey                          Surveys.list
 GET     /ReceiveSurvey/{<[0-9]+>formID}         Surveys.download
 POST    /PostResults                            PostResults.upload
 
+GET     /LanguageList                           Language.list
+GET     /LocalizationServing/text               Language.languageText
+GET     /LocalizationServing/font               Language.languageFont
+POST    /loader/LocalizationUploader.html       LanguageUploader.upload
+
 # Ignore favicon requests
 #GET     /favicon.ico                            404
 
