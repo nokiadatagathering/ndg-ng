@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                                       Application.index
+GET     /CheckUrl                               Application.checkUrl
 GET     /management                             Management.index
 GET     /management/{id}                        Management.get
 POST    /management                             Management.save

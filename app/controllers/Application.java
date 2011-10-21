@@ -1,14 +1,7 @@
 package controllers;
 
-import controllers.deserializer.CategoryObjectFactory;
-import controllers.deserializer.NdgUserObjectFactory;
-import controllers.deserializer.QuestionObjectFactory;
-import controllers.deserializer.QuestionOptionObjectFactory;
-import controllers.deserializer.QuestionTypeObjectFactory;
-import controllers.deserializer.SurveyObjectFactory;
 import controllers.exceptions.SurveySavingException;
 import controllers.logic.SurveyPersister;
-import flexjson.JSONDeserializer;
 import play.mvc.Controller;
 import flexjson.JSONSerializer;
 import java.io.File;
@@ -17,16 +10,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import models.Category;
+import java.util.logging.Logger;
 import models.Company;
 import models.NdgRole;
 import models.NdgUser;
-import models.Question;
 import models.QuestionType;
 import models.Survey;
 import models.TransactionLog;
@@ -136,5 +125,9 @@ public class Application extends Controller {
         userListSerializer.include( "id", "username", "phoneNumber" ).exclude("*").rootName("items");
 
         renderJSON( userListSerializer.serialize( users ) );
+    }
+
+    public static void checkUrl() {
+        renderText("NdgServer");
     }
 }
