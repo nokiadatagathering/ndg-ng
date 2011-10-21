@@ -93,9 +93,9 @@ var LOC = (function() {
         LOC_SEND_SURVEY: 'Wy\u015blij ankiet\u0119',
         LOC_DONE: 'Wy\u015blij',
         LOC_SEARCH: 'Szukaj...',
-        LOC_USERNAME: 'Nazwa Użytkownika',
-        LOC_CONFIRM_DELETE: 'Kliknij tutaj aby potwierdzić kasowanie',
-        LOC_NEW_USER: 'Nowy Użytkownik'
+        LOC_USERNAME: 'Nazwa U\u017cytkownika',
+        LOC_CONFIRM_DELETE: 'Kliknij tutaj aby potwierdzi\u0107 kasowanie',
+        LOC_NEW_USER: 'Nowy U\u017cytkownik'
     };
 
 

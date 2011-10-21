@@ -34,7 +34,7 @@ public class ListData extends Controller{
         renderJSON(categoryListSerializer.serialize(categories));
     }
 
-    public static void results( int surveyId, int startIndex, boolean isAscending, String orderBy, String searchField, String searchText ) {
+    public static void results( int surveyId, int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText ) {
         StringBuilder searchFilter = null;
         if(searchField != null && searchText != null)
         {
@@ -50,15 +50,15 @@ public class ListData extends Controller{
         query.append("survey_id = ").append(String.valueOf( surveyId ));
         query.append(" order by ").append(orderBy).append(isAscending ? " asc" : " desc");
 
-        List<NdgResult> results = NdgResult.find( query.toString() ).from( startIndex ).fetch( RESULTS_PER_SIDE );
+        List<NdgResult> results = NdgResult.find( query.toString() ).from( startIndex ).fetch( endIndex - startIndex );
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.include( "id","resultId", "title", "startTime", "ndgUser.username", "latitude" )
             .exclude( "*" ).rootName( "items" );
 
-        renderJSON( addRangeToJson(surveyListSerializer.serialize( results ), startIndex, results.size()) );
+        renderJSON( addRangeToJson(surveyListSerializer.serialize( results ), startIndex, NdgResult.count()) );
     }
 
-    public static void surveys( int startIndex, boolean isAscending, String orderBy, String searchField, String searchText ) {
+    public static void surveys( int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText ) {
         List<Survey> surveys = null;
         StringBuilder searchFilter = null;
         long totalItems = 0;
@@ -86,9 +86,11 @@ public class ListData extends Controller{
                 Collections.reverse( surveys );
             }
 
-            int subListEndIndex = startIndex + RESULTS_PER_SIDE < surveys.size() ?
-                                                    startIndex + RESULTS_PER_SIDE :
-                                                    surveys.size();
+//            int subListEndIndex = startIndex + RESULTS_PER_SIDE < surveys.size() ?
+//                                                    startIndex + RESULTS_PER_SIDE :
+//                                                    surveys.size();
+            int subListEndIndex = surveys.size() <= endIndex ?
+                      surveys.size() : endIndex;
             surveys = surveys.subList( startIndex , subListEndIndex );
         } else
         {
@@ -98,12 +100,12 @@ public class ListData extends Controller{
                 query.append(searchFilter);
             }
             query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
-            surveys =  Survey.find( query.toString() ).from( startIndex ).fetch( RESULTS_PER_SIDE );
+            surveys =  Survey.find( query.toString() ).from( startIndex ).fetch( endIndex );
         }
         serializeSurveys( surveys,  startIndex, totalItems);
     }
 
-    public static void users(int startIndex, boolean isAscending, String orderBy, String searchField, String searchText) {
+    public static void users(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText) {
         List<NdgUser> users = null;
         StringBuilder searchFilter = null;
         long totalItems = 0;
@@ -126,9 +128,11 @@ public class ListData extends Controller{
                 users =  NdgUser.all().fetch();
             }
             Collections.sort( users, new NdgUserUserRoleCollectionComapator(isAscending) );
-            int subListEndIndex = startIndex + RESULTS_PER_SIDE < users.size() ?
-                                                startIndex + RESULTS_PER_SIDE :
-                                                users.size();
+//            int subListEndIndex = startIndex + RESULTS_PER_SIDE < users.size() ?
+//                                                startIndex + RESULTS_PER_SIDE :
+//                                                users.size();
+            int subListEndIndex = users.size() <= endIndex ?
+                                  users.size() : endIndex;
             users = users.subList( startIndex, subListEndIndex);
         } else {
             StringBuilder query = new StringBuilder();
@@ -137,7 +141,7 @@ public class ListData extends Controller{
                 query.append(searchFilter);
             }
             query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
-            users =  NdgUser.find( query.toString() ).from( startIndex ).fetch( RESULTS_PER_SIDE );
+            users =  NdgUser.find( query.toString() ).from( startIndex ).fetch( endIndex + 1 );
         }
         serializeUsers(users, startIndex, totalItems);
     }

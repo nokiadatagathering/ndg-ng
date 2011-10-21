@@ -86,13 +86,13 @@ var ResultList = function() {
     }
 
     function prepareContentToolbar() {
-        $('#contentToolbar').append( '<span class="comboBoxSelection" id="comboBoxSelection" unselectable="on"></span>');
-        $('#contentToolbar').append( '<span class="buttonExportExcel" id="buttonExportExcel" unselectable="on"></span>');
-        $('#contentToolbar').append( '<span class="buttonExportKML" id="buttonExportKML" unselectable="on"></span>');
-        $('#contentToolbar').append( '<span class="buttonExportExternal" id="buttonExportExternal" unselectable="on"></span>');
-        $('#contentToolbar span').mousedown(function() { onButtonMouseDownHandler($(this));} );
-        $('#comboBoxSelection').click( function(event) { SurveyListCombo.showResultSelectionMenu(event); } );
-        $('#buttonExportExcel').click( function(event) { exportResults(); } );
+//        $('#contentToolbar').append( '<span class="comboBoxSelection" id="comboBoxSelection" unselectable="on"></span>');
+//        $('#contentToolbar').append( '<span class="buttonExportExcel" id="buttonExportExcel" unselectable="on"></span>');
+//        $('#contentToolbar').append( '<span class="buttonExportKML" id="buttonExportKML" unselectable="on"></span>');
+//        $('#contentToolbar').append( '<span class="buttonExportExternal" id="buttonExportExternal" unselectable="on"></span>');
+//        $('#contentToolbar span').mousedown(function() { onButtonMouseDownHandler($(this));} );
+//        $('#comboBoxSelection').click( function(event) { SurveyListCombo.showResultSelectionMenu(event); } );
+//        $('#buttonExportExcel').click( function(event) { exportResults(); } );
 
     }
 

@@ -301,7 +301,7 @@ body {
 
 #content {
     float: right;
-    height: 79%;
+    height: 100%;
     width: 852px;
     color: #FFFFFF;
 }
@@ -318,15 +318,11 @@ body {
 
 #contentMain {
     width: 100%;
-    height: 91%;
+    height: 100%;
     color: #FFFFFF;
+    padding-bottom: 40px;
 }
 
-#contentToolbar {
-    background: #e6e6e7;
-    width: 841px;
-    height: 40px;
-}
 
 .searchTextField {
     font-size: 14px;

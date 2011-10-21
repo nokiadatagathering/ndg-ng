@@ -6,6 +6,7 @@
 
 var DynamicTable = function() {
     var elementStartIndex = 0;
+    var elementEndIndex = 10;
     var columnSortAscending = new Array();// todo as what this was for before
     var columnIds;
     var columnTexts;
@@ -16,6 +17,7 @@ var DynamicTable = function() {
     var contentHandler;
     var ajaxParams;
     var totalItems = 0;
+    var scrollReady = false;
 
     return {showList : function(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams){showList(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams);},
             refresh: function() {refresh();},
@@ -24,16 +26,52 @@ var DynamicTable = function() {
 
     function prepareContentToolbar() {
         $('#contentToolbar').empty();
-        $('#contentToolbar').append( '<span class="buttonNext"  id="buttonNext"></span>'
-                                   + '<span class="buttonPrevious" id="buttonPrevious"></span>' +
-                                     '<span class="toolbarText" id="itemRangeLabel"></span>');
-        $('#buttonPrevious').click( function(event){onPreviousClicked(event);} );
-        $('#buttonNext').click(  function(event){onNextClicked(event);} );
+        $('#contentToolbar').unbind('click');
+        if(elementEndIndex < totalItems){
+            $('#contentToolbar').css('background-color', 'black');
+            $('#contentToolbar').append('<span class="toolbarText">Click here to expand item list</span>');
+            $('#contentToolbar').click(function() {
+                $('#contentToolbar').unbind('click');
+                scrollDownList();
+            });
+          } else {
+              $('#contentToolbar').css('background-color', '#edf0f6');
+          }
+          $('#contentToolbar').animate({top: $('#dynamicListTable').position().top + $('#dynamicListTable').height()});
+//
+//        $('#contentToolbar').append( '<span class="buttonNext"  id="buttonNext"></span>'
+//                                   + '<span class="buttonPrevious" id="buttonPrevious"></span>' +
+//                                     '<span class="toolbarText" id="itemRangeLabel"></span>');
+//        $('#buttonPrevious').click( function(event){onPreviousClicked(event);} );
+//        $('#buttonNext').click(  function(event){onNextClicked(event);} );
+    }
+
+    function scrollDownList() {
+        if(scrollReady)
+        {
+            $('#contentToolbar span').text("Loading...");
+            scrollReady = true;
+            var diff = totalItems - elementEndIndex;
+            if( diff > 0 ){
+                if(diff > 5){
+                    elementEndIndex += 5;
+                } else{
+                    elementEndIndex += diff;
+                }
+            DynamicTable.refresh();
+            }
+        }
+    }
+
+    function showLoadingNewRows() {
+
     }
 
     function showList (_columnIds, _columnTexts, _columnDbFields, remoteAction, _contentHandler, _ajaxParams){
         elementStartIndex = 0;
+        elementEndIndex = 10;
         totalItems = 0;
+        scrollReady = false;
         columnIds= _columnIds;
         columnTexts = _columnTexts;
         contentHandler = _contentHandler;
@@ -43,7 +81,6 @@ var DynamicTable = function() {
 
         recreateContainers();
 
-        prepareContentToolbar();
         $('#minimalist').empty();
         $('#leftColumnContent' ).empty();
         $('#plusButton').unbind('mouseover');
@@ -84,6 +121,13 @@ var DynamicTable = function() {
         $('#searchTextField').keyup( function(event){performSearch(event)});
 
         fillListData( lastSortByColumn, true );
+
+        $(window).scroll(function(){
+        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+           scrollDownList();
+        }
+        });
+
     }
 
     function performSearch(event) {
@@ -108,15 +152,7 @@ var DynamicTable = function() {
         if( !$('#contentToolbar').length ){
             $('#content').append('<div id=contentToolbar></div>');
         }
-    }
-
-    function updateToolbar(startIndex, totalCount) {
-        var endIndex = startIndex + CONST.get('TABLE_ROW_COUNT') < totalCount ?
-                       startIndex + CONST.get('TABLE_ROW_COUNT') : totalCount ;
-        totalItems = totalCount;
-        $('#itemRangeLabel').empty();
-        $('#itemRangeLabel').append( '<strong>' + (startIndex + 1) + '-' + endIndex + '</strong> <small> of </small>');
-        $('#itemRangeLabel').append( '<strong>' + totalCount + '</strong>');
+        $('#container').height('715px');
     }
 
     function toggleSortByColumn(event)
@@ -156,8 +192,9 @@ var DynamicTable = function() {
 
         lastSortByColumn = orderByColumn;
         var params = {'startIndex': elementStartIndex,
-                                                   'isAscending': isAscending,
-                                                    'orderBy': orderByColumn};
+                      'endIndex' : elementEndIndex,
+                      'isAscending': isAscending,
+                      'orderBy': orderByColumn};
         jQuery.extend(params, ajaxParams);
         var searchText = $('#searchTextField').val();
         if( searchText != "") {
@@ -171,8 +208,11 @@ var DynamicTable = function() {
     }
 
     function refreshTable(data) {
+        totalItems = data.totalSize;
+        if($('#container').height() < elementEndIndex * 45 + 280){
+            $('#container').height(elementEndIndex * 45 + 280)
+        }
         $('#dynamicListTable').empty();
-        updateToolbar(data.startIndex, data.totalSize);
         $.each(data.items,function(i,item) {
                 contentHandler.fillWithData(i,item);
             $('#menu' + i+ ' span').mousedown( function() {onButtonMouseDownHandler($(this));} );
@@ -183,6 +223,8 @@ var DynamicTable = function() {
             {
             contentHandler.loadingFinished();
             }
+        prepareContentToolbar();
+        scrollReady = true;
     }
 
     function onButtonMouseDownHandler(source) {
@@ -190,7 +232,7 @@ var DynamicTable = function() {
         $(document).bind('mouseup.menubutton',function() {
             $('.pushed').removeClass('pushed');
             $(document).unbind('mouseup.menubutton');
-            return false; });
+            return false;});
         return false;
     }
 
