@@ -34,6 +34,7 @@ import models.UserRole;
 import models.constants.TransactionlogConsts;
 import models.utils.NdgQuery;
 import models.utils.SurveyDuplicator;
+import play.db.jpa.JPA;
 
 public class Application extends Controller {
 
@@ -124,5 +125,16 @@ public class Application extends Controller {
 
             transaction.save();
         }
+    }
+
+    public static void sendSurveysUserList( String formID ){
+        List<NdgUser> users = JPA.em().createNamedQuery( "findUserSendingSurvey" )
+                                    .setParameter( "surveyId", formID )
+                                    .getResultList();
+
+        JSONSerializer userListSerializer = new JSONSerializer();
+        userListSerializer.include( "id", "username", "phoneNumber" ).exclude("*").rootName("items");
+
+        renderJSON( userListSerializer.serialize( users ) );
     }
 }

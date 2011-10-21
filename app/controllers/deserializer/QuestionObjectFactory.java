@@ -68,6 +68,8 @@ public class QuestionObjectFactory implements ObjectFactory{
             question.label = "";
             question.objectName = "";
             question.questionType = (QuestionType)QuestionType.all().fetch().get( 0 );
+            question.required = 0;
+            question.readonly = 0;
 
             return question;
     }

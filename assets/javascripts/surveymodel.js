@@ -64,7 +64,7 @@ var SurveyModel = function(s){
         $.each( newOrder, function( idx, item ){
             var category = getCategory( item );
             if( category != null ){
-                category.categoryIndex = idx;
+                category.categoryIndex = idx + 1;
             }
         });
     }
@@ -131,7 +131,7 @@ var Question = function(){
     var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
 
     this.label = "New question";
-    this.objectName = "category" + numRand;
+    this.objectName = "question" + numRand;
     this.questionType = new Object();
     this.questionType.id = 1;
     this.questionOptionCollection = [];

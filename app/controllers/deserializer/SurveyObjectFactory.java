@@ -6,6 +6,7 @@ import java.lang.reflect.Type;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import models.Category;
 import models.NdgUser;
@@ -53,6 +54,8 @@ public class SurveyObjectFactory implements ObjectFactory{
         survey.categoryCollection = new ArrayList<Category>();
         survey.ndgUser = (NdgUser) NdgUser.all().fetch().get( 0 ); //TODO get current user
         survey.surveyId = newId;
+        survey.lang = "eng";
+        survey.uploadDate = new Date();
 
 
         return survey;

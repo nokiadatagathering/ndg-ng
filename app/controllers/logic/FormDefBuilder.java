@@ -237,8 +237,12 @@ public class FormDefBuilder {
         public QuestionComparator() {
         }
 
-        public int compare(Question o1, Question o2) {
-            return o1.questionIndex > o2.questionIndex ? 1 : -1;
+        public int compare( Question q, Question q1 ) {
+            if( q1.questionIndex == null || q.questionIndex == null ){
+                return 0;
+            }else{
+                return q.questionIndex - q1.questionIndex;
+            }
         }
     }
 }

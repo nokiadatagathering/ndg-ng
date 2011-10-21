@@ -18,7 +18,8 @@ var SendSurvey = function() {
                                + '<tbody id="userListTable">'
                                + '</tbody></table>' );
 
-        $.getJSON('/listData/users', {'orderBy': "id"}, function(i) {fillUserTable(i);} );
+        $.getJSON('/application/sendSurveysUserList', {'formID': currentSurveyId}, function(i) {fillUserTable(i);} );
+        sendSurveyDialog.dialog({beforeClose: function(){$('#buttonSendSurveyDone').unbind('click');}} )
         $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );
     }
 
@@ -42,6 +43,7 @@ var SendSurvey = function() {
     function onStartSendingClicked() {
         if(selectedUsers.length > 0)
         {
+            $('#buttonSendSurveyDone').unbind('click');
             $.ajax(
             {
                 type: "POST",
@@ -55,6 +57,7 @@ var SendSurvey = function() {
                 },
                 error: function(request,error) {
                     alert("Error with connection to server");
+                    $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );
                 }
             });
         } else
