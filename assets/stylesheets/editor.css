@@ -84,6 +84,12 @@
     background: black ;
 }
 
+.qType
+{
+    float:left;
+    width: 50px;
+}
+
 div.questionText
 {
     float:left;
@@ -149,7 +155,7 @@ span.expandIcon.expanded{
 
 #editorMain
 {
-    width: 60%;
+    width: 800px; /* TODO 865px in spec*/
     float:left;
     max-height: 400px;
     overflow: auto;

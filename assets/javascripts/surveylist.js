@@ -26,11 +26,11 @@ var SurveyList = function() {
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "surveys", SurveyList);
 
         $('#plusButton').bind('mouseover.surveyList', function(event) {SurveyListCombo.showSurveyMenu();});
-        $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="markBuilding">Building</h4><h4 class="markAvailable">Available</h4>');
+        $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="labelBuilding">Building</h4><h4 class="labelAvailable">Available</h4><h4 class="labelClosed">Closed</h4>');
 
 
-        $('#section').empty();
-        $('#section').append('<H2 id=sectionTitle>Survey List</H2><a href="#" id=userManagement>User Admin</a>');
+        $('#pageSelect').empty();
+        $('#pageSelect').append('<H2 id=sectionTitle>Survey List</H2><H3 id=userManagement>User Admin</H3>');
         $('#userManagement').click(function() {UserManagement.showUserManagement() });
 
         $('#uploadForm').submit( function () { uploadNewSurvey(); } );
@@ -49,10 +49,10 @@ var SurveyList = function() {
     function fillWithData(i, item) {
         var date = new Date( item.uploadDate )
         $('#dynamicListTable').append( '<tr id="dynamicRow'+ i + '">'
-                                    + '<td id="surveyNameCell">'+ item.title + '<br>ID: ' + item.surveyId + '</td>'
+                                    + '<td id="surveyNameCell"><pre class="surveyNameText" >'+ item.title + '</pre><pre class="surveyIdText">ID: ' + item.surveyId + '</pre></td>'
                                 + '<td>' + date.toString("dd/MM/yy") + '</td>'
                                 + '<td>' + item.ndgUser.username + '</td>'
-                                + '<td id="resultCollectionQuantityString' + item.id + '"></td>'
+                                + '<td class="resultCollectionQuantity" id="resultCollectionQuantityString' + item.id + '"></td>'
                                 + '<td class="menubar" id="menu' + i + '" >'
                                 + '<span title="' + LOC.get('LOC_DOWNLOAD') + '"class="buttonDownload" id="buttonDownload" unselectable="on"></span>'
                                 + '<span title="' + LOC.get('LOC_UPLOAD') + '"class="buttonUpload" id="buttonUpload" unselectable="on"></span>'
@@ -64,18 +64,20 @@ var SurveyList = function() {
                                 + '</tr>' );
 
         if ( item.resultCollection > 0 ) {
-            $('#resultCollectionQuantityString' + item.id ).append( '<a href="#" id="Item'+ item.id + '">' + item.resultCollection + '</a>' );
+            $('#resultCollectionQuantityString' + item.id ).text(  item.resultCollection );
         } else {
-            $('#resultCollectionQuantityString' + item.id ).append( '-' );
+            $('#resultCollectionQuantityString' + item.id ).text( '-' );
         }
 
         if( item.available ) {
             $('#dynamicRow'+ i + ' td:first' ).addClass( 'markAvailable' );
+            $('#dynamicRow'+ i + ' td' ).addClass( 'markAvailableText' );
         } else {
             $('#dynamicRow'+ i + ' td:first' ).addClass( 'markBuilding' );
+            $('#dynamicRow'+ i + ' td' ).addClass( 'markBuildingText' );
         }
 
-        $( '#Item' + item.id ).click( item.id, function(i) {
+        $('#resultCollectionQuantityString' + item.id ).click( item.id, function(i) {
             ResultList.showResultList(i);
         } );
         $('#menu' + i +' #buttonDownload').click( item.surveyId, function(i){onDownloadSurveyClicked(i);} );

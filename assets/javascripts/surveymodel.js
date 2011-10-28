@@ -14,6 +14,14 @@ var SurveyModel = function(s){
     this.updateCategory = function ( catId, newLabel ){
         getCategory( catId).label = newLabel;
     }
+    
+    this.updateQuestionTitle = function( qId, newLabel ){
+        getQue( qId ).label = newLabel;
+    }
+    
+    this.updateQuestionType = function( qId, type ){
+        getQue( qId ).questionType.id = parseInt( type ); 
+    }
 
     this.updateSurveyTitle = function ( newTitle ){
         survey.title = newTitle;

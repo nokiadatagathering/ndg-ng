@@ -1,8 +1,8 @@
 
 var Editor = function() {
 
-    var surveyId;
-    var surveyModel;
+var surveyModel;
+    var typeList;
 
     var currentSelectionId;
     var questionPanel;
@@ -29,6 +29,11 @@ var Editor = function() {
 
 
     function createEditor(){
+        
+        $.getJSON( '/application/questionType', function( data ){
+                                                   typeList = data.types;
+                                                } );
+
 
         $('#sectionTitle').text( 'Survey Editor' ); //TODO localize
         $('#userManagement').remove();
@@ -47,7 +52,7 @@ var Editor = function() {
 
         $('#content').append(
             '<div id="editor">'
-            + '<h3 id="surveyHeader"><span id="surveyTitle"></span><span class="edit">Edit</span></h3>'
+            + '<h3 id="surveyHeader"><span id="surveyTitle"></span></h3>'
             + '<div id="editorMain">'
             + '<ul id="sortableList">'
             + '<div id="categories"></div>'
@@ -59,7 +64,11 @@ var Editor = function() {
             + '</div>'
             );
 
-
+                        
+        new EditedLabel( $( "#surveyTitle" ), function( newTitle ){ 
+                                                    surveyModel.updateSurveyTitle( newTitle );
+                                                } );
+        
         $( "#plusButton").unbind('mouseover');
         $( "#plusButton").mouseover( function(event) {SurveyListCombo.showEditorMenu(event);});
         $( "#executeBackButton" ).click( function(){onBackClicked();} );
@@ -69,30 +78,6 @@ var Editor = function() {
         questionPanel.createQuestionPanel();
 
         $( "#categories" ).sortable( {delay: 50} );
-        $( "#surveyHeader span.edit" ).bind( 'click.edit', function(){onEditTitleClick();} );
-    }
-
-    function onEditTitleClick(){
-        var oldTitle = $( "#surveyTitle" ).text();
-
-        $( "#surveyTitle" ).replaceWith( '<input id="titleEdit" type="text"/>' );
-        $( "#titleEdit" ).val( oldTitle );
-
-        $( "#surveyHeader span.edit" ).text( "Save" );
-        $( "#surveyHeader span.edit" ).unbind( 'click.edit' );
-        $( "#surveyHeader span.edit" ).bind( 'click.save', function(e){onTitleSaveClicked(e);} );
-    }
-
-    function onTitleSaveClicked(){
-        var editedVal = $( "#titleEdit" ).val();
-
-        $( "#titleEdit" ).replaceWith( '<span id="surveyTitle">' + editedVal + '</span>' );
-        $( "#surveyHeader span.edit" ).text( "Edit" ); //TODO localize
-        $( "#surveyHeader span.edit" ).unbind( 'click.save' );
-
-        $( "#surveyHeader span.edit" ).bind( 'click.edit', function(){onEditTitleClick();} );
-        surveyModel.updateSurveyTitle( editedVal );
-
     }
 
     function onSaveClicked(){
@@ -192,12 +177,13 @@ var Editor = function() {
             category.uiId = "category" + category.id;
         }
 
+        var categoryLabelId = category.uiId + 'label';
         //TODO localize
         $("#categories").append(
              '<li id="'+ category.uiId + '" class="ui-state-default listCategory">'
             + '<h3>'
             + '<span class="expandIcon"></span>'
-            + '<span class="categoryName">' + category.label + '</span><span class="edit">Edit</span>'
+            + '<span class="categoryName" id="' + categoryLabelId + '">' + category.label + '</span>'
             + '<span class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
             + '<div style="clear:both;"></div>'
             + '</h3>'
@@ -206,6 +192,10 @@ var Editor = function() {
 
         $( '#' + category.uiId + ' span.deleteElement').click( category.uiId, function(i){onDeleteCategoryClicked(i);} );
 
+        new EditedLabel( $( '#' + categoryLabelId ), function( newTitle ){
+                                    surveyModel.updateCategory( category.uiId, newTitle );
+                                } );
+        
         setListParams( category.uiId );
         hideCatogry ( category.uiId );
     }
@@ -222,8 +212,6 @@ var Editor = function() {
         var listRef = '#' + categoryId + ' .listQuestion';
         var catHeaderRef = "#" + categoryId + " h3";
         var expandIconElem = "#" + categoryId + ' span.expandIcon';
-
-        $( "#" + categoryId + " span.edit" ).bind('click.edit',categoryId, function(e){onCategoryEditClicked(e);});
 
         //allows sort question
         $( listRef ).sortable({
@@ -257,20 +245,6 @@ var Editor = function() {
         });
     }
 
-    function onCategoryEditClicked(event){
-        var categoryId = event.data;
-        var catLabel = $("#" + categoryId + " span.categoryName").text();
-
-        $( "#" + categoryId + " span.categoryName" ).replaceWith( '<input class="labelEdit" type="text"/>' );
-        $( "#" + categoryId + " input.labelEdit" ).val( catLabel );
-
-        $( "#" + categoryId + " span.edit" ).text( "Save" );
-        $( "#" + categoryId + " span.edit" ).unbind( 'click.edit' );
-        $( "#" + categoryId + " span.edit" ).bind( 'click.save', categoryId, function(e){onCategorySaveClicked(e);});
-
-        $( "#" + categoryId + " h3").unbind('click');
-    }
-
     function fillQuestions( data, categoryId ){
         $.each(data, function(i,item) {
             appendQuestionElement(item, categoryId);
@@ -278,7 +252,7 @@ var Editor = function() {
     }
 
     function appendQuestionElement( question, categoryId ){
-
+       
         if( !question.hasOwnProperty( 'id' ) ){
             var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
             question.uiId = "question" + numRand;
@@ -286,36 +260,68 @@ var Editor = function() {
             question.uiId = "question" + question.id;
         }
 
+        var questionLabelId = question.uiId + 'label';
+        
         $( '#' + categoryId + ' ul.listQuestion' ).append(
                       '<li id="' + question.uiId +'" class="ui-state-default listItemQuestion"><div>'
-                    + '<div class="questionText"> <span> ' + question.label + '</span></div>'
+                
+                    + '<div class="questionText"> '
+                    + '<span id="' + questionLabelId + '"> ' + question.label + '</span>'
+                    + '</div>'
+                    + '<div class="qType"><select class="typeSelect"></select></div>'
+                    
                     + '<div class="deleteElement">'
                     + '<span class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
                     + '</div>'
+                
                     + '<div style="clear:both;"></div>'
+                    + '<div class="questionDetails"> <span>Some details of question like option</span> </div>'
+                    
                     + '</li>');
-
+                
+        fillTypeCombo( question.uiId );
+        
+        $( '#'+ question.uiId + ' .typeSelect' ).val( question.questionType.id );
+        
+        $( '#'+ question.uiId + ' .typeSelect' ).change( question.uiId, function( i ){onQuestionTypeChanged( i );} );
         $( '#'+ question.uiId + ' span.deleteElement' ).click( question.uiId, function( i ){onDeleteQuestionClicked ( i );} );
-        $( '#'+ question.uiId ).click( question.uiId, function( i ){onQuestionClicked(i);} );
+        $( '#'+ question.uiId ).click( question.uiId, function( i ){onQuestionClicked( i );} );
+        
+        new EditedLabel( $( "#" + questionLabelId ), function( newTitle ){ 
+                                                    surveyModel.updateQuestionTitle( question.uiId, newTitle );
+                                                } );
+        hideQuestion( question.uiId );
+    }
+    
+    function hideQuestion( qId ){
+         $( '#'+ qId + ' .questionDetails' ).hide();
+         $( '#'+ qId + ' .deleteElement' ).hide();
+         $( '#'+ qId + ' .qType' ).hide();
+    }
+    
+    
+    function showQuestion( qId ){
+         $( '#'+ qId + ' .questionDetails' ).show();
+         $( '#'+ qId + ' .deleteElement' ).show();
+         $( '#'+ qId + ' .qType' ).show();
+    }
+    
+    function fillTypeCombo( qId ){
+        
+        $.each( typeList, function( idx, type ){
+            $( '#'+ qId + ' .typeSelect' ).append( '<option value="'+ type.id +'">' + type.typeName + '</option>' );
+        });
+    }
+    
+    function onQuestionTypeChanged( event ){
+        surveyModel.updateQuestionType( event.data , $( '#'+ event.data + ' .typeSelect' ).val() );
+        
+        //TODO fix
+//        if( currentQuestion.questionType.id == 10 || currentQuestion.questionType.id == 11 ){
+//            $( '#questionOptions' ).show();
+//        }
     }
 
-    function onCategorySaveClicked(event){
-        var categoryId = event.data;
-        var editedVal = $("#" + categoryId + " input.labelEdit").val();
-
-        $( "#" + categoryId + " input.labelEdit").replaceWith( '<span class="categoryName">' + editedVal + '</span>' );
-        $( "#" + categoryId + " span.edit" ).text( "Edit" ); //TODO localize
-        $( "#" + categoryId + " span.edit" ).unbind('click.save');
-
-        surveyModel.updateCategory( categoryId, editedVal ); ///.replace( "category", "" )
-
-        setListParams(categoryId);
-        event.stopPropagation();
-    }
-
-    function removePreviousSelction(){
-        $( '#' + currentSelectionId ).removeClass( 'elementSelected' );
-    }
 
     function onDeleteCategoryClicked( event ){
         $( '#' + event.data ).empty().remove();
@@ -328,17 +334,10 @@ var Editor = function() {
     }
 
     function onQuestionClicked( event ){
-        removePreviousSelction();
+
+        hideQuestion( currentSelectionId );
         currentSelectionId = event.data;
 
-        $( '#' + currentSelectionId ).addClass( 'elementSelected' );
-
-        var currenQuestion = surveyModel.getQuestion( currentSelectionId );
-        questionPanel.fillRightPanel( currenQuestion );
+        showQuestion( currentSelectionId );
     }
-
-    function refreshCurrentQuestionLabel( label ){
-        $( '#' + currentSelectionId + ' .questionText span' ).text( label );
-    }
-
 }();

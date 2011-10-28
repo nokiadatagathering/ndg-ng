@@ -37,7 +37,7 @@
   <link rel='stylesheet' href='stylesheets/dialogcustom.css'>
   <link rel='stylesheet' href='stylesheets/sendsurvey.css'>
   <link rel='stylesheet' href='stylesheets/contenttoolbar.css'>
-  <link rel='stylesheet' href='stylesheets/contextpopup.css'>  
+  <link rel='stylesheet' href='stylesheets/contextpopup.css'>
   <link rel='stylesheet' href='stylesheets/questionpanel.css'>
   <!-- end CSS-->
 
@@ -56,6 +56,7 @@
   <script src="javascripts/libs/date.js"></script>
   <script type="text/javascript" src="javascripts/constants.js"></script>
   <script type="text/javascript" src="javascripts/localization.js"></script>
+  <script type="text/javascript" src="javascripts/editlabel.js"></script>
   <script type="text/javascript" src="javascripts/surveylist.js"></script>
   <script type="text/javascript" src="javascripts/contextpopup.js"></script>
   <script type="text/javascript" src="javascripts/questionpanel.js"></script>
@@ -81,8 +82,8 @@
             <div id="header">
                 <div id="headerLeft">
                     <img src="images/brand.jpg">
-                    <div id=section>
-                        <H2 id="sectionTitle">Survey List</H2><a href="#" id="userManagement">User Admin</a>
+                    <div id=pageSelect>
+                        <H2 id="sectionTitle">Survey List</H2><H3 id="userManagement">User Admin</H3>
                     </div>
                 </div>
                     <div id="user">Fulano da Silva<a href="">Logout</a>
@@ -110,7 +111,7 @@
                     </div>
                 </div>
      </div>
-<div> 
+<div>
     <div id="popup-context" class="popup-base">
     </div>
     <div id="dialog-exportResults" class="dialogs">
@@ -128,7 +129,7 @@
         #{/form}
     </div>
     <iframe id="uploadSurveyResult" name="cgiFrame" src="about:blank" style="visibility:hidden; width:0px; height:0px"></iframe>
-    
+
     <div id="dialog-confirmDelete" >
 
         <p><span id="dialog-confirmDelete-query" ></span></p>
@@ -159,7 +160,7 @@ var uploadDialog = $("#dialog-upload").dialog(
 {
     autoOpen: false,
     zIndex: 9999,
-    resizable: false 
+    resizable: false
 });
 
 var exportDialog = $("#dialog-exportResults").dialog(
@@ -175,7 +176,7 @@ var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
     modal: true,
     zIndex: 9999,
     resizable: false,
-    open: function(event, ui) { 
+    open: function(event, ui) {
 //    //hide close button.
 //    $(this).parent().children().children('.ui-dialog-titlebar-close').hide();
     }

@@ -1,7 +1,7 @@
 #contentToolbar {
     background: #edf0f6;
 /*    background: black;*/
-    width: 841px;
+    width: 820px;
     height: 40px;
     color: white;
     text-align: center;
@@ -11,7 +11,7 @@
 
 #contentToolbar span {
     height: 40px;
-    width: 841px;
+    width: 820px;
     text-align: center;
 }
 

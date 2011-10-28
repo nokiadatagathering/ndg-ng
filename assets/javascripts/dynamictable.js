@@ -94,20 +94,20 @@ var DynamicTable = function() {
         var htmlContent = '';
         htmlContent += '<thead>' + '<tr>';
         $.each(columnIds,function(i,item) {
-        htmlContent += '<th scope="col" id="' + item + 'Width">'
-                    + '<a href="#"' ;
-        if(item != null) {
-            htmlContent +='class = "sortHeader" id="'
-                        + item
-                        + '"';
-                    }
-        htmlContent += '" >';
-        if(LOC.get(columnTexts[i]) != null) {
-            htmlContent += LOC.get(columnTexts[i]);
-            }
-        htmlContent +='</a></th>';
+            htmlContent += '<th scope="col" id="' + item + '" ';
+            if(i == 0 && item != null) {
+                htmlContent +='class = "sortHeader firstColumnHeader" ';
+            } else 
+                if(item != null) {
+                htmlContent +='class = "sortHeader" ';
+                        }
+            htmlContent += '>';
+            if(LOC.get(columnTexts[i]) != null) {
+                htmlContent += LOC.get(columnTexts[i]);
+                }
+            htmlContent +='</th>';
         });
-        htmlContent += '</thead>'
+        htmlContent += '</tr></thead>'
                      + '<tbody id="dynamicListTable">'
                      + '</tbody>';
         $('#minimalist').append(htmlContent);
@@ -152,6 +152,7 @@ var DynamicTable = function() {
         if( !$('#contentToolbar').length ){
             $('#content').append('<div id=contentToolbar></div>');
         }
+
         $('#container').height('715px');
     }
 
@@ -209,8 +210,8 @@ var DynamicTable = function() {
 
     function refreshTable(data) {
         totalItems = data.totalSize;
-        if($('#container').height() < elementEndIndex * 45 + 280){
-            $('#container').height(elementEndIndex * 45 + 280)
+        if($('#container').height() < elementEndIndex * CONST.get('TABLE_ROW_HEIGHT_TOTAL') + 280){
+            $('#container').height(elementEndIndex * CONST.get('TABLE_ROW_HEIGHT_TOTAL') + 280)
         }
         $('#dynamicListTable').empty();
         $.each(data.items,function(i,item) {

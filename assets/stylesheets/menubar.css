@@ -18,7 +18,10 @@
     margin-left: 1px;
     margin-right: 1px;
     width: 50px;
-    height: 43px;
+    height: 42px;
+    margin-bottom: 1px;
+    margin-top: 1px;
+    float: left;
     visibility: hidden;
     -moz-user-select: -moz-none;
     -khtml-user-select: none;
@@ -31,9 +34,6 @@
 }
 
 #buttonDownload {
-    float:left;
-    width: 50px;
-    height: 43px;
     background: url(../images/icon_download_off.png) no-repeat top;
 }
 
@@ -42,9 +42,6 @@
 }
 
 #buttonUpload {
-    float: left;
-    width: 50px;
-    height: 43px;
     background: url(../images/icon_upload_off.png);
 }
 
@@ -53,9 +50,6 @@
 }
 
 #buttonPhone {
-    float: left;
-    width: 50px;
-    height: 43px;
     background: url(../images/icon_phone_off.png);
 }
 
@@ -64,9 +58,6 @@
 }
 
 #buttonEdit {
-    float: left;
-    width: 50px;
-    height: 43px;
     background: url(../images/icon_edit_off.png);
 }
 
@@ -75,9 +66,6 @@
 }
 
 #buttonDuplicate {
-    float: left;
-    width: 50px;
-    height: 43px;
     background: url(../images/icon_duplicate_off.png);
 }
 
@@ -86,9 +74,6 @@
 }
 
 #buttonDelete {
-    float: left;
-    width: 50px;
-    height: 43px;
     background: url(../images/icon_delete_off.png);
 }
 
