@@ -4,7 +4,7 @@ NOKIA DATA GATHERING
 * Info: See <http://> for introductory docs.
 * Author: Ian Lawrence <root@ianlawrence.info>
 * Date: $Date: 2011-08-12 12:50:48 -0400 (Fre, 12. Aug 2011) $
-* Revision: $Revision: 2 $
+* Revision: $Revision: 3 $
 * Description: This is the main documentation
 
 
@@ -14,12 +14,12 @@ GETTING STARTED
     mysql> CREATE DATABASE ndg2;
     git clone git@github.com:nokiadatagathering/ndg-ng.git
     cd assets/build/
-    ant build
-    (install necessary tools (such as optipng etc) to optimize assets using apt until ant stops complaining. ant needs to be version 1.8.2 so you may need to do
+    (install necessary tools (sudo apt-get install optipng libjpeg-progs) to optimize assets. ant needs to be version 1.8.2 so you may need to do
                   sudo add-apt-repository ppa:eclipse-team/debian-package
                   sudo apt-get update
                   sudo apt-get install ant
     )
+    ant build
     cd ../..
     play run
     http://localhost:9000/
