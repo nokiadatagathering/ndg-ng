@@ -14,13 +14,13 @@ var SurveyModel = function(s){
     this.updateCategory = function ( catId, newLabel ){
         getCategory( catId).label = newLabel;
     }
-    
+
     this.updateQuestionTitle = function( qId, newLabel ){
         getQue( qId ).label = newLabel;
     }
-    
+
     this.updateQuestionType = function( qId, type ){
-        getQue( qId ).questionType.id = parseInt( type ); 
+        getQue( qId ).questionType.id = parseInt( type );
     }
 
     this.updateSurveyTitle = function ( newTitle ){
@@ -45,7 +45,13 @@ var SurveyModel = function(s){
 
     this.newQuestion = function( categoryId ){
         var newQuestion = new Question();
-        var category = getCategory( categoryId );
+
+        var category;
+        if( categoryId != null ){
+            category = getCategory( categoryId );
+        }else{
+            category = survey.categoryCollection[0];
+        }
 
         category.questionCollection.push( newQuestion );
         return newQuestion;
@@ -146,7 +152,7 @@ var Question = function(){
 }
 
 var Survey = function(){
-    this.title = "New survey";
+    this.title = "New Survey";
     this.categoryCollection = [];
     this.categoryCollection.push( new Category() );
 }

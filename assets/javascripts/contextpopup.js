@@ -75,8 +75,8 @@ var SurveyListCombo = function() {
             return;
         }
 
-        $('#popup-context').append( '<a id="newCategoryAction" href="#">' + 'New Category' + '</a>' );
-        $('#popup-context').append( '<a id="newQuestionAction" href="#">' + 'New Question' + '</a>' );
+        $('#popup-context').append( '<div id="newCategoryAction"><span>' + 'New Category' + '</span></div>' ); //TODO localize
+        $('#popup-context').append( '<div id="newQuestionAction"><span>' + 'New Question' + '</span></div>' );
 
         $('#popup-context').addClass("popup-context");
 
@@ -85,6 +85,24 @@ var SurveyListCombo = function() {
 
         var pos = $('#plusButtonImage').position();
         showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3) ;
+
+        $( "#newCategoryAction" ).addClass( 'drag' ); //TODO refactor - move to editor.js
+        $( "#newCategoryAction" ).draggable({
+            connectToSortable: "#categories",
+            helper: 'clone',
+            revert: 'invalid',
+            start: Editor.setCatListConfig,
+            stop: Editor.removeCatListConfig
+        });
+
+        $( "#newQuestionAction" ).addClass( 'drag' ); //TODO refactor - move to editor.js
+        $( "#newQuestionAction" ).draggable({
+            connectToSortable: " .listQuestion",
+            helper: 'clone',
+            revert: 'invalid',
+            start: Editor.setQlistConfig,
+            stop: Editor.removeQlistConfig
+        });
     }
 
     function showSearchMenu(event, searchLabels, searchIds, contentHandler) {

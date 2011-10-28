@@ -7,41 +7,49 @@
     padding: 0;
     margin: 0;
 }
-
 #categories
 {
     height: auto;
     border: none;
     width: 100%;
 }
-
-#categories li.listCategory h3
+.listCategory 
 {
-    font-size: 16px;
-    font-family: "Nokia Pure Semibold";
-    height: auto;
-    padding-left: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    background:  #EDF0F6 !important;
+}
+    
+
+li.listCategory h3
+{
+    font-size: 14pt;
+    color: #3a77ca;
+    font-family: "Nokia Pure Regular";
+    height: 44px;
     text-align: left;
     margin: 0;
-    border: none;
-    border: 1px solid #CCC;
+    padding-left: 20px;
+    border-bottom : 1px solid #dadbe0;
+    border-top : 1px solid #dadbe0;
     border-radius: 0px;
 }
-#categories li.listCategory a
+li.listCategory a
 {
     cursor:pointer;
 }
 
-
-/*TODO create state actovie for category */
-#categories a.categoryName
+a.categoryName
 {
-    color: #3a77ca;
+ 
 }
 
-#sortableList li.listCategory
+span.categoryName{
+   margin:10px;
+   width: inherit;
+   display: inline-block;
+   color: #3a77ca;
+}
+
+li.listCategory
 {
     margin:0;
     vertical-align:middle;
@@ -49,38 +57,36 @@
     border:none;
 }
 
-#categories ul.listQuestion
+ul.listQuestion
 {
     list-style-type: none;
     padding: 5px;
     height: auto;
-    border-bottom: 1px solid #CCC;
-    border-left:  1px solid #CCC;/*  optimize??  */
-    border-right: 1px solid #CCC;
-    background: #E4EBF3;/*  change this line #E4EBF3, #E4Eaaa*/
+    border-bottom: 1px solid #dadbe0;
+    border-left:  1px solid #dadbe0;  /*optimize??  */
+    border-right: 1px solid #dadbe0;
+    background: #ebecf0;
     border-radius: 0px;
     margin:0;
 
 }
 
 
-#categories li.listItemQuestion
+li.listItemQuestion
 {
-    font-size: 12px;
+    color: #3a77ca;
+    font-size: 12pt;
     font-weight: normal;
     font-family: "Nokia Pure Regular";
-    margin: 2px;
+    height: 35px;
     vertical-align:bottom;
-    border: 1px solid #CCC;
+    border: 1px solid #dadbe0;
+    background: #f9f9fa;
     text-align: left;
-    padding-left: 10px;
+    padding-left: 20px;
 }
 
-#categories  li.listItemQuestion {
-    background: #F0F7FF ;
-}
-
-#categories  li.listItemQuestion.elementSelected {
+li.listItemQuestion.elementSelected {
     background: black ;
 }
 
@@ -93,9 +99,11 @@
 div.questionText
 {
     float:left;
+    margin-top:7px;
+    margin-bottom:7px;
+    display: inline-block;
     width: 70%;
-/*    border: 1px blue;*/
-    font-size: 12px;
+    font-size: 12pt;
 }
 
 div.deleteElement
@@ -107,10 +115,15 @@ div.deleteElement
 div.deleteElement span, span.deleteElement
 {
     float: right;
-    width: 32px;
-    height: 34px;
+    width: 50px;
+    height: 42px;
     margin-right: 5px;
-    background: url(../images/btn_editor_delete.jpg) no-repeat;
+    background: url(../images/icon_delete_off.png) no-repeat;
+}
+
+div.deleteElement span:hover, span.deleteElement:hover
+{
+    background: #0161ad url(../images/icon_delete_on.png) no-repeat;
 }
 
 .leftMenuButtonBlock{
@@ -136,36 +149,62 @@ div.deleteElement span, span.deleteElement
 
 span.expandIcon{
     float: left;
-    width: 15px;
-    height: 15px;
-    margin: 10px 10px 10px 0px;
-    background: url(../images/arrow.jpg) no-repeat;
+    width: 12px;
+    height: 12px;
+    margin:15px 15px 15px 0px;
+    background: url(../images/category-arrow-side.png) no-repeat;
 }
 
 span.expandIcon.expanded{
-    background: url(../images/arrow_rotate.jpg) no-repeat;
-}
-
-#surveyTitle
-{
-    font-size: 28px;
-    font-family: "Nokia Pure Semibold";
-    color: #0061ad;
+    background: url(../images/category-arrow-down.png) no-repeat;
 }
 
 #editorMain
 {
-    width: 800px; /* TODO 865px in spec*/
+    width: 800px;  /*//TODO 865px in spec*/
     float:left;
-    max-height: 400px;
+    max-height: 600px;
     overflow: auto;
 }
 
 span.edit
 {
     margin-left: 10px;
-    font-size: 10px;
+    font-size: 10pt;
     font-family: "Nokia Pure Regular";
     color: #0061ad;
     cursor: pointer;
+}
+
+.addPlace:after
+{
+    content: 'DROP HERE TO ADD A NEW CATEGORY';
+}
+
+.categoryPlaceholder
+{
+    height: 44px;
+    background: #bdd5eb;
+    color:  #7691a9;
+    text-align: center;
+    font-size: 11pt;
+}
+
+.newCategory:after
+{
+    content: 'DROP HERE TO ADD A NEW CATEGORY';
+}
+
+.questionPlaceholder
+{
+    height: 35px;
+    background: #bdd5eb;
+    color:  #7691a9;
+    text-align: center;
+    font-size: 11pt;
+}
+
+.newQuestion:after
+{
+    content: 'DROP HERE TO ADD A NEW QUESTION';
 }

@@ -3,15 +3,17 @@ var Editor = function() {
 
 var surveyModel;
     var typeList;
-
     var currentSelectionId;
-    var questionPanel;
 
     return {
         openSurvey : function(id) {openSurvey(id);},
         createSurvey : function() {createSurvey();},
         addCategory : function(id) {addCategory(id);},
-        addQuestion : function(id) {addQuestion(id);}
+        addQuestion : function(id) {addQuestion(id);},
+        setQlistConfig : function() {setQlistConfig();},
+        removeQlistConfig: function() {removeQlistConfig();},
+        setCatListConfig: function() {setCatListConfig();},
+        removeCatListConfig: function() {removeCatListConfig();}
     };
 
     function createSurvey(){
@@ -29,13 +31,11 @@ var surveyModel;
 
 
     function createEditor(){
-        
+
         $.getJSON( '/application/questionType', function( data ){
                                                    typeList = data.types;
                                                 } );
 
-
-        $('#sectionTitle').text( 'Survey Editor' ); //TODO localize
         $('#userManagement').remove();
 
         $('#content').empty();
@@ -52,32 +52,72 @@ var surveyModel;
 
         $('#content').append(
             '<div id="editor">'
-            + '<h3 id="surveyHeader"><span id="surveyTitle"></span></h3>'
             + '<div id="editorMain">'
-            + '<ul id="sortableList">'
+            + '<ul class="categoryList" id="sortableList">'
             + '<div id="categories"></div>'
             + '</ul>'
             + '</div>'
-            + '<div id="editorRight">'
-            + '</div>'
-            +'<div style="clear:both;"></div>'
-            + '</div>'
-            );
+        );
 
-                        
-        new EditedLabel( $( "#surveyTitle" ), function( newTitle ){ 
+
+        new EditedLabel( $( "#sectionTitle" ), function( newTitle ){
                                                     surveyModel.updateSurveyTitle( newTitle );
                                                 } );
-        
-        $( "#plusButton").unbind('mouseover');
-        $( "#plusButton").mouseover( function(event) {SurveyListCombo.showEditorMenu(event);});
+
+        $( "#plusButton" ).unbind( 'mouseover' );
+        $( "#plusButton" ).mouseover( function( event ) {SurveyListCombo.showEditorMenu( event );});
         $( "#executeBackButton" ).click( function(){onBackClicked();} );
         $( "#executeSave" ).click( function(){onSaveClicked();} );
 
-        questionPanel = new QuestionPanel( function(label){refreshCurrentQuestionLabel(label);});
-        questionPanel.createQuestionPanel();
+        $( "#categories" ).sortable( {
+                delay: 50,
+                revert: true,
+                forcePlaceholderSize: true,
+                forceHelperSize : true,
+                placeholder : 'categoryPlaceholder',
+                stop: function( event, ui ) {
+                    if( ui.item.hasClass( 'drag' ) ){
+                        var newCategory = surveyModel.newCategory();
+                        ui.item.replaceWith( createCategoryElement( newCategory ) );
+                        setCategoryUiOptions( newCategory.uiId );
+                    }
+                }
+        });
+    }
+    function setCatListConfig(){
+        $( "#categories" ).sortable( "option", "placeholder", 'categoryPlaceholder newCategory' );
+    }
+    
+    function removeCatListConfig(){
+        $( "#categories" ).sortable( "option", "placeholder", 'categoryPlaceholder' );
+    }
 
-        $( "#categories" ).sortable( {delay: 50} );
+    function setQlistConfig(){
+        setHoverConfig();
+        $( '.listQuestion' ).sortable( "option", "placeholder", 'questionPlaceholder newQuestion' );
+    }
+
+    function removeQlistConfig(){
+        removeHoverConfig();
+        $( '.listQuestion' ).sortable( "option", "placeholder", 'questionPlaceholder' );
+    }
+    
+    function setHoverConfig(){
+        $( '.listCategory' ).droppable({
+            greedy: false,
+            over: function(){
+                var id = $( this ).attr('id');
+                var t = setTimeout( function(){showCategory( id );}, 500 );
+                $( this ).data('timeout', t);
+            },
+            out: function(){
+                clearTimeout( $( this ).data( 'timeout' ));
+            }
+        });
+    }
+    
+    function removeHoverConfig(){
+        $( '.listCategory' ).droppable( 'destroy' );
     }
 
     function onSaveClicked(){
@@ -96,7 +136,6 @@ var surveyModel;
             }
         });
     }
-
 
     function refresh( id ){
         openSurvey( id );
@@ -120,7 +159,7 @@ var surveyModel;
 
     function addCategory(){
         var category = surveyModel.newCategory();
-        appendCategoryElement( category );
+        appendCategoryElement( createCategoryElement( category ), category );
     }
 
     function addQuestion(){
@@ -144,34 +183,33 @@ var surveyModel;
         var selectElem = $( "#combobox" ).val();
 
         var question = surveyModel.newQuestion( selectElem );
-        appendQuestionElement( question, selectElem );
+        appendQuestionElement( createQuestionElement( question ), question, selectElem );
 
         showCategory( selectElem );
         $( '#' + question.uiId ).trigger( 'click' );
 
-        switchCategoryDialog.dialog( "close" );
+//        switchCategoryDialog.dialog( "close" );
     }
 
     function fillEditor(id){
-        $.getJSON('/application/getSurvey', {'surveyId': parseInt(id)},
-                                                    function(data){
-                                                        surveyModel = new SurveyModel(data.survey);
-                                                        fillCategoryList();
-                                                    } );
+        $.getJSON('/application/getSurvey', {'surveyId': parseInt(id)}, function(data){
+                                                                surveyModel = new SurveyModel(data.survey);
+                                                                fillCategoryList();
+                                                            } );
     }
 
     function fillCategoryList(){
-        $( '#surveyTitle' ).text( surveyModel.getSurvey().title );
+        $( '#sectionTitle' ).text( surveyModel.getSurvey().title );
         $.each( surveyModel.getSurvey().categoryCollection, function( i, item ) {
-            appendCategoryElement( item );
+            appendCategoryElement( createCategoryElement( item ), item );
             fillQuestions( item.questionCollection, item.uiId );
         });
     }
 
-    function appendCategoryElement( category ){
+    function createCategoryElement( category ){
 
         if( !category.hasOwnProperty( 'id' ) ){
-            var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
+            var numRand = Math.floor( Math.random() * 10000 ); //TODO probably exist better way to get rundom id
             category.uiId = "category" + numRand;
         }else{
             category.uiId = "category" + category.id;
@@ -179,80 +217,100 @@ var surveyModel;
 
         var categoryLabelId = category.uiId + 'label';
         //TODO localize
-        $("#categories").append(
-             '<li id="'+ category.uiId + '" class="ui-state-default listCategory">'
-            + '<h3>'
-            + '<span class="expandIcon"></span>'
-            + '<span class="categoryName" id="' + categoryLabelId + '">' + category.label + '</span>'
-            + '<span class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
-            + '<div style="clear:both;"></div>'
-            + '</h3>'
-            + '<ul class="listQuestion"></ul>'
-            + '</li>');
+        var categoryElem = $('<li id="'+ category.uiId + '" class="ui-state-default listCategory">'
+                + '<h3>'
+                + '<span class="expandIcon"></span>'
+                + '<span class="categoryName" id="' + categoryLabelId + '">' + category.label + '</span>'
+                + '<span class="deleteElement" title="' + LOC.get( 'LOC_DELETE' ) + '"/>'
+                + '<div style="clear:both;"></div>'
+                + '</h3>'
+                + '<ul class="listQuestion"></ul>'
+                + '</li>');
 
-        $( '#' + category.uiId + ' span.deleteElement').click( category.uiId, function(i){onDeleteCategoryClicked(i);} );
-
-        new EditedLabel( $( '#' + categoryLabelId ), function( newTitle ){
-                                    surveyModel.updateCategory( category.uiId, newTitle );
-                                } );
-        
-        setListParams( category.uiId );
-        hideCatogry ( category.uiId );
+        return categoryElem;
     }
 
-    function hideCatogry( categoryId ){
-        $( '#' + categoryId + ' .listQuestion' ).hide();
+    function appendCategoryElement( categoryElem, category ){
+        $( "#categories" ).append( categoryElem );
+        setCategoryUiOptions( category.uiId );
+    }
+
+    function hideCategory( categoryId ){
+        var expandIconElem = "#" + categoryId + ' span.expandIcon';
+        $( '#' + categoryId + ' .listQuestion' ).hide( 'fast', function(){
+            refreshLists();
+        });
+        $( expandIconElem ).removeClass( 'expanded' );
     }
 
     function showCategory( categoryId ){
-        $( '#' + categoryId + ' .listQuestion' ).show();
+        var expandIconElem = "#" + categoryId + ' span.expandIcon';
+        $( '#' + categoryId + ' .listQuestion' ).show( 'fast', function(){
+            refreshLists();
+        });
+        $( expandIconElem ).addClass( 'expanded' );
     }
 
-    function setListParams( categoryId ){
+    function refreshLists(){
+        $( '.listQuestion' ).sortable( 'refresh' );
+        $( "#categories" ).sortable( 'refresh' );
+    }
+
+    function setCategoryUiOptions( categoryId, bVal ){
+
+        $( '#' + categoryId + ' span.deleteElement').click( categoryId, function(i){onDeleteCategoryClicked(i);} );
+
+        new EditedLabel( $( '#' + categoryId + 'label' ), function( newTitle ){
+                                    surveyModel.updateCategory( categoryId, newTitle );
+                                } );
+
         var listRef = '#' + categoryId + ' .listQuestion';
         var catHeaderRef = "#" + categoryId + " h3";
         var expandIconElem = "#" + categoryId + ' span.expandIcon';
 
         //allows sort question
         $( listRef ).sortable({
+            revert: true,
+            forcePlaceholderSize: true,
+            forceHelperSize : true,
             connectWith: " .listQuestion",
-            delay: 50
+            placeholder : 'questionPlaceholder',
+            delay: 50,
+            start : function(){
+                setHoverConfig();
+            },
+            stop: function( event, ui ) {
+                if( ui.item.hasClass( 'drag' ) ){
+                    var newQuestion = surveyModel.newQuestion();
+                    ui.item.replaceWith( createQuestionElement( newQuestion ));
+                    setQuestionUiOptions( newQuestion );
+                }
+                removeHoverConfig();
+            }
         }).disableSelection();
 
         //hide and show questions in category
-        $( catHeaderRef ).bind('click', function(){
-            $( listRef ).toggle('fast');
-
+        $( catHeaderRef ).bind( 'click' , function(){
             if($(expandIconElem).hasClass('expanded')){
-                $(expandIconElem).removeClass('expanded');
+                hideCategory( categoryId );
             }else{
-                $(expandIconElem).addClass('expanded');
+                showCategory( categoryId );
             }
             return false;
         });
 
-        //allows droping question on category
-        $( catHeaderRef).droppable({
-            accept: ".listQuestion li",
-            drop: function( event, ui ) {
-                var $item = $( this ).parent();
-                var $list = $item.find( ".listQuestion" );
-
-                ui.draggable.hide( "slow", function() {
-                    $( this ).appendTo( $list ).show( "fast" );
-                });
-            }
-        });
+        hideCategory ( categoryId );
     }
 
     function fillQuestions( data, categoryId ){
         $.each(data, function(i,item) {
-            appendQuestionElement(item, categoryId);
+            var questioneElement = createQuestionElement( item, categoryId );
+            appendQuestionElement(questioneElement, item, categoryId)
         });
     }
 
-    function appendQuestionElement( question, categoryId ){
-       
+    function createQuestionElement( question ){
+
         if( !question.hasOwnProperty( 'id' ) ){
             var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
             question.uiId = "question" + numRand;
@@ -261,67 +319,67 @@ var surveyModel;
         }
 
         var questionLabelId = question.uiId + 'label';
-        
-        $( '#' + categoryId + ' ul.listQuestion' ).append(
+
+
+        var qElement = $(
                       '<li id="' + question.uiId +'" class="ui-state-default listItemQuestion"><div>'
-                
                     + '<div class="questionText"> '
                     + '<span id="' + questionLabelId + '"> ' + question.label + '</span>'
                     + '</div>'
                     + '<div class="qType"><select class="typeSelect"></select></div>'
-                    
                     + '<div class="deleteElement">'
                     + '<span class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
                     + '</div>'
-                
                     + '<div style="clear:both;"></div>'
                     + '<div class="questionDetails"> <span>Some details of question like option</span> </div>'
-                    
                     + '</li>');
-                
+
+        return qElement;
+    }
+
+    function appendQuestionElement( questionElement, question, categoryId ){
+        $( '#' + categoryId + ' ul.listQuestion' ).append( questionElement );
+        setQuestionUiOptions( question );
+    }
+
+    function setQuestionUiOptions( question ){
         fillTypeCombo( question.uiId );
-        
+
         $( '#'+ question.uiId + ' .typeSelect' ).val( question.questionType.id );
-        
-        $( '#'+ question.uiId + ' .typeSelect' ).change( question.uiId, function( i ){onQuestionTypeChanged( i );} );
-        $( '#'+ question.uiId + ' span.deleteElement' ).click( question.uiId, function( i ){onDeleteQuestionClicked ( i );} );
-        $( '#'+ question.uiId ).click( question.uiId, function( i ){onQuestionClicked( i );} );
-        
-        new EditedLabel( $( "#" + questionLabelId ), function( newTitle ){ 
+
+        $( '#'+ question.uiId + ' .typeSelect' ).live( 'change', question.uiId, function( i ){onQuestionTypeChanged( i );} );
+        $( '#'+ question.uiId + ' span.deleteElement' ).live( 'click', question.uiId, function( i ){onDeleteQuestionClicked ( i );} );
+        $( '#'+ question.uiId ).live( 'click', question.uiId, function( i ){onQuestionClicked( i );} );
+
+        new EditedLabel( $( "#" + question.uiId + 'label' ), function( newTitle ){
                                                     surveyModel.updateQuestionTitle( question.uiId, newTitle );
                                                 } );
         hideQuestion( question.uiId );
     }
-    
+
     function hideQuestion( qId ){
          $( '#'+ qId + ' .questionDetails' ).hide();
          $( '#'+ qId + ' .deleteElement' ).hide();
          $( '#'+ qId + ' .qType' ).hide();
     }
-    
-    
+
+
     function showQuestion( qId ){
          $( '#'+ qId + ' .questionDetails' ).show();
          $( '#'+ qId + ' .deleteElement' ).show();
          $( '#'+ qId + ' .qType' ).show();
     }
-    
+
     function fillTypeCombo( qId ){
-        
+
         $.each( typeList, function( idx, type ){
             $( '#'+ qId + ' .typeSelect' ).append( '<option value="'+ type.id +'">' + type.typeName + '</option>' );
         });
     }
-    
+
     function onQuestionTypeChanged( event ){
         surveyModel.updateQuestionType( event.data , $( '#'+ event.data + ' .typeSelect' ).val() );
-        
-        //TODO fix
-//        if( currentQuestion.questionType.id == 10 || currentQuestion.questionType.id == 11 ){
-//            $( '#questionOptions' ).show();
-//        }
     }
-
 
     function onDeleteCategoryClicked( event ){
         $( '#' + event.data ).empty().remove();
