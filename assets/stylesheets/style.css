@@ -303,7 +303,7 @@ body {
 }
 
 #content {
-    float: right;
+    float: left;
     height: 100%;
     width: 855px;
     color: #FFFFFF;
@@ -382,6 +382,7 @@ body {
 }
 
 .plusButton {
+    width: 100%;
     margin-left: 58px;
 }
 

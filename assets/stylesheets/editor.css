@@ -7,17 +7,18 @@
     padding: 0;
     margin: 0;
 }
+
 #categories
 {
     height: auto;
     border: none;
     width: 100%;
 }
-.listCategory 
+.listCategory
 {
     background:  #EDF0F6 !important;
 }
-    
+
 
 li.listCategory h3
 {
@@ -39,7 +40,7 @@ li.listCategory a
 
 a.categoryName
 {
- 
+
 }
 
 span.categoryName{
@@ -126,21 +127,52 @@ div.deleteElement span:hover, span.deleteElement:hover
     background: #0161ad url(../images/icon_delete_on.png) no-repeat;
 }
 
-.leftMenuButtonBlock{
-    width: 100%;
-    float:right;
+.leftMenuButtonBlock {
+    display: inline-block;
+    min-width: 30px;
+    height: 43px;
+    margin-left: 35px;
+    background: url(../images/back-43px.png);
+    background-position: 0px 0px;
 }
 
-#leftColumnContent span.leftMenuButton
+.plusButton_layout3 {
+    margin-left: 35px;
+    margin-top: 8px;
+}
+
+#editorBackButton {
+    background-position: 0px 0px;
+}
+
+#editorBackButton:hover {
+    background-position: 0px 87px;
+}
+
+#editorBackButton:active {
+    background-position: 0px 44px;
+}
+
+.leftMenuButtonBlockOver {
+    background-position: 0px 44px;
+}
+
+.leftMenuButtonBlockPressed {
+    background-position: 0px 88px;
+}
+
+.leftMenuButton
 {
-    float:right;
-    display: block;
-    width: 32px;
-    height: 34px;
+    width: 35px;
+    height: 43px;
+    background: url(../images/back-43px.png);
 }
 
 #executeBackButton{
-    background: url(../images/back.png) no-repeat;
+    height: 43px;
+    max-height: 43px;
+    background-position: 0 0;
+    background: url(../images/back-43px.png);
 }
 
 #executeSave{
@@ -159,9 +191,13 @@ span.expandIcon.expanded{
     background: url(../images/category-arrow-down.png) no-repeat;
 }
 
+#editor {
+    width: 865px;
+}
+
 #editorMain
 {
-    width: 800px;  /*//TODO 865px in spec*/
+    width: 100%;
     float:left;
     max-height: 600px;
     overflow: auto;

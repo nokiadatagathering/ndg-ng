@@ -35,49 +35,33 @@
 }
 
 #buttonDownload {
-    background: url(../images/icon_download_off.png) no-repeat top;
+    background: url(../images/download-44px.jpg) no-repeat;
 }
 
-#buttonDownload:hover {
-    background: #0161ad url(../images/icon_download_on.png) no-repeat bottom;
+#buttonDownload:hover, #buttonUpload:hover, #buttonPhone:hover, #buttonEdit:hover, #buttonDuplicate:hover, #buttonDelete:hover  {
+    background-position: 0 -44px;
+}
+
+#buttonDownload:active, #buttonUpload:active, #buttonPhone:active, #buttonEdit:active, #buttonDuplicate:active, #buttonDelete:active  {
+    background-position: 0 -87px;
 }
 
 #buttonUpload {
-    background: url(../images/icon_upload_off.png);
-}
-
-#buttonUpload:hover {
-    background: #0161ad url(../images/icon_upload_on.png);
+     background: url(../images/upload-44px.jpg) no-repeat;
 }
 
 #buttonPhone {
-    background: url(../images/icon_phone_off.png);
-}
-
-#buttonPhone:hover {
-    background: #0161ad  url(../images/icon_phone_on.png);
+    background: url(../images/mobile-44px.jpg);
 }
 
 #buttonEdit {
-    background: url(../images/icon_edit_off.png);
-}
-
-#buttonEdit:hover {
-    background: #0161ad  url(../images/icon_edit_on.png);
+    background: url(../images/edit-44px.jpg);
 }
 
 #buttonDuplicate {
-    background: url(../images/icon_duplicate_off.png);
-}
-
-#buttonDuplicate:hover {
-    background: #0161ad  url(../images/icon_duplicate_on.png);
+    background: url(../images/duplicate-44px.jpg);
 }
 
 #buttonDelete {
-    background: url(../images/icon_delete_off.png);
-}
-
-#buttonDelete:hover {
-    background: #0161ad url(../images/icon_delete_on.png);
+    background: url(../images/delete-44px.jpg);
 }

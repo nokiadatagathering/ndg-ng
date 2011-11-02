@@ -29,7 +29,6 @@ var surveyModel;
         fillEditor( id );
     }
 
-
     function createEditor(){
 
         $.getJSON( '/application/questionType', function( data ){
@@ -37,19 +36,7 @@ var surveyModel;
                                                 } );
 
         $('#userManagement').remove();
-
-        $('#content').empty();
-
-        $('#leftColumnContent' ).empty();
-        $('#leftColumnContent' ).append(
-             '<div class="leftMenuButtonBlock">'
-            + '<span id="executeBackButton" class="leftMenuButton" />'
-            + '</div>'
-            + '<div class="leftMenuButtonBlock">'
-            + '<span id="executeSave" class="leftMenuButton" />'
-            + '</div>'
-        );
-
+        prepareLayout();
         $('#content').append(
             '<div id="editor">'
             + '<div id="editorMain">'
@@ -59,14 +46,13 @@ var surveyModel;
             + '</div>'
         );
 
-
         new EditedLabel( $( "#sectionTitle" ), function( newTitle ){
                                                     surveyModel.updateSurveyTitle( newTitle );
                                                 } );
 
         $( "#plusButton" ).unbind( 'mouseover' );
         $( "#plusButton" ).mouseover( function( event ) {SurveyListCombo.showEditorMenu( event );});
-        $( "#executeBackButton" ).click( function(){onBackClicked();} );
+        $( "#editorBackButton" ).click( function(){onBackClicked();} );
         $( "#executeSave" ).click( function(){onSaveClicked();} );
 
         $( "#categories" ).sortable( {
@@ -84,10 +70,21 @@ var surveyModel;
                 }
         });
     }
+
+    function prepareLayout() {
+        $('#content').width( 865 );
+        $('#leftcolumn').width( 80 );
+        $('#plusButton').removeClass('plusButton');
+        $('#plusButton').addClass('plusButton_layout3');
+        $('#content').empty();
+        $('#plusButton').before( '<div class="leftMenuButtonBlock" id="editorBackButton"/>');
+        $('#leftColumnContent' ).empty();
+    }
+
     function setCatListConfig(){
         $( "#categories" ).sortable( "option", "placeholder", 'categoryPlaceholder newCategory' );
     }
-    
+
     function removeCatListConfig(){
         $( "#categories" ).sortable( "option", "placeholder", 'categoryPlaceholder' );
     }
@@ -101,7 +98,7 @@ var surveyModel;
         removeHoverConfig();
         $( '.listQuestion' ).sortable( "option", "placeholder", 'questionPlaceholder' );
     }
-    
+
     function setHoverConfig(){
         $( '.listCategory' ).droppable({
             greedy: false,
@@ -115,7 +112,7 @@ var surveyModel;
             }
         });
     }
-    
+
     function removeHoverConfig(){
         $( '.listCategory' ).droppable( 'destroy' );
     }
@@ -151,10 +148,18 @@ var surveyModel;
         surveyModel.reorderCategory( catOrder );
     }
 
-
     function onBackClicked(){
-         $('#content').empty();
-         SurveyList.showSurveyList();
+        restoreLayout()
+        SurveyList.showSurveyList();
+    }
+
+    function restoreLayout() {
+        $('#content').empty();
+        $('#content').width( 820 );
+        $('#leftcolumn').width( 125 );
+        $('#plusButton').removeClass('plusButton_layout3');
+        $('#plusButton').addClass('plusButton');
+        $('#editorBackButton').detach();
     }
 
     function addCategory(){
