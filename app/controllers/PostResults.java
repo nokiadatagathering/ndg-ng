@@ -18,6 +18,7 @@ package controllers;
 
 
 import controllers.exceptions.MSMApplicationException;
+import controllers.logic.DigestUtils;
 import controllers.logic.ResultPersister;
 import java.io.File;
 import java.io.FileReader;
@@ -30,15 +31,19 @@ public class PostResults extends Controller{
 
     public static void upload(String surveyId, File filename )
     {
-        try {
-            ResultPersister persister = new ResultPersister();
-            FileReader reader = new FileReader(filename);
-            persister.postResult(reader, surveyId);
-        } catch (IOException ex) {
-            Logger.getLogger(PostResults.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (MSMApplicationException ex) {
-            Logger.getLogger(PostResults.class.getName()).log(Level.SEVERE, null, ex);
+        if(!DigestUtils.isAuthorized(request.headers.get("authorization"), request.method) )
+        {
+            DigestUtils.setDigestResponse(response);
+        } else {
+            try {
+                ResultPersister persister = new ResultPersister();
+                FileReader reader = new FileReader(filename);
+                persister.postResult(reader, surveyId);
+            } catch (IOException ex) {
+                Logger.getLogger(PostResults.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (MSMApplicationException ex) {
+                Logger.getLogger(PostResults.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-
     }
 }
