@@ -98,14 +98,13 @@ var DynamicTable = function() {
             htmlContent += '<th scope="col" id="' + item + '" ';
             if(i == 0 && item != null) {
                 htmlContent +='class = "sortHeader firstColumnHeader ' + item + 'Width"';
-            } else
-                if(item != null) {
-                    htmlContent +='class = "sortHeader ' + item + 'Width"';
-                }
-                htmlContent += '><div>';
-                if(LOC.get(columnTexts[i]) != null) {
-                    htmlContent += LOC.get(columnTexts[i]);
-                }
+            } else if( item != null ) {
+                htmlContent +='class = "sortHeader ' + item + 'Width"';
+            }
+            htmlContent += '><div>';
+            if(LOC.get(columnTexts[i]) != null) {
+                htmlContent += LOC.get(columnTexts[i]);
+            }
             htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>';
         });
         htmlContent += '</tr></thead>'
@@ -151,14 +150,13 @@ var DynamicTable = function() {
             htmlContent += '<th scope="col" id="' + item + '" '
             if(i == 0 && item != null) {
                 htmlContent +='class = "sortHeader firstColumnHeader ' + item + 'Width"';
-            } else
-                if(item != null) {
-                    htmlContent +='class = "sortHeader ' + item + 'Width"';
-                }
-                htmlContent += '><div>';
-                if(LOC.get(columnTexts[i]) != null) {
-                    htmlContent += LOC.get(columnTexts[i]);
-                }
+            } else if(item != null) {
+                htmlContent +='class = "sortHeader ' + item + 'Width"';
+            }
+            htmlContent += '><div>';
+            if(LOC.get(columnTexts[i]) != null) {
+                htmlContent += LOC.get(columnTexts[i]);
+            }
             htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>'
         });
 

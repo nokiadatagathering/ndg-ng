@@ -28,10 +28,16 @@ INSERT INTO `company` (`company_country`, `company_industry`, `company_name`, `c
 INSERT INTO `ndg_role` (`role_name`) VALUES ('Admin'),('Operator'),('Field Worker');
 
 --
+-- Dumping data for table `ndg_group`
+--
+
+INSERT INTO `ndg_group` (`group_name`) VALUES ('Demo');
+
+--
 -- Dumping data for table `ndg_user`
 --
 
-INSERT INTO `ndg_user` (`area_code`, `country_code`, `email`, `email_preferences`, `first_name`,`has_full_permissions`,`last_name`, `password`, `phone_number`, `user_admin`, `user_validated`, `username`, `validation_key`, `company_id`) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','3d7b6783e2b63d8f462823c41f4d029d','phoneNumber','Y','Y','admin',NULL,1);
+INSERT INTO `ndg_user` (`area_code`, `country_code`, `email`, `email_preferences`, `first_name`,`has_full_permissions`,`last_name`, `password`, `phone_number`, `user_admin`, `user_validated`, `username`, `validation_key`, `company_id`, `ndg_group_id` ) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','3d7b6783e2b63d8f462823c41f4d029d','phoneNumber','Y','Y','admin',NULL,1,1);
 
 --
 -- Dumping data for table `question`
@@ -49,7 +55,7 @@ INSERT INTO `question_option` (`label`, `option_index`, `option_value`, `questio
 -- Dumping data for table `question_type`
 --
 
-INSERT INTO `question_type` ( `supported`, `type_name`) VALUES (1,'string'),(1,'int'),(1,'decimal'),(1,'date'),(0,'geopoint'),(1,'binary#image'),(0,'binary#audio'),(0,'binary#video'),(0,'barcode'),(1,'select1'),(1,'select');
+INSERT INTO `question_type` ( `supported`, `type_name`) VALUES (1,'string'),(1,'int'),(1,'decimal'),(1,'date'),(0,'geopoint'),(1,'binary#image'),(0,'binary#audio'),(0,'binary#video'),(0,'barcode'),(1,'select1'),(1,'select'),(1,'time');
 
 --
 -- Dumping data for table `survey`
