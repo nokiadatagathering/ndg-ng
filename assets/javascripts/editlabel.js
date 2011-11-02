@@ -8,8 +8,7 @@ var EditedLabel = function( elem, callbackFun ){
     function onClicked( event ){
         editBoxId = element.attr('id') + 'edit';
 
-
-        element.replaceWith( '<input id="' + editBoxId + '" type="text"/>' );
+        element.replaceWith( '<input id="' + editBoxId + '" type="text" style="width:'+ element.width() +'px"/>' );
         $( "#" + editBoxId ).val( element.text() );
         $( "#" + editBoxId ).focus();
 

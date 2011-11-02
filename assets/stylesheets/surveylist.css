@@ -93,8 +93,11 @@ h4.labelClosed {
 }
 
 #dynamicListTable .resultCollectionQuantity {
-    text-decoration: underline;
     font-family: "Nokia Pure Bold" ;
     font-size: 13pt ;
+}
+
+.underLine {
+    text-decoration: underline;
 }
 

@@ -1,4 +1,4 @@
-var QuestionPanel = function ( callback ){
+var QuestionPanel = function ( callback ){ //TODO remove this file
 
     var currentQuestion;
     var refreshQuestionList = callback;

@@ -31,10 +31,10 @@ var SurveyList = function() {
 
         $('#pageSelect').empty();
         $('#pageSelect').append('<H2 id=sectionTitle>Survey List</H2><H3 id=userManagement>User Admin</H3>');
-        $('#userManagement').click(function() {UserManagement.showUserManagement() });
+        $('#userManagement').click(function() {UserManagement.showUserManagement()});
 
-        $('#uploadForm').submit( function () { uploadNewSurvey(); } );
-        $('#buttonSendFile').click( function() {  $('#uploadForm').submit( ) });
+        $('#uploadForm').submit( function () {uploadNewSurvey();} );
+        $('#buttonSendFile').click( function() {$('#uploadForm').submit( )});
 
         $('#searchComboText').text("ID");
         $('#searchComboBox').click( function(event) {createSearchList(event);});
@@ -64,7 +64,11 @@ var SurveyList = function() {
                                 + '</tr>' );
 
         if ( item.resultCollection > 0 ) {
-            $('#resultCollectionQuantityString' + item.id ).text(  item.resultCollection );
+            $('#resultCollectionQuantityString' + item.id ).text( item.resultCollection );
+            $('#resultCollectionQuantityString' + item.id ).click( item.id, function(i) {
+                ResultList.showResultList(i);
+            } );
+            $('#resultCollectionQuantityString' + item.id ).addClass('underLine');
         } else {
             $('#resultCollectionQuantityString' + item.id ).text( '-' );
         }
@@ -77,9 +81,6 @@ var SurveyList = function() {
             $('#dynamicRow'+ i + ' td' ).addClass( 'markBuildingText' );
         }
 
-        $('#resultCollectionQuantityString' + item.id ).click( item.id, function(i) {
-            ResultList.showResultList(i);
-        } );
         $('#menu' + i +' #buttonDownload').click( item.surveyId, function(i){onDownloadSurveyClicked(i);} );
         $('#menu' + i +' #buttonUpload').click( item.surveyId, function(i){onUploadSurveyClicked(i);} );
         $('#menu' + i +' #buttonDelete').click( item.surveyId, function(i){onDeleteSurveyClicked(i);} );
@@ -98,7 +99,7 @@ var SurveyList = function() {
     }
 
     function onUploadSurveyClicked(e) {
-       $('#uploadSurveyForm').fileinput( { buttonText: LOC.get('LOC_SEARCH'),
+       $('#uploadSurveyForm').fileinput( {buttonText: LOC.get('LOC_SEARCH'),
                                            inputText:""});
        uploadDialog.dialog( {title: LOC.get('LOC_SURVEY_UPLOAD')});
        document.getElementById('dialog-upload-query').textContent = LOC.get('LOC_CHOOSE_SURVEY_UPLOAD');

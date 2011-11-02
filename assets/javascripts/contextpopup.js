@@ -89,7 +89,10 @@ var SurveyListCombo = function() {
         $( "#newCategoryAction" ).addClass( 'drag' ); //TODO refactor - move to editor.js
         $( "#newCategoryAction" ).draggable({
             connectToSortable: "#categories",
-            helper: 'clone',
+            helper: function(event) {
+                var dragging = $('<div><img id ="plusButtonImage" src="images/plus.png"></div>')
+                return dragging;
+            },
             revert: 'invalid',
             start: Editor.setCatListConfig,
             stop: Editor.removeCatListConfig
@@ -98,7 +101,10 @@ var SurveyListCombo = function() {
         $( "#newQuestionAction" ).addClass( 'drag' ); //TODO refactor - move to editor.js
         $( "#newQuestionAction" ).draggable({
             connectToSortable: " .listQuestion",
-            helper: 'clone',
+            helper: function(event) {
+                var dragging = $('<div><img id ="plusButtonImage" src="images/plus.png"></div>')
+                return dragging;
+            },
             revert: 'invalid',
             start: Editor.setQlistConfig,
             stop: Editor.removeQlistConfig

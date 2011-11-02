@@ -104,7 +104,7 @@ var surveyModel;
             greedy: false,
             over: function(){
                 var id = $( this ).attr('id');
-                var t = setTimeout( function(){showCategory( id );}, 500 );
+                var t = setTimeout( function(){showCategory( id );}, 500 );//TODO change to 2000
                 $( this ).data('timeout', t);
             },
             out: function(){
