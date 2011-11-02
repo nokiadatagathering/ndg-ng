@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
 import java.util.Collection;
@@ -78,7 +74,7 @@ public class NdgUser extends Model {
     @Column( nullable = false, name = "has_full_permissions" )
     public char hasFullPermissions;
 
-    @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgUser"  )
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgUser" )
     public Collection<UserBalance> userBalanceCollection;
 
     @ManyToOne( optional = false )
@@ -95,6 +91,9 @@ public class NdgUser extends Model {
 
     @OneToMany( cascade = CascadeType.ALL, mappedBy = "ndgUser")
     public Collection<UserRole> userRoleCollection;
+
+    @ManyToOne( optional = true )
+    public NdgGroup ndg_group;
 
     public Collection<UserRole> getUserRoleCollection() {
         return userRoleCollection;

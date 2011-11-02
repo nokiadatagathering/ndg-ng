@@ -47,7 +47,10 @@ var LOC = (function() {
         LOC_SEARCH: 'Search...',
         LOC_USERNAME: 'Username',
         LOC_CONFIRM_DELETE: 'Deleting user will remove all related surveys and results ! Click to continue',
-        LOC_NEW_USER: 'New User'
+        LOC_NEW_USER: 'New User',
+        LOC_GROUP: 'Group',
+        LOC_USERS: 'User(s)',
+        LOC_NEW_GROUP: 'New Group'
     };
 
     var constants_POL = {
@@ -95,7 +98,10 @@ var LOC = (function() {
         LOC_SEARCH: 'Szukaj...',
         LOC_USERNAME: 'Nazwa U\u017cytkownika',
         LOC_CONFIRM_DELETE: 'Kliknij tutaj aby potwierdzi\u0107 kasowanie',
-        LOC_NEW_USER: 'Nowy U\u017cytkownik'
+        LOC_NEW_USER: 'Nowy U\u017cytkownik',
+        LOC_GROUP: 'Grupy',
+        LOC_USERS: 'U\u017cytkowników',
+        LOC_NEW_GROUP: 'Nowa Grupa'
     };
 
 

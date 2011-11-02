@@ -12,15 +12,15 @@ import play.mvc.Http;
 public class ClientUpdate extends Controller {
 
     private static final String DO_COMMAND = "do";
-    
+
     public static void index () {
         if (params.get( DO_COMMAND ) == null) {
             render();
         }
-    
+
         Commands command = Commands.valueOf( params.get( DO_COMMAND ) );
         Properties prop = PropertiesUtil.getSettingsProperties();
-    
+
         switch ( command ) {
           case currentVersion:
               String version = prop.getProperty( SettingsProperties.CLIENT_VERSION, "0.0.0" );
@@ -34,6 +34,6 @@ public class ClientUpdate extends Controller {
               error(Http.StatusCode.NOT_FOUND, "Given command is unrecognized");
         }
     }
-    
-   
+
+
 }

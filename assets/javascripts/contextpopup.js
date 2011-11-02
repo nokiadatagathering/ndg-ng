@@ -10,7 +10,7 @@ var SurveyListCombo = function() {
             showResultSelectionMenu : function(event){showResultSelectionMenu(event);},
             showEditorMenu : function(event){showEditorMenu(event);},
             showSearchMenu : function(event, searchLabels, searchIds, contentHandler){showSearchMenu(event, searchLabels, searchIds, contentHandler)},
-            showUserManagementMenu: function(){showUserManagementMenu()}
+            showUserManagementMenu: function(event){showUserManagementMenu(event)}
     };
 
     function showSurveyMenu(){
@@ -28,29 +28,45 @@ var SurveyListCombo = function() {
         showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3);
     }
 
-    function showUserManagementMenu(){
+    function showUserManagementMenu(event){
         document.onclick=closeMenu;
+
         if(menuBeingShown()) {
             return;
         }
 
-        $('#popup-context').append( '<a id="newUserAction" href="#">' + LOC.get( 'LOC_NEW_USER' ) + '</a>' );
+        $('#popup-context').append( '<a id="newUserAction" href="#">' + LOC.get( 'LOC_NEW_USER' ) + '</a>'
+                                  + '<a id="newGroupAction" href="#">' + LOC.get( 'LOC_NEW_GROUP' ) + '</a>' );
 
         $('#popup-context').addClass("popup-context");
 
-         var currentItem = $('#minimalist');
-         var rect = new Object();
-         rect.top = currentItem.position().top;
-         rect.left = currentItem.position().left;
-         rect.width = currentItem.width();
-         rect.height = 140;
-         $('#newUserAction').click( function(){
-             if(!NewUserTable.isShown()) {
-                 NewUserTable.show(rect)
-             }
-         });
+        var currentItem = $('#minimalist_layout2_2');
+        var rect = new Object();
+        rect.top = currentItem.position().top;
+        rect.left = currentItem.position().left + 14;//14 margin
+        rect.width = currentItem.width();
+        $('#newUserAction').click( function(){
+            if(!NewUserTable.isShown()) {
+                NewUserTable.show(rect);
+            }
+        });
+
+
+        var groupItem = $('#minimalist_layout2');
+        var rectGroup = new Object();
+        rectGroup.top = groupItem.position().top;
+        rectGroup.left = groupItem.position().left;
+        rectGroup.width = groupItem.width();
+        rectGroup.height = 49;
+        $('#newGroupAction').click( function(){
+            if(!NewGroupTable.isShown()) {
+                NewGroupTable.show(rectGroup);
+            }
+        });
+
         var pos = $('#plusButtonImage').position();
         showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3);
+        stopEvent(event);
     }
 
     function showEditorMenu(event){

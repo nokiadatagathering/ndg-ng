@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import models.Company;
+import models.NdgGroup;
 import models.NdgRole;
 import models.NdgUser;
 import models.QuestionType;
@@ -79,6 +80,21 @@ public class Application extends Controller {
         mapRole.ndgUser = user;
         mapRole.ndgRole = NdgRole.find("byRoleName", role).first();
         mapRole.save();
+    }
+
+    public static void addUserToGroup( long username, String groupname )
+    {
+        NdgUser user = NdgUser.findById( username );
+        NdgGroup group = NdgGroup.find( "byGroupName", groupname ).first();
+        user.ndg_group = group;
+        user.save();
+    }
+
+    public static void addGroup( String groupname )
+    {
+        NdgGroup group = new NdgGroup();
+        group.groupName = groupname;
+        group.save();
     }
 
     public static void deleteUser(String userId)

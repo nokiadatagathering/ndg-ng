@@ -15,6 +15,21 @@
     text-align: center;
 }
 
+#contentToolbar2 {
+    background: #edf0f6;
+    width: 195px;
+    height: 40px;
+    color: white;
+    text-align: center;
+    position: absolute;
+}
+
+#contentToolbar2 span {
+    height: 40px;
+    width: 195px;
+    text-align: center;
+}
+
 #buttonPrevious {
     float: right;
     width: 32px;

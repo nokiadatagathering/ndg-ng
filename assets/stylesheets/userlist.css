@@ -1,23 +1,177 @@
 #executeSortByUsernameWidth {
-    width: 100px;    
-}
-
-#executeSortByNameWidth {
-    width: 200px;
+    padding-bottom: 10px;
+    width: 140px;
 }
 
 #executeSortByEmailWidth {
-    width: 200px;
+    padding-bottom: 10px;
+    width: 160px;
 }
 
 #executeSortByPhoneWidth {
-    width: 200px;
+    padding-bottom: 10px;
+    width: 130px;
 }
 
 #executeSortByPermissionWidth {
-    width: 120px;
+    padding-bottom: 10px;
+    width: 100px;
 }
 
-#itemToolbarColumnIdWidth {
-    width: 45px;
+#executeSortByGroupWidth {
+    padding-bottom: 10px;
+    width: 195px;
+}
+
+#leftColumn_layout2 {
+    height: 545px;
+    float: left;
+    width: 8%;
+/*    background-color: #33ffff;*/
+}
+
+.plusButton_layout2 {
+    margin-left: 35px;
+    margin-top: 35px;
+}
+
+#middleColumn_layout2 {
+    height: auto;
+    float: left;
+    width: 21%;
+    border-right: 1px solid #dadbe0;
+/*    background-color: #3388ff;*/
+}
+
+#rightColumn_layout2 {
+    height: 545px;
+    float: left;
+    width: 67%;
+/*    background-color: #338800;*/
+}
+
+/* table styles */
+#minimalist_layout2 {
+    float: left;
+    width: 199px;
+    margin-top: 10px;
+    background: #edf0f6;
+}
+
+#minimalist_layout2 th {/*COLUMN HEADER*/
+    font-weight: bold;
+    border-bottom: 2px solid #dadbe0;
+    text-align: left;
+    font-size: 14px;
+    font-family: "Nokia Pure Bold";
+    color: #7691a9;
+}
+
+#minimalist_layout2 thead tr th a{/*COLUMN HEADER*/
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #3a77ca;
+}
+
+#minimalist_layout2 td {/*ROWS*/
+    height: 44px;
+    border-bottom: 1px solid #dadbe0;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 12px;
+    font-family: "Nokia Pure Regular";
+    color: #6388bb;
+}
+
+/* table styles */
+#minimalist_layout2_2 {
+    float: left;
+    margin-left: 14px;
+    margin-top: 10px;
+    background: #edf0f6;
+}
+
+#minimalist_layout2_2 th {/*COLUMN HEADER*/
+    font-weight: bold;
+    border-bottom: 2px solid #dadbe0;
+    text-align: left;
+    font-size: 14px;
+    font-family: "Nokia Pure Bold";
+    color: #7691a9;
+}
+
+#minimalist_layout2_2 thead tr th a{/*COLUMN HEADER*/
+    text-decoration: none;
+    text-transform: uppercase;
+    color: #3a77ca;
+}
+
+#minimalist_layout2_2 td {/*ROWS*/
+    height: 44px;
+    border-bottom: 1px solid #dadbe0;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 12px;
+    font-family: "Nokia Pure Regular";
+    color: #3a77ca;
+}
+
+.tableEntryGroupName {
+    margin: 0px;
+    padding: 0px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 13px;
+    font-family: "Nokia Pure Bold";
+    color: #3a77ca;
+    line-height: 11px;
+}
+
+.tableEntryQuantity {
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 11px;
+    font-size: 11px;
+    font-family: "Nokia Pure Regular";
+    color: #3a77ca;
+}
+
+.tableEntryUsername {
+    margin: 0px;
+    padding: 0px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 13px;
+    font-family: "Nokia Pure Bold";
+    color: #3a77ca;
+    line-height: 11px;
+}
+
+.tableEntryFirstLastName {
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+    vertical-align: middle;
+    line-height: 11px;
+    font-size: 11px;
+    font-family: "Nokia Pure Regular";
+    color: #3a77ca;
+}
+
+.selectedGroup {
+    background-color: #33ffff;
+}
+
+.draggingElement {
+    margin-top: 10px !important;
+    height: 22px !important;
+    width: 100px !important;
+    border-bottom: 1px solid #dadbe0;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 12px;
+    font-family: "Nokia Pure Regular";
+    color: #3a77ca;
 }

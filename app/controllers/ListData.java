@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import models.Category;
+import models.NdgGroup;
 import models.NdgResult;
 import models.NdgUser;
 import models.Survey;
@@ -21,9 +22,6 @@ import play.mvc.Controller;
  * @author wojciech.luczkow
  */
 public class ListData extends Controller{
-
-
-     private static final int RESULTS_PER_SIDE = 10;
 
      public static void categories( int surveyId){
         String query = "survey_id = " + String.valueOf( surveyId ) + " order by categoryIndex";
@@ -86,9 +84,6 @@ public class ListData extends Controller{
                 Collections.reverse( surveys );
             }
 
-//            int subListEndIndex = startIndex + RESULTS_PER_SIDE < surveys.size() ?
-//                                                    startIndex + RESULTS_PER_SIDE :
-//                                                    surveys.size();
             int subListEndIndex = surveys.size() <= endIndex ?
                       surveys.size() : endIndex;
             surveys = surveys.subList( startIndex , subListEndIndex );
@@ -105,32 +100,43 @@ public class ListData extends Controller{
         serializeSurveys( surveys,  startIndex, totalItems);
     }
 
-    public static void users(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText) {
+    public static void users(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String groupName, String searchText) {
         List<NdgUser> users = null;
         StringBuilder searchFilter = null;
         long totalItems = 0;
+
+        String groupFilter = "ndg_group.groupName ='" + groupName +"'";
+
         if(searchField != null && searchText != null)
         {
             searchFilter = new StringBuilder();
             searchFilter.append(searchField).append(" like '").append(searchText).append("%' ");
+            if( groupName != null ) {
+                searchFilter.append( " and " ).append( groupFilter );
+            }
             totalItems = NdgUser.count(searchFilter.toString());
         } else
         {
-            totalItems = NdgUser.count();
+            if( groupName != null ) {
+                totalItems = NdgUser.count( groupFilter );
+            } else {
+                totalItems = NdgUser.count();
+            }
         }
-        if(orderBy != null && orderBy.equals("userRoleCollection"))
+
+        if ( orderBy != null && orderBy.equals( "userRoleCollection" ) )
         {
-            if(searchFilter != null)
+            if ( searchFilter != null )
             {
-            users =  NdgUser.find(searchFilter.toString()).fetch();
-            } else
-            {
-                users =  NdgUser.all().fetch();
+                users =  NdgUser.find( searchFilter.toString() ).fetch();
+            } else {
+                if ( groupName != null && groupName.length() >0 ) {
+                    users =  NdgUser.find( groupFilter ).fetch();
+                } else {
+                    users =  NdgUser.all().fetch();
+                }
             }
             Collections.sort( users, new NdgUserUserRoleCollectionComapator(isAscending) );
-//            int subListEndIndex = startIndex + RESULTS_PER_SIDE < users.size() ?
-//                                                startIndex + RESULTS_PER_SIDE :
-//                                                users.size();
             int subListEndIndex = users.size() <= endIndex ?
                                   users.size() : endIndex;
             users = users.subList( startIndex, subListEndIndex);
@@ -140,15 +146,59 @@ public class ListData extends Controller{
             {
                 query.append(searchFilter);
             }
+            if( searchFilter!= null && groupName != null ) {
+                query.append( " and " ).append( groupFilter );
+            } else if ( groupName != null ) {
+                query.append( groupFilter );
+            }
             query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
-            users =  NdgUser.find( query.toString() ).from( startIndex ).fetch( endIndex + 1 );
+            users =  NdgUser.find( query.toString() ).from( startIndex ).fetch( endIndex );
         }
         serializeUsers(users, startIndex, totalItems);
     }
 
+    public static void groups( int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText ) {
+        List<NdgGroup> groups = null;
+        StringBuilder searchFilter = null;
+        long totalItems = 0;
+        if(searchField != null && searchText != null)
+        {
+            searchFilter = new StringBuilder();
+            searchFilter.append(searchField).append(" like '").append(searchText).append("%' ");
+            totalItems = NdgGroup.count(searchFilter.toString());
+        }
+        else
+        {
+            totalItems = NdgGroup.count();
+        }
+        if(orderBy != null && orderBy.equals("resultCollection"))
+        {
+            if(searchFilter != null)
+            {
+                groups = NdgGroup.find(searchFilter.toString()).fetch();
+            }else
+            {
+                groups = NdgGroup.all().fetch();
+            }
+
+            int subListEndIndex = groups.size() <= endIndex ?
+                                  groups.size() : endIndex;
+            groups = groups.subList( startIndex , subListEndIndex );
+        } else {
+            StringBuilder query = new StringBuilder();
+            if(searchFilter != null)
+            {
+                query.append(searchFilter);
+            }
+            query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
+            groups =  NdgGroup.find( query.toString() ).from( startIndex ).fetch( endIndex );
+        }
+        serializeGroups( groups, startIndex, totalItems);
+    }
+
     private static void serializeUsers(List<NdgUser> users, int startIndex, long totalSize) {
         JSONSerializer userListSerializer = new JSONSerializer();
-        userListSerializer.include("id","username", "phoneNumber", "email", "userRoleCollection.ndgRole.roleName", "firstName" ).exclude("*").rootName("items");
+        userListSerializer.include("id","username", "phoneNumber", "email", "userRoleCollection.ndgRole.roleName", "firstName", "lastName" ).exclude("*").rootName("items");
         renderJSON(addRangeToJson(userListSerializer.serialize(users), startIndex, totalSize));
     }
 
@@ -156,6 +206,14 @@ public class ListData extends Controller{
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.transform( new NdgResultCollectionTransformer(), "resultCollection" );
         surveyListSerializer.include( "id", "title", "uploadDate", "idUser", "surveyId", "ndgUser.username", "resultCollection", "available" )
+            .exclude( "*" ).rootName( "items" );
+        renderJSON( addRangeToJson( surveyListSerializer.serialize( subList), startIndex, totalSize ) );
+    }
+
+    private static void serializeGroups( List<NdgGroup> subList, int startIndex, long totalSize ) {
+        JSONSerializer surveyListSerializer = new JSONSerializer();
+        surveyListSerializer.transform( new NdgUserCollectionTransformer(), "userCollection" );
+        surveyListSerializer.include( "groupName", "userCollection" )
             .exclude( "*" ).rootName( "items" );
         renderJSON( addRangeToJson( surveyListSerializer.serialize( subList), startIndex, totalSize ) );
     }
@@ -203,6 +261,14 @@ public class ListData extends Controller{
         public void transform( Object collection ) {
             Collection ndgResultCollection = (Collection)collection;
             getContext().write( String.valueOf( ndgResultCollection.size() ) );
+        }
+    }
+
+    private static class NdgUserCollectionTransformer extends AbstractTransformer {
+
+        public void transform( Object collection ) {
+            Collection ndgUserCollection = (Collection)collection;
+            getContext().write( String.valueOf( ndgUserCollection.size() ) );
         }
     }
 }

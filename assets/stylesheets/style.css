@@ -370,7 +370,7 @@ body {
 
 #pageSelect #userManagement {
     padding-left: 10px;
-        display: inline;
+    display: inline;
     color: #7691a9;
     font-size: 19pt;
     font-family: "Nokia Pure Regular";
@@ -381,7 +381,7 @@ body {
     color: #9eadcd;
 }
 
-#plusButton {
+.plusButton {
     margin-left: 58px;
 }
 
