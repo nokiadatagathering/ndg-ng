@@ -437,6 +437,22 @@ body {
     width: 85px;
 }
 
+.sortIndicatorPlaceholder {
+    display: inline-block;
+    min-width: 9px;
+    height: 5px;
+    margin-left: 5px;
+    margin-bottom: 3px;
+}
+
+.sortAscending {
+    background: url('../images/[list-arrow]up.png') no-repeat;
+}
+
+.sortDescending {
+    background: url('../images/[list-arrow]down.png') no-repeat;
+}
+
 #minimalist td {/*ROWS*/
     height: 44px;
     border-bottom: 1px solid #dadbe0;

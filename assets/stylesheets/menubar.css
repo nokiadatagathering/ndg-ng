@@ -6,7 +6,7 @@
 }
 
 .menubar.users {
-    max-width: 50px;
+    max-width: 48px;
     width : 5%;
  }
 
@@ -15,9 +15,10 @@
 }
 
 .menubar span {
-    margin-left: 1px;
-    margin-right: 1px;
-    width: 50px;
+    margin-left: 0px;
+    margin-right: 0px;
+/*   can be changed to 50px when font px unit accepted?*/
+    width: 48px;
     height: 42px;
     margin-bottom: 1px;
     margin-top: 1px;

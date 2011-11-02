@@ -97,16 +97,16 @@ var DynamicTable = function() {
         $.each(columnIds,function(i,item) {
             htmlContent += '<th scope="col" id="' + item + '" ';
             if(i == 0 && item != null) {
-                htmlContent +='class = "sortHeader firstColumnHeader" ';
+                htmlContent +='class = "sortHeader firstColumnHeader ' + item + 'Width"';
             } else
                 if(item != null) {
-                htmlContent +='class = "sortHeader" ';
-                        }
-            htmlContent += '>';
-            if(LOC.get(columnTexts[i]) != null) {
-                htmlContent += LOC.get(columnTexts[i]);
+                    htmlContent +='class = "sortHeader ' + item + 'Width"';
                 }
-            htmlContent +='</th>';
+                htmlContent += '><div>';
+                if(LOC.get(columnTexts[i]) != null) {
+                    htmlContent += LOC.get(columnTexts[i]);
+                }
+            htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>';
         });
         htmlContent += '</tr></thead>'
                      + '<tbody id="dynamicListTable">'
@@ -148,19 +148,20 @@ var DynamicTable = function() {
         var htmlContent = '';
         htmlContent += '<thead>' + '<tr>';
         $.each(columnIds,function(i,item) {
-        htmlContent += '<th scope="col" id="' + item + 'Width">'
-                    + '<a href="#"' ;
-        if(item != null) {
-            htmlContent +='class = "sortHeader" id="'
-                        + item
-                        + '"';
-                    }
-        htmlContent += '" >';
-        if(LOC.get(columnTexts[i]) != null) {
-            htmlContent += LOC.get(columnTexts[i]);
-            }
-        htmlContent +='</a></th>';
+            htmlContent += '<th scope="col" id="' + item + '" '
+            if(i == 0 && item != null) {
+                htmlContent +='class = "sortHeader firstColumnHeader ' + item + 'Width"';
+            } else
+                if(item != null) {
+                    htmlContent +='class = "sortHeader ' + item + 'Width"';
+                }
+                htmlContent += '><div>';
+                if(LOC.get(columnTexts[i]) != null) {
+                    htmlContent += LOC.get(columnTexts[i]);
+                }
+            htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>'
         });
+
         htmlContent += '</thead>'
                      + '<tbody id="dynamicListTable">'
                      + '</tbody>';
@@ -240,10 +241,10 @@ var DynamicTable = function() {
         var columnIndex = jQuery.inArray( columnId, columnIds );
         resetColumnTitle();
         if ( columnSortAscending[columnIndex] ) {
-            $('#' + columnId).text( LOC.get(columnTexts[columnIndex])+ CONST.get('DESC') );
+            $('#' + columnId + ' span' ).addClass('sortDescending');
             lastSortAscending = columnSortAscending[columnIndex] = false;
         } else {
-            $('#' + columnId).text( LOC.get(columnTexts[columnIndex]) + CONST.get('ASC') );
+            $('#' + columnId + ' span' ).addClass('sortAscending');
             lastSortAscending = columnSortAscending[columnIndex] = true;
         }
         lastSortByColumn = columnDbFields[columnIndex];
@@ -252,7 +253,8 @@ var DynamicTable = function() {
 
     function resetColumnTitle() {
         $.each(columnIds,function(i,item) {
-            $('#' + item).text( LOC.get(columnTexts[i]) );
+            $('#' + item + ' span').removeClass('sortAscending');
+            $('#' + item + ' span').removeClass('sortDescending');
         });
     }
 

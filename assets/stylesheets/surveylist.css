@@ -1,5 +1,21 @@
 /*waiting for UIspec with dimensions*/
 
+.executeSortBySurveyNameWidth {
+    width: 220px;
+}
+
+.executeSortByDatePublishedWidth {
+    width: 100px !important;
+}
+
+.executeSortByPublisherWidth {
+    width: 100px !important;
+}
+
+.executeSortByResultsWidth {
+    width: 80px !important;
+}
+
 #surveyNameCell {
     padding-left: 20px;
 }

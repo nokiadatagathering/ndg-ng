@@ -62,16 +62,11 @@ var UserManagement = function() {
         var htmlContent = '';
         htmlContent += '<thead>' + '<tr>';
 
-        htmlContent += '<th scope="col" id="' + "executeSortByGroup" + 'Width">'
-                    + '<a href="#"' ;
-        htmlContent +='class = "sortHeader2" id="'
-                        + "executeSortByGroup"
-                        + '"';
-
-        htmlContent += '" >';
+        htmlContent += '<th scope="col" id="' + "executeSortByGroup" + '" ';
+        htmlContent +='class = "sortHeader2 ' + "executeSortByGroup" + 'Width"';
+        htmlContent += '><div>';
         htmlContent += LOC.get( 'LOC_GROUP' );
-        htmlContent +='</a></th>';
-
+        htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>';
 
         htmlContent += '</thead>'
                      + '<tbody id="dynamicGroupListTable">'
@@ -276,11 +271,13 @@ var UserManagement = function() {
 
     function toggleSortByColumn(event) {
         var columnId = 'executeSortByGroup';
+        $('#' + columnId + ' span').removeClass('sortAscending');
+        $('#' + columnId + ' span').removeClass('sortDescending');
         if ( lastSortAscending ) {
-            $('#' + columnId).text( LOC.get( 'LOC_GROUP' ) + CONST.get('DESC') );
+            $('#' + columnId + ' span' ).addClass('sortDescending');
             lastSortAscending = false;
         } else {
-            $('#' + columnId).text( LOC.get( 'LOC_GROUP' ) + CONST.get('ASC') );
+            $('#' + columnId + ' span' ).addClass('sortAscending');
             lastSortAscending = true
         }
         fillListGroupData( 'groupName', lastSortAscending );

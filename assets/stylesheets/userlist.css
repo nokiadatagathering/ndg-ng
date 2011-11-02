@@ -1,24 +1,24 @@
-#executeSortByUsernameWidth {
+.executeSortByUsernameWidth {
     padding-bottom: 10px;
     width: 140px;
 }
 
-#executeSortByEmailWidth {
+.executeSortByEmailWidth {
     padding-bottom: 10px;
     width: 160px;
 }
 
-#executeSortByPhoneWidth {
+.executeSortByPhoneWidth {
     padding-bottom: 10px;
     width: 130px;
 }
 
-#executeSortByPermissionWidth {
+.executeSortByPermissionWidth {
     padding-bottom: 10px;
     width: 100px;
 }
 
-#executeSortByGroupWidth {
+.executeSortByGroupWidth {
     padding-bottom: 10px;
     width: 195px;
 }
@@ -59,12 +59,14 @@
 }
 
 #minimalist_layout2 th {/*COLUMN HEADER*/
+    padding-bottom: 10px;
     font-weight: bold;
     border-bottom: 2px solid #dadbe0;
     text-align: left;
     font-size: 14px;
     font-family: "Nokia Pure Bold";
     color: #7691a9;
+    text-transform: uppercase;
 }
 
 #minimalist_layout2 thead tr th a{/*COLUMN HEADER*/
@@ -92,12 +94,14 @@
 }
 
 #minimalist_layout2_2 th {/*COLUMN HEADER*/
+    padding-bottom: 10px;
     font-weight: bold;
     border-bottom: 2px solid #dadbe0;
     text-align: left;
     font-size: 14px;
     font-family: "Nokia Pure Bold";
     color: #7691a9;
+    text-transform: uppercase;
 }
 
 #minimalist_layout2_2 thead tr th a{/*COLUMN HEADER*/
