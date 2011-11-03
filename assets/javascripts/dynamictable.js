@@ -29,8 +29,8 @@ var DynamicTable = function() {
         $('#contentToolbar').empty();
         $('#contentToolbar').unbind('click');
         if(elementEndIndex < totalItems){
-            $('#contentToolbar').css('background-color', 'black');
-            $('#contentToolbar').append('<span class="toolbarText">Click here to expand item list</span>');
+            $('#contentToolbar').css('background-color', '#20264a');
+            $('#contentToolbar').append('<span class="toolbarText">Click here for more items</span>');
             $('#contentToolbar').click(function() {
                 $('#contentToolbar').unbind('click');
                 scrollDownList();
