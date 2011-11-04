@@ -18,7 +18,7 @@ var SendSurvey = function() {
                                + '<tbody id="userListTable">'
                                + '</tbody></table>' );
 
-        $.getJSON('/application/sendSurveysUserList', {'formID': currentSurveyId}, function(i) {fillUserTable(i);} );
+        $.getJSON('/listData/sendSurveysUserList', {'formID': currentSurveyId}, function(i) {fillUserTable(i);} );
         sendSurveyDialog.dialog({beforeClose: function(){$('#buttonSendSurveyDone').unbind('click');}} )
         $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );
     }
@@ -47,7 +47,7 @@ var SendSurvey = function() {
             $.ajax(
             {
                 type: "POST",
-                url: "/sendsurveys/" + currentSurveyId ,
+                url: "surveyManager/sendsurveys/" + currentSurveyId ,
                 data: {users : selectedUsers},
                 success: function(msg){
                    alert( "Surveys available");

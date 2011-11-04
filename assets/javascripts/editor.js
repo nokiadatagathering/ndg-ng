@@ -31,7 +31,7 @@ var surveyModel;
 
     function createEditor(){
 
-        $.getJSON( '/application/questionType', function( data ){
+        $.getJSON( '/surveyManager/questionType', function( data ){
                                                    typeList = data.types;
                                                 } );
 
@@ -122,7 +122,7 @@ var surveyModel;
         $.ajax(
         {
             type: "POST",
-            url: "/saveSurvey",
+            url: "/surveyManager/saveSurvey",
             data: {surveyData : surveyModel.getSurveyString()},
             success: function( msg ){
                refresh( msg );
@@ -149,6 +149,7 @@ var surveyModel;
     }
 
     function onBackClicked(){
+        onSaveClicked();
         restoreLayout()
         SurveyList.showSurveyList();
     }
@@ -191,13 +192,13 @@ var surveyModel;
         appendQuestionElement( createQuestionElement( question ), question, selectElem );
 
         showCategory( selectElem );
-        $( '#' + question.uiId ).trigger( 'click' );
+//        $( '#' + question.uiId ).trigger( 'click' );
 
 //        switchCategoryDialog.dialog( "close" );
     }
 
     function fillEditor(id){
-        $.getJSON('/application/getSurvey', {'surveyId': parseInt(id)}, function(data){
+        $.getJSON('/surveyManager/getSurvey', {'surveyId': parseInt(id)}, function(data){
                                                                 surveyModel = new SurveyModel(data.survey);
                                                                 fillCategoryList();
                                                             } );
@@ -226,7 +227,7 @@ var surveyModel;
                 + '<h3>'
                 + '<span class="expandIcon"></span>'
                 + '<span class="categoryName" id="' + categoryLabelId + '">' + category.label + '</span>'
-                + '<span class="deleteElement" title="' + LOC.get( 'LOC_DELETE' ) + '"/>'
+                + '<div class="deleteElement" title="' + LOC.get( 'LOC_DELETE' ) + '"></div>'
                 + '<div style="clear:both;"></div>'
                 + '</h3>'
                 + '<ul class="listQuestion"></ul>'
@@ -263,7 +264,7 @@ var surveyModel;
 
     function setCategoryUiOptions( categoryId, bVal ){
 
-        $( '#' + categoryId + ' span.deleteElement').click( categoryId, function(i){onDeleteCategoryClicked(i);} );
+        $( '#' + categoryId + ' .deleteElement').click( categoryId, function(i){onDeleteCategoryClicked(i);} );
 
         new EditedLabel( $( '#' + categoryId + 'label' ), function( newTitle ){
                                     surveyModel.updateCategory( categoryId, newTitle );
@@ -310,7 +311,7 @@ var surveyModel;
     function fillQuestions( data, categoryId ){
         $.each(data, function(i,item) {
             var questioneElement = createQuestionElement( item, categoryId );
-            appendQuestionElement(questioneElement, item, categoryId)
+            appendQuestionElement(questioneElement, item, categoryId);
         });
     }
 
@@ -324,19 +325,20 @@ var surveyModel;
         }
 
         var questionLabelId = question.uiId + 'label';
-
-
         var qElement = $(
                       '<li id="' + question.uiId +'" class="ui-state-default listItemQuestion"><div>'
                     + '<div class="questionText"> '
                     + '<span id="' + questionLabelId + '"> ' + question.label + '</span>'
                     + '</div>'
-                    + '<div class="qType"><select class="typeSelect"></select></div>'
-                    + '<div class="deleteElement">'
-                    + '<span class="deleteElement" title="' + LOC.get('LOC_DELETE') + '"/>'
-                    + '</div>'
+
+                    + '<div class="additionalButtons"></div>'
+                    + ''
+
+                    + '<div class="qIcon deleteQuestion" title="' + LOC.get('LOC_DELETE') + '"></div>'
+                    + '<div class="qIcon duplicateQuestion"></div>'
+                    + '<div class="qType"><span><select class="typeSelect"></select></span></div>'
                     + '<div style="clear:both;"></div>'
-                    + '<div class="questionDetails"> <span>Some details of question like option</span> </div>'
+                    + '<div class="questionDetails"></div>'
                     + '</li>');
 
         return qElement;
@@ -351,28 +353,33 @@ var surveyModel;
         fillTypeCombo( question.uiId );
 
         $( '#'+ question.uiId + ' .typeSelect' ).val( question.questionType.id );
+        $( '#'+ question.uiId + ' .typeSelect' ).bind( 'change', question.uiId, function( i ){onQuestionTypeChanged( i );} );
 
-        $( '#'+ question.uiId + ' .typeSelect' ).live( 'change', question.uiId, function( i ){onQuestionTypeChanged( i );} );
-        $( '#'+ question.uiId + ' span.deleteElement' ).live( 'click', question.uiId, function( i ){onDeleteQuestionClicked ( i );} );
-        $( '#'+ question.uiId ).live( 'click', question.uiId, function( i ){onQuestionClicked( i );} );
+
+        $( '#'+ question.uiId + ' .deleteQuestion' ).bind( 'click', question.uiId, function( i ){onDeleteQuestionClicked ( i );} );
+        $( '#'+ question.uiId + ' .duplicateQuestion' ).bind( 'click', question.uiId, function( i ){onDuplicateQuestionClicked ( i );} );
+        $( '#'+ question.uiId ).bind( 'click', question.uiId, function( i ){onQuestionClicked( i );} );
 
         new EditedLabel( $( "#" + question.uiId + 'label' ), function( newTitle ){
                                                     surveyModel.updateQuestionTitle( question.uiId, newTitle );
                                                 } );
         hideQuestion( question.uiId );
+
+        var uiDetails = new QuestionUiElement( question );
+        uiDetails.init();
     }
 
     function hideQuestion( qId ){
          $( '#'+ qId + ' .questionDetails' ).hide();
-         $( '#'+ qId + ' .deleteElement' ).hide();
-         $( '#'+ qId + ' .qType' ).hide();
+//         $( '#'+ qId + ' .qType' ).hide();
+         $( '#'+ qId + ' .additionalButtons' ).hide();
     }
 
 
     function showQuestion( qId ){
          $( '#'+ qId + ' .questionDetails' ).show();
-         $( '#'+ qId + ' .deleteElement' ).show();
-         $( '#'+ qId + ' .qType' ).show();
+//         $( '#'+ qId + ' .qType' ).show();
+         $( '#'+ qId + ' .additionalButtons' ).show();
     }
 
     function fillTypeCombo( qId ){
@@ -394,6 +401,15 @@ var surveyModel;
     function onDeleteQuestionClicked( event ){
         $( '#' + event.data ).empty().remove();
         surveyModel.deleteQuestion( event.data );
+    }
+
+    function onDuplicateQuestionClicked ( event ){
+        var category = surveyModel.getCategoryForQuestion( event.data );
+        var newQuestion = surveyModel.duplicateQuestion( event.data, category );
+        appendQuestionElement(  createQuestionElement( newQuestion ),
+                                newQuestion,
+                                category.uiId );
+
     }
 
     function onQuestionClicked( event ){

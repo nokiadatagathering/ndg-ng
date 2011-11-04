@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
 import javax.persistence.Entity;
@@ -10,10 +6,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import play.db.jpa.Model;
 
-/**
- *
- * @author wojciech.luczkow
- */
 @Entity
 @Table( name = "user_role" )
 public class UserRole extends Model {

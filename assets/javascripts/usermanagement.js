@@ -186,7 +186,7 @@ var UserManagement = function() {
                 } else if ( ui.draggable.hasClass("addableToUserList") ) {
                     var sourceUserId = ui.draggable.context.attributes['userId'].value;
                     var targetGroupName = event.target.attributes['groupName'].value;
-                    $.ajax({url: 'application/addUserToGroup',
+                    $.ajax({url: 'userManager/addUserToGroup',
                             data: {username: sourceUserId, groupname: targetGroupName},
                             error: function(jqXHR, textStatus, errorThrown) {alert('error');},
                             success: function(data, textStatus, jqXHR){UserManagement.refresh();}

@@ -4,28 +4,24 @@
 
 # Home page
 GET     /                                       Application.index
-GET     /CheckUrl                               Application.checkUrl
 GET     /management                             Management.index
 GET     /management/{id}                        Management.get
 POST    /management                             Management.save
 POST    /management/upload                      Management.upload
-POST    /delete/{formID}                        Application.delete
-POST    /duplicate/{formID}                     Application.duplicate
-POST    /sendsurveys/{formID}                   Application.sendsurveys
-POST    /saveSurvey                             Application.saveSurvey
+POST    /delete/{formID}                        SurveyManager.delete
+POST    /sendsurveys/{formID}                   SurveyManager.sendsurveys
+POST    /saveSurvey                             SurveyManager.saveSurvey
+POST    /duplicate/{formID}                     SurveyManager.duplicate
 GET     /service/{<[0-9]+>id}                   Service.get
-POST    /service/prepare                        Service.prepare
-GET     /service/prepare                        Service.prepare
-POST    /service/prepareselected                Service.prepareselected
-GET     /service/prepareselected                Service.prepareselected
-
 GET     /webui                                  webui.Administration.index
 
 GET     /ClientUpdate                           ClientUpdate.index
+GET     /CheckUrl                               ClientUtils.checkUrl
 
 GET     /ReceiveSurvey                          Surveys.list
 GET     /ReceiveSurvey/{<[0-9]+>formID}         Surveys.download
 POST    /PostResults                            PostResults.upload
+GET     /checkAuthorization                     PostResults.checkAuthorization
 
 GET     /LanguageList                           Language.list
 GET     /LocalizationServing/text               Language.languageText

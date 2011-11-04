@@ -15,12 +15,9 @@ import models.NdgResult;
 import models.NdgUser;
 import models.Survey;
 import models.UserRole;
+import play.db.jpa.JPA;
 import play.mvc.Controller;
 
-/**
- *
- * @author wojciech.luczkow
- */
 public class ListData extends Controller{
 
      public static void categories( int surveyId){
@@ -238,7 +235,18 @@ public class ListData extends Controller{
         }
     }
 
-        private static class NdgUserUserRoleCollectionComapator implements Comparator<NdgUser> {
+    public static void sendSurveysUserList( String formID ){
+        List<NdgUser> users = JPA.em().createNamedQuery( "findUserSendingSurvey" )
+                                    .setParameter( "surveyId", formID )
+                                    .getResultList();
+
+        JSONSerializer userListSerializer = new JSONSerializer();
+        userListSerializer.include( "id", "username", "phoneNumber" ).exclude("*").rootName("items");
+
+        renderJSON( userListSerializer.serialize( users ) );
+    }
+
+    private static class NdgUserUserRoleCollectionComapator implements Comparator<NdgUser> {
 
         private boolean  isAscending = true;
 

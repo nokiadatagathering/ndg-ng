@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import controllers.exceptions.SurveyXmlCreatorException;
@@ -25,10 +21,6 @@ import play.mvc.Controller;
 import play.mvc.Http.StatusCode;
 
 
-/**
- *
- * @author wojciech.luczkow
- */
 public class Surveys extends Controller {
 
     public static void list() {
@@ -74,9 +66,7 @@ public class Surveys extends Controller {
     }
 
     private static NdgUser getCurrentUser() {
-        // TODO get userName from WWW-Authentication header
-        String userName = "admin";
-        return NdgQuery.getUserByUserName(userName);
+        return DigestUtils.extractUserFromHeader(request.headers.get("authorization"));
     }
 
 }

@@ -99,6 +99,24 @@ var SurveyModel = function(s){
         });
     }
 
+    this.duplicateQuestion = function( queId, category ){
+        var newQuestion = new Question( getQue( queId ) );
+        category.questionCollection.push( newQuestion );
+        return newQuestion;
+    }
+
+    this.getCategoryForQuestion = function( qId ){
+        var category;
+        $.each(survey.categoryCollection, function( i, cateItem ){
+            $.each(cateItem.questionCollection, function( i, qItem ){
+               if( qItem.uiId == qId ){
+                   category = cateItem;
+               }
+            });
+        });
+        return category;
+    }
+
     function removeFromOldCategory( question ){
         $.each( survey.categoryCollection, function( idx, item ){
             var index = $.inArray( question, item.questionCollection );
@@ -141,14 +159,27 @@ var Category = function(){
     this.questionCollection = [];
 }
 
-var Question = function(){
+function Question( question ){
+
     var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
 
-    this.label = "New question";
-    this.objectName = "question" + numRand;
-    this.questionType = new Object();
-    this.questionType.id = 1;
-    this.questionOptionCollection = [];
+    if( question != undefined ){
+        this.label = question.label;
+        this.objectName = "question" + numRand;
+        this.questionType = question.questionType;
+        this.questionOptionCollection = [];
+
+        for( var idx = 0; idx < question.questionOptionCollection.length; idx++){
+            this.questionOptionCollection.push( new QuestionOption( question.questionOptionCollection[idx] ) );
+        }
+
+    }else{
+        this.label = "New question";
+        this.objectName = "question" + numRand;
+        this.questionType = new Object();
+        this.questionType.id = 1;
+        this.questionOptionCollection = [];
+    }
 }
 
 var Survey = function(){
@@ -157,8 +188,14 @@ var Survey = function(){
     this.categoryCollection.push( new Category() );
 }
 
-var QuestionOption = function(){
-    this.label = "New option";
-    this.optionValue = "val"; //TODO
+var QuestionOption = function( option ){
+    if( option != undefined ){
+        this.label = option.label;
+        this.optionValue = option.optionValue;
+    }else{
+        this.label = "New option";
+        this.optionValue = "val"; //TODO edit val
+    }
+
 }
 

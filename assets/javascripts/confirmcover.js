@@ -20,7 +20,7 @@ var ConfirmCover = (function() {
         coverDiv.append( '<p>' + LOC.get('LOC_CONFIRM_DELETE') +  '</p>');
         $("body").prepend(coverDiv);
         coverDiv.click(userId, function(event){
-            $.post( "application/deleteUser?userId=" + event.data, function(data) {
+            $.post( "userManager/deleteUser?userId=" + event.data, function(data) {
                 $('#confirmDeleteBar').remove();
                 DynamicTable.refresh();
             });

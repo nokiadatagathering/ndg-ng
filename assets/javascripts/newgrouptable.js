@@ -26,7 +26,7 @@ var NewGroupTable = (function() {
             });
         //fill table
         var tableHtml;
-        tableHtml = '<form id="newGroupForm" method="post" action="application/addGroup"><table><tr>'
+        tableHtml = '<form id="newGroupForm" method="post" action="userManager/addGroup"><table><tr>'
                   + '<td><input class="newGroupInput" type="text" name="groupname" title="Groupname" /></td>'
                   + '<td><input type="submit" class="submitNewUserButton" value="" /></td>'
                   + '</tr></table></form>'
@@ -59,7 +59,7 @@ var NewGroupTable = (function() {
                 var formData = $('#newGroupForm').serialize();
                 $.ajax({
                     type: "post",
-                    url: "application/addGroup",
+                    url: "userManager/addGroup",
                     data: formData,
                     success: function(result) {
                         UserManagement.refresh();

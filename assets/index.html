@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
@@ -38,7 +38,7 @@
   <link rel='stylesheet' href='stylesheets/sendsurvey.css'>
   <link rel='stylesheet' href='stylesheets/contenttoolbar.css'>
   <link rel='stylesheet' href='stylesheets/contextpopup.css'>
-  <link rel='stylesheet' href='stylesheets/questionpanel.css'>
+  <link rel='stylesheet' href='stylesheets/questionelement.css'>
   <!-- end CSS-->
 
 
@@ -59,8 +59,8 @@
   <script type="text/javascript" src="javascripts/editlabel.js"></script>
   <script type="text/javascript" src="javascripts/surveylist.js"></script>
   <script type="text/javascript" src="javascripts/contextpopup.js"></script>
-  <script type="text/javascript" src="javascripts/questionpanel.js"></script>
   <script type="text/javascript" src="javascripts/surveymodel.js"></script>
+  <script type="text/javascript" src="javascripts/questionelement.js"></script>
   <script type="text/javascript" src="javascripts/editor.js"></script>
   <script type="text/javascript" src="javascripts/resultlist.js"></script>
   <script type="text/javascript" src="javascripts/sendsurvey.js"></script>
@@ -122,7 +122,7 @@
     </div>
 
     <div id="dialog-upload" class="dialogs">
-        #{form @upload(), id:'uploadForm', enctype:'multipart/form-data', target:'cgiFrame'}
+        #{form @surveyManager.upload(), id:'uploadForm', enctype:'multipart/form-data', target:'cgiFrame'}
         <span id="dialog-upload-query" ></span>
         <input type="file" name="filename" id="uploadSurveyForm" />
         <input type="hidden" name="uploadSurveyId" id="uploadSurveyId" />

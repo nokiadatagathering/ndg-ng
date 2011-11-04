@@ -46,4 +46,13 @@ public class PostResults extends Controller{
             }
         }
     }
+
+    public static void checkAuthorization() {
+        if(!DigestUtils.isAuthorized(request.headers.get("authorization"), request.method) )
+        {
+            DigestUtils.setDigestResponse(response);
+        } else {
+            renderText("OK");
+        }
+    }
 }

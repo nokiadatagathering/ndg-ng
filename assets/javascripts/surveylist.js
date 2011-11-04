@@ -91,6 +91,7 @@ var SurveyList = function() {
 
     function onEditSurveyClicked(e) {
         $('#plusButton').unbind('mouseover.surveyList');
+        $(window).unbind('scroll');
         Editor.openSurvey(e.data);
     }
 

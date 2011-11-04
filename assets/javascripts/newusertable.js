@@ -25,7 +25,7 @@ var NewUserTable = (function() {
             });
         //fill table
         var tableHtml;
-        tableHtml = '<form id="newUserForm" method="post" action="application/addUser"><table class="newUserTableClass"><tr class="newUserTrClass">'
+        tableHtml = '<form id="newUserForm" method="post" action="userManager/addUser"><table class="newUserTableClass"><tr class="newUserTrClass">'
                   + '<td class="newUserTdClass"><input class="newUserInput" type="text" name="username" title="Username" /></td>'
                   + '<td class="newUserTdClass"><input class="newUserInput" type="text" name="firstName" title="First Name" /></td>'
                   + '<td class="newUserTdClass"><input id="newUserFakePwd" class="grayed newUserInput" type="text" name="fakepwd" value="Password" />'
@@ -102,7 +102,7 @@ var NewUserTable = (function() {
                 if( $("#newUserForm input[name=password]").val() === $("#newUserForm input[name=passwordRetype]").val()) {
                 $.ajax({
                     type: "post",
-                    url: "application/addUser",
+                    url: "userManager/addUser",
                     data: formData,
                     success: function(result) {
                         DynamicTable.refresh();

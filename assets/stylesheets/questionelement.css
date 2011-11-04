@@ -1,0 +1,111 @@
+/*
+    Document   : questionelement
+    Created on : 2011-11-02, 15:19:50
+    Author     : damian.janicki
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+div.questionDetails
+{
+    padding: 10px 0px 10px 0px;
+}
+
+.detailLabel
+{
+    font-size: 12pt;
+    color: #878787;
+    font-family: "Nokia Pure Regular";
+    text-align: left;
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+
+.detailInputText
+{
+    font-size: 12pt;
+    margin-right: 20px;
+    width : 50px;
+    color: #acacac;
+    font-family: "Nokia Pure Regular";
+    text-align: left;
+}
+
+.descriptiveDefault.detailInputText
+{
+    width: 150px;
+}
+
+.defaultLabel
+{
+    display: none;
+}
+
+
+div.addOption
+{
+    display: inline-block;
+    background: url(../images/Add.png);
+    height: 33px;
+    width: 30px;
+    background-position: 0px 0px;
+}
+
+div.addOption:hover
+{
+    background-position: 0px 67px;
+}
+
+div.addOption:active {
+    background-position: 0px 34px;
+}
+
+
+div.importOption
+{
+    display: inline-block;
+    background: url(../images/Import.png);
+    height: 32px;
+    width: 69px;
+    background-position: 0px 0px;
+    margin-right: 15px;
+}
+
+div.importOption:hover
+{
+    background-position: 0px 65px;
+}
+
+div.importOption:active {
+    background-position: 0px 33px;
+}
+
+div.deleteOption{
+    display: inline-block;
+    background: url(../images/delete-artevnative.jpg);
+    height: 14px;
+    width: 14px;
+    background-position: 0px 0px;
+    margin-left: 10px;
+}
+
+div.deleteOption:hover
+{
+    background-position: 0px 15px;
+}
+
+div.deleteOption:active {
+    background-position: 0px 29px;
+}
+
+.optionInput
+{
+    height: 20px;
+    width: auto;
+}
+
+.optionCheckBox
+{
+    margin-right: 7px;
+}

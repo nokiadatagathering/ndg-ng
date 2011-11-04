@@ -2,26 +2,31 @@
     padding-left: 14px;
 }
 
-#checkboxColumnIdWidth {
+.checkboxColumnIdWidth {
     width: 76px;
 }
 
-#executeSortByResultIdWidth {
+.executeSortByResultIdWidth {
     width: 158px;
 }
 
-#executeSortByResultTitleWidth {
+.executeSortByResultTitleWidth {
     width: 180px;
 }
 
-#executeSortByDateSentWidth {
+.executeSortByDateSentWidth {
     width: 163px;
 }
 
-#executeSortByUserWidth {
+.executeSortByUserWidth {
     width: 152px;
 }
 
-#executeSortByLocationWidth {
+.executeSortByLocationWidth {
     width: 96px;
+}
+
+.itemTextColor
+{
+    color: #3a77ca;
 }

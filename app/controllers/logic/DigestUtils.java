@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers.logic;
 
 import controllers.util.Constants;
@@ -12,10 +8,6 @@ import play.mvc.Http;
 import play.mvc.Http.Response;
 import play.mvc.Http.StatusCode;
 
-/**
- *
- * @author wojciech.luczkow
- */
 public class DigestUtils {
     public static boolean isAuthorized(Http.Header authorizationHeader, String method)
     {
@@ -80,6 +72,12 @@ public class DigestUtils {
         authHeader.append(Constants.SERVER_KEY);
         authHeader.append("\", opaque=\"bmRnb3BhcXVl\" ");
         return authHeader.toString();
+    }
+
+    public static NdgUser extractUserFromHeader(Http.Header authorizationHeader) {
+            String authorizationString = authorizationHeader.value().replace(',', ' ');
+            String username = getParamValue("username", authorizationString);
+            return NdgUser.find("byUsername", username).first();
     }
 
 }

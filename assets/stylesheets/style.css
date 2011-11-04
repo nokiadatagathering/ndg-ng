@@ -477,7 +477,7 @@ body {
 @import url('sendsurvey.css');
 @import url('contenttoolbar.css');
 @import url('contextpopup.css');
-@import url('questionpanel.css);
+@import url('questionelement.css');
 
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.

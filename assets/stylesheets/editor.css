@@ -79,7 +79,7 @@ li.listItemQuestion
     font-size: 12pt;
     font-weight: normal;
     font-family: "Nokia Pure Regular";
-    height: 35px;
+    height: auto;
     vertical-align:bottom;
     border: 1px solid #dadbe0;
     background: #f9f9fa;
@@ -93,38 +93,92 @@ li.listItemQuestion.elementSelected {
 
 .qType
 {
-    float:left;
-    width: 50px;
+    float: right;
+    width: auto;
+    height: 35px;
+}
+
+.qType span
+{
+    margin-top: 7px;
+    margin-bottom: 7px;
+    margin-right: 15px;
+    display: inline-block;
 }
 
 div.questionText
 {
     float:left;
-    margin-top:7px;
-    margin-bottom:7px;
-    display: inline-block;
-    width: 70%;
+
+    width: auto;
+    height: 35px;
     font-size: 12pt;
 }
 
-div.deleteElement
+div.questionText span
 {
-    float:right;
-    width: 15%;
+    margin-top:7px;
+    margin-bottom:7px;
+    display: inline-block;
+    font-size: 12pt;
 }
 
-div.deleteElement span, span.deleteElement
+.additionalButtons
 {
+    float: left;
+    width: auto;
+    height: 35px;
+    width: auto;
+    margin-left: 20px;
+}
+
+.deleteElement
+{
+    display: inline-block;
     float: right;
     width: 50px;
-    height: 42px;
-    margin-right: 5px;
-    background: url(../images/icon_delete_off.png) no-repeat;
+    height: 44px;
+    background: url(../images/delete-44px.jpg);
+    background-position: 0px 0px;
 }
 
-div.deleteElement span:hover, span.deleteElement:hover
+.deleteElement:hover
 {
-    background: #0161ad url(../images/icon_delete_on.png) no-repeat;
+    background-position: 0px 89px;
+}
+
+.deleteElement:active
+{
+    background-position: 0px 45px;
+}
+
+.qIcon
+{
+    display: inline-block;
+    float: right;
+    width: 50px;
+    height: 35px;
+    background-position: 0px 0px;
+}
+
+.qIcon:hover
+{
+    background-position: 0px 71px;
+}
+
+.qIcon:active
+{
+    background-position: 0px 36px;
+}
+
+.deleteQuestion
+{
+    background: url(../images/delete-35px.jpg);
+}
+
+.duplicateQuestion
+{
+    background: url(../images/duplicate-35px.jpg);
 }
 
 .leftMenuButtonBlock {
@@ -244,3 +298,5 @@ span.edit
 {
     content: 'DROP HERE TO ADD A NEW QUESTION';
 }
+
+

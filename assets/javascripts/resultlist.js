@@ -47,13 +47,13 @@ var ResultList = function() {
     }
 
     function createSearchList(event) {
-       searchLabels = [LOC.get("LOC_RESULTTITLE"), LOC.get("LOC_LOCATION"), "LOC_DATESENT", "LOC_USER"];
+       searchLabels = [LOC.get("LOC_RESULTTITLE"), LOC.get("LOC_LOCATION"), LOC.get("LOC_DATESENT"), LOC.get("LOC_USER")];
        searchIds = [ "searchByTitle", "searchByLocation", "searchByDate", "searchByUser"];
        SurveyListCombo.showSearchMenu(event, searchLabels, searchIds, ResultList);
     }
 
     function fillWithData(i, item) {
-        $('#dynamicListTable').append( '<tr id="dynamicRow' + i + '">'
+        $('#dynamicListTable').append( '<tr class="itemTextColor" id="dynamicRow' + i + '">'
                                     + '<td class="resultCheckboxPaddingClass"><input type="checkbox" class="resultCheckboxClass" id="resultCheckbox' + item.id + '"/></td>'
                                     + '<td>'+ item.resultId + '</td>'
                                     + '<td>' + item.title + '</td>'
