@@ -127,7 +127,7 @@ var SurveyListCombo = function() {
         });
 
         var pos = $('#searchComboBox').offset();
-        showMenu(pos.left, pos.top, 0, $('#searchComboBox').height());
+        showMenu(pos.left, pos.top, 1, $('#searchComboBox').height());
         stopEvent(event);
     }
 

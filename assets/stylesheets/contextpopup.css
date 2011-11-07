@@ -10,7 +10,7 @@
 }
 
 .popup-context, .popup-search-context {
-    width: auto;
+    width: 117px;
     font-size: 12px;
     font-family: "Nokia Pure Text";
     background: url('../images/submenu_bg.png') repeat;

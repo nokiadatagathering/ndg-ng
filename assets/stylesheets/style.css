@@ -267,13 +267,6 @@ body {
     font-family: "Nokia Pure Text";
 }
 
-#search {
-    margin-right: 10px;
-    margin-top: 10px;
-    position: relative;
-    float: right;
-}
-
 #leftcolumn {
     height: 545px;
     float: left;
@@ -304,32 +297,64 @@ body {
     padding-bottom: 40px;
 }
 
+#search {
+    margin-right: 35px;
+    margin-top: 10px;
+    position: relative;
+    float: right;
+}
+
+searchTextField::-webkit-input-placeholder {
+    color: #a77ca;
+}
+searchTextField:-moz-placeholder {
+    color: #a77ca;
+}
 
 .searchTextField {
-    font-size: 14px;
+    background: url('../images/search.png') no-repeat 95% 50%;
+    background-color: #FFFFFF;
+    font-size: 13px;
     font-family: "Nokia Pure Text";
-    color: #b7b7b7;
-    height: 26px;
+    color: #acacac;
+    width: 122px;
+    height: 22px;
+    padding-left: 3px;
+    margin-top: 2px;
+    margin-right: 10px;
+}
+
+.searchTextField:focus {
+    background-image: none;
 }
 
 #searchComboText {
     width: 98px;
     overflow:  hidden;
     float: left;
+    color: #3a77ca;
+    font-family: "Nokia Pure Text";
+    font-size: 13px;
+    text-indent: 1em;
+    line-height: 32px;
 }
 
 #searchComboBox {
     float: right;
-    height: 34px;
-    width: 124px;
-    background: url('../images/combobox_empty2.png') no-repeat;
-    text-indent: 1em;
-    font-size: 17px;
-    font-family: "Nokia Pure Text";
-    color: #535076;
-    line-height: 34px;
-    overflow:  hidden;
-    white-space: nowrap;
+    height: 33px;
+    width: 122px;
+    background: url('../images/combobox.png') no-repeat;
+    background-position: 0 0;
+/*    overflow:  hidden;
+    white-space: nowrap; */
+}
+
+#searchComboBox:hover {
+    background-position: 0 -33px;
+}
+
+#searchComboBox:active {
+    background-position: 0 -66px;
 }
 
 /* end of the header divs */
