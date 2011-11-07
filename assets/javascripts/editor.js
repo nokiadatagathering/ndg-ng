@@ -122,11 +122,11 @@ var surveyModel;
         $.ajax(
         {
             type: "POST",
-            url: "/surveyManager/saveSurvey",
+            url: "/SurveyManager/saveSurvey",
             data: {surveyData : surveyModel.getSurveyString()},
             success: function( msg ){
-               refresh( msg );
-//               alert( "Survey saved successfully "); //TODo localize
+    //           refresh( msg );
+    //            alert( "Survey saved successfully "); //TODo localize
             },
             error: function( request, error ) {
                 alert("Problem with saving survey. Original error: " + error);
@@ -150,7 +150,7 @@ var surveyModel;
 
     function onBackClicked(){
         onSaveClicked();
-        restoreLayout()
+        restoreLayout();
         SurveyList.showSurveyList();
     }
 
