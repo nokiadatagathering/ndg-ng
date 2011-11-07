@@ -2,7 +2,15 @@
 
 require:
     - play
-    - flexjson-2.1
-    - javarosa-libraries
-    - kxml2-2.3.0
-    - poi-3.1-FINAL-20080629
+    - provided -> flexjson 2.1
+    - provided -> kxml2 2.3.0
+    - provided -> javarosa libraries
+    - provided -> poi 3.1-FINAL-20080629
+
+repositories:
+    - provided:
+        type:       local
+        descriptor: "${application.path}/../[module]/conf/dependencies.yml"
+        artifact:   "${application.path}/lib/[module]-[revision].jar"
+        contains:
+            - provided -> *
