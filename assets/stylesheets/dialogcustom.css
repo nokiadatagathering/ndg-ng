@@ -17,7 +17,7 @@
     font-size: 18px;
     color: #3a77ca;
     background: #edf0f7;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
 }
 
 .ui-dialog-titlebar {
@@ -30,7 +30,7 @@
     border-radius: 0;
     font-size: 24px;
     color: #ffffff;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
 }
 
 .ui-dialog-titlebar-close {
@@ -71,7 +71,7 @@
      background: url('../images/bt-small.png') no-repeat;
      background-position: center;
      font-size: 17px;
-     font-family: "Nokia Pure Semibold";
+     font-family: "Nokia Pure Text";
      color: #3a77ca;
      line-height: 32px;
      text-align: center;
@@ -87,7 +87,7 @@
      background: url('../images/bt-med.png') no-repeat;
      background-position: center;
      font-size: 17px;
-     font-family: "Nokia Pure Semibold";
+     font-family: "Nokia Pure Text";
      color: #3a77ca;
      line-height: 32px;
      text-align: center;
@@ -100,7 +100,7 @@
 
 .uploadFormClass {
      width: 150px;
-     font-family: "Nokia Pure Semibold";
+     font-family: "Nokia Pure Text";
      color: #3a77ca;
      font-size: 14px;
      margin-top: 39px;

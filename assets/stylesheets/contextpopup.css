@@ -12,7 +12,7 @@
 .popup-context, .popup-search-context {
     width: auto;
     font-size: 12px;
-    font-family: "Nokia Pure Semibold";
+    font-family: "Nokia Pure Text";
     background: url('../images/submenu_bg.png') repeat;
     line-height: 22px;
 }
@@ -30,7 +30,7 @@
     line-height: 22px;
     background: url('../images/submenu_bg.png') repeat;
     font-size: 12px;
-    font-family: "Nokia Pure Semibold";
+    font-family: "Nokia Pure Text";
 }
 
 .popup-selection-context a {
