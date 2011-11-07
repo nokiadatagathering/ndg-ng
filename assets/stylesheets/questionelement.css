@@ -15,7 +15,7 @@ div.questionDetails
 {
     font-size: 12pt;
     color: #878787;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
     text-align: left;
     margin-left: 5px;
     margin-right: 10px;
@@ -28,7 +28,7 @@ div.questionDetails
     margin-right: 20px;
     width : 50px;
     color: #acacac;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
     text-align: left;
 }
 

@@ -64,7 +64,7 @@
     border-bottom: 2px solid #dadbe0;
     text-align: left;
     font-size: 14px;
-    font-family: "Nokia Pure Bold";
+    font-family: "Nokia Pure Text Bold";
     color: #7691a9;
     text-transform: uppercase;
 }
@@ -81,7 +81,7 @@
     text-align: left;
     vertical-align: middle;
     font-size: 12px;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
     color: #6388bb;
 }
 
@@ -99,7 +99,7 @@
     border-bottom: 2px solid #dadbe0;
     text-align: left;
     font-size: 14px;
-    font-family: "Nokia Pure Bold";
+    font-family: "Nokia Pure Text Bold";
     color: #7691a9;
     text-transform: uppercase;
 }
@@ -116,7 +116,7 @@
     text-align: left;
     vertical-align: middle;
     font-size: 12px;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
     color: #3a77ca;
 }
 
@@ -126,7 +126,7 @@
     text-align: left;
     vertical-align: middle;
     font-size: 13px;
-    font-family: "Nokia Pure Bold";
+    font-family: "Nokia Pure Text Bold";
     color: #3a77ca;
     line-height: 11px;
 }
@@ -138,7 +138,7 @@
     vertical-align: middle;
     line-height: 11px;
     font-size: 11px;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
     color: #3a77ca;
 }
 
@@ -148,7 +148,7 @@
     text-align: left;
     vertical-align: middle;
     font-size: 13px;
-    font-family: "Nokia Pure Bold";
+    font-family: "Nokia Pure Text Bold";
     color: #3a77ca;
     line-height: 11px;
 }
@@ -160,7 +160,7 @@
     vertical-align: middle;
     line-height: 11px;
     font-size: 11px;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
     color: #3a77ca;
 }
 
@@ -176,6 +176,6 @@
     text-align: left;
     vertical-align: middle;
     font-size: 12px;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
     color: #3a77ca;
 }

@@ -1,3 +1,7 @@
+/* Importing Nokia fonts */
+
+@import url('fonts.css');
+
 /*
  * HTML5 ✰ Boilerplate
  *
@@ -206,40 +210,15 @@ input:invalid, textarea:invalid { background-color: #f0dddd; }
 table { border-collapse: collapse; border-spacing: 0; }
 td { vertical-align: top; }
 
-
-/* ==|== primary styles =====================================================
-   Author:Ian Lawrence
-   ========================================================================== */
-@font-face {
-    font-family: 'Nokia Pure Regular';
-    src: url('/other/NokiaPureTextReg.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Nokia Pure Semibold';
-    src: url('/other/NokiaPureTextMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Nokia Pure Bold';
-    src: url('/other/NokiaPureTextBold.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
 body {
     margin: 0px;
     padding: 0px;
     background: #20264a url(../images/bg_pattern.png) repeat-x;
-    background-position: center;
+    background-position: 0px 230px;
 }
 
 #container {
-    background: #edf0f6;
+    background: #eeeff4;
     min-height: 740px;
     width: 980px;
     margin: 45px auto;
@@ -276,7 +255,7 @@ body {
     text-align: right;
     color: #b7b7b7;
     font-size: 14px;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
     width: 100%;
 }
 
@@ -285,7 +264,7 @@ body {
     font-size: 14px;
     margin-left: 10px;
     margin-right: 29px;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
 }
 
 #search {
@@ -315,7 +294,7 @@ body {
     text-align: center;
     color: #7b86ab;
     font-size: 16px;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
 }
 
 #contentMain {
@@ -328,7 +307,7 @@ body {
 
 .searchTextField {
     font-size: 14px;
-    font-family: "Nokia Pure Regular";
+    font-family: "Nokia Pure Text";
     color: #b7b7b7;
     height: 26px;
 }
@@ -346,7 +325,7 @@ body {
     background: url('../images/combobox_empty2.png') no-repeat;
     text-indent: 1em;
     font-size: 17px;
-    font-family: "Nokia Pure Semibold";
+    font-family: "Nokia Pure Text";
     color: #535076;
     line-height: 34px;
     overflow:  hidden;
@@ -363,16 +342,16 @@ body {
 #pageSelect #sectionTitle {
     color: #0061ad;
     display: inline;
-    font-size: 28pt;
-    font-family: "Nokia Pure Bold";
+    font-size: 28px;
+    font-family: "Nokia Pure Text";
 }
 
 #pageSelect #userManagement {
     padding-left: 10px;
     display: inline;
     color: #7691a9;
-    font-size: 19pt;
-    font-family: "Nokia Pure Regular";
+    font-size: 19px;
+    font-family: "Nokia Pure Text Light";
 }
 
 #pageSelect {
@@ -395,7 +374,7 @@ body {
 #minimalist {
     float: left;
     width: 820px;
-    background: #edf0f6;
+    background: #eeeff4;
 /*    border-collapse: collapse;*/
 }
 
@@ -407,8 +386,8 @@ body {
     border-bottom: 2px solid #dadbe0;
     padding-bottom: 10px;
     text-align: left;
-    font-size: 14pt;
-    font-family: "Nokia Pure Bold";
+    font-size: 14px;
+    font-family: "Nokia Pure Text Bold";
     color: #7691a9;
     text-transform: uppercase;
 }
@@ -458,8 +437,8 @@ body {
     border-bottom: 1px solid #dadbe0;
     text-align: left;
     vertical-align: middle;
-    font-size: 12pt;
-    font-family: "Nokia Pure Regular";
+    font-size: 12px;
+    font-family: "Nokia Pure Text";
     padding-top: 0px;
     padding-bottom: 0px;
     margin-bottom: 1px;
