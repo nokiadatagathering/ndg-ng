@@ -235,7 +235,7 @@ body {
     margin: 0px;
     padding: 0px;
     background: #20264a url(../images/bg_pattern.png) repeat-x;
-    background-position: center;
+    background-position: 0px 230px;
 }
 
 #container {
