@@ -363,15 +363,15 @@ body {
 #pageSelect #sectionTitle {
     color: #0061ad;
     display: inline;
-    font-size: 28pt;
-    font-family: "Nokia Pure Bold";
+    font-size: 28px;
+    font-family: "Nokia Pure Regular";
 }
 
 #pageSelect #userManagement {
     padding-left: 10px;
     display: inline;
     color: #7691a9;
-    font-size: 19pt;
+    font-size: 19px;
     font-family: "Nokia Pure Regular";
 }
 
@@ -407,7 +407,7 @@ body {
     border-bottom: 2px solid #dadbe0;
     padding-bottom: 10px;
     text-align: left;
-    font-size: 14pt;
+    font-size: 14px;
     font-family: "Nokia Pure Bold";
     color: #7691a9;
     text-transform: uppercase;
@@ -458,7 +458,7 @@ body {
     border-bottom: 1px solid #dadbe0;
     text-align: left;
     vertical-align: middle;
-    font-size: 12pt;
+    font-size: 12px;
     font-family: "Nokia Pure Regular";
     padding-top: 0px;
     padding-bottom: 0px;

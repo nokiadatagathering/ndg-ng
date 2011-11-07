@@ -32,7 +32,7 @@
     margin-bottom: 10px;
     margin-top: 0px;
     color: #7691a9;
-    font-size: 16pt;
+    font-size: 16px;
     font-family: "Nokia Pure Regular";
     text-align: center;
 }
@@ -41,9 +41,10 @@
     height: 19px;
     width: 60px;
     font-family: "Nokia Pure Regular";
-    font-size: 11pt;
+    font-size: 11px;
     margin-top: 1px;
     margin-bottom: 1px;
+    text-align: center;
     vertical-align: middle;
     color: #eeeff4;
 }
@@ -82,19 +83,19 @@ h4.labelClosed {
 
 .surveyNameText {
     font-family: "Nokia Pure Bold";
-    font-size: 13pt;
+    font-size: 13px;
     margin: 0 0 0 0;
 }
 
 .surveyIdText {
     font-family: "Nokia Pure Regular";
-    font-size: 11pt;
+    font-size: 11px;
     margin: 0 0 0 0;
 }
 
 #dynamicListTable .resultCollectionQuantity {
     font-family: "Nokia Pure Bold" ;
-    font-size: 13pt ;
+    font-size: 13px ;
 }
 
 .underLine {
