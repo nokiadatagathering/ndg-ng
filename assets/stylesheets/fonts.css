@@ -1,0 +1,34 @@
+/* Font Settings */
+
+@font-face {
+    font-family: "Nokia Pure Text";
+    src: url("../other/NokiaPureText/nokiapuretext-webfont.eot?"); /* IE9 */
+    src: url("../other/NokiaPureText/nokiapuretext-webfont.eot?v=2.2.5.11#iefix") format("eot"), /* IE6-IE8 */
+         url("../other/NokiaPureText/nokiapuretext-webfont.woff?v=2.2.5.11") format("woff"), /* Modern Browsers */
+         url("../other/NokiaPureText/nokiapuretext-webfont.ttf?v=2.2.5.11") format("truetype"), /* Safari, Android, iOS */
+         url("../other/NokiaPureText/nokiapuretext-webfont.svg?2.2.5.11#webfont4UxFerZxv=") format("svg"); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Nokia Pure Text Bold";
+    src: url("../other/NokiaPureTextBold/nokiapuretextbold-webfont.eot?"); /* IE9 */
+    src: url("../other/NokiaPureTextBold/nokiapuretextbold-webfont.eot?v=2.2.5.11#iefix") format("eot"), /* IE6-IE8 */
+         url("../other/NokiaPureTextBold/nokiapuretextbold-webfont.woff?v=2.2.5.11") format("woff"), /* Modern Browsers */
+         url("../other/NokiaPureTextBold/nokiapuretextbold-webfont.ttf?v=2.2.5.11") format("truetype"), /* Safari, Android, iOS */
+		 url("../other/NokiaPureTextBold/nokiapuretextbold-webfont.svg?2.2.5.11#NokiaPureTextBold") format("svg"); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Nokia Pure Text Light";
+    src: url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.eot?"); /* IE9 */
+    src: url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.eot?v=2.2.5.11#iefix") format("eot"), /* IE6-IE8 */
+         url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.woff?v=2.2.5.11") format("woff"), /* Modern Browsers */
+         url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.ttf?v=2.2.5.11") format("truetype"); /* Safari, Android, iOS */
+		 url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.svg?2.2.5.11#NokiaPureTextLight") format("svg"); /* Legacy iOS */
+    font-weight: normal;
+    font-style: normal;
+}
