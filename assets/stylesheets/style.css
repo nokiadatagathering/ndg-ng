@@ -239,7 +239,7 @@ body {
 }
 
 #container {
-    background: #edf0f6;
+    background: #eeeff4;
     min-height: 740px;
     width: 980px;
     margin: 45px auto;
@@ -395,7 +395,7 @@ body {
 #minimalist {
     float: left;
     width: 820px;
-    background: #edf0f6;
+    background: #eeeff4;
 /*    border-collapse: collapse;*/
 }
 
