@@ -36,7 +36,7 @@ var DynamicTable = function() {
                 scrollDownList();
             });
           } else {
-              $('#contentToolbar').css('background-color', '#edf0f6');
+              $('#contentToolbar').css('background-color', '#eeeff4');
           }
           $('#contentToolbar').animate({top: $('#dynamicListTable').position().top + $('#dynamicListTable').height()});
 //
