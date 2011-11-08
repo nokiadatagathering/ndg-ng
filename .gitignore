@@ -6,6 +6,10 @@
 # ignore all directories and files.
 tmp/**/* 
 tmp/*
+logs/*
+logs/**/*
+test-result/*
+test-result/**/*
 public/**/*
 public/*
 assets/public/**/*
