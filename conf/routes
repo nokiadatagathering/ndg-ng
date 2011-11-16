@@ -6,11 +6,10 @@
 GET     /                                       Application.index
 GET     /login                                  Application.login
 GET     /logout                                 Application.logout
-GET     /management                             Management.index
 POST    /authorize                              Application.authorize
-GET     /management/{id}                        Management.get
-POST    /management                             Management.save
-POST    /management/upload                      Management.upload
+GET     /authorize                              Application.login
+
+GET     /surveyManager/get/{id}                 SurveyManager.get
 POST    /delete/{formID}                        SurveyManager.delete
 POST    /sendsurveys/{formID}                   SurveyManager.sendsurveys
 POST    /saveSurvey                             SurveyManager.saveSurvey

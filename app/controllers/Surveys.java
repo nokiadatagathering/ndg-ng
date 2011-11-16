@@ -1,7 +1,7 @@
 package controllers;
 
 import controllers.exceptions.SurveyXmlCreatorException;
-import controllers.logic.DigestUtils;
+import controllers.logic.AuthorizationUtils;
 import models.utils.NdgQuery;
 import controllers.logic.SurveyXmlBuilder;
 import controllers.util.PropertiesUtil;
@@ -24,9 +24,9 @@ import play.mvc.Http.StatusCode;
 public class Surveys extends Controller {
 
     public static void list() {
-        if(!DigestUtils.isAuthorized(request.headers.get("authorization"), request.method) )
+        if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method) )
         {
-        DigestUtils.setDigestResponse(response);
+        AuthorizationUtils.setDigestResponse(response);
         } else {
             List<TransactionLog> transactionList = TransactionLog.find("byNdg_user_idAndTransactionStatus",
                     getCurrentUser().id,
@@ -42,9 +42,9 @@ public class Surveys extends Controller {
     }
 
     public static void download(String formID) throws SurveyXmlCreatorException, IOException {
-        if(!DigestUtils.isAuthorized(request.headers.get("authorization"), request.method) )
+        if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method) )
         {
-            DigestUtils.setDigestResponse(response);
+            AuthorizationUtils.setDigestResponse(response);
         } else {
             TransactionLog transaction = TransactionLog.find("byNdg_user_idAndTransactionStatusAndSurvey_id",
                     getCurrentUser().id,
@@ -66,7 +66,7 @@ public class Surveys extends Controller {
     }
 
     private static NdgUser getCurrentUser() {
-        return DigestUtils.extractUserFromHeader(request.headers.get("authorization"));
+        return AuthorizationUtils.extractUserFromHeader(request.headers.get("authorization"));
     }
 
 }

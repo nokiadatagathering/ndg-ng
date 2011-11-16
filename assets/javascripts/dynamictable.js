@@ -283,7 +283,8 @@ var DynamicTable = function() {
             };
             jQuery.extend(params, searchParams);
         }
-        $.getJSON( contentUrl, params, function(data){refreshTable(data);} );
+        var getJSONQuery = $.getJSON( contentUrl, params, function(data){refreshTable(data);});
+        getJSONQuery.error(Utils.redirectIfUnauthorized) ;
     }
 
     function refreshTable(data) {

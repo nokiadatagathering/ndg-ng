@@ -7,8 +7,9 @@ import play.libs.Codec;
 import play.mvc.Http;
 import play.mvc.Http.Response;
 import play.mvc.Http.StatusCode;
+import play.mvc.Scope.Session;
 
-public class DigestUtils {
+public class AuthorizationUtils {
     public static boolean isAuthorized(Http.Header authorizationHeader, String method)
     {
         boolean retval = false;
@@ -61,7 +62,7 @@ public class DigestUtils {
 
     public static void setDigestResponse(Response response)
     {
-        response.setHeader("WWW-Authenticate", DigestUtils.generateDigest());
+        response.setHeader("WWW-Authenticate", AuthorizationUtils.generateDigest());
         response.status = StatusCode.UNAUTHORIZED;
     }
 
@@ -78,6 +79,24 @@ public class DigestUtils {
             String authorizationString = authorizationHeader.value().replace(',', ' ');
             String username = getParamValue("username", authorizationString);
             return NdgUser.find("byUsername", username).first();
+    }
+
+    public static boolean checkWebAuthorization(Session session, Response response) {
+        return checkWebAuthorization(session, response, false);
+    }
+
+    public static boolean checkWebAuthorization(Session session, Response response, boolean adminRestricted) {
+        boolean retval = true;
+        if (!session.contains("ndgUser") || ( adminRestricted && !sessionHasAdmin(session))) {
+            response.status = response.status = StatusCode.UNAUTHORIZED;
+            retval = false;
+        }
+        return retval;
+    }
+
+    private static boolean sessionHasAdmin(Session session)
+    {
+        return session.contains("admin") && session.get("admin").equals("true");
     }
 
 }

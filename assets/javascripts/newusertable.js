@@ -110,8 +110,10 @@ var NewUserTable = (function() {
                             DynamicTable.refresh();
                             hide();
                         },
-                        error: function(result) {
-                            alert("ERROR!!");//todo ui spec for form validation
+                        error: function(result, textStatus, error) {
+                           if(!Utils.redirectIfUnauthorized(result, textStatus, error) ) {
+                              alert("ERROR!!");//todo ui spec for form validation
+                            }
                         }
 
                     });

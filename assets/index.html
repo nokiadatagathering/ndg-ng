@@ -57,7 +57,7 @@
   <script src="javascripts/libs/jquery.timeentry.min.js"></script>
   <script src="javascripts/libs/jquery.md5.js"></script>
   <script type="text/javascript" src="javascripts/constants.js"></script>
-  <script type="text/javascript" src="javascripts/localization.js"></script>
+  <script type="text/javascript" src="javascripts/&{'views.main.localizationJSFile'}"></script>
   <script type="text/javascript" src="javascripts/editlabel.js"></script>
   <script type="text/javascript" src="javascripts/surveylist.js"></script>
   <script type="text/javascript" src="javascripts/contextpopup.js"></script>
@@ -77,12 +77,12 @@
 
 <body>
     <div id="container">
-            <div id="flags">
+<!--        <div id="flags">
                      <a href="#" id="flag_eua" ><img src="images/flag_eua.jpg"></a>
-                         <a href="#" id="flag_bra" ><img src="images/flag_bra.jpg"></a>
-                         <a href="#" id="flag_spa" ><img src="images/flag_spa.jpg"></a>
-                         <a href="#" id="flag_pol" ><img src="images/flag_pol.jpg"></a>
-            </div>
+                     <a href="#" id="flag_bra" ><img src="images/flag_bra.jpg"></a>
+                     <a href="#" id="flag_spa" ><img src="images/flag_spa.jpg"></a>
+                     <a href="#" id="flag_pol" ><img src="images/flag_pol.jpg"></a>
+            </div>-->
             <div id="header">
                 <div id="headerLeft">
                     <img src="images/brand.jpg">
@@ -152,7 +152,6 @@
         </div>
     </div>
 
-
     <div id="dialog-sendSurvey" class="dialogs">
         <div id="sendSurveyUsers"></div>
         <div><span id="buttonSendSurveyDone" class="buttonSmall" ></span></div>
@@ -171,7 +170,7 @@
 </div>
 <script>
     var hasAdminPermission = false;
-    #{if session.admin} 
+    #{if session.admin}
     hasAdminPermission = true;
     #{/if}
 
@@ -214,6 +213,15 @@ var switchCategoryDialog = $("#dialog-editorSwitchCategory").dialog(
     modal: true,
     width: 400,
     zIndex: 9999,
+    resizable: false
+});
+
+var confirmSaveSurveyDialog = $("#dialog-confirmSaveSurvey").dialog(
+{
+    autoOpen: false,
+    modal: true,
+    zIndex: 9999,
+    width: 400,
     resizable: false
 });
 

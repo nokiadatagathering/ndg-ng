@@ -21,7 +21,6 @@ div.questionDetails
     margin-right: 10px;
 }
 
-
 .detailInputText
 {
     font-size: 12px;
@@ -46,6 +45,7 @@ div.questionDetails
 
 div.addOption
 {
+    margin-top: 4px;
     display: inline-block;
     background: url(../images/Add.png);
     height: 33px;
@@ -55,16 +55,17 @@ div.addOption
 
 div.addOption:hover
 {
-    background-position: 0px 67px;
+    background-position: 0px -33px;
 }
 
 div.addOption:active {
-    background-position: 0px 34px;
+    background-position: 0px -66px;
 }
 
 
 div.importOption
 {
+    margin-top: 4px;
     display: inline-block;
     background: url(../images/Import.png);
     height: 32px;
@@ -109,13 +110,14 @@ div.deleteOption:active {
 .optionCheckBox
 {
     margin-right: 10px;
+    height: 14px;
 }
 
 .dateInput, .timeInput
 {
     width: 100px;
     margin-right: 5px;
-    
+
 }
 
 .ui-datepicker-trigger

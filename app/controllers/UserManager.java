@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.logic.AuthorizationUtils;
 import models.Company;
 import models.NdgGroup;
 import models.NdgRole;
@@ -11,6 +12,9 @@ public class UserManager extends Controller {
 
     public static void addUser(String username, String password, String firstName, String lastName, String email, String role)
     {
+        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
+            return;
+        }
         NdgUser user = new NdgUser(password, username, email, firstName, lastName, "Y", 'Y', 'Y', 'Y');
         Company userCompany = Company.all().first();
         user.company = userCompany;
@@ -23,6 +27,9 @@ public class UserManager extends Controller {
 
     public static void addUserToGroup( long username, String groupname )
     {
+        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
+            return;
+        }
         NdgUser user = NdgUser.findById( username );
         NdgGroup group = NdgGroup.find( "byGroupName", groupname ).first();
         user.ndg_group = group;
@@ -31,6 +38,9 @@ public class UserManager extends Controller {
 
     public static void addGroup( String groupname )
     {
+        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
+            return;
+        }
         NdgGroup group = new NdgGroup();
         group.groupName = groupname;
         group.save();
@@ -38,6 +48,9 @@ public class UserManager extends Controller {
 
     public static void deleteUser(String userId)
     {
+        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
+            return;
+        }
         NdgUser deleted = NdgUser.find("byId", Long.parseLong(userId)).first();
         deleted.delete();
     }

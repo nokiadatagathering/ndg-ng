@@ -99,7 +99,7 @@ var SurveyList = function() {
     }
 
     function onDownloadSurveyClicked(e) {
-        window.location.href = 'management/' + e.data;
+        window.location.href = 'surveyManager/get/' + e.data;
     }
 
     function onUploadSurveyClicked(e) {

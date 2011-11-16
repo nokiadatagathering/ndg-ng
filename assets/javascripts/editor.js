@@ -31,9 +31,10 @@ var surveyModel;
 
     function createEditor(){
 
-        $.getJSON( '/surveyManager/questionType', function( data ){
+        var getJSONQuery = $.getJSON( '/surveyManager/questionType', function( data ){
                                                    typeList = data.types;
                                                 } );
+        getJSONQuery.error(Utils.redirectIfUnauthorized);
 
         $('#userManagement').remove();
         restoreLayout();
@@ -131,9 +132,12 @@ var surveyModel;
             success: function( msg ){
                 backToSurveyList();
             },
-            error: function( request, error ) {
-                alert("Problem with saving survey. Original error: " + error);
-                backToSurveyList();
+            error: function( request, status, errorThrown ) {
+                if(!Utils.redirectIfUnauthorized(request, status, errorThrown))
+                    {
+                    alert("Problem with saving survey. Original error: " + status);
+                    backToSurveyList();
+                    }
             }
         });
     }
@@ -160,24 +164,21 @@ var surveyModel;
 
     function onBackClicked(){
 
+        $( '#buttonDeleteSurveyYes' ).unbind('click');
+        $( '#buttonDeleteSurveyNo' ).unbind('click');
+        $( '#buttonDeleteSurveyCancel' ).unbind('click');
+
+
         $( '#dialogConfirmSaveSurveyQuestion' ).text( 'Do you want to save survey?' );
-        $( '#buttonDeleteSurveyYes' ).text( LOC.get('LOC_YES') );
-        $( '#buttonDeleteSurveyNo' ).text( LOC.get('LOC_NO') );
-        $( '#buttonDeleteSurveyCancel' ).text( 'Cancel' );// TODO localize
+        $( '#buttonDeleteSurveyYes' ).text( LOC.get( 'LOC_YES' ) );
+        $( '#buttonDeleteSurveyNo' ).text( LOC.get( 'LOC_NO' ) );
+        $( '#buttonDeleteSurveyCancel' ).text( LOC.get( 'LOC_CANCEL' ) );
 
-        confirmSaveSurveyDialog = $("#dialog-confirmSaveSurvey").dialog(
-        {
-            title: 'Save survey',// TODO localize
-            autoOpen: false,
-            modal: true,
-            zIndex: 9999,
-            width: 400,
-            resizable: false
-        });
+        confirmSaveSurveyDialog.dialog( {title: LOC.get( 'LOC_SAVESURVEY' )} );
 
-        $( '#buttonDeleteSurveyYes' ).click(function(){ onSaveClicked(); });
-        $( '#buttonDeleteSurveyNo' ).click(function(){ backToSurveyList(); });
-        $( '#buttonDeleteSurveyCancel' ).click(function(){ confirmSaveSurveyDialog.dialog("close"); });
+        $( '#buttonDeleteSurveyYes' ).click(function(){onSaveClicked();});
+        $( '#buttonDeleteSurveyNo' ).click(function(){backToSurveyList();});
+        $( '#buttonDeleteSurveyCancel' ).click(function(){confirmSaveSurveyDialog.dialog("close");});
 
         confirmSaveSurveyDialog.dialog("open");
 
@@ -228,10 +229,11 @@ var surveyModel;
     }
 
     function fillEditor(id){
-        $.getJSON('/surveyManager/getSurvey', {'surveyId': parseInt(id)}, function(data){
+        var getJSONQuery = $.getJSON('/surveyManager/getSurvey', {'surveyId': parseInt(id)}, function(data){
                                                                 surveyModel = new SurveyModel(data.survey);
                                                                 fillCategoryList();
                                                             } );
+       getJSONQuery.error(Utils.redirectIfUnauthorized);
     }
 
     function fillCategoryList(){
@@ -245,14 +247,13 @@ var surveyModel;
     function createCategoryElement( category ){
 
         if( !category.hasOwnProperty( 'id' ) ){
-            var numRand = Math.floor( Math.random() * 10000 ); //TODO probably exist better way to get rundom id
+            var numRand = Math.floor( Math.random() * 10000 ); //TODO probably exist better way to get random id
             category.uiId = "category" + numRand;
         }else{
             category.uiId = "category" + category.id;
         }
 
         var categoryLabelId = category.uiId + 'label';
-        //TODO localize
         var categoryElem = $('<li id="'+ category.uiId + '" class="ui-state-default listCategory">'
                 + '<h3>'
                 + '<span class="expandIcon"></span>'
@@ -314,6 +315,7 @@ var surveyModel;
             delay: 50,
             start : function(){
                 setHoverConfig();
+
             },
             stop: function( event, ui ) {
                 if( ui.item.hasClass( 'drag' ) ){
@@ -323,7 +325,7 @@ var surveyModel;
                 }
                 removeHoverConfig();
             }
-        }).disableSelection();
+        });//.disableSelection();
 
         //hide and show questions in category
         $( catHeaderRef ).bind( 'click' , function(){
@@ -348,7 +350,7 @@ var surveyModel;
     function createQuestionElement( question ){
 
         if( !question.hasOwnProperty( 'id' ) ){
-            var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
+            var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get random id
             question.uiId = "question" + numRand;
         }else{
             question.uiId = "question" + question.id;
@@ -357,17 +359,18 @@ var surveyModel;
         var questionLabelId = question.uiId + 'label';
         var qElement = $(
                       '<li id="' + question.uiId +'" class="ui-state-default listItemQuestion"><div>'
-                    + '<div class="questionText"> '
+                    + '<div>'
+                    + '<div class="questionText">'
                     + '<span id="' + questionLabelId + '"> ' + question.label + '</span>'
                     + '</div>'
-
                     + '<div class="additionalButtons"></div>'
                     + ''
 
                     + '<div class="qIcon deleteQuestion" title="' + LOC.get('LOC_DELETE') + '"></div>'
                     + '<div class="qIcon duplicateQuestion"></div>'
-                    + '<div class="qType"><span><select class="typeSelect"></select></span></div>'
+                    + '<div class="qType typeComboboxSelection"><span><select style="width:125px;" class="typeSelect"></select></span></div>'
                     + '<div style="clear:both;"></div>'
+                    + '</div>'
                     + '<div class="questionDetails"></div>'
                     + '</li>');
 
@@ -403,6 +406,9 @@ var surveyModel;
          $( '#'+ qId + ' .questionDetails' ).hide();
 //         $( '#'+ qId + ' .qType' ).hide();
          $( '#'+ qId + ' .additionalButtons' ).hide();
+         $( '#'+ qId + ' .deleteQuestion' ).hide();
+         $( '#'+ qId + ' .duplicateQuestion' ).hide();
+         $( '#'+ qId + ' .typeComboboxSelection' ).hide();
     }
 
 
@@ -410,12 +416,15 @@ var surveyModel;
          $( '#'+ qId + ' .questionDetails' ).show();
 //         $( '#'+ qId + ' .qType' ).show();
          $( '#'+ qId + ' .additionalButtons' ).show();
+         $( '#'+ qId + ' .deleteQuestion' ).show();
+         $( '#'+ qId + ' .duplicateQuestion' ).show();
+         $( '#'+ qId + ' .typeComboboxSelection' ).show();
     }
 
     function fillTypeCombo( qId ){
 
         $.each( typeList, function( idx, type ){
-            $( '#'+ qId + ' .typeSelect' ).append( '<option value="'+ type.id +'">' + type.typeName + '</option>' );
+            $( '#'+ qId + ' .typeSelect' ).append( '<option value="'+ type.id +'">' + LOC.get(type.typeName) + '</option>' );
         });
     }
 

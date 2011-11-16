@@ -44,9 +44,10 @@ var ExportResults = function() {
 //    }
 
     function exportXLSResults() {
-        $.getJSON( '/service/surveyHasImages',
+        var getJSONQuery = $.getJSON( '/service/surveyHasImages',
                    { 'surveyId': surveyId },
                    function(result) { proceedExportResults( ".XLS", result.hasImages ); } );
+        getJSONQuery.error(Utils.redirectIfUnauthorized);
     }
 
     function proceedExportResults(fileFormat, hasImages) {

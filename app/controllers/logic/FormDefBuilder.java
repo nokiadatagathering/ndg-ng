@@ -195,10 +195,10 @@ public class FormDefBuilder {
                     retval = org.javarosa.core.model.Constants.CONTROL_IMAGE_CHOOSE;
                 } else if (typeName.equals("binary#audio")) {
                     retval = org.javarosa.core.model.Constants.CONTROL_AUDIO_CAPTURE;
-                } else if (typeName.equals("binary#video")); {
-                retval = org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE;
-            }
-            break;
+                } else if (typeName.equals("binary#video")) {
+                    retval = org.javarosa.core.model.Constants.CONTROL_VIDEO_CAPTURE;
+                }
+                break;
             default:
                 retval = org.javarosa.core.model.Constants.CONTROL_INPUT;
         }

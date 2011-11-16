@@ -1,17 +1,16 @@
 package controllers;
 
-import java.util.logging.Logger;
 import models.NdgUser;
+import play.i18n.Lang;
 import play.mvc.Before;
 import play.mvc.Controller;
 
 public class Application extends Controller {
 
-     @Before(unless={"login", "authorize", "logout"})
+     @Before(unless={"login", "authorize", "logout", "SurveyManager.upload"})
      public static void checkAccess() throws Throwable {
         if(!session.contains("ndgUser")) {
-            login();
-        } else {
+            login( null );
         }
     }
 
@@ -19,22 +18,24 @@ public class Application extends Controller {
         render("Application/index.html");
     }
 
-    public static void login() {
-        flash.keep("url"); 
+    public static void login( String lang ) {
+        if( lang != null && !lang.isEmpty() ) {
+            Lang.change( lang );
+        }
+        flash.keep("url");
         render("Application/login.html");
     }
 
-    public static void authorize(String username, String password) {
-        String url = flash.get("url");
-        if(url == null || !url.contains("/login")) {
-            url = "/";
+    public static void authorize( String username, String password, String lang ) {
+        if( lang != null && !lang.isEmpty() ) {
+            Lang.change( lang );
         }
 
         NdgUser currentUser = NdgUser.find("byUsernameAndPassword", username, password ).first();
 
         if(currentUser != null && checkPermission(currentUser)) {
             session.put("ndgUser", username);
-            redirect(url);
+            redirect("/");
         } else {
             flash.put("error", "wrong username / password");
             render("Application/login.html");
@@ -60,5 +61,4 @@ public class Application extends Controller {
         }
         return retval;
     }
-
 }

@@ -18,7 +18,7 @@ package controllers;
 
 
 import controllers.exceptions.MSMApplicationException;
-import controllers.logic.DigestUtils;
+import controllers.logic.AuthorizationUtils;
 import controllers.logic.ResultPersister;
 import java.io.File;
 import java.io.FileReader;
@@ -31,9 +31,9 @@ public class PostResults extends Controller{
 
     public static void upload(String surveyId, File filename )
     {
-        if(!DigestUtils.isAuthorized(request.headers.get("authorization"), request.method) )
+        if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method) )
         {
-            DigestUtils.setDigestResponse(response);
+            AuthorizationUtils.setDigestResponse(response);
         } else {
             try {
                 ResultPersister persister = new ResultPersister();
@@ -48,9 +48,9 @@ public class PostResults extends Controller{
     }
 
     public static void checkAuthorization() {
-        if(!DigestUtils.isAuthorized(request.headers.get("authorization"), request.method) )
+        if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method) )
         {
-            DigestUtils.setDigestResponse(response);
+            AuthorizationUtils.setDigestResponse(response);
         } else {
             renderText("OK");
         }

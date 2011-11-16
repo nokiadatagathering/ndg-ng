@@ -1,6 +1,8 @@
-package controllers;
+package controllers.logic;
 
+import controllers.ConstraintJsonTransformer;
 import controllers.deserializer.CategoryObjectFactory;
+import controllers.deserializer.DefaultAnswerObjectFactory;
 import controllers.deserializer.NdgUserObjectFactory;
 import controllers.deserializer.QuestionObjectFactory;
 import controllers.deserializer.QuestionOptionObjectFactory;
@@ -21,24 +23,34 @@ import models.Survey;
  */
 public class SurveyJsonTransformer {
 
-    public static String getJsonSurvey( long surveyId ){
+    public static final String CONSTRAINT_MAX = "constraintMax";
+    public static final String CONSTRAINT_MIN = "constraintMin";
+    public static final String STRING_LENGTH_CONSTRAINT = "string-length( . ) <=";
 
+
+    public static String getJsonSurvey( long surveyId ){
         Survey survey = Survey.findById( surveyId );
         sortSurvey( survey );
 
         JSONSerializer surveySerializer = new JSONSerializer();
-        surveySerializer.include(
+        surveySerializer
+                .transform( new ConstraintJsonTransformer(), "categoryCollection.questionCollection.constraintText" )
+                .include(
                     "categoryCollection",
                     "categoryCollection.questionCollection",
+                    "categoryCollection.questionCollection.constraintText",
                     "categoryCollection.questionCollection.questionType.id",
-                    "categoryCollection.questionCollection.questionOptionCollection"
+                    "categoryCollection.questionCollection.questionOptionCollection",
+                    "categoryCollection.questionCollection.defaultAnswer"
                 )
+
                 .exclude(
                     "transactionLogCollection",
                     "uploadDate",
                     "resultCollection",
                     "categoryCollection.survey",
-                    "categoryCollection.questionCollection.category" )
+                    "categoryCollection.questionCollection.category",
+                    "categoryCollection.questionCollection.defaultAnswer.binaryData")
             .rootName( "survey" );
 
         return surveySerializer.serialize( survey );
@@ -54,6 +66,7 @@ public class SurveyJsonTransformer {
                 .use( "categoryCollection.values.questionCollection.values", new QuestionObjectFactory() )
                 .use( "categoryCollection.values.questionCollection.values.questionOptionCollection", ArrayList.class )
                 .use( "categoryCollection.values.questionCollection.values.questionOptionCollection.values", new QuestionOptionObjectFactory() )
+                .use( "categoryCollection.values.questionCollection.values.defaultAnswer", new DefaultAnswerObjectFactory() )
                 .use( "categoryCollection.values.questionCollection.values.questionType", new QuestionTypeObjectFactory());
 
         Survey survey = deserializer.deserialize( jsonSurvey, new SurveyObjectFactory() );

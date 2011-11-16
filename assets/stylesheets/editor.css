@@ -79,7 +79,7 @@ li.listItemQuestion
     font-size: 12pt;
     font-weight: normal;
     font-family: "Nokia Pure Text";
-    height: auto;
+    min-height: 35px;
     vertical-align:bottom;
     border: 1px solid #dadbe0;
     background: #f9f9fa;
@@ -109,18 +109,20 @@ li.listItemQuestion.elementSelected {
 div.questionText
 {
     float:left;
-
+    max-width: 450px;
     width: auto;
-    height: 35px;
-    font-size: 12pt;
+    min-height: 35px;
+    padding-top:7px;
 }
 
 div.questionText span
 {
-    margin-top:7px;
-    margin-bottom:7px;
+    width: auto;
+    max-width: 450px;
     display: inline-block;
     font-size: 12pt;
+    white-space: pre-line;
+    word-wrap: break-word;
 }
 
 .additionalButtons
@@ -298,5 +300,3 @@ span.edit
 {
     content: 'DROP HERE TO ADD A NEW QUESTION';
 }
-
-

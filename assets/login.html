@@ -1,40 +1,56 @@
 <html>
     <head>
         <title>Login Page</title>
-                <script src="javascripts/libs/jquery-1.6.2.min.js"></script>
-                <script src="javascripts/libs/jquery.md5.js"></script>
-                <script type="text/javascript" src="javascripts/utils.js"></script>
+        <script src="javascripts/libs/jquery-1.6.2.min.js"></script>
+        <script src="javascripts/libs/jquery.md5.js"></script>
+        <script type="text/javascript" src="javascripts/utils.js"></script>
     </head>
     <body>
-    #{form @Application.authorize(), id:'loginForm'}
+        <div id="flags">
+            <a href="#" class="langSelector" id="en" ><img src="images/flag_eua.jpg"></a>
+            <a href="#" class="langSelector" id="pr" ><img src="images/flag_bra.jpg"></a>
+            <a href="#" class="langSelector" id="sp" ><img src="images/flag_spa.jpg"></a>
+            <a href="#" class="langSelector" id="pl" ><img src="images/flag_pol.jpg"></a>
+        </div>
 
+        #{form @Application.authorize(), id:'loginForm'}
+        <p>
+            #{field 'lang'}
+            <input id="selectedLanguage" type="text" name="lang" hidden="true" value="&{'languageId'}"/>
+            #{/field}
+        </p>
         <p>
             #{field 'Login'}
-            <label>Login:</label>
+            <label>&{'views.login.login'}</label>
             <input type="text" name="username" />
             #{/field}
         </p>
-
         <p>
             #{field 'content'}
-            <label>Password</label>
+            <label>&{'views.login.password'}</label>
             <input type="password" name="password" />
             #{/field}
         </p>
-
         <p>
             <input type="submit" value="Login" />
         </p>
-
     #{/form}
     #{if flash.error}
 
-    <script type="text/javascript"> alert("username and/or password is incorrect"); </script>
+    <p style="color:red">&{'views.login.badPasswordAlert'}<p>
+
     #{/if}
     <script>
+        var sURL = window.location.pathname;
 
         $(document).ready(function() {
             $('#loginForm').submit($(this), function(data){Utils.encryptCredentials(data)});
+
+            $('.langSelector').click(function() {
+               $('#selectedLanguage').val( this.id );
+               sURL += "?lang=" + this.id;
+               window.location.replace( sURL );
+            });
         });
     </script>
     </body>

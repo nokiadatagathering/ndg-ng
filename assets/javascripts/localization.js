@@ -1,8 +1,6 @@
 var LOC = (function() {
 
-    var constants;
-
-    var constants_EN = {
+    var constants = {
         LOC_CSV: 'Download in CSV format',
         LOC_XLS: 'Download in XLS format',
         LOC_CLOSE: 'Close',
@@ -50,86 +48,23 @@ var LOC = (function() {
         LOC_NEW_USER: 'New User',
         LOC_GROUP: 'Group',
         LOC_USERS: 'User(s)',
-        LOC_NEW_GROUP: 'New Group'
+        LOC_NEW_GROUP: 'New Group',
+        string: 'Descriptive',
+        'int': 'Integer',
+        decimal: 'Decimal',
+        date: 'Date',
+        'binary#image': 'Image',
+        select: 'Multiple Choice',
+        select1: 'Exclusive Choice',
+        time: 'Time',
+        LOC_SAVESURVEY:'Save survey',
+        LOC_CANCEL: 'Cancel'
     };
-
-    var constants_POL = {
-        LOC_CSV: '\u015ci\u0105gnij w formacie CSV',
-        LOC_XLS: '\u015aaci\u0105gnij w formacie XLS',
-        LOC_CLOSE: 'Zamknij',
-        LOC_EXPORT_IMAGES: 'Rezultaty tej ankiety zawieraj\u0105 zdj\u0119cia. Czy do\u0142\u0105czyc je do wyników?',
-        LOC_EXPORT_FORMAT: 'Wybierz format pliku z wynikami',
-        LOC_YES: 'Tak',
-        LOC_NO: 'Nie',
-        LOC_RESULTID: 'ID Rezultatu',
-        LOC_RESULTTITLE: 'Tytu\u0142',
-        LOC_DATESENT: 'Data wys\u0142ania',
-        LOC_USER: 'U\u017cytkownik',
-        LOC_LOCATION: 'Lokalizacja',
-        LOC_BACK_TO_SURVEY_LIST: 'Wróc do list ankiet',
-        LOC_EXPORT_RESULTS: 'Exportuj resultaty',
-        LOC_EXPORT_ALL_RESULTS: 'Export wszytkie resultaty',
-        LOC_DOWNLOAD: '\u015aaci\u0105gnij',
-        LOC_UPLOAD: 'Za\u0142aduj',
-        LOC_EDIT: 'Edituj',
-        LOC_DUPLICATE: 'Duplikuj',
-        LOC_DELETE: 'Skasuj',
-        LOC_SEND: 'Wy\u015blij',
-        LOC_SURVEY_NAME: 'Nazwa ankiety',
-        LOC_DATE_PUBLISHED: 'Data',
-        LOC_PUBLISHER: 'Autor',
-        LOC_RESULTS: 'Rezultaty',
-        LOC_SURVEYID: 'ID ankiety',
-        LOC_NEW_SURVEY: 'Nowa ankieta',
-        LOC_CHECK: 'Zaznacz',
-        LOC_NAME: 'IMI\u0118',
-        LOC_PHONE: 'TEL. NUMER',
-        LOC_EMAIL: 'E-MAIL',
-        LOC_PERMISSION: 'UPRAWNIENIA',
-        LOC_ALL: 'Widoczne',
-        LOC_ALL_PAGES: 'Wszystkie',
-        LOC_NONE: 'Odznacz',
-        LOC_SURVEY_DELETE_CONFIRM: 'Czy napewno chcech usun\u0105\u0107 ankiet\u0119?',
-        LOC_CHOOSE_SURVEY_UPLOAD: 'Wybierz plik ankiety do za\u0142adowania',
-        LOC_SURVEY_UPLOAD: '\u0141aduj ankiet\u0119',
-        LOC_SEND_FILE: 'Wy\u015blij',
-        LOC_SEND_SURVEY: 'Wy\u015blij ankiet\u0119',
-        LOC_DONE: 'Wy\u015blij',
-        LOC_SEARCH: 'Szukaj...',
-        LOC_USERNAME: 'Nazwa U\u017cytkownika',
-        LOC_CONFIRM_DELETE: 'Kliknij tutaj aby potwierdzi\u0107 kasowanie',
-        LOC_NEW_USER: 'Nowy U\u017cytkownik',
-        LOC_GROUP: 'Grupy',
-        LOC_USERS: 'U\u017cytkowników',
-        LOC_NEW_GROUP: 'Nowa Grupa'
-    };
-
-
-     function selectLanguage(languageName) {
-        if( languageName == 'flag_pol' ) {
-            constants = constants_POL;
-        } else if ( languageName == 'flag_bra' ){
-            constants = constants_BRA;
-        } else if ( languageName == 'flag_spa' ) {
-            constants = constants_SPA;
-        } else {
-            constants = constants_EN;
-        }
-        window.name= languageName;
-    }
-
-
 
     return {
         get: function(name) {
-            if( window.name == "" ) {
-                window.name='flag_eua';
-            }
-            selectLanguage(window.name);
             return constants[name];
-
-    },
-        selectLanguage: function(event) {selectLanguage(event.data)}
+        }
     };
 })();
 

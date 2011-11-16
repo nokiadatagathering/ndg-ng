@@ -94,7 +94,8 @@ var UserManagement = function() {
             jQuery.extend(params, groupParam);
          }
 
-        $.getJSON( contentUrl, params, function(data){refreshGroupTable(data);} );
+        var getJSONQuery = $.getJSON( contentUrl, params, function(data){refreshGroupTable(data);} );
+        getJSONQuery.error(Utils.redirectIfUnauthorized);
     }
 
     function refreshGroupTable(data) {
@@ -188,7 +189,11 @@ var UserManagement = function() {
                     var targetGroupName = event.target.attributes['groupName'].value;
                     $.ajax({url: 'userManager/addUserToGroup',
                             data: {username: sourceUserId, groupname: targetGroupName},
-                            error: function(jqXHR, textStatus, errorThrown) {alert('error');},
+                            error: function(data, textStatus, jqXHR){
+                                    if(!Utils.redirectIfUnauthorized(data, textStatus, jqXHR)){
+                                        alert("error");
+                                    }}
+                                 ,
                             success: function(data, textStatus, jqXHR){UserManagement.refresh();}
                     });
                 }

@@ -1,6 +1,7 @@
 
 var SurveyModel = function(s){
     var survey = s;
+    var currentQuestionIndex = 0;
 
     //public methods
     this.getSurvey = function(){
@@ -81,6 +82,7 @@ var SurveyModel = function(s){
                 category.categoryIndex = idx + 1;
             }
         });
+        currentQuestionIndex = 0;
     }
 
     this.reorderQuestion = function ( newOrder, currentCategoryId ){
@@ -88,7 +90,7 @@ var SurveyModel = function(s){
 
         $.each( newOrder, function( idx, item ){
             var question = getQue( item );
-            question.questionIndex = idx;
+            question.questionIndex = currentQuestionIndex;
 
             var index = $.inArray( question, currentCategory.questionCollection );
 
@@ -96,6 +98,7 @@ var SurveyModel = function(s){
                 removeFromOldCategory(question);
                 currentCategory.questionCollection.push( question );
             }
+            currentQuestionIndex++;
         });
     }
 
@@ -172,6 +175,7 @@ function Question( question ){
         for( var idx = 0; idx < question.questionOptionCollection.length; idx++){
             this.questionOptionCollection.push( new QuestionOption( question.questionOptionCollection[idx] ) );
         }
+        this.defaultAnswer = new DefaultAnswer( question.defaultAnswer );
 
     }else{
         this.label = "New question";
@@ -179,6 +183,7 @@ function Question( question ){
         this.questionType = new Object();
         this.questionType.id = QuestionType.DESCRIPTIVE;
         this.questionOptionCollection = [];
+        this.defaultAnswer = new DefaultAnswer();
     }
 }
 
@@ -194,8 +199,15 @@ var QuestionOption = function( option ){
         this.optionValue = option.optionValue;
     }else{
         this.label = "New option";
-        this.optionValue = "val"; //TODO edit val
+        this.optionValue = "newoption";
     }
+}
 
+var DefaultAnswer = function( answer ){
+    if( answer != undefined ){
+        this.textData = answer.textData;
+    }else{
+        this.textData = "";
+    }
 }
 

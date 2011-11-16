@@ -18,7 +18,8 @@ var SendSurvey = function() {
                                + '<tbody id="userListTable">'
                                + '</tbody></table>' );
 
-        $.getJSON('/listData/sendSurveysUserList', {'formID': currentSurveyId}, function(i) {fillUserTable(i);} );
+        var getJSONQuery = $.getJSON('/listData/sendSurveysUserList', {'formID': currentSurveyId}, function(i) {fillUserTable(i);} );
+        getJSONQuery.error(Utils.redirectIfUnauthorized);
         sendSurveyDialog.dialog({beforeClose: function(){$('#buttonSendSurveyDone').unbind('click');}} )
         $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );
     }
@@ -55,9 +56,11 @@ var SendSurvey = function() {
                    sendSurveyDialog.dialog("close");
                    $('#sendSurveyUsers').empty();
                 },
-                error: function(request,error) {
-                    alert("Error with connection to server");
-                    $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );
+                error: function(result, textStatus, error) {
+                       if(!Utils.redirectIfUnauthorized(result, textStatus, error) ) {
+                           alert("Error with connection to server");
+                           $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );
+                        }
                 }
             });
         } else
