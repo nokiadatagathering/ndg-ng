@@ -103,11 +103,14 @@ var SurveyList = function() {
     }
 
     function onUploadSurveyClicked(e) {
-       $('#uploadSurveyForm').fileinput( {buttonText: LOC.get('LOC_SEARCH'),
-                                           inputText:""});
+       $('#uploadSurveyFormButton').text(LOC.get('LOC_SEARCH'));
+       $('#uploadSurveyInput').unbind('change');
+       $('#uploadSurveyInput').change( function(){
+           $('#uploadSurveyFakeInput').text($(this).val()) } );
+
        uploadDialog.dialog( {title: LOC.get('LOC_SURVEY_UPLOAD')});
-       document.getElementById('dialog-upload-query').textContent = LOC.get('LOC_CHOOSE_SURVEY_UPLOAD');
-       document.getElementById('buttonSendFile').textContent = LOC.get('LOC_SEND_FILE');
+       $('#dialog-upload-query').text(LOC.get('LOC_CHOOSE_SURVEY_UPLOAD'));
+       $('#buttonSendFile').text(LOC.get('LOC_SEND_FILE'));
 
        uploadDialog.dialog({close: function(){$.unblockUI();}} )
        uploadDialog.dialog("open");
@@ -166,6 +169,7 @@ var SurveyList = function() {
            resultFrame.unbind('load');
            uploadDialog.dialog("close");
            $(':file', '#uploadForm' ).val('');
+           $('#uploadSurveyFakeInput').text('');
         });
         return true;
     }

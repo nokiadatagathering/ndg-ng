@@ -150,12 +150,26 @@ var QuestionUiElement = function( questionModel ){
             +   '</div>'
             );
 
-
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
-        $( '#' + question.uiId + ' .dateInput' ).datepicker({
-            		showOn: "button",
-			buttonImage: "images/Calendar-icon.png",
-			buttonImageOnly: true
+        $( '#' + question.uiId + ' .defaultAnswer' ).datepicker({
+                        showOn: "button",
+                        buttonImage: "images/Calendar-icon.png",
+                        buttonImageOnly: true,
+                        onClose: function(dateText, inst) {onDefaultChanged();}
+        });
+
+        $( '#' + question.uiId + ' .rangeInputMin' ).datepicker({
+                        showOn: "button",
+                        buttonImage: "images/Calendar-icon.png",
+                        buttonImageOnly: true,
+                        onClose: function(dateText, inst) {onRangeInputMinChanged();}
+        });
+
+        $( '#' + question.uiId + ' .rangeInputMax' ).datepicker({
+                    showOn: "button",
+                    buttonImage: "images/Calendar-icon.png",
+                    buttonImageOnly: true,
+                    onClose: function(dateText, inst) {onRangeInputMaxChanged();}
         });
 
 
@@ -261,9 +275,27 @@ var QuestionUiElement = function( questionModel ){
                     '<div id="' + optionId + '" class="optionInput">'
                 +   '<input name="' + question.uiId + '" value="' + option.optionValue + '" type="' + optionType + '" class="optionCheckBox" />'
                 +   '<span id="' + labelId + '" class="detailLabel optionLabel">' + option.label + '</span>'
-                +   '<div class="deleteOption"></div>'
+                +   '<div class="skipto optionIcon"></div>'
+                +   '<div class="deleteOption optionIcon"></div>'
                 +   '</div>'
             );
+
+        if( !isExclusive ){
+            $( '#' + question.uiId + ' .skipto' ).hide();
+        }else{
+            $( '#' + question.uiId + ' .skipto' ).draggable({
+                                                    start: function(){
+                                                        $( '#' + question.uiId + ' .optionIcon' ).addClass( 'iconVisibleDrag' );
+                                                    },
+                                                    stop: function(){
+                                                        $( '#' + question.uiId + ' .optionIcon' ).removeClass( 'iconVisibleDrag' );
+                                                        $( '#' + question.uiId + ' .optionIcon' ).removeClass( 'iconVisible' );
+                                                    },
+                                                    revert: 'invalid',
+                                                    helper: 'clone'
+                                                });
+        }
+
 
 
         if( question.defaultAnswer != null &&
@@ -274,7 +306,16 @@ var QuestionUiElement = function( questionModel ){
         new EditedLabel( $( "#" + labelId ), function( newLabel ){
             onOptionLabelChanged( optionId, newLabel );});
 
-        $( '#'+ optionId + ' .deleteOption' ).click( optionId, function( optId ){deleteOption( optId.data );});
+        $( '#' + optionId + ' .deleteOption' ).click( optionId, function( optId ){deleteOption( optId.data );});
+        $( '#' + optionId  ).hover(
+            function(){
+                $( '#' + optionId + ' .optionIcon' ).addClass( 'iconVisible' );
+            },
+            function(){
+                $( '#' + optionId + ' .optionIcon' ).removeClass( 'iconVisible' );
+            }
+        );
+
     }
 
     function onAddOptionClicked( event ){
@@ -305,7 +346,7 @@ var QuestionUiElement = function( questionModel ){
     }
 
 
-    function getOption( optionUiId ){
+    function getOption( optionUiId ){// TODO move to model
         var option;
 
         $.each( question.questionOptionCollection , function( idx, item ){

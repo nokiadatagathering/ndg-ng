@@ -107,26 +107,3 @@
      margin-top: 39px;
      margin-bottom: 39px;
  }
-
-.fileinput-input {
-    height:20px;
-    width:150px;
-    background: url('gradient-input.gif') repeat-x;
-        margin: 39px 0 0 0 !important;
-    border:0 !important;
-        padding: 0 !important;
-}
-
-.fileinput-button {
-    height:20px;
-    width: 70px;
-    margin: 39px 0 0 0 !important;
-    padding: 0 !important;
-    background: #617798;
-    border: 0;
-    color: #FFFFFF;
-}
-
-.fileinput-button-text {
-    padding: 0px !important;
-}

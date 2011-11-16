@@ -290,10 +290,11 @@ var surveyModel;
 
     function refreshLists(){
         $( '.listQuestion' ).sortable( 'refresh' );
-        $( "#categories" ).sortable( 'refresh' );
+        $( ".listCategory" ).sortable( 'refresh' );
     }
 
     function setCategoryUiOptions( categoryId, bVal ){
+
 
         $( '#' + categoryId + ' .deleteElement').click( categoryId, function(i){onDeleteCategoryClicked(i);} );
 
@@ -304,6 +305,26 @@ var surveyModel;
         var listRef = '#' + categoryId + ' .listQuestion';
         var catHeaderRef = "#" + categoryId + " h3";
         var expandIconElem = "#" + categoryId + ' span.expandIcon';
+
+
+        $( catHeaderRef ).droppable({
+            accept: '.skipto',
+            drop: function( event, ui ){
+                var dragCategoryId = $( $( ui.draggable ).parents( '.listCategory' )[0] ).attr( 'id' );
+                var dropCategoryId = $( $( this ).parents( '.listCategory' )[0] ).attr( 'id' );
+
+                if( dragCategoryId == dropCategoryId ){
+                    return;
+                }
+
+                var optionId = $( $( ui.draggable ).parents( '.optionInput' )[0] ).attr( 'id' );
+                var queId = $( $( ui.draggable ).parents( '.listItemQuestion' )[0] ).attr( 'id' );
+
+                surveyModel.setSkipCategory( queId, optionId, dropCategoryId );
+                $( '#' + queId + ' div.skipto.selected').removeClass( 'selected' );
+                $( ui.draggable ).addClass( 'selected' );
+            }
+        });
 
         //allows sort question
         $( listRef ).sortable({

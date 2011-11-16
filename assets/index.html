@@ -21,7 +21,6 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory: mathiasbynens.be/notes/touch-icons -->
 
   <link rel="stylesheet" href="stylesheets/jquery-ui-1.8.16.custom.css">
-  <link rel="stylesheet" href="stylesheets/fileinput.css">
 
   <!-- CSS: implied media=all -->
   <!-- CSS concatenated and minified via ant build script-->
@@ -39,6 +38,7 @@
   <link rel='stylesheet' href='stylesheets/contenttoolbar.css'>
   <link rel='stylesheet' href='stylesheets/contextpopup.css'>
   <link rel='stylesheet' href='stylesheets/questionelement.css'>
+  <link rel="stylesheet" href="stylesheets/fileinput.css">
   <!-- end CSS-->
 
 
@@ -51,7 +51,6 @@
   <script src="javascripts/libs/jquery-1.6.2.min.js"></script>
   <script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"></script>
   <script src="javascripts/libs/jquery.checkbox.min.js"></script>
-  <script src="javascripts/libs/jquery.fileinput.min.js"></script>
   <script src="javascripts/libs/jquery.blockUI.js"></script>
   <script src="javascripts/libs/date.js"></script>
   <script src="javascripts/libs/jquery.timeentry.min.js"></script>
@@ -126,10 +125,16 @@
 
     <div id="dialog-upload" class="dialogs">
         #{form @surveyManager.upload(), id:'uploadForm', enctype:'multipart/form-data', target:'cgiFrame'}
+        <div >
         <span id="dialog-upload-query" ></span>
-        <input type="file" name="filename" id="uploadSurveyForm" />
+        <span class ="fileinput-container">
+        <input type="file" name="filename" id="uploadSurveyInput" />
+        <span id ="uploadSurveyFakeInput" class="fileinput-cover fileinput-input" ></span>
+        <span id ="uploadSurveyFormButton" class="fileinput-cover fileinput-button" ></span>
+        </span>
         <input type="hidden" name="uploadSurveyId" id="uploadSurveyId" />
         <div class="buttonMedium extraTopMargin" ><span id="buttonSendFile" ></span></div>
+        </div>
         #{/form}
     </div>
     <iframe id="uploadSurveyResult" name="cgiFrame" src="about:blank" style="visibility:hidden; width:0px; height:0px"></iframe>
@@ -178,6 +183,8 @@ var uploadDialog = $("#dialog-upload").dialog(
 {
     autoOpen: false,
     zIndex: 9999,
+    width: 350,
+    height: 280,
     resizable: false
 });
 

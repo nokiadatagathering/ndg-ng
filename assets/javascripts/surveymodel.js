@@ -153,7 +153,39 @@ var SurveyModel = function(s){
         });
         return category;
     }
-}
+
+    this.setSkipCategory = function ( queId, optionId, dropCategoryId ){
+        var skipOption;
+        var question = getQue( queId );
+        var skipCategory = getCategory( dropCategoryId );
+        $.each( question.questionOptionCollection , function( idx, item ){
+            if( item.uiId == optionId ){
+                item.skipCategory = skipCategory;
+                skipOption = item;
+            }else{
+                item.skipCategory = null;
+            }
+        });
+
+        if( skipCategory.skip != undefined && skipCategory != null ){
+            var oldQue = skipCategory.skip[0];
+            skipCategory.skip[1].skipCategory = null;
+            $( '#' + oldQue.uiId + ' div.skipto.selected' ).removeClass( 'selected' );
+        }
+
+        skipCategory.skip = [ question, skipOption ]; //TODO do we need this???
+    }
+
+    function getOpt( question, optionId ){
+        var option;
+        $.each( question.questionOptionCollection , function( idx, item ){
+            if( item.uiId == optionId ){
+                option = item;
+            }
+        });
+        return option;
+    }
+};
 
 var Category = function(){
     var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
@@ -162,7 +194,7 @@ var Category = function(){
     this.questionCollection = [];
 }
 
-function Question( question ){
+var Question = function( question ){
 
     var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
 
@@ -185,7 +217,7 @@ function Question( question ){
         this.questionOptionCollection = [];
         this.defaultAnswer = new DefaultAnswer();
     }
-}
+};
 
 var Survey = function(){
     this.title = "New Survey";

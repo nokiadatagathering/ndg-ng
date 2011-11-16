@@ -16,9 +16,9 @@ public class ConstraintJsonTransformer extends AbstractTransformer {
     String constraintMin = "";
     String constraintString  = null;
 
-//    public static final String STRING_LENGTH_CONSTRAINT = "string-length( . ) <=";
-    public static final String MIN_REGEX = ".\\s*>\\s*\\d+";
-    public static final String MAX_REGEX = ".\\s*<\\s*\\d+";
+    public static final String MIN_REGEX = ".\\s*>\\s* \\d+(/\\d{1,2}/\\d{4})?";
+    public static final String MAX_REGEX = ".\\s*<\\s* \\d+(/\\d{1,2}/\\d{4})?";
+
 
     public void transform( Object o ) {
         if(o == null){

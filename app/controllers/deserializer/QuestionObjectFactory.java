@@ -62,8 +62,6 @@ public class QuestionObjectFactory implements ObjectFactory{
     }
 
     private void addConstraintString(HashMap map, Question question){
-
-
         String constraintString = "";
         String minValue = (String) map.get( SurveyJsonTransformer.CONSTRAINT_MIN );
         String maxValue = (String) map.get( SurveyJsonTransformer.CONSTRAINT_MAX );

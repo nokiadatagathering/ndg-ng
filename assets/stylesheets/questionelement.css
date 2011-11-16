@@ -83,23 +83,51 @@ div.importOption:active {
     background-position: 0px 33px;
 }
 
-div.deleteOption{
+div.optionIcon.iconVisible
+{
+    visibility: visible;
+}
+
+div.optionIcon.iconVisibleDrag
+{
+    visibility: visible;
+}
+
+div.optionIcon
+{
+    visibility: hidden;
     display: inline-block;
-    background: url(../images/delete-artevnative.jpg);
-    height: 14px;
-    width: 14px;
+    height: 19px;
+    width: 19px;
     background-position: 0px 0px;
     margin-left: 10px;
 }
 
-div.deleteOption:hover
+div.optionIcon:hover
 {
-    background-position: 0px 15px;
+    background-position: 0px 20px;
 }
 
-div.deleteOption:active {
-    background-position: 0px 29px;
+div.optionIcon:active
+{
+    background-position: 0px 40px;
 }
+
+div.deleteOption
+{
+    background: url(../images/x-delete.png);
+}
+
+div.skipto
+{
+    background: url(../images/skipto.png);
+}
+
+div.skipto.selected, div.skipto.selected:hover, div.skipto.selected:active
+{
+    background: url(../images/skipto-selected.png);
+}
+
 
 .optionInput
 {

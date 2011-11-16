@@ -1,73 +1,67 @@
-/*
- * This file is part of fileinput.
- *
- * fileinput is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * fileinput is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
- */
+#dialog-upload-query {
+    margin-top: 21px;
+    margin-bottom: 34px;
+    display: block;
+}
 
-/*
- * DO NOT MODIFY
- */
-.fileinput-wrapper {position:relative;display:inline-block;zoom:1;display:inline;overflow:hidden;padding:0;}
-.fileinput-input {float:left;height:20px;padding:3px;overflow:hidden;width:150px;white-space:nowrap;}
-.fileinput-button {float:left;height:20px;padding:3px;overflow:hidden;white-space:nowrap;}
-.fileinput-button-text {padding:5px;}
-.fileinput-file {position:absolute;left:-9999px;-moz-opacity:0;filter:alpha(opacity=0);opacity:0;}
+.fileinput-container {
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    position: relative;
+    left: 40px;
+    height: 29px;
+    width: 225px;
+    margin-bottom: 26px;
+}
 
-/*
+.fileinput-container input {
+    cursor: pointer;
+    height: 100%;
+    position: relative;
+    display: inline-block;
+    filter: alpha(opacity=0 );
+    font-family: "Nokia Pure Text";
+    font-size: 14px;
+    -moz-opacity: 0.0;
+    opacity: 0.0;
+    z-index: 1;
+    line-height: 29px;
+}
 
-*/
-
-/*
- * You may modify the source below...
- */
-
-/*
- * The following is an example of styling the visible elements.
- *
- * Please Note: Using POSITION, DISPLAY, or FLOAT css attributes
- * may BREAK THE SCRIPT!
- *
- * Additional Notes: Setting width on .fileinput-button may
- * clip the buttonText. It is recommended not to set width
- * unless you will be using an image background with
- * buttonText set to "" or you know buttonText fits in the
- * allotted space.
- */
-
+.fileinput-cover {
+    height:29px;
+    line-height: 29px;
+    font-size: 14px;
+    display: inline-block;
+    position: absolute;
+    top: 0px;
+    cursor: pointer;
+    border: 0;
+}
 
 .fileinput-input {
-    height: 29px !important;
-    width: 140px !important;
-    background: url(../images/form_text.png) no-repeat !important;
+    width: 140px;
+    background: url('../images/form_text.png') no-repeat ;
     border: 0;
-    color: #3a77ca !important;
-    font-family: "Nokia Pure Text"  !important;
-    font-size: 14px  !important;
-    line-height: 29px  !important;
+    color: #3a77ca;
+    font-family: "Nokia Pure Text";
+    left: 0px;
 }
 
 .fileinput-button {
-    height: 29px !important;
-    width: 85px !important;
-    line-height: 29px;
-    background: url(../images/form_button.png) no-repeat !important;
-    border: 0 !important;
+    width: 85px;
+    background: url('../images/form_button.png') ;
+    left:140px;
 }
 
 .fileinput-button-text {
-    color: #3a77ca !important;
-    font-size: 14px  !important;
-    font-family: "Nokia Pure Semibold"  !important;
+    color: #3a77ca;
+    font-size: 14px;
+    font-family: "Nokia Pure Semibold";
 }
 
+
+.fileinput-button-text {
+    padding: 0px;
+}
