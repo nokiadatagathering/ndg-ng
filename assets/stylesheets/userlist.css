@@ -23,6 +23,11 @@
     width: 195px;
 }
 
+.columnHeaderNoWrap{
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 #leftColumn_layout2 {
     height: 545px;
     float: left;
@@ -144,7 +149,7 @@
 
 .tableEntryUsername {
     margin: 0px;
-    padding: 0px;
+    padding-left: 10px;
     text-align: left;
     vertical-align: middle;
     font-size: 13px;
@@ -154,7 +159,7 @@
 }
 
 .tableEntryFirstLastName {
-    padding: 0px;
+    padding-left: 10px;
     margin: 0px;
     text-align: left;
     vertical-align: middle;

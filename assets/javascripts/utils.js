@@ -13,7 +13,7 @@ var Utils = function() {
         if(errorThrown === "Unauthorized") {
             window.location = "/login";
             return true;
-        };
+        }
     return false;
     }
 }();

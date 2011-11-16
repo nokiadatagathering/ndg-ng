@@ -10,12 +10,17 @@ import play.mvc.Controller;
 
 public class UserManager extends Controller {
 
-    public static void addUser(String username, String password, String firstName, String lastName, String email, String role)
+    public static void addUser( String username, String password, String firstName,
+                                String lastName, String email, String role,
+                                String phoneNumber )
     {
         if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
             return;
         }
-        NdgUser user = new NdgUser(password, username, email, firstName, lastName, "Y", 'Y', 'Y', 'Y');
+        NdgUser user = new NdgUser( password, username, email,
+                                    firstName, lastName,
+                                    phoneNumber,
+                                    "Y", 'Y', 'Y', 'Y');
         Company userCompany = Company.all().first();
         user.company = userCompany;
         user.save();

@@ -37,6 +37,9 @@ var ResultList = function() {
         var ajaxParams = { surveyId: currentSurveyId};
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList, ajaxParams);
 
+        $('#sectionTitle').text(LOC.get('LOC_RESULT_LIST'));
+        $('#userManagement').text('');
+
         $('#leftColumnContent' ).append( '<a href="#"><img id ="backButtonImage" src="images/back.png"></a>');
         $('#backButtonImage').click( function(){backToSurveyList()} );
 

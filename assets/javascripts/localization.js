@@ -58,7 +58,11 @@ var LOC = (function() {
         select1: 'Exclusive Choice',
         time: 'Time',
         LOC_SAVESURVEY:'Save survey',
-        LOC_CANCEL: 'Cancel'
+        LOC_CANCEL: 'Cancel',
+        LOC_RESULT_LIST: 'Result List',
+        LOC_SEND_SMS: 'Send SMS',
+        LOC_TO: 'To',
+        LOC_PHONE_NUMBER: 'Phone no.'
     };
 
     return {

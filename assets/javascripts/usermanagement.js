@@ -27,7 +27,8 @@ var UserManagement = function() {
         searchFieldChange: function(event){searchFieldChange(event);},
         getSearchBy: function() {return searchBy;},
         refresh: function() {refresh();},
-        loadingFinished: function() {loadingFinished();}
+        loadingFinished: function() {loadingFinished();},
+        prepareLayout: function(tableHtml){prepareLayout(tableHtml);}
     };
 
     function showUserManagement (){
@@ -58,12 +59,17 @@ var UserManagement = function() {
         });
     }
 
+    function prepareLayout(tableHtml) {
+        $('#minimalist_layout2_2').empty();
+        $('#minimalist_layout2_2').append(tableHtml);
+    }
+
     function loadGroups() {
         var htmlContent = '';
         htmlContent += '<thead>' + '<tr>';
 
         htmlContent += '<th scope="col" id="' + "executeSortByGroup" + '" ';
-        htmlContent +='class = "sortHeader2 ' + "executeSortByGroup" + 'Width"';
+        htmlContent +='class = "sortHeader2 columnHeaderNoWrap ' + "executeSortByGroup" + 'Width"';
         htmlContent += '><div>';
         htmlContent += LOC.get( 'LOC_GROUP' );
         htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>';
@@ -146,9 +152,9 @@ var UserManagement = function() {
         var columnDbFields = ["username", "email", "phoneNumber", "userRoleCollection", null];
 
         if ( selectedGroupName != null && selectedGroupName.length > 0 ) {
-            DynamicTable.showList2(columnIds, columnTexts, columnDbFields, "users", UserManagement,{'groupName': selectedGroupName});
+            DynamicTable.showList(columnIds, columnTexts, columnDbFields, "users", UserManagement,{'groupName': selectedGroupName});
         } else {
-            DynamicTable.showList2(columnIds, columnTexts, columnDbFields, "users", UserManagement);
+            DynamicTable.showList(columnIds, columnTexts, columnDbFields, "users", UserManagement);
         }
     }
 
@@ -268,10 +274,16 @@ var UserManagement = function() {
                                     + '<td>' + item.email + '</td>'
                                     + '<td>' + item.phoneNumber + '</td>'
                                     + '<td>' + item.userRoleCollection[0].ndgRole.roleName + '</td>'
-                                    + '<td class="menubar users" id="menu' + i + '" >'
+                                    + '<td class="users menubar" id="menu' + i + '" >'
+                                    + '<span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"></span>'
                                     + '<span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
                                     + '</td>'
                                     + '</tr>' );
+         $('#menu' + i +' #buttonDelete').click( {index: i, id: item.id}, function(event){onDeleteUserClicked(event);} );
+         $('#menu' + i +' #buttonPhone').click( { index: i,
+                                                  fullName: item.firstName + " " + item.lastName,
+                                                  phoneNumber: item.phoneNumber },
+         function(i){ onPhoneUserClicked(i); } );
      }
 
     function toggleSortByColumn(event) {
@@ -290,7 +302,7 @@ var UserManagement = function() {
 
     function onDeleteUserClicked(event) {
          if ( ConfirmCover.isShown() ) {
-            ConfirmCover.close();
+             ConfirmCover.close();
          }
          var currentRow = $('#dynamicRow' + event.data.index);
          var rect = new Object();
@@ -299,6 +311,13 @@ var UserManagement = function() {
          rect.width = currentRow.width() - $('#buttonDelete').width();
          rect.height = currentRow.height();
          ConfirmCover.show(rect, event.data.id);
+     }
+
+     function onPhoneUserClicked(event) {
+        SendSMS.showSendUserSMS(event.data);
+        sendUserSMSDialog.dialog( {title: LOC.get('LOC_SEND_SMS')} );
+        document.getElementById('buttonSendSMSDone').textContent = LOC.get('LOC_SEND');
+        sendUserSMSDialog.dialog("open");
      }
 
     function refresh() {

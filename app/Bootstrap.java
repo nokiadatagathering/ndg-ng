@@ -1,4 +1,5 @@
 
+import controllers.sms.SMSModemHandler;
 import models.NdgRole;
 import play.*;
 import play.jobs.*;
@@ -11,6 +12,7 @@ public class Bootstrap extends Job {
 
     final static String INITIAL_DATA_FILENAME = "initial_data.sql";
 
+    @Override
     public void doJob() {
         // Check if the database is empty
         if (NdgRole.count() == 0) {
@@ -27,5 +29,8 @@ public class Bootstrap extends Job {
             }
             Fixtures.executeSQL(sqlFile.contentAsString());
         }
+
+        //Initialize SMS modem/gateway
+        SMSModemHandler.getInstance();
     }
 }

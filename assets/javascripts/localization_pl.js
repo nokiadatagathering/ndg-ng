@@ -58,7 +58,11 @@ var LOC = (function() {
         select1: 'Jedna opcja',
         time: 'Czas',
         LOC_SAVESURVEY:'Zapisz ankiet\u0119',
-        LOC_CANCEL: 'Anuluj'
+        LOC_CANCEL: 'Anuluj',
+        LOC_RESULT_LIST: 'Rezultaty',
+        LOC_SEND_SMS: 'Wy\u015blij wiadomo\u015b\u0107',
+        LOC_TO: 'Do',
+        LOC_PHONE_NUMBER: 'Numer tel.'
     };
 
     return {

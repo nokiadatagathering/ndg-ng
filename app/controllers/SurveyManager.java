@@ -27,6 +27,7 @@ import models.TransactionLog;
 import models.constants.TransactionlogConsts;
 import models.utils.NdgQuery;
 import models.utils.SurveyDuplicator;
+import play.data.validation.Required;
 import play.mvc.Controller;
 import play.mvc.Http.StatusCode;
 
@@ -57,7 +58,7 @@ public class SurveyManager extends Controller {
         renderJSON(SurveyJsonTransformer.getJsonSurvey(surveyId));
     }
 
-    public static void upload(File filename, String uploadSurveyId) throws IOException, SurveySavingException {
+    public static void upload(@Required File filename, String uploadSurveyId) throws IOException, SurveySavingException {
         if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
             return;
         }

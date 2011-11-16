@@ -21,9 +21,8 @@ var DynamicTable = function() {
 
     return {showList : function(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams){showList(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams);},
             refresh: function() {refresh();},
-            checkIfDeletingLast: function() {checkIfDeletingLast();},
-            showList2 : function(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams){showList2(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams);}
-    };
+            checkIfDeletingLast: function() {checkIfDeletingLast();}
+      };
 
     function prepareContentToolbar() {
         $('#contentToolbar').empty();
@@ -69,68 +68,15 @@ var DynamicTable = function() {
     }
 
     function showList (_columnIds, _columnTexts, _columnDbFields, remoteAction, _contentHandler, _ajaxParams){
-        elementStartIndex = 0;
-        elementEndIndex = 10;
-        totalItems = 0;
-        scrollReady = false;
-        columnIds= _columnIds;
-        columnTexts = _columnTexts;
-        contentHandler = _contentHandler;
-        columnDbFields = _columnDbFields;
-        lastSortByColumn = undefined;
-        ajaxParams = _ajaxParams;
+        initVariables(_columnIds, _columnTexts, _columnDbFields, _contentHandler, _ajaxParams);
 
-        recreateContainers();
+        contentHandler.prepareLayout(createTableHtml());
 
-        $('#minimalist').empty();
-        $('#leftColumnContent' ).empty();
-        $('#plusButton').unbind('mouseover');
-        $('#userManagement').unbind('click');
-
-        $('#searchComboBox').unbind('click');
-        $('#searchComboText').empty();
-
-        $('#searchTextField').val("");
-
-        var htmlContent = '';
-        htmlContent += '<thead>' + '<tr>';
-        $.each(columnIds,function(i,item) {
-            htmlContent += '<th scope="col" id="' + item + '" ';
-            if(i == 0 && item != null) {
-                htmlContent +='class = "sortHeader firstColumnHeader ' + item + 'Width"';
-            } else if( item != null ) {
-                htmlContent +='class = "sortHeader ' + item + 'Width"';
-            }
-            htmlContent += '><div>';
-            if(LOC.get(columnTexts[i]) != null) {
-                htmlContent += LOC.get(columnTexts[i]);
-            }
-            htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>';
-        });
-        htmlContent += '</tr></thead>'
-                     + '<tbody id="dynamicListTable">'
-                     + '</tbody>';
-        $('#minimalist').append(htmlContent);
-                           var i = 0;
-
-        $('.sortHeader' ).click( function(event){toggleSortByColumn(event);} );
-
-        contentUrl = 'listData/' + remoteAction;
-
-        $('#searchTextField').unbind('keyup');
-        $('#searchTextField').keyup( function(event){performSearch(event)});
-
-        fillListData( lastSortByColumn, true );
-
-        $(window).scroll(function(){
-        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-           scrollDownList();
-        }
-        });
+        addHandlers (remoteAction);
 
     }
 
-    function showList2 (_columnIds, _columnTexts, _columnDbFields, remoteAction, _contentHandler, _ajaxParams){
+    function initVariables(_columnIds, _columnTexts, _columnDbFields, _contentHandler, _ajaxParams){
         elementStartIndex = 0;
         elementEndIndex = 10;
         totalItems = 0;
@@ -141,31 +87,9 @@ var DynamicTable = function() {
         columnDbFields = _columnDbFields;
         lastSortByColumn = undefined;
         ajaxParams = _ajaxParams;
+    }
 
-        $('#minimalist_layout2_2').empty();
-
-        var htmlContent = '';
-        htmlContent += '<thead>' + '<tr>';
-        $.each(columnIds,function(i,item) {
-            htmlContent += '<th scope="col" id="' + item + '" '
-            if(i == 0 && item != null) {
-                htmlContent +='class = "sortHeader firstColumnHeader ' + item + 'Width"';
-            } else if(item != null) {
-                htmlContent +='class = "sortHeader ' + item + 'Width"';
-            }
-            htmlContent += '><div>';
-            if(LOC.get(columnTexts[i]) != null) {
-                htmlContent += LOC.get(columnTexts[i]);
-            }
-            htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>'
-        });
-
-        htmlContent += '</thead>'
-                     + '<tbody id="dynamicListTable">'
-                     + '</tbody>';
-        $('#minimalist_layout2_2').append(htmlContent);
-                           var i = 0;
-
+    function addHandlers(remoteAction) {
         $('.sortHeader' ).click( function(event){toggleSortByColumn(event);} );
 
         contentUrl = 'listData/' + remoteAction;
@@ -180,7 +104,28 @@ var DynamicTable = function() {
            scrollDownList();
         }
         });
+    }
 
+    function createTableHtml() {
+    var htmlContent = '';
+    htmlContent += '<thead>' + '<tr>';
+    $.each(columnIds,function(i,item) {
+        htmlContent += '<th scope="col" id="' + item + '" ';
+        if(i == 0 && item != null) {
+            htmlContent +='class = "columnHeaderNoWrap sortHeader firstColumnHeader ' + item + 'Width"';
+        } else if( item != null ) {
+            htmlContent +='class = "columnHeaderNoWrap sortHeader ' + item + 'Width"';
+        }
+        htmlContent += '><div>';
+        if(LOC.get(columnTexts[i]) != null) {
+            htmlContent += LOC.get(columnTexts[i]);
+        }
+        htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>';
+    });
+    htmlContent += '</tr></thead>'
+                 + '<tbody id="dynamicListTable">'
+                 + '</tbody>';
+    return htmlContent;
     }
 
     function performSearch(event) {
@@ -189,48 +134,6 @@ var DynamicTable = function() {
         }
         elementStartIndex = 0;
         DynamicTable.refresh();
-    }
-
-    function recreateContainers()
-    {
-        if( document.getElementById( "leftColumn_layout2" ) != null ) {
-            $("#leftColumn_layout2").remove();
-            $("#middleColumn_layout2").remove();
-            $("#rightColumn_layout2").remove();
-
-            var layout = "";
-            layout += "<div id='leftcolumn'>"
-                    + "<span class='plusButton' id='plusButton' >"
-                    + "<a href='#'><img id ='plusButtonImage' src='images/plus.png'></a>"
-                    + "</span>"
-                    + "<div id=filter>"
-                    + "<span id='leftColumnContent'>"
-                    + "</span>"
-                    + "</div>"
-                    + "</div><!--END of leftcolumn-->"
-                    + "<div id='content'>"
-                    + "<div id='contentMain'>"
-                    + "<div id='datatable'>"
-                    + "<table id='minimalist'></table>"
-                    + "</div>"
-                    + "<div id='contentToolbar' ></div>"
-                    + "</div>"
-                    + "</div>"
-            $( '#container' ).append( layout );
-        }
-        if( !$('#datatable').length ){
-            $('#content').append( '<div id="contentMain">'
-                                + '<div id="datatable">'
-                                + '<table id="minimalist">'
-                                + '</table>'
-                                + '</div>'
-                                + '</div>');
-        }
-
-        if( !$('#contentToolbar').length ){
-            $('#content').append('<div id=contentToolbar></div>');
-        }
-        $('#container').height('715px');
     }
 
     function toggleSortByColumn(event)

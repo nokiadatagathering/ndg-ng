@@ -6,8 +6,9 @@
 }
 
 .menubar.users {
-    max-width: 48px;
-    width : 5%;
+    max-width: 100px;
+    width: 98px;
+    min-width: 98px;
  }
 
 .hoverRow {

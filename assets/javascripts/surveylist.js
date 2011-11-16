@@ -14,7 +14,8 @@ var SurveyList = function() {
     return {showSurveyList : function(){showSurveyList();},
             fillWithData : function(i, item){fillWithData(i, item);},
             searchFieldChange: function(event){searchFieldChange(event);},
-            getSearchBy: function() {return searchBy;}
+            getSearchBy: function() {return searchBy;},
+            prepareLayout: function(tableHtml){prepareLayout(tableHtml);}
     };
 
     function showSurveyList (){
@@ -22,6 +23,8 @@ var SurveyList = function() {
         var columnIds = ["executeSortBySurveyName", "executeSortByDatePublished", "executeSortByPublisher", "executeSortByResults",null];//null is for item toolbar
         var columnTexts = ["LOC_SURVEY_NAME", "LOC_DATE_PUBLISHED", "LOC_PUBLISHER", "LOC_RESULTS"];
         var columnDbFields = ["title","uploadDate", "ndgUser.username", "resultCollection"];
+
+        recreateContainers();
 
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "surveys", SurveyList);
 
@@ -41,6 +44,61 @@ var SurveyList = function() {
 
         $('#searchComboText').text("ID");
         $('#searchComboBox').click( function(event) {createSearchList(event);});
+    }
+
+    function prepareLayout(tableHtml) {
+         $('#minimalist').empty();
+        $('#leftColumnContent' ).empty();
+        $('#plusButton').unbind('mouseover');
+        $('#userManagement').unbind('click');
+
+        $('#searchComboBox').unbind('click');
+        $('#searchComboText').empty();
+
+        $('#searchTextField').val("");
+
+       $('#minimalist').append(tableHtml);
+    }
+
+    function recreateContainers() {
+                if( $("#leftColumn_layout2" ).length ) {
+            $("#leftColumn_layout2").remove();
+            $("#middleColumn_layout2").remove();
+            $("#rightColumn_layout2").remove();
+
+            var layout = "";
+            layout += "<div id='leftcolumn'>"
+                    + "<span class='plusButton' id='plusButton' >"
+                    + "<a href='#'><img id ='plusButtonImage' src='images/plus.png'></a>"
+                    + "</span>"
+                    + "<div id=filter>"
+                    + "<span id='leftColumnContent'>"
+                    + "</span>"
+                    + "</div>"
+                    + "</div><!--END of leftcolumn-->"
+                    + "<div id='content'>"
+                    + "<div id='contentMain'>"
+                    + "<div id='datatable'>"
+                    + "<table id='minimalist'></table>"
+                    + "</div>"
+                    + "<div id='contentToolbar' ></div>"
+                    + "</div>"
+                    + "</div>"
+            $( '#container' ).append( layout );
+        }
+        if( !$('#datatable').length ){
+            $('#content').append( '<div id="contentMain">'
+                                + '<div id="datatable">'
+                                + '<table id="minimalist">'
+                                + '</table>'
+                                + '</div>'
+                                + '</div>');
+        }
+
+        if( !$('#contentToolbar').length ){
+            $('#content').append('<div id=contentToolbar></div>');
+        }
+        $('#container').height('715px');
     }
 
     function createSearchList(event) {

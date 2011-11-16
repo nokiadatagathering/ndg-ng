@@ -120,13 +120,14 @@ public class NdgUser extends Model {
         return retval;
     }
 
-    public NdgUser( String password, String username, String email, String firstName, String lastName, String userAdmin, char userValidated, char emailPreferences, char hasFullPermissions ) {
+    public NdgUser( String password, String username, String email, String firstName, String lastName, String phoneNumber,String userAdmin, char userValidated, char emailPreferences, char hasFullPermissions ) {
         this.password = password;
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.userAdmin = userAdmin;
+        this.phoneNumber = phoneNumber;
         this.userValidated = userValidated;
         this.emailPreferences = emailPreferences;
         this.hasFullPermissions = hasFullPermissions;

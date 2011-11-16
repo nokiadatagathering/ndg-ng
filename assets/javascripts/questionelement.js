@@ -296,8 +296,6 @@ var QuestionUiElement = function( questionModel ){
                                                 });
         }
 
-
-
         if( question.defaultAnswer != null &&
             question.defaultAnswer.textData.indexOf( option.optionValue ) != -1 ){
             $( '#' + optionId + ' input').attr('checked', 'checked' );

@@ -1,0 +1,48 @@
+.tableSendSmsWidth {
+    width: 350px;
+}
+
+.userFullName-cell{
+    width: 100%
+}
+
+.userFullName-To {
+    float:left;
+    text-align: left;
+    width: 30%
+
+}
+
+.userFullName-FullName {
+    float:left;
+    text-align: left;
+    width: 70%
+}
+
+.userPhoneNumber-cell {
+    width: 100%;
+}
+
+.userPhoneNumber-To {
+    float:left;
+    text-align: left;
+    width: 30%;
+}
+
+.userPhoneNumber-PhoneNo {
+    float:left;
+    text-align: left;
+    width: 70%;
+}
+
+.smsMessage-cell {
+    float:left;
+    padding-top: 10px;
+    width: 100%;
+}
+
+.smsMessage-textarea {
+    width: 99%;
+    margin: 0;
+    padding: 0;
+}

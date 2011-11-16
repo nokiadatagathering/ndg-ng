@@ -39,6 +39,7 @@
   <link rel='stylesheet' href='stylesheets/contextpopup.css'>
   <link rel='stylesheet' href='stylesheets/questionelement.css'>
   <link rel="stylesheet" href="stylesheets/fileinput.css">
+  <link rel="stylesheet" href="stylesheets/sendsms.css">
   <!-- end CSS-->
 
 
@@ -72,6 +73,7 @@
   <script type ="text/javascript" src="javascripts/newusertable.js"></script>
   <script type ="text/javascript" src="javascripts/newgrouptable.js"></script>
   <script type ="text/javascript" src="javascripts/utils.js"></script>
+  <script type ="text/javascript" src="javascripts/sendsms.js"></script>
 </head>
 
 <body>
@@ -170,6 +172,12 @@
             <div id="confirmCategoryButton"></div>
         </div>
     </div>
+
+    <div id="dialog-sendUserSMS" class="dialogs">
+        <div id="sendSMSUsers"></div>
+        <div><span id="buttonSendSMSDone" class="buttonSmall" ></span></div>
+    </div>
+
     <!-- Mask to cover the whole screen -->
     <div id="mask"></div>
 </div>
@@ -228,6 +236,14 @@ var confirmSaveSurveyDialog = $("#dialog-confirmSaveSurvey").dialog(
     autoOpen: false,
     modal: true,
     zIndex: 9999,
+    width: 400,
+    resizable: false
+});
+
+var sendUserSMSDialog = $("#dialog-sendUserSMS").dialog(
+{
+    autoOpen: false,
+    modal: true,
     width: 400,
     resizable: false
 });
