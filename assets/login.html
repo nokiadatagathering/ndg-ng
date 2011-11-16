@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>Login Page</title>
+                <script src="javascripts/libs/jquery-1.6.2.min.js"></script>
+                <script src="javascripts/libs/jquery.md5.js"></script>
+                <script type="text/javascript" src="javascripts/utils.js"></script>
+    </head>
+    <body>
+    #{form @Application.authorize(), id:'loginForm'}
+
+        <p>
+            #{field 'Login'}
+            <label>Login:</label>
+            <input type="text" name="username" />
+            #{/field}
+        </p>
+
+        <p>
+            #{field 'content'}
+            <label>Password</label>
+            <input type="password" name="password" />
+            #{/field}
+        </p>
+
+        <p>
+            <input type="submit" value="Login" />
+        </p>
+
+    #{/form}
+    #{if flash.error}
+
+    <script type="text/javascript"> alert("username and/or password is incorrect"); </script>
+    #{/if}
+    <script>
+
+        $(document).ready(function() {
+            $('#loginForm').submit($(this), function(data){Utils.encryptCredentials(data)});
+        });
+    </script>
+    </body>
+</html>

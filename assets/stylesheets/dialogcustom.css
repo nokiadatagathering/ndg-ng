@@ -76,6 +76,7 @@
      line-height: 32px;
      text-align: center;
      text-transform: uppercase;
+     cursor: default;
  }
 
  .buttonMedium {

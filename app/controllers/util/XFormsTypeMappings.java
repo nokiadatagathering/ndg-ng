@@ -17,8 +17,8 @@ public class XFormsTypeMappings {
         }
         return typeToInteger.get(type);
     }
-    
-    
+
+
     public static String getIntegerToType(int typeInt) {
         if(integerToType == null)
         {
@@ -26,7 +26,7 @@ public class XFormsTypeMappings {
         }
         return integerToType.get(new Integer(typeInt));
     }
-    
+
     public static String getIntegerToControlType(int controlTypeInt) {
         if(integerToControlType == null)
         {
@@ -57,8 +57,8 @@ public class XFormsTypeMappings {
         typeToInteger.put("hexBinary", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));     //xsd:
         typeToInteger.put("anyURI", new Integer(org.javarosa.core.model.Constants.DATATYPE_UNSUPPORTED));        //xsd:
         typeToInteger.put("listItem", new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE));           //xforms:
-        typeToInteger.put("listItems", new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE_LIST));	    //xforms:	
-        typeToInteger.put(SELECTONE, new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE));	        //non-standard	
+        typeToInteger.put("listItems", new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE_LIST));	    //xforms:
+        typeToInteger.put(SELECTONE, new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE));	        //non-standard
         typeToInteger.put(SELECT, new Integer(org.javarosa.core.model.Constants.DATATYPE_CHOICE_LIST));        //non-standard
         typeToInteger.put("geopoint", new Integer(org.javarosa.core.model.Constants.DATATYPE_GEOPOINT));         //non-standard
         typeToInteger.put("barcode", new Integer(org.javarosa.core.model.Constants.DATATYPE_BARCODE));           //non-standard
@@ -66,7 +66,7 @@ public class XFormsTypeMappings {
         typeToInteger.put("binary#audio", new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY));
         typeToInteger.put("binary#video", new Integer(org.javarosa.core.model.Constants.DATATYPE_BINARY));
     }
-    
+
       private static void initIntegerToTypeMappings() {
         integerToType = new Hashtable<Integer, String>();
         integerToType.put(new Integer(org.javarosa.core.model.Constants.DATATYPE_TEXT), "string");

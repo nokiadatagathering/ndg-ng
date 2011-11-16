@@ -13,7 +13,7 @@ div.questionDetails
 
 .detailLabel
 {
-    font-size: 12pt;
+    font-size: 12px;
     color: #878787;
     font-family: "Nokia Pure Text";
     text-align: left;
@@ -24,12 +24,13 @@ div.questionDetails
 
 .detailInputText
 {
-    font-size: 12pt;
+    font-size: 12px;
     margin-right: 20px;
     width : 50px;
     color: #acacac;
     font-family: "Nokia Pure Text";
     text-align: left;
+    border: 1px solid #acacac;
 }
 
 .descriptiveDefault.detailInputText
@@ -107,5 +108,37 @@ div.deleteOption:active {
 
 .optionCheckBox
 {
-    margin-right: 7px;
+    margin-right: 10px;
 }
+
+.dateInput, .timeInput
+{
+    width: 100px;
+    margin-right: 5px;
+    
+}
+
+.ui-datepicker-trigger
+{
+    margin-right: 40px;
+}
+
+div.dateDefault
+{
+    margin-bottom: 7px;
+}
+
+.typeSelect
+{
+    font-size: 14px;
+    color: #acacac;
+    font-family: "Nokia Pure Text";
+    text-align: left;
+    border: 1px solid #acacac;
+}
+
+.amPmRadio
+{
+    margin-left: 30px;
+}
+

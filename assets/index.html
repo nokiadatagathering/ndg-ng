@@ -54,6 +54,8 @@
   <script src="javascripts/libs/jquery.fileinput.min.js"></script>
   <script src="javascripts/libs/jquery.blockUI.js"></script>
   <script src="javascripts/libs/date.js"></script>
+  <script src="javascripts/libs/jquery.timeentry.min.js"></script>
+  <script src="javascripts/libs/jquery.md5.js"></script>
   <script type="text/javascript" src="javascripts/constants.js"></script>
   <script type="text/javascript" src="javascripts/localization.js"></script>
   <script type="text/javascript" src="javascripts/editlabel.js"></script>
@@ -70,6 +72,7 @@
   <script type ="text/javascript" src="javascripts/confirmcover.js"></script>
   <script type ="text/javascript" src="javascripts/newusertable.js"></script>
   <script type ="text/javascript" src="javascripts/newgrouptable.js"></script>
+  <script type ="text/javascript" src="javascripts/utils.js"></script>
 </head>
 
 <body>
@@ -87,7 +90,7 @@
                         <H2 id="sectionTitle">Survey List</H2><H3 id="userManagement">User Admin</H3>
                     </div>
                 </div>
-                    <div id="user">Fulano da Silva<a href="">Logout</a>
+                    <div id="user">${session.ndgUser} <a href="/logout">Logout</a>
                     </div>
                     <div id="search">
                        <input id="searchTextField" class="searchTextField" type="search" name="s" placeholder="Search"><div class="searchComboBox" id="searchComboBox" ><span id="searchComboText">ID</span></div>
@@ -140,6 +143,16 @@
         </div>
     </div>
 
+    <div id="dialog-confirmSaveSurvey" >
+        <p><span id="dialogConfirmSaveSurveyQuestion" ></span></p>
+        <div>
+            <span id="buttonDeleteSurveyYes" class="buttonSmall" ></span>
+            <span id="buttonDeleteSurveyNo" class="buttonSmall" ></span>
+            <span id="buttonDeleteSurveyCancel" class="buttonSmall" ></span>
+        </div>
+    </div>
+
+
     <div id="dialog-sendSurvey" class="dialogs">
         <div id="sendSurveyUsers"></div>
         <div><span id="buttonSendSurveyDone" class="buttonSmall" ></span></div>
@@ -157,6 +170,11 @@
     <div id="mask"></div>
 </div>
 <script>
+    var hasAdminPermission = false;
+    #{if session.admin} 
+    hasAdminPermission = true;
+    #{/if}
+
 var uploadDialog = $("#dialog-upload").dialog(
 {
     autoOpen: false,

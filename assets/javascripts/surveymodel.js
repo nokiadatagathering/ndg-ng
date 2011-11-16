@@ -177,7 +177,7 @@ function Question( question ){
         this.label = "New question";
         this.objectName = "question" + numRand;
         this.questionType = new Object();
-        this.questionType.id = 1;
+        this.questionType.id = QuestionType.DESCRIPTIVE;
         this.questionOptionCollection = [];
     }
 }

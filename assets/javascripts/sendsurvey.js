@@ -47,7 +47,7 @@ var SendSurvey = function() {
             $.ajax(
             {
                 type: "POST",
-                url: "surveyManager/sendsurveys/" + currentSurveyId ,
+                url: "sendsurveys/" + currentSurveyId ,
                 data: {users : selectedUsers},
                 success: function(msg){
                    alert( "Surveys available");

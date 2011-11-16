@@ -36,6 +36,7 @@ var surveyModel;
                                                 } );
 
         $('#userManagement').remove();
+        restoreLayout();
         prepareLayout();
         $('#content').append(
             '<div id="editor">'
@@ -52,8 +53,10 @@ var surveyModel;
 
         $( "#plusButton" ).unbind( 'mouseover' );
         $( "#plusButton" ).mouseover( function( event ) {SurveyListCombo.showEditorMenu( event );});
-        $( "#editorBackButton" ).click( function(){onBackClicked();} );
-        $( "#executeSave" ).click( function(){onSaveClicked();} );
+        $( "#editorBackButton" ).click( function(){
+            onBackClicked();
+        } );
+//        $( "#executeSave" ).click( function(){onSaveClicked();} );
 
         $( "#categories" ).sortable( {
                 delay: 50,
@@ -78,6 +81,7 @@ var surveyModel;
         $('#plusButton').addClass('plusButton_layout3');
         $('#content').empty();
         $('#plusButton').before( '<div class="leftMenuButtonBlock" id="editorBackButton"/>');
+//        $('#plusButton').before( '<div class="leftMenuButtonBlock" id="executeSave"/>');
         $('#leftColumnContent' ).empty();
     }
 
@@ -122,16 +126,22 @@ var surveyModel;
         $.ajax(
         {
             type: "POST",
-            url: "/SurveyManager/saveSurvey",
+            url: "/surveyManager/saveSurvey",
             data: {surveyData : surveyModel.getSurveyString()},
             success: function( msg ){
-    //           refresh( msg );
-    //            alert( "Survey saved successfully "); //TODo localize
+                backToSurveyList();
             },
             error: function( request, error ) {
                 alert("Problem with saving survey. Original error: " + error);
+                backToSurveyList();
             }
         });
+    }
+
+    function backToSurveyList(){
+        confirmSaveSurveyDialog.dialog( "close" );
+        restoreLayout()
+        SurveyList.showSurveyList();
     }
 
     function refresh( id ){
@@ -149,9 +159,31 @@ var surveyModel;
     }
 
     function onBackClicked(){
-        onSaveClicked();
-        restoreLayout();
-        SurveyList.showSurveyList();
+
+        $( '#dialogConfirmSaveSurveyQuestion' ).text( 'Do you want to save survey?' );
+        $( '#buttonDeleteSurveyYes' ).text( LOC.get('LOC_YES') );
+        $( '#buttonDeleteSurveyNo' ).text( LOC.get('LOC_NO') );
+        $( '#buttonDeleteSurveyCancel' ).text( 'Cancel' );// TODO localize
+
+        confirmSaveSurveyDialog = $("#dialog-confirmSaveSurvey").dialog(
+        {
+            title: 'Save survey',// TODO localize
+            autoOpen: false,
+            modal: true,
+            zIndex: 9999,
+            width: 400,
+            resizable: false
+        });
+
+        $( '#buttonDeleteSurveyYes' ).click(function(){ onSaveClicked(); });
+        $( '#buttonDeleteSurveyNo' ).click(function(){ backToSurveyList(); });
+        $( '#buttonDeleteSurveyCancel' ).click(function(){ confirmSaveSurveyDialog.dialog("close"); });
+
+        confirmSaveSurveyDialog.dialog("open");
+
+//        confirmSaveSurveyDialog.dialog( "close" );
+//        restoreLayout()
+//        SurveyList.showSurveyList();
     }
 
     function restoreLayout() {
@@ -161,6 +193,7 @@ var surveyModel;
         $('#plusButton').removeClass('plusButton_layout3');
         $('#plusButton').addClass('plusButton');
         $('#editorBackButton').detach();
+//        $('#executeSave').detach();
     }
 
     function addCategory(){
@@ -192,9 +225,6 @@ var surveyModel;
         appendQuestionElement( createQuestionElement( question ), question, selectElem );
 
         showCategory( selectElem );
-//        $( '#' + question.uiId ).trigger( 'click' );
-
-//        switchCategoryDialog.dialog( "close" );
     }
 
     function fillEditor(id){

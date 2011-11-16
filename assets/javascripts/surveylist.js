@@ -30,9 +30,12 @@ var SurveyList = function() {
 
 
         $('#pageSelect').empty();
-        $('#pageSelect').append('<H2 id=sectionTitle>Survey List</H2><H3 id=userManagement>User Admin</H3>');
-        $('#userManagement').click(function() {UserManagement.showUserManagement()});
-
+        $('#pageSelect').append('<H2 id=sectionTitle>Survey List</H2>');
+        if(hasAdminPermission)
+            {
+            $('#pageSelect').append('<H3 id=userManagement>User Admin</H3>');
+            $('#userManagement').click(function() {UserManagement.showUserManagement()});
+            }
         $('#uploadForm').submit( function () {uploadNewSurvey();} );
         $('#buttonSendFile').click( function() {$('#uploadForm').submit( )});
 

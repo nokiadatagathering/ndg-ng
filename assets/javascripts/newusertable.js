@@ -96,23 +96,25 @@ var NewUserTable = (function() {
                 }
             });
 
-            $('#newUserForm').submit(function(){
+            $('#newUserForm').submit(function(data){
                 //todo more validation
-                var formData = $('#newUserForm').serialize();
                 if( $("#newUserForm input[name=password]").val() === $("#newUserForm input[name=passwordRetype]").val()) {
-                $.ajax({
-                    type: "post",
-                    url: "userManager/addUser",
-                    data: formData,
-                    success: function(result) {
-                        DynamicTable.refresh();
-                        hide();
-                    },
-                    error: function(result) {
-                        alert("ERROR!!");//todo ui spec for form validation
-                    }
+                  Utils.encryptCredentials(data);
+                  $("#newUserForm input[name=passwordRetype]").val("");
+                  var formData = $('#newUserForm').serialize();
+                    $.ajax({
+                        type: "post",
+                        url: "userManager/addUser",
+                        data: formData,
+                        success: function(result) {
+                            DynamicTable.refresh();
+                            hide();
+                        },
+                        error: function(result) {
+                            alert("ERROR!!");//todo ui spec for form validation
+                        }
 
-                });
+                    });
                 } else {
                     alert("Password do not match");//todo ui spec for form validation
                 }

@@ -1,6 +1,7 @@
 package models;
 
 import java.util.Collection;
+import java.util.Iterator;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -104,6 +105,19 @@ public class NdgUser extends Model {
     }
 
     public NdgUser() {
+    }
+
+    public boolean hasRole(String role)
+    {
+        boolean retval = false;
+        for (Iterator<UserRole> it = userRoleCollection.iterator(); it.hasNext();) {
+            UserRole userRole = it.next();
+            if(userRole.ndgRole.roleName.equals(role)) {
+                retval = true;
+                break;
+            }
+        }
+        return retval;
     }
 
     public NdgUser( String password, String username, String email, String firstName, String lastName, String userAdmin, char userValidated, char emailPreferences, char hasFullPermissions ) {

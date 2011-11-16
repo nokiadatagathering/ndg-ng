@@ -4,7 +4,10 @@
 
 # Home page
 GET     /                                       Application.index
+GET     /login                                  Application.login
+GET     /logout                                 Application.logout
 GET     /management                             Management.index
+POST    /authorize                              Application.authorize
 GET     /management/{id}                        Management.get
 POST    /management                             Management.save
 POST    /management/upload                      Management.upload
