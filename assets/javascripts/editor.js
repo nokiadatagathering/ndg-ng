@@ -1,7 +1,7 @@
 
 var Editor = function() {
 
-var surveyModel;
+    var surveyModel;
     var typeList;
     var currentSelectionId;
 
@@ -77,11 +77,11 @@ var surveyModel;
 
     function prepareLayout() {
         $('#content').width( 865 );
-        $('#leftcolumn').width( 80 );
+        $('#leftColumn').width( 80 );
         $('#plusButton').removeClass('plusButton');
         $('#plusButton').addClass('plusButton_layout3');
         $('#content').empty();
-        $('#plusButton').before( '<div class="leftMenuButtonBlock" id="editorBackButton"/>');
+        $('#plusButton').before( '<div class="buttonBack" id="editorBackButton"/>');
 //        $('#plusButton').before( '<div class="leftMenuButtonBlock" id="executeSave"/>');
         $('#leftColumnContent' ).empty();
     }
@@ -190,7 +190,7 @@ var surveyModel;
     function restoreLayout() {
         $('#content').empty();
         $('#content').width( 820 );
-        $('#leftcolumn').width( 125 );
+        $('#leftColumn').width( 125 );
         $('#plusButton').removeClass('plusButton_layout3');
         $('#plusButton').addClass('plusButton');
         $('#editorBackButton').detach();
@@ -232,6 +232,7 @@ var surveyModel;
         var getJSONQuery = $.getJSON('/surveyManager/getSurvey', {'surveyId': parseInt(id)}, function(data){
                                                                 surveyModel = new SurveyModel(data.survey);
                                                                 fillCategoryList();
+                                                                surveyModel.addSkipLogic();
                                                             } );
        getJSONQuery.error(Utils.redirectIfUnauthorized);
     }
@@ -321,8 +322,6 @@ var surveyModel;
                 var queId = $( $( ui.draggable ).parents( '.listItemQuestion' )[0] ).attr( 'id' );
 
                 surveyModel.setSkipCategory( queId, optionId, dropCategoryId );
-                $( '#' + queId + ' div.skipto.selected').removeClass( 'selected' );
-                $( ui.draggable ).addClass( 'selected' );
             }
         });
 
@@ -336,7 +335,6 @@ var surveyModel;
             delay: 50,
             start : function(){
                 setHoverConfig();
-
             },
             stop: function( event, ui ) {
                 if( ui.item.hasClass( 'drag' ) ){

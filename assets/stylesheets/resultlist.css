@@ -30,3 +30,57 @@
 {
     color: #3a77ca;
 }
+
+.resultListButton {
+    display: inline-block;
+    min-width: 101px;
+    height: 29px;
+    margin-left: 35px;
+    margin-top: 10px;
+    line-height: 29px;
+    cursor: pointer;
+    color: #3a77ca;
+
+    font-family: "Nokia Pure Text";
+    font-size: 12px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.buttonMapView {
+    background: url(../images/mapview.png);
+}
+
+.buttonExport {
+    background: url(../images/export.png);
+}
+
+.resultListButton:hover {
+    background-position: 0 31px;
+}
+
+.resultListButton:active {
+    background-position: 0 63px;
+}
+
+#minimalist.resultListTable {
+    width: 790px;
+}
+
+#leftColumn.resultListTable {
+    width: 155px;
+}
+
+.resultListLeftMenu {
+    text-align: right;
+    margin-right:20px;
+    line-height: 0px;
+}
+
+#content.resultListTable {
+    width: 825px;
+}
+
+#contentToolbar.resultListTable {
+    width: 790px;
+}

@@ -65,27 +65,31 @@ var SurveyList = function() {
             $("#leftColumn_layout2").remove();
             $("#middleColumn_layout2").remove();
             $("#rightColumn_layout2").remove();
+            }
+        $( '#leftColumn' ).remove();
+        $( '#content' ).remove();
+        var layout = "";
+        layout += "<div id='leftColumn'>"
+                + "<span class='plusButton' id='plusButton' >"
+                + "<a href='#'><img id ='plusButtonImage' src='images/plus.png'></a>"
+                + "</span>"
+                + "<div id=filter>"
+                + "<span id='leftColumnContent'>"
+                + "</span>"
+                + "</div>"
+                + "</div><!--END of leftColumn-->"
+                + "<div id='content'>"
+                + "<div id='contentMain'>"
+                + "<div id='datatable'>"
+                + "<table id='minimalist'></table>"
+                + "</div>"
+                + "<div id='contentToolbar' ></div>"
+                + "</div>"
+                + "</div>"
+        $( '#container' ).append( layout );
 
-            var layout = "";
-            layout += "<div id='leftcolumn'>"
-                    + "<span class='plusButton' id='plusButton' >"
-                    + "<a href='#'><img id ='plusButtonImage' src='images/plus.png'></a>"
-                    + "</span>"
-                    + "<div id=filter>"
-                    + "<span id='leftColumnContent'>"
-                    + "</span>"
-                    + "</div>"
-                    + "</div><!--END of leftcolumn-->"
-                    + "<div id='content'>"
-                    + "<div id='contentMain'>"
-                    + "<div id='datatable'>"
-                    + "<table id='minimalist'></table>"
-                    + "</div>"
-                    + "<div id='contentToolbar' ></div>"
-                    + "</div>"
-                    + "</div>"
-            $( '#container' ).append( layout );
-        }
+        $('.resultListTable').removeClass('resultListTable');
+
         if( !$('#datatable').length ){
             $('#content').append( '<div id="contentMain">'
                                 + '<div id="datatable">'

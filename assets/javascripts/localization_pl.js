@@ -60,10 +60,9 @@ var LOC = (function() {
         LOC_SAVESURVEY:'Zapisz ankiet\u0119',
         LOC_CANCEL: 'Anuluj',
         LOC_RESULT_LIST: 'Rezultaty',
-        LOC_SEND_SMS: 'Wy\u015blij wiadomo\u015b\u0107',
-        LOC_TO: 'Do',
-        LOC_PHONE_NUMBER: 'Numer tel.'
-    };
+        LOC_MAP_VIEW: 'Mapa',
+        LOC_EXPORT_TO: 'Eksportuj do',
+        LOC_SEND_SMS: 'Wy\u015blij wiadomo\u015b\u0107',        LOC_TO: 'Do',        LOC_PHONE_NUMBER: 'Numer tel.'    };
 
     return {
         get: function(name) {

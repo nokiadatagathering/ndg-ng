@@ -230,7 +230,7 @@ var UserManagement = function() {
     }
 
     function initLayout() {
-        $('#leftcolumn').remove();
+        $('#leftColumn').remove();
         $('#content').remove();
 
         var layout = "";

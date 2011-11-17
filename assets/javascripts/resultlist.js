@@ -20,7 +20,8 @@ var ResultList = function() {
             fillWithData: function(i, item) {fillWithData(i, item);},
             loadingFinished: function() {loadingFinished();},
             searchFieldChange: function(event){searchFieldChange(event);},
-            getSearchBy: function() {return searchBy;}
+            getSearchBy: function() {return searchBy;},
+            prepareLayout: function(tableHtml){prepareLayout(tableHtml);}
     };
 
     function backToSurveyList() {
@@ -35,18 +36,44 @@ var ResultList = function() {
         var columnTexts = [null, "LOC_RESULTID", "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
         var columnDbFields = [null, "resultId", "title", "startTime", "ndgUser.username", "latitude"];
         var ajaxParams = { surveyId: currentSurveyId};
+
+        setupLeftColumn();
+
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList, ajaxParams);
 
         $('#sectionTitle').text(LOC.get('LOC_RESULT_LIST'));
         $('#userManagement').text('');
 
-        $('#leftColumnContent' ).append( '<a href="#"><img id ="backButtonImage" src="images/back.png"></a>');
-        $('#backButtonImage').click( function(){backToSurveyList()} );
-
         $('#searchComboBox').click( function(event) {createSearchList(event);});
         $('#searchComboText').text(LOC.get("LOC_RESULTTITLE"));
 
         prepareContentToolbar();
+    }
+
+    function prepareLayout(tableHtml) {
+        $('#minimalist').empty();
+        $('#minimalist').append(tableHtml);
+        $('#minimalist').addClass('resultListTable');
+        $('#content').addClass('resultListTable');
+        $('#contentToolbar').addClass('resultListTable');
+    }
+
+    function setupLeftColumn() {
+        $('#leftColumn').empty('resultListTable');
+        $('#leftColumn').addClass('resultListTable');
+        var columnContent = '<div class="resultListLeftMenu">';
+        columnContent += '<span id ="backResults" class="buttonBack"></span>';
+        columnContent += '<span id="mapView" class="buttonMapView resultListButton">';
+        columnContent += LOC.get('LOC_MAP_VIEW');
+        columnContent +=  '</span>';
+        columnContent += '<span id="exportContextMenu" class="buttonExport resultListButton">';
+        columnContent += LOC.get('LOC_EXPORT_TO');
+        columnContent +=  '</span>';
+        columnContent +=  '</div>';
+
+        $('#leftColumn').append( columnContent );
+        $('#backResults').click( function(){backToSurveyList()} );
+
     }
 
     function createSearchList(event) {

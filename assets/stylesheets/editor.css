@@ -183,54 +183,6 @@ div.questionText span
     background: url(../images/duplicate-35px.jpg);
 }
 
-.leftMenuButtonBlock {
-    display: inline-block;
-    min-width: 30px;
-    height: 43px;
-    margin-left: 35px;
-    background: url(../images/back-43px.png);
-    background-position: 0px 0px;
-}
-
-.plusButton_layout3 {
-    margin-left: 35px;
-    margin-top: 8px;
-}
-
-#editorBackButton {
-    background-position: 0px 0px;
-}
-
-#editorBackButton:hover {
-    background-position: 0px 87px;
-}
-
-#editorBackButton:active {
-    background-position: 0px 44px;
-}
-
-.leftMenuButtonBlockOver {
-    background-position: 0px 44px;
-}
-
-.leftMenuButtonBlockPressed {
-    background-position: 0px 88px;
-}
-
-.leftMenuButton
-{
-    width: 35px;
-    height: 43px;
-    background: url(../images/back-43px.png);
-}
-
-#executeBackButton{
-    height: 43px;
-    max-height: 43px;
-    background-position: 0 0;
-    background: url(../images/back-43px.png);
-}
-
 #executeSave{
     background: url(../images/check1.png) no-repeat;
 }

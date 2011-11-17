@@ -41,6 +41,9 @@ public class Question extends Model {
     @Column( name = "constraint_text")
     public String constraintText;
 
+    @Column( name = "relevant")
+    public String relevant;
+
     public Integer required;
 
     public Integer readonly;

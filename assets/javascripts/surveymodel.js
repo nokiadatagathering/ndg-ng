@@ -2,6 +2,8 @@
 var SurveyModel = function(s){
     var survey = s;
     var currentQuestionIndex = 0;
+    var skipLogicController = new SkipLogicController( this );
+
 
     //public methods
     this.getSurvey = function(){
@@ -81,8 +83,22 @@ var SurveyModel = function(s){
             if( category != null ){
                 category.categoryIndex = idx + 1;
             }
+            prepereRelevant( category );
         });
         currentQuestionIndex = 0;
+    }
+
+    function prepereRelevant( category ){
+        var relevantStr;
+        if( !skipLogicController.contains(category) ){
+            relevantStr = undefined;
+        }else{
+            relevantStr = skipLogicController.getRelevantString( category );
+        }
+
+        $.each( category.questionCollection, function( idx, item ) {
+            item.relevant = relevantStr;
+        });
     }
 
     this.reorderQuestion = function ( newOrder, currentCategoryId ){
@@ -108,7 +124,7 @@ var SurveyModel = function(s){
         return newQuestion;
     }
 
-    this.getCategoryForQuestion = function( qId ){
+    function getCategoryForQue( qId ){
         var category;
         $.each(survey.categoryCollection, function( i, cateItem ){
             $.each(cateItem.questionCollection, function( i, qItem ){
@@ -118,6 +134,10 @@ var SurveyModel = function(s){
             });
         });
         return category;
+    }
+
+    this.getCategoryForQuestion = function( qId ){
+        return getCategoryForQue( qId );
     }
 
     function removeFromOldCategory( question ){
@@ -155,25 +175,13 @@ var SurveyModel = function(s){
     }
 
     this.setSkipCategory = function ( queId, optionId, dropCategoryId ){
-        var skipOption;
+
+        var category = getCategoryForQue( queId );
         var question = getQue( queId );
-        var skipCategory = getCategory( dropCategoryId );
-        $.each( question.questionOptionCollection , function( idx, item ){
-            if( item.uiId == optionId ){
-                item.skipCategory = skipCategory;
-                skipOption = item;
-            }else{
-                item.skipCategory = null;
-            }
-        });
+        var option = getOpt( question, optionId );
+        var skipedCategory = getCategory( dropCategoryId );
 
-        if( skipCategory.skip != undefined && skipCategory != null ){
-            var oldQue = skipCategory.skip[0];
-            skipCategory.skip[1].skipCategory = null;
-            $( '#' + oldQue.uiId + ' div.skipto.selected' ).removeClass( 'selected' );
-        }
-
-        skipCategory.skip = [ question, skipOption ]; //TODO do we need this???
+        skipLogicController.add( skipedCategory, new SkipObject( option, question, category ));
     }
 
     function getOpt( question, optionId ){
@@ -184,6 +192,50 @@ var SurveyModel = function(s){
             }
         });
         return option;
+    }
+
+    this.findCategoryByObjectName = function( categoryObjectName ){
+        var category;
+        $.each(survey.categoryCollection, function( i, item ){
+           if( item.objectName == categoryObjectName ){
+               category = item;
+               return false;
+           }
+           return true;
+        });
+        return category;
+    }
+
+    this.findQuestionByObjectName = function ( category, questionObjectName ){ //TODO move to Category
+        var question;
+        $.each( category.questionCollection, function( i, item ){
+           if( item.objectName == questionObjectName ){
+               question = item;
+               return false;
+           }
+           return true;
+        });
+        return question;
+    }
+
+    this.findOptionByValue = function ( question, val ){
+        var option;
+        $.each( question.questionOptionCollection, function( i, item ){
+           if( item.optionValue == val ){
+               option = item;
+               return false;
+           }
+           return true;
+        });
+        return option;
+    }
+
+    this.addSkipLogic = function(){
+        $.each(survey.categoryCollection, function( i, item ){
+            if( item.questionCollection[0] != undefined && item.questionCollection[0].relevant != undefined ){
+                skipLogicController.addSkipLogic( item, item.questionCollection[0].relevant );
+            }
+        });
     }
 };
 

@@ -284,16 +284,16 @@ var QuestionUiElement = function( questionModel ){
             $( '#' + question.uiId + ' .skipto' ).hide();
         }else{
             $( '#' + question.uiId + ' .skipto' ).draggable({
-                                                    start: function(){
-                                                        $( '#' + question.uiId + ' .optionIcon' ).addClass( 'iconVisibleDrag' );
-                                                    },
-                                                    stop: function(){
-                                                        $( '#' + question.uiId + ' .optionIcon' ).removeClass( 'iconVisibleDrag' );
-                                                        $( '#' + question.uiId + ' .optionIcon' ).removeClass( 'iconVisible' );
-                                                    },
-                                                    revert: 'invalid',
-                                                    helper: 'clone'
-                                                });
+                    start: function(){
+                        $( '#' + optionId.uiId + ' .optionIcon' ).addClass( 'iconVisibleDrag' );
+                    },
+                    stop: function(){
+                        $( '#' + optionId.uiId + ' .optionIcon' ).removeClass( 'iconVisibleDrag' );
+                        $( '#' + optionId.uiId + ' .optionIcon' ).removeClass( 'iconVisible' );
+                    },
+                    revert: 'invalid',
+                    helper: 'clone'
+                });
         }
 
         if( question.defaultAnswer != null &&
