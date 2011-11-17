@@ -1,5 +1,5 @@
 
-import controllers.sms.SMSModemHandler;
+import controllers.sms.SmsHandlerFactory;
 import models.NdgRole;
 import play.*;
 import play.jobs.*;
@@ -31,6 +31,10 @@ public class Bootstrap extends Job {
         }
 
         //Initialize SMS modem/gateway
-        SMSModemHandler.getInstance();
+        if( SmsHandlerFactory.hasSmsSupport() ) {
+            SmsHandlerFactory.getInstance().getSmsHandler();
+        } else {
+            System.out.println( "SMS support disabeled" );
+        }
     }
 }

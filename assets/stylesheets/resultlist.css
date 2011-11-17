@@ -1,29 +1,25 @@
 .resultCheckboxPaddingClass {
-    padding-left: 14px;
+    padding-left: 18px;
 }
 
 .checkboxColumnIdWidth {
-    width: 76px;
-}
-
-.executeSortByResultIdWidth {
-    width: 158px;
+    width: 25px;
 }
 
 .executeSortByResultTitleWidth {
-    width: 180px;
+    width: 208px;
 }
 
 .executeSortByDateSentWidth {
-    width: 163px;
+    width: 158px;
 }
 
 .executeSortByUserWidth {
-    width: 152px;
+    width: 198px;
 }
 
 .executeSortByLocationWidth {
-    width: 96px;
+    width: 98px;
 }
 
 .itemTextColor

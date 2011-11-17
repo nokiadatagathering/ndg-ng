@@ -1,7 +1,7 @@
 package controllers;
 
 import controllers.logic.AuthorizationUtils;
-import controllers.sms.SMSModemHandler;
+import controllers.sms.SmsHandlerFactory;
 import play.mvc.Controller;
 
 public class SMSMessage extends Controller {
@@ -11,6 +11,8 @@ public class SMSMessage extends Controller {
         if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
             return;
         }
-        SMSModemHandler.getInstance().sendTextSMS( phoneNumber, message, 0 );
+        if ( SmsHandlerFactory.getInstance().getSmsHandler() != null) {
+            SmsHandlerFactory.getInstance().getSmsHandler().sendTextSMS( phoneNumber, message, 0 );
+        }
     }
 }

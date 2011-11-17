@@ -32,9 +32,9 @@ var ResultList = function() {
         selectedResults = new Array();
         currentSurveyId = i.data;
 
-        var columnIds = ["checkboxColumnId", "executeSortByResultId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation"];
-        var columnTexts = [null, "LOC_RESULTID", "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
-        var columnDbFields = [null, "resultId", "title", "startTime", "ndgUser.username", "latitude"];
+        var columnIds = ["checkboxColumnId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation", null];
+        var columnTexts = [null, "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
+        var columnDbFields = [null, "title", "startTime", "ndgUser.username", "latitude"];
         var ajaxParams = { surveyId: currentSurveyId};
 
         setupLeftColumn();
@@ -85,11 +85,13 @@ var ResultList = function() {
     function fillWithData(i, item) {
         $('#dynamicListTable').append( '<tr class="itemTextColor" id="dynamicRow' + i + '">'
                                     + '<td class="resultCheckboxPaddingClass"><input type="checkbox" class="resultCheckboxClass" id="resultCheckbox' + item.id + '"/></td>'
-                                    + '<td>'+ item.resultId + '</td>'
                                     + '<td>' + item.title + '</td>'
                                     + '<td>' + new Date( item.startTime ).toString("dd/MM/yy") + '</td>'
                                     + '<td>' + item.ndgUser.username + '</td>'
                                     + '<td>' + ( item.latitude!= null ? 'OK': 'NO GPS' ) + '</td>'
+                                    + '<td class="resultListTable menubar" id="menu' + i + '" >'
+                                    + '<span title="' + LOC.get('LOC_DELETE') + '"class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
+                                    + '</td>'
                                     + '</tr>' );
 
         $( '#resultCheckbox' + item.id ).bind( 'check uncheck', item.id, function(i){resultCheckboxClicked(i);} )

@@ -111,8 +111,7 @@ public class SMSModemHandler {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (GatewayException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.warn( "GatewayException: " + e.getMessage() );
         } catch (SMSLibException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

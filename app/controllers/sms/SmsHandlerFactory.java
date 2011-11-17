@@ -40,14 +40,14 @@ public class SmsHandlerFactory {
     public SMSModemHandler getSmsHandler() {
         Properties properties = PropertiesUtil.getCoreProperties();
         if(smsHandler == null) {
-            if (properties.getProperty("SMS_SUPPORT").equalsIgnoreCase("true")) {
+            if ( hasSmsSupport() ) {
                 smsHandler = SMSModemHandler.getInstance();
             }
         }
         return smsHandler;
     }
 
-    public boolean hasSmsSupport(){
+    public static boolean hasSmsSupport(){
         boolean result = false;
         Properties properties = PropertiesUtil.getCoreProperties();
         String pp = properties.getProperty("SMS_SUPPORT");

@@ -482,6 +482,8 @@ searchTextField:-moz-placeholder {
 @import url('contenttoolbar.css');
 @import url('contextpopup.css');
 @import url('questionelement.css');
+@import url('fileinput.css');
+@import url('sendsms.css');
 
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.

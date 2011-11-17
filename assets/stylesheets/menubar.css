@@ -11,6 +11,12 @@
     min-width: 98px;
  }
 
+ .menubar.resultListTable {
+     max-width: 50px;
+     width: 48px;
+     min-width: 48px;
+ }
+
 .hoverRow {
 }
 
