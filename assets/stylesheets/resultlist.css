@@ -80,3 +80,27 @@
 #contentToolbar.resultListTable {
     width: 790px;
 }
+
+.popup-export-results {
+    width: 101px;
+    margin-right: 1px;
+    font-size: 13px;
+    font-family: "Nokia Pure Text";
+    color: #3a77ca;
+    line-height: 22px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    -moz-border-radius-bottomright: 5px ;
+}
+
+.popup-export-results div span {
+    padding-left: 3px;
+}
+
+.popup-export-results div:hover {
+    background: #0061ac;
+    color: #f9f9fa;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}

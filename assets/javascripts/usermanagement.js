@@ -19,6 +19,8 @@ var UserManagement = function() {
     var ajaxParams;
     var totalItems;
 
+    var scrollReady = true;
+
     var selectedGroupName = ""
 
     return {
@@ -32,6 +34,9 @@ var UserManagement = function() {
     };
 
     function showUserManagement (){
+        elementEndIndex = 10;
+        scrollReady = true;
+
         initLayout();
 
         $('#minimalist_layout2_2').empty();
@@ -42,9 +47,14 @@ var UserManagement = function() {
         $('#searchComboText').empty();
         $('#searchTextField').val("");
 
+
+        $('#container').height('715px');
+        $('#contentMain').append('<div id=contentToolbar></div>');
+        $('#contentToolbar').addClass('userManagement');
+
         loadGroups();
 
-        $('#plusButton').click( function(eventObject) {SurveyListCombo.showUserManagementMenu(eventObject);});
+        $('#plusButton').click( function(eventObject) {ContextComboBox.showUserManagementMenu(eventObject);});
         $('#sectionTitle').text('User Admin');
         $('#userManagement').text('Survey List');
         $('#userManagement').click(function() {SurveyList.showSurveyList();});
@@ -126,18 +136,21 @@ var UserManagement = function() {
         $('#contentToolbar2').empty();
         $('#contentToolbar2').unbind('click');
         if(elementEndIndex < totalItems){
-            $('#contentToolbar2').css('background-color', 'black');
+            $('#contentToolbar2').removeClass('backgroundHide');
             $('#contentToolbar2').append('<span class="toolbarText">Click here to expand item list</span>');
             $('#contentToolbar2').click(function() {
             $('#contentToolbar2').unbind('click');
                 scrollDownList();
             });
         } else {
-            $('#contentToolbar2').css('background-color', '#edf0f6');
+            $('#contentToolbar2').addClass('backgroundHide');
         }
         $('#contentToolbar2').animate({top: $('#dynamicGroupListTable').position().top + $('#dynamicGroupListTable').height()});
+        if(scrollReady) {
+                loadUsers();
+            }
         scrollReady = true;
-        loadUsers();
+
     }
 
     function selectGroup(i, item) {
@@ -255,7 +268,7 @@ var UserManagement = function() {
     function createSearchList(event) {
        searchLabels = [LOC.get("LOC_NAME"), LOC.get("LOC_EMAIL"), LOC.get("LOC_PHONE")];
        searchIds = ["searchByName", "searchByEmail", "searchByPhone"];
-       SurveyListCombo.showSearchMenu(event, searchLabels, searchIds, UserManagement);
+       ContextComboBox.showSearchMenu(event, searchLabels, searchIds, UserManagement);
     }
 
 
@@ -370,7 +383,7 @@ var UserManagement = function() {
     function scrollDownList() {
         if(scrollReady) {
             $('#contentToolbar2 span').text("Loading...");
-            scrollReady = true;
+            scrollReady = false;
             var diff = totalItems - elementEndIndex;
             if( diff > 0 ){
                 if(diff > 5){

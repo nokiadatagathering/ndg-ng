@@ -53,7 +53,7 @@ var Editor = function() {
                                                 } );
 
         $( "#plusButton" ).unbind( 'mouseover' );
-        $( "#plusButton" ).mouseover( function( event ) {SurveyListCombo.showEditorMenu( event );});
+        $( "#plusButton" ).mouseover( function( event ) {ContextComboBox.showEditorMenu( event );});
         $( "#editorBackButton" ).click( function(){
             onBackClicked();
         } );

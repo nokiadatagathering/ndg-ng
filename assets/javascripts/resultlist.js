@@ -13,10 +13,10 @@ var ResultList = function() {
     var searchDbFields = ["title", "latitude", "startTime", "ndgUser.username"];
     var searchBy = "title";
 
-    return {showResultList : function(i) { showResultList(i);},
-            selectAllResults : function(){ selectAllResults();},
-            selectAllVisibleResults : function() { selectAllVisibleResults();},
-            unselectAllResults : function(){ unselectAllResults();},
+    return {showResultList : function(i) {showResultList(i);},
+            selectAllResults : function(){selectAllResults();},
+            selectAllVisibleResults : function() {selectAllVisibleResults();},
+            unselectAllResults : function(){unselectAllResults();},
             fillWithData: function(i, item) {fillWithData(i, item);},
             loadingFinished: function() {loadingFinished();},
             searchFieldChange: function(event){searchFieldChange(event);},
@@ -35,8 +35,9 @@ var ResultList = function() {
         var columnIds = ["checkboxColumnId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation", null];
         var columnTexts = [null, "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
         var columnDbFields = [null, "title", "startTime", "ndgUser.username", "latitude"];
-        var ajaxParams = { surveyId: currentSurveyId};
+        var ajaxParams = {surveyId: currentSurveyId};
 
+        $('#container').height('715px');
         setupLeftColumn();
 
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList, ajaxParams);
@@ -73,13 +74,13 @@ var ResultList = function() {
 
         $('#leftColumn').append( columnContent );
         $('#backResults').click( function(){backToSurveyList()} );
-
+        $('#exportContextMenu').click(function(event){ContextComboBox.showExportResultsMenu(event);});
     }
 
     function createSearchList(event) {
        searchLabels = [LOC.get("LOC_RESULTTITLE"), LOC.get("LOC_LOCATION"), LOC.get("LOC_DATESENT"), LOC.get("LOC_USER")];
        searchIds = [ "searchByTitle", "searchByLocation", "searchByDate", "searchByUser"];
-       SurveyListCombo.showSearchMenu(event, searchLabels, searchIds, ResultList);
+       ContextComboBox.showSearchMenu(event, searchLabels, searchIds, ResultList);
     }
 
     function fillWithData(i, item) {
@@ -133,7 +134,7 @@ var ResultList = function() {
         $(document).bind('mouseup.resultBar', function() {
             $('.pushed').removeClass('pushed');
             $('body').unbind('mouseup.resultBar');
-            return false; });
+            return false;});
         return false;
     }
 

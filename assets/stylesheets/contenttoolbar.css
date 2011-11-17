@@ -1,12 +1,14 @@
 #contentToolbar {
-    background: #edf0f6;
-/*    background: black;*/
+    background-color: #20264A;
     width: 820px;
     height: 40px;
     color: white;
     text-align: center;
     position: absolute;
-/*    bottom:0;*/
+}
+
+#contentToolbar.backgroundHide {
+    background-color: #edf0f6;
 }
 
 #contentToolbar span {
@@ -16,12 +18,16 @@
 }
 
 #contentToolbar2 {
-    background: #edf0f6;
+    background-color: #20264A;
     width: 195px;
     height: 40px;
     color: white;
     text-align: center;
     position: absolute;
+}
+
+#contentToolbar2.backgroundHide {
+    background-color: #edf0f6;
 }
 
 #contentToolbar2 span {

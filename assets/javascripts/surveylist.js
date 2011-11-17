@@ -28,7 +28,7 @@ var SurveyList = function() {
 
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "surveys", SurveyList);
 
-        $('#plusButton').bind('mouseover.surveyList', function(event) {SurveyListCombo.showSurveyMenu();});
+        $('#plusButton').bind('mouseover.surveyList', function(event) {ContextComboBox.showSurveyMenu();});
         $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="labelBuilding">Building</h4><h4 class="labelAvailable">Available</h4><h4 class="labelClosed">Closed</h4>');
 
 
@@ -89,6 +89,7 @@ var SurveyList = function() {
         $( '#container' ).append( layout );
 
         $('.resultListTable').removeClass('resultListTable');
+        $('.userManagement').removeClass('userManagement');
 
         if( !$('#datatable').length ){
             $('#content').append( '<div id="contentMain">'
@@ -108,7 +109,7 @@ var SurveyList = function() {
     function createSearchList(event) {
        searchLabels = ["ID", LOC.get("LOC_SURVEY_NAME"), LOC.get("LOC_PUBLISHER")];
        searchIds = ["searchById", "searchBySurveyName", "searchByPublisher"];
-       SurveyListCombo.showSearchMenu(event, searchLabels, searchIds, SurveyList);
+       ContextComboBox.showSearchMenu(event, searchLabels, searchIds, SurveyList);
     }
 
     function fillWithData(i, item) {

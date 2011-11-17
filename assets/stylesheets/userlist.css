@@ -31,7 +31,7 @@
 #leftColumn_layout2 {
     height: 545px;
     float: left;
-    width: 8%;
+    width: 80px;
 /*    background-color: #33ffff;*/
 }
 
@@ -43,15 +43,18 @@
 #middleColumn_layout2 {
     height: auto;
     float: left;
-    width: 21%;
+    width: 195px;
     border-right: 1px solid #dadbe0;
+    padding-right: 14px;
 /*    background-color: #3388ff;*/
 }
 
 #rightColumn_layout2 {
     height: 545px;
     float: left;
-    width: 67%;
+    width: 640px;
+    padding-left: 14px;
+/*    border-left: 1px solid #dadbe0;*/
 /*    background-color: #338800;*/
 }
 
@@ -183,4 +186,12 @@
     font-size: 12px;
     font-family: "Nokia Pure Text";
     color: #3a77ca;
+}
+
+#contentToolbar.userManagement {
+    width: 640px;
+}
+
+#contentToolbar.userManagement span {
+    width: 640px;
 }

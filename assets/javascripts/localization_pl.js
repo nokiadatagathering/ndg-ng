@@ -64,7 +64,8 @@ var LOC = (function() {
         LOC_EXPORT_TO: 'Eksportuj do',
         LOC_SEND_SMS: 'Wy\u015blij wiadomo\u015b\u0107',
         LOC_TO: 'Do',
-        LOC_PHONE_NUMBER: 'Numer tel.'
+        LOC_PHONE_NUMBER: 'Numer tel.',
+        LOC_EXTERNAL_SERVICE: 'zewn\u0119trzny serwis'
     };
 
     return {

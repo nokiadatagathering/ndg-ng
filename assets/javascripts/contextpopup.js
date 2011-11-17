@@ -1,16 +1,13 @@
-/*
- * File encapsulates action related to Survey List comboboxes
- *
- **/
 
 
-var SurveyListCombo = function() {
+var ContextComboBox = function() {
 
     return {showSurveyMenu : function(){showSurveyMenu();},
             showResultSelectionMenu : function(event){showResultSelectionMenu(event);},
             showEditorMenu : function(event){showEditorMenu(event);},
             showSearchMenu : function(event, searchLabels, searchIds, contentHandler){showSearchMenu(event, searchLabels, searchIds, contentHandler)},
-            showUserManagementMenu: function(event){showUserManagementMenu(event)}
+            showUserManagementMenu: function(event){showUserManagementMenu(event)},
+            showExportResultsMenu: function(event){showExportResultsMenu(event)}
     };
 
     function showSurveyMenu(){
@@ -154,6 +151,23 @@ var SurveyListCombo = function() {
         stopEvent(event);
     }
 
+    function showExportResultsMenu(event) {
+        document.onclick=closeMenu;
+        if ( menuBeingShown() ) {
+            return;
+        }
+
+        $('#popup-context').addClass("popup-export-results");
+
+        $('#popup-context').append( '<div id="newCategoryAction"><span>' + 'Excel' + '</span></div>');
+        $('#popup-context').append( '<div id="newCategoryAction"><span>' + 'KML' + '</span></div>');
+        $('#popup-context').append( '<div id="newCategoryAction"><span>' + LOC.get('LOC_EXTERNAL_SERVICE') + '</span></div>');
+
+        var pos = $('#exportContextMenu').offset();
+
+        showMenu(pos.left, pos.top, 0, $('#exportContextMenu').height() );
+        stopEvent(event);
+    }
 
     function menuBeingShown() {
         return ( $.trim($('#popup-context').html()) != "" );
