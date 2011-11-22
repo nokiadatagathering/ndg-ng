@@ -78,6 +78,7 @@ var ResultList = function() {
 
         $('#leftColumn').append( columnContent );
         $('#backResults').click( function(){backToSurveyList()} );
+        $('#mapView').click( function(){ alert("Not supported"); } );
         $('#exportContextMenu').click(function(event){ContextComboBox.showExportResultsMenu(event);});
     }
 

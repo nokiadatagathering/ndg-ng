@@ -139,7 +139,6 @@ var QuestionUiElement = function( questionModel ){
                 '<div class="dateDefault">'
             +   '<span class="detailLabel defaultLabel">DEFAULT:</span><input class="defaultAnswer detailInputText dateInput" type="text" name="numericDefault" />'
             +   '</div>'
-
             +   '<div>'
             +   '<input class="rangeCheckMin" type="checkbox" name="minRangeCheckBox" />'
             +   '<span class="detailLabel">MIN.RANGE</span>'
@@ -155,13 +154,17 @@ var QuestionUiElement = function( questionModel ){
                         showOn: "button",
                         buttonImage: "images/Calendar-icon.png",
                         buttonImageOnly: true,
-                        onClose: function(dateText, inst) {onDefaultChanged();}
+                        changeMonth: true,
+                        changeYear: true,
+                        onClose: function(dateText, inst) { onDefaultChanged();}
         });
 
         $( '#' + question.uiId + ' .rangeInputMin' ).datepicker({
                         showOn: "button",
                         buttonImage: "images/Calendar-icon.png",
                         buttonImageOnly: true,
+                        changeMonth: true,
+                        changeYear: true,
                         onClose: function(dateText, inst) {onRangeInputMinChanged();}
         });
 
@@ -169,6 +172,8 @@ var QuestionUiElement = function( questionModel ){
                     showOn: "button",
                     buttonImage: "images/Calendar-icon.png",
                     buttonImageOnly: true,
+                    changeMonth: true,
+                    changeYear: true,
                     onClose: function(dateText, inst) {onRangeInputMaxChanged();}
         });
 

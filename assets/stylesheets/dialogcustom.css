@@ -1,5 +1,5 @@
-.ui-widget {
-    width:333px;
+.ui-widget, .ui-datepicker {
+    width: 333px;
     height: auto;
     padding: 0 !important;
     margin: 0 !important;
@@ -8,6 +8,10 @@
     z-index:9999;
     background: #edf0f6;
     text-align: center;
+}
+
+.ui-state-hover {
+
 }
 
 .ui-widget-content {
@@ -33,21 +37,48 @@
     font-family: "Nokia Pure Text";
 }
 
-.ui-dialog-titlebar-close {
+.ui-datepicker-title {
+    top: -8px;
+    height: 30px !important;
+    padding-left: 10px !important;
+    text-decoration: none;
+    background: #3a77ca;
+    border: none;
+    border-radius: 0;
+    font-size: 16px;
+    color: #ffffff;
+    font-family: "Nokia Pure Text";
+}
+
+.ui-dialog-titlebar-close, .ui-datepicker-close {
     width: 30px !important;
     height: 31px !important;
     background: url(../images/quit.png) no-repeat;
 }
 
-.ui-widget-header .ui-icon {
+.ui-icon {
+    display: block;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+.ui-widget-header .ui-icon-closethick {
     border: none;
     background: none;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.ui-widget-header {
+    border: none;
+    background: #3a77ca;
 }
 
 .ui-dialog-titlebar-close:hover,
 .ui-dialog-titlebar-close:focus {
-/*    margin: -10px 0 0 0;
-    padding: 1px !important;*/
+    margin: -10px 0 0 0;
+    padding: 1px !important;
     border: none;
     width: 30px !important;
     height: 31px !important;

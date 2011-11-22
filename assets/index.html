@@ -42,14 +42,114 @@
   <link rel="stylesheet" href="stylesheets/sendsms.css">
   <!-- end CSS-->
 
-
   <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
-
   <!-- All JavaScript at the bottom, except for Modernizr / Respond.
        Modernizr enables HTML5 elements & feature detects; Respond is a polyfill for min/max-width CSS3 Media Queries
        For optimal performance, use a custom Modernizr build: www.modernizr.com/download/ -->
   <script src="javascripts/libs/modernizr-2.0.6.min.js"></script>
-  <script src="javascripts/libs/jquery-1.6.2.min.js"></script>
+</head>
+
+<body>
+    <div id="container">
+        <div id="header">
+            <div id="headerLeft">
+                <img src="images/brand.jpg"/>
+                <div id=pageSelect>
+                    <H2 id="sectionTitle">Survey List</H2><H3 id="userManagement">User Admin</H3>
+                </div>
+            </div>
+            <div id="user">${session.ndgUser} <a href="/logout">Logout</a>
+            </div>
+            <div id="search">
+                <input id="searchTextField" class="searchTextField" type="search" name="s" placeholder="Search"><div class="searchComboBox" id="searchComboBox" ><span id="searchComboText">ID</span></div>
+            </div>
+        </div><!--END of header-->
+        <div id="leftColumn">
+            <div class="plusButton" id="plusButton" >
+                    <a href="#"><img id ="plusButtonImage" src="images/plus.png"></a>
+            </div>
+            <div id=filter>
+                <span id="leftColumnContent"></span>
+            </div>
+            </div><!--END of leftColumn-->
+            <div id="content">
+                <div id="contentMain">
+                    <div id="datatable">
+                        <table id="minimalist"></table>
+                    </div>
+                    <div id="contentToolbar" ></div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div id="popup-context" class="popup-base">
+            </div>
+        <div id="dialog-exportResults" class="dialogs">
+            <div id="exportResults-step_1"></div>
+            <div id="exportResults-step_2"></div>
+            <div id="exportResults-step_3"></div>
+        </div>
+
+        <div id="dialog-upload" class="dialogs">
+            #{form @surveyManager.upload(), id:'uploadForm', enctype:'multipart/form-data', target:'cgiFrame'}
+            <div>
+                <span id="dialog-upload-query" ></span>
+                <span class ="fileinput-container">
+                <input type="file" name="filename" id="uploadSurveyInput" />
+                <span id ="uploadSurveyFakeInput" class="fileinput-cover fileinput-input" ></span>
+                <span id ="uploadSurveyFormButton" class="fileinput-cover fileinput-button" ></span>
+                </span>
+                <input type="hidden" name="uploadSurveyId" id="uploadSurveyId" />
+                <div class="buttonMedium extraTopMargin" ><span id="buttonSendFile" ></span></div>
+            </div>
+            #{/form}
+        </div>
+        <iframe id="uploadSurveyResult" name="cgiFrame" src="about:blank" style="visibility:hidden; width:0px; height:0px"></iframe>
+
+        <div id="dialog-confirmDelete" >
+            <p><span id="dialog-confirmDelete-query" ></span></p>
+            <div>
+            <span id="buttonDeleteYes" class="buttonSmall" ></span>
+            <span id="buttonDeleteNo" class="buttonSmall" ></span>
+            </div>
+        </div>
+
+        <div id="dialog-confirmSaveSurvey" >
+            <p><span id="dialogConfirmSaveSurveyQuestion" ></span></p>
+            <div>
+            <span id="buttonDeleteSurveyYes" class="buttonSmall" ></span>
+            <span id="buttonDeleteSurveyNo" class="buttonSmall" ></span>
+            <span id="buttonDeleteSurveyCancel" class="buttonSmall" ></span>
+            </div>
+        </div>
+
+        <div id="dialog-sendSurvey" class="dialogs">
+            <div id="sendSurveyUsers"></div>
+            <div><span id="buttonSendSurveyDone" class="buttonSmall" ></span></div>
+        </div>
+
+        <div id="dialog-editorSwitchCategory" class="dialogs">
+            <div id="switchCategory">
+                <label>Choose category:</label>
+                <select id="combobox">
+                </select>
+                <div id="confirmCategoryButton"></div>
+            </div>
+        </div>
+
+        <div id="dialog-sendUserSMS" class="dialogs">
+            <div id="sendSMSUsers"></div>
+            <div><span id="buttonSendSMSDone" class="buttonSmall" ></span></div>
+        </div>
+
+        <!-- Mask to cover the whole screen -->
+        <div id="mask"></div>
+    </div>
+
+  <!-- JavaScript at the bottom for fast page loading -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.7.min.js"><\/script>')</script>
+
   <script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"></script>
   <script src="javascripts/libs/jquery.checkbox.min.js"></script>
   <script src="javascripts/libs/jquery.blockUI.js"></script>
@@ -75,114 +175,13 @@
   <script type ="text/javascript" src="javascripts/newgrouptable.js"></script>
   <script type ="text/javascript" src="javascripts/utils.js"></script>
   <script type ="text/javascript" src="javascripts/sendsms.js"></script>
-</head>
 
-<body>
-    <div id="container">
-<!--        <div id="flags">
-                     <a href="#" id="flag_eua" ><img src="images/flag_eua.jpg"></a>
-                     <a href="#" id="flag_bra" ><img src="images/flag_bra.jpg"></a>
-                     <a href="#" id="flag_spa" ><img src="images/flag_spa.jpg"></a>
-                     <a href="#" id="flag_pol" ><img src="images/flag_pol.jpg"></a>
-            </div>-->
-            <div id="header">
-                <div id="headerLeft">
-                    <img src="images/brand.jpg">
-                    <div id=pageSelect>
-                        <H2 id="sectionTitle">Survey List</H2><H3 id="userManagement">User Admin</H3>
-                    </div>
-                </div>
-                    <div id="user">${session.ndgUser} <a href="/logout">Logout</a>
-                    </div>
-                    <div id="search">
-                       <input id="searchTextField" class="searchTextField" type="search" name="s" placeholder="Search"><div class="searchComboBox" id="searchComboBox" ><span id="searchComboText">ID</span></div>
-                    </div>
-            </div><!--END of header-->
-            <div id="leftColumn">
-                <div class="plusButton" id="plusButton" >
-                        <a href="#"><img id ="plusButtonImage" src="images/plus.png"></a>
-                </div>
-                <div id=filter>
-                    <span id="leftColumnContent">
-                    </span>
-                </div>
-            </div><!--END of leftColumn-->
-
-                <div id="content">
-                    <div id="contentMain">
-                        <div id="datatable">
-                            <table id="minimalist"></table>
-                        </div>
-                        <div id="contentToolbar" ></div>
-                    </div>
-                </div>
-     </div>
-<div>
-    <div id="popup-context" class="popup-base">
-    </div>
-    <div id="dialog-exportResults" class="dialogs">
-        <div id="exportResults-step_1"></div>
-        <div id="exportResults-step_2"></div>
-        <div id="exportResults-step_3"></div>
-    </div>
-
-    <div id="dialog-upload" class="dialogs">
-        #{form @surveyManager.upload(), id:'uploadForm', enctype:'multipart/form-data', target:'cgiFrame'}
-        <div >
-        <span id="dialog-upload-query" ></span>
-        <span class ="fileinput-container">
-        <input type="file" name="filename" id="uploadSurveyInput" />
-        <span id ="uploadSurveyFakeInput" class="fileinput-cover fileinput-input" ></span>
-        <span id ="uploadSurveyFormButton" class="fileinput-cover fileinput-button" ></span>
-        </span>
-        <input type="hidden" name="uploadSurveyId" id="uploadSurveyId" />
-        <div class="buttonMedium extraTopMargin" ><span id="buttonSendFile" ></span></div>
-        </div>
-        #{/form}
-    </div>
-    <iframe id="uploadSurveyResult" name="cgiFrame" src="about:blank" style="visibility:hidden; width:0px; height:0px"></iframe>
-
-    <div id="dialog-confirmDelete" >
-
-        <p><span id="dialog-confirmDelete-query" ></span></p>
-        <div>
-            <span id="buttonDeleteYes" class="buttonSmall" ></span>
-            <span id="buttonDeleteNo" class="buttonSmall" ></span>
-        </div>
-    </div>
-
-    <div id="dialog-confirmSaveSurvey" >
-        <p><span id="dialogConfirmSaveSurveyQuestion" ></span></p>
-        <div>
-            <span id="buttonDeleteSurveyYes" class="buttonSmall" ></span>
-            <span id="buttonDeleteSurveyNo" class="buttonSmall" ></span>
-            <span id="buttonDeleteSurveyCancel" class="buttonSmall" ></span>
-        </div>
-    </div>
-
-    <div id="dialog-sendSurvey" class="dialogs">
-        <div id="sendSurveyUsers"></div>
-        <div><span id="buttonSendSurveyDone" class="buttonSmall" ></span></div>
-    </div>
-
-    <div id="dialog-editorSwitchCategory" class="dialogs">
-        <div id="switchCategory">
-            <label>Choose category:</label>
-            <select id="combobox">
-            </select>
-            <div id="confirmCategoryButton"></div>
-        </div>
-    </div>
-
-    <div id="dialog-sendUserSMS" class="dialogs">
-        <div id="sendSMSUsers"></div>
-        <div><span id="buttonSendSMSDone" class="buttonSmall" ></span></div>
-    </div>
-
-    <!-- Mask to cover the whole screen -->
-    <div id="mask"></div>
-</div>
 <script>
+
+$(document).ready(function() {
+    SurveyList.showSurveyList();
+});
+
     var hasAdminPermission = false;
     #{if session.admin}
     hasAdminPermission = true;
@@ -211,8 +210,6 @@ var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
     zIndex: 9999,
     resizable: false,
     open: function(event, ui) {
-//    //hide close button.
-//    $(this).parent().children().children('.ui-dialog-titlebar-close').hide();
     }
 });
 
@@ -250,46 +247,7 @@ var sendUserSMSDialog = $("#dialog-sendUserSMS").dialog(
     resizable: false
 });
 
-$(document).ready(function() {
-    SurveyList.showSurveyList();
-});
-
 </script>
-
-  <!-- JavaScript at the bottom for fast page loading -->
-
-   <!-- Grab utility-belt library underscore.js, with a protocol relative URL; fall back to local if offline -->
-   <!--<script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.1.7/underscore-min.js"></script>
-  <script>window.jQuery || document.write('<script src="javascripts/libs/underscore-1.1.7.min.js"><\/script>')</script>-->
-
-  <!-- Grab backbone.js (Google, we host the other stuff OK), with a protocol relative URL; fall back to local if offline -->
-  <!--<script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/0.5.3/backbone-min.js"></script>
-  <script>window.jQuery || document.write('<script src="javascripts/libs/backbone-0.5.3.min.js"><\/script>')</script>-->
-
-  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-  <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.6.2.min.js"><\/script>')</script>-->
-
-  <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
-  <!--<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-  <script>window.jQuery.ui || document.write('<script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"><\/script>')</script>-->
-
-  <!--<script>document.write('<script src="javascripts/libs/jquery.checkbox.min.js"><\/script>')</script>-->
-  <!--<script>document.write('<script src="javascripts/libs/jquery.fileinput.min.js"><\/script>')</script>-->
-  <!--<script>document.write('<script src="javascripts/libs/jquery.blockUI.js"><\/script>')</script>-->
-  <!-- scripts concatenated and minified via ant build script-->
-  <script defer src="javascripts/plugins.js"></script>
-  <script defer src="javascripts/script.js"></script>
-
-  <!-- end scripts-->
-
-  <!-- Initialise the Backbone app scaffolding
-  <script type="text/javascript">
-    $(function() {
-        App.init();
-    });
-  </script>-->
-
 
   <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
   <script>
@@ -298,7 +256,6 @@ $(document).ready(function() {
     g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
     s.parentNode.insertBefore(g,s)}(document,'script'));
   </script>
-
 
   <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you want to support IE 6.
        chromium.org/developers/how-tos/chrome-frame-getting-started -->

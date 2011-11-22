@@ -30,7 +30,7 @@ var Editor = function() {
     }
 
     function createEditor(){
-
+        $('#container').height('715px');
         var getJSONQuery = $.getJSON( '/surveyManager/questionType', function( data ){
                                                    typeList = data.types;
                                                 } );
