@@ -18,7 +18,9 @@ import org.javarosa.core.model.GroupDef;
 import org.javarosa.core.model.IFormElement;
 import org.javarosa.core.model.QuestionDef;
 import org.javarosa.core.model.SelectChoice;
+import org.javarosa.core.model.condition.Condition;
 import org.javarosa.core.model.instance.TreeElement;
+import org.javarosa.core.model.instance.TreeReference;
 import org.javarosa.core.services.locale.Localizer;
 import org.javarosa.xform.parse.XFormParser;
 import org.javarosa.xpath.XPathConditional;
@@ -45,6 +47,7 @@ public class SurveyPersister {
         Survey newSurvey = findOrCreateSurvey(surveyId, formDefinition);
         persistSurvey(formDefinition, newSurvey);
         persistChildSet(formDefinition, formDefinition, defCategory);
+        persistTriggerables( formDefinition );
     }
 
     private void persistSurvey(FormDef formDefinition, Survey newSurvey) throws SurveySavingException {
@@ -123,12 +126,52 @@ public class SurveyPersister {
         newQuestion.questionIndex = currentQuestionIndex;
 
         newQuestion.save();
+        questionCategory.questionCollection.add( newQuestion );
+        questionCategory.save();
+
         currentQuestionIndex ++;
 
         if (type.typeName.equals(XFormsTypeMappings.SELECT)
                 || type.typeName.equals(XFormsTypeMappings.SELECTONE)) {
             persistQuestionOptions(questionDef, newQuestion, formDefinition.getLocalizer());
         }
+    }
+
+    private void persistTriggerables( FormDef form ){
+        for(Object trigger : form.triggerables ){
+            Condition condition = (Condition)trigger;
+            String expr = ( ( XPathConditional )condition.expr ).xpath;
+
+            for(Object target : condition.getTargets() ){
+                Question q = findQuestionByReference( ( TreeReference )target );
+                if(q != null ){
+                    q.relevant = expr;
+                    q.save();
+                }
+            }
+        }
+    }
+
+    private Question findQuestionByReference( TreeReference ref ){
+        Question q = null;
+
+        if(ref.size() < 2 ){
+            return null;
+        }
+
+        for( Category category : survey.categoryCollection ){
+            if( category.objectName.equals( ref.getName( ref.size() - 2 ) ) ){
+                for ( Question question : category.questionCollection ){
+                    if( question.objectName.equals( ref.getName( ref.size() - 1 ) ) ){
+                        q = question;
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+
+        return q;
     }
 
     private QuestionType findQuestionType(int dataType, int controlType) {
@@ -162,6 +205,7 @@ public class SurveyPersister {
         newCategory.categoryIndex = survey.categoryCollection.size();
         newCategory.survey = survey;
         newCategory.objectName = groupModelElement.getName();
+        newCategory.questionCollection = new ArrayList<Question>();
 
         String groupLabel = groupDef.getLabelInnerText();
         if (groupLabel == null) {

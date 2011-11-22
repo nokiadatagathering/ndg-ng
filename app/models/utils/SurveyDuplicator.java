@@ -63,6 +63,7 @@ public class SurveyDuplicator {
         for (Question question : origin) {
             Question copiedQuestion = new Question();
             copiedQuestion.constraintText = question.constraintText;
+            copiedQuestion.relevant = question.relevant;
             copiedQuestion.hint = question.hint;
             copiedQuestion.label = question.label;
             copiedQuestion.objectName = question.objectName;

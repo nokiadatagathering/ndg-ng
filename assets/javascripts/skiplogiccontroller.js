@@ -25,18 +25,20 @@ var SkipLogicController = function ( model ){
     }
 
     function getRelevantString( category ){
-//        var str = skipLogicMap.get( category ).getRelevantString();
-//        addSkipLogic( str );
         return skipLogicMap.get( category ).getRelevantString();
     }
 
 
     function addSkipLogic( skipedCategory, relevantStr ){
-        var test = relevantStr.replace( new RegExp("'", "g"), "" ).replace( "/", " " ).replace( "=", " " ).split( " " );
 
-        var category = surveyModel.findCategoryByObjectName( $.trim( test[0] ) );
-        var question = surveyModel.findQuestionByObjectName( category, $.trim( test[1] ) ) ;
-        var option = surveyModel.findOptionByValue( question, $.trim( test[2] ) );
+        relevantStr = relevantStr.replace( new RegExp("'", "g"), "" );
+        relevantStr = relevantStr.replace( new RegExp("/", "g"), " " ).replace( "!=", " " );
+        relevantStr = $.trim( relevantStr );
+        var expr = relevantStr.split( " " );
+
+        var category = surveyModel.findCategoryByObjectName( $.trim( expr[1] ) );
+        var question = surveyModel.findQuestionByObjectName( category, $.trim( expr[2] ) ) ;
+        var option = surveyModel.findOptionByValue( question, $.trim( expr[3] ) );
 
         add( skipedCategory, new SkipObject( option, question, category ) );
     }
@@ -56,7 +58,7 @@ var SkipObject = function(  opt, que, cat ){
     }
 
     function getRelevantString(){
-        return category.objectName + '/' + question.objectName + "='" + option.optionValue + "'";
+        return  '/data/' + category.objectName + '/' + question.objectName + "!='" + option.optionValue + "'";
     }
 };
 

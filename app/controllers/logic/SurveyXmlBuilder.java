@@ -21,11 +21,15 @@ import models.Survey;
 import controllers.util.XFormsTypeMappings;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Vector;
 import org.javarosa.core.model.FormDef;
 import org.javarosa.core.model.GroupDef;
 import org.javarosa.core.model.IFormElement;
 import org.javarosa.core.model.QuestionDef;
+import org.javarosa.core.model.condition.Condition;
+import org.javarosa.core.model.condition.Triggerable;
 import org.javarosa.core.model.instance.TreeElement;
+import org.javarosa.core.model.instance.TreeReference;
 import org.javarosa.core.services.locale.Localizer;
 import org.javarosa.core.util.OrderedHashtable;
 import org.javarosa.xpath.XPathConditional;
@@ -167,7 +171,7 @@ public class SurveyXmlBuilder {
         }
     }
 
-        private void addQuestionBinding(Object formChild, Element model, FormDef formDef) {
+    private void addQuestionBinding(Object formChild, Element model, FormDef formDef) {
         QuestionDef question = (QuestionDef) formChild;
         Element binding = model.createElement(null, "bind");
         String nodeset = getNodesetFromTextId(question); //hack to reach object name
@@ -185,7 +189,45 @@ public class SurveyXmlBuilder {
             XPathConditional expression = (XPathConditional) questionModelElement.getConstraint().constraint;
             binding.setAttribute(null, "constraint", expression.xpath);
         }
+
+        if ( questionModelElement.isRelevant() ){
+            Condition condition = findConditionByRef( questionModelElement.getRef(), formDef );
+            if(condition != null ){
+                String expr = ( ( XPathConditional )condition.expr ).xpath;
+                binding.setAttribute(null, "relevant", expr );
+            }
+        }
+
         model.addChild(Node.ELEMENT, binding);
+    }
+
+    private Condition findConditionByRef(TreeReference reference, FormDef formDef ){
+        for( Object obj : formDef.triggerables ){
+            Condition cond = (Condition)obj;
+
+            for( Object target : cond.getTargets() ){
+                TreeReference targetRef = (TreeReference) target;
+                if( compareReference( targetRef, reference ) ){
+                    return cond;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static boolean compareReference( TreeReference ref1, TreeReference ref2 ){
+
+        if(ref1.size() != ref2.size()){
+            return false;
+        }
+
+        for(int i = 0; i < ref1.size(); i++ ){
+            if( !ref1.getName( i ).equals( ref2.getName( i ) ) ){
+                return false;
+            }
+        }
+
+        return true;
     }
 
 

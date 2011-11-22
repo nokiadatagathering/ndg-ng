@@ -19,10 +19,13 @@ import org.javarosa.core.model.IDataReference;
 import org.javarosa.core.model.IFormElement;
 import org.javarosa.core.model.QuestionDef;
 import org.javarosa.core.model.SelectChoice;
+import org.javarosa.core.model.condition.Condition;
 import org.javarosa.core.model.condition.Constraint;
 import org.javarosa.core.model.condition.IConditionExpr;
+import org.javarosa.core.model.condition.Triggerable;
 import org.javarosa.core.model.instance.FormInstance;
 import org.javarosa.core.model.instance.TreeElement;
+import org.javarosa.core.model.instance.TreeReference;
 import org.javarosa.core.services.locale.Localizer;
 import org.javarosa.core.services.locale.TableLocaleSource;
 import org.javarosa.model.xform.XPathReference;
@@ -30,6 +33,8 @@ import org.javarosa.xpath.XPathConditional;
 import org.javarosa.xpath.parser.XPathSyntaxException;
 
 public class FormDefBuilder {
+
+    private FormDef formDefinition = null;
 
     public FormDefBuilder() {
     }
@@ -41,7 +46,7 @@ public class FormDefBuilder {
     }
 
     public FormDef readFormDefinition(Survey survey) throws SurveyXmlCreatorException {
-        FormDef formDefinition = new FormDef();
+        formDefinition = new FormDef();
 
         List<Question> questions = survey.getQuestions();
         Collections.sort(questions, new QuestionComparator());
@@ -68,6 +73,7 @@ public class FormDefBuilder {
         TableLocaleSource localization = new TableLocaleSource();
         IFormElement currentElement = formDefinition;
         ListIterator<Question> questionIterator = questions.listIterator();
+
         while (questionIterator.hasNext()) {
             Question question = questionIterator.next();
             if(!question.category.categoryIndex.equals(new Integer(0)))
@@ -85,6 +91,7 @@ public class FormDefBuilder {
 
      private void addQuestionDef(Question question, TableLocaleSource localization, IFormElement currentElement, String parentXPath) {
         QuestionDef newQuestion = new QuestionDef();
+
         String xPath = parentXPath == null ?
                 getRefString(question.objectName, "data", null) :
                 getRefString(question.objectName, "data/" + parentXPath, null);
@@ -101,11 +108,24 @@ public class FormDefBuilder {
                 || newQuestion.getControlType() == org.javarosa.core.model.Constants.CONTROL_SELECT_MULTI) {
             addOptions(newQuestion, question, localization, xPath);
         }
-        IDataReference dataRef = null;
+
+        XPathReference dataRef = null;
         dataRef = new XPathReference(xPath);
         newQuestion.setBind(dataRef);
 
         currentElement.addChild(newQuestion);
+
+        if( question.relevant != null && !question.relevant.isEmpty() ){
+            try {
+                XPathConditional xCondition = new XPathConditional( question.relevant );
+                Triggerable c = new Condition( xCondition, 1,2, (TreeReference) dataRef.getReference() );
+                c = formDefinition.addTriggerable( c );
+                c.addTarget( (TreeReference) dataRef.getReference() );
+
+            } catch (XPathSyntaxException ex) {
+                Logger.getLogger( FormDefBuilder.class.getName() ).log( Level.SEVERE, null, ex );
+            }
+        }
     }
 
     private void addGroupDef(Question question, TableLocaleSource localization, ListIterator<Question> questionIterator, IFormElement currentElement) {
@@ -124,8 +144,8 @@ public class FormDefBuilder {
     private void addOptions(QuestionDef newQuestion, Question dbQuestion, TableLocaleSource localization, String xPath) {
         Collection<QuestionOption> questionOptions = dbQuestion.questionOptionCollection;
         for (QuestionOption questionOption : questionOptions) {
-            String reference = new StringBuilder(xPath).append(":option").append(questionOption.optionIndex).toString();
-            SelectChoice choice = new SelectChoice(reference, questionOption.optionValue);
+            String reference = new StringBuilder(xPath).append(":option").append(questionOption.optionValue).toString();
+            SelectChoice choice = new SelectChoice(reference, questionOption.optionValue );
             localization.setLocaleMapping(reference, questionOption.label);
             newQuestion.addSelectChoice(choice);
         }
