@@ -152,13 +152,18 @@ var SurveyList = function() {
         $('#menu' + i +' #buttonDelete').click( item.surveyId, function(i){onDeleteSurveyClicked(i);} );
         $('#menu' + i +' #buttonDuplicate').click( item.surveyId, function(i){onDuplicateSurveyClicked(i);} );
         $('#menu' + i +' #buttonPhone').click( item.surveyId, function(i){onSendSurveyClicked(i);} );
-        $('#menu' + i +' #buttonEdit').click( item.id, function(i){onEditSurveyClicked(i);} );
+        $('#menu' + i +' #buttonEdit').click( item, function(i){onEditSurveyClicked(i);} );
     }
 
     function onEditSurveyClicked(e) {
-        $('#plusButton').unbind('mouseover.surveyList');
-        $(window).unbind('scroll');
-        Editor.openSurvey(e.data);
+
+        if( e.data.available == SurveyAvailable.BUILDING ){
+            $('#plusButton').unbind('mouseover.surveyList');
+            $(window).unbind('scroll');
+            Editor.openSurvey(e.data.id);
+        }else{
+            alert( LOC.get( 'LOC_CANNOT_EDIT_SURVEY' ) );
+        }
     }
 
     function onDownloadSurveyClicked(e) {

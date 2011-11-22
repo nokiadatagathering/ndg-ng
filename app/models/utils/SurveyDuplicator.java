@@ -16,6 +16,7 @@
  */
 package models.utils;
 
+import controllers.util.Constants;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -29,7 +30,7 @@ public class SurveyDuplicator {
 
     public static Survey plainCopy(Survey origin, String newId) {
         Survey copy = new Survey();
-        copy.available = origin.available;
+        copy.available = Constants.SURVEY_BUILDING;
         copy.lang = origin.lang;
         copy.ndgUser = origin.ndgUser;
         copy.surveyId = newId;

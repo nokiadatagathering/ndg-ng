@@ -3,6 +3,7 @@ var Editor = function() {
 
     var surveyModel;
     var typeList;
+    var optionsTypeListHtml = null;
     var currentSelectionId;
 
     return {
@@ -13,7 +14,8 @@ var Editor = function() {
         setQlistConfig : function() {setQlistConfig();},
         removeQlistConfig: function() {removeQlistConfig();},
         setCatListConfig: function() {setCatListConfig();},
-        removeCatListConfig: function() {removeCatListConfig();}
+        removeCatListConfig: function() {removeCatListConfig();},
+        updateContainerSize: function() {updateContainerSize();}
     };
 
     function createSurvey(){
@@ -33,6 +35,10 @@ var Editor = function() {
         $('#container').height('715px');
         var getJSONQuery = $.getJSON( '/surveyManager/questionType', function( data ){
                                                    typeList = data.types;
+                                                   optionsTypeListHtml = "";
+                                                   $.each( typeList, function( idx, type ){
+                                                       optionsTypeListHtml += '<option value="'+ type.id +'">' + LOC.get(type.typeName) + '</option>';
+                                                   });
                                                 } );
         getJSONQuery.error(Utils.redirectIfUnauthorized);
 
@@ -60,6 +66,7 @@ var Editor = function() {
 //        $( "#executeSave" ).click( function(){onSaveClicked();} );
 
         $( "#categories" ).sortable( {
+                start: function(event, ui) {updateContainerSize();},
                 delay: 50,
                 revert: true,
                 forcePlaceholderSize: true,
@@ -73,6 +80,13 @@ var Editor = function() {
                     }
                 }
         });
+    }
+
+    function updateContainerSize() {
+        var totalHeight = $('#categories').height();;
+        if ( $('#container').height() < totalHeight + 185 ) {
+            $('#container').height( totalHeight + 185 );
+        }
     }
 
     function prepareLayout() {
@@ -243,6 +257,7 @@ var Editor = function() {
             appendCategoryElement( createCategoryElement( item ), item );
             fillQuestions( item.questionCollection, item.uiId );
         });
+        updateContainerSize();
     }
 
     function createCategoryElement( category ){
@@ -276,7 +291,7 @@ var Editor = function() {
     function hideCategory( categoryId ){
         var expandIconElem = "#" + categoryId + ' span.expandIcon';
         $( '#' + categoryId + ' .listQuestion' ).hide( 'fast', function(){
-            refreshLists();
+            updateContainerSize();
         });
         $( expandIconElem ).removeClass( 'expanded' );
     }
@@ -284,29 +299,30 @@ var Editor = function() {
     function showCategory( categoryId ){
         var expandIconElem = "#" + categoryId + ' span.expandIcon';
         $( '#' + categoryId + ' .listQuestion' ).show( 'fast', function(){
-            refreshLists();
+            $( '#' + categoryId + ' .listQuestion' ).sortable( 'refresh' );
+            updateContainerSize();
+            //refreshLists();
         });
         $( expandIconElem ).addClass( 'expanded' );
     }
 
-    function refreshLists(){
-        $( '.listQuestion' ).sortable( 'refresh' );
-        $( ".listCategory" ).sortable( 'refresh' );
-    }
+//    function refreshLists(){
+//        $( '.listQuestion' ).sortable( 'refresh' );
+//        $( ".listCategory" ).sortable( 'refresh' );
+//    }
 
     function setCategoryUiOptions( categoryId, bVal ){
 
-
         $( '#' + categoryId + ' .deleteElement').click( categoryId, function(i){onDeleteCategoryClicked(i);} );
 
-        new EditedLabel( $( '#' + categoryId + 'label' ), function( newTitle ){
-                                    surveyModel.updateCategory( categoryId, newTitle );
-                                } );
+        new EditedLabel( $( '#' + categoryId + 'label' ),
+                         function( newTitle ) {
+                            surveyModel.updateCategory( categoryId, newTitle );
+                         } );
 
         var listRef = '#' + categoryId + ' .listQuestion';
         var catHeaderRef = "#" + categoryId + " h3";
         var expandIconElem = "#" + categoryId + ' span.expandIcon';
-
 
         $( catHeaderRef ).droppable({
             accept: '.skipto',
@@ -343,6 +359,7 @@ var Editor = function() {
                     setQuestionUiOptions( newQuestion );
                 }
                 removeHoverConfig();
+                updateContainerSize();
             }
         });//.disableSelection();
 
@@ -438,13 +455,11 @@ var Editor = function() {
          $( '#'+ qId + ' .deleteQuestion' ).show();
          $( '#'+ qId + ' .duplicateQuestion' ).show();
          $( '#'+ qId + ' .typeComboboxSelection' ).show();
+         updateContainerSize();
     }
 
     function fillTypeCombo( qId ){
-
-        $.each( typeList, function( idx, type ){
-            $( '#'+ qId + ' .typeSelect' ).append( '<option value="'+ type.id +'">' + LOC.get(type.typeName) + '</option>' );
-        });
+        $( '#'+ qId + ' .typeSelect' ).append( optionsTypeListHtml );
     }
 
     function onQuestionTypeChanged( event ){

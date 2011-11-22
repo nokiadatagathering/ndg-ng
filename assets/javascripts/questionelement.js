@@ -156,7 +156,7 @@ var QuestionUiElement = function( questionModel ){
                         buttonImageOnly: true,
                         changeMonth: true,
                         changeYear: true,
-                        onClose: function(dateText, inst) { onDefaultChanged();}
+                        onClose: function(dateText, inst) {onDefaultChanged();}
         });
 
         $( '#' + question.uiId + ' .rangeInputMin' ).datepicker({
@@ -291,6 +291,7 @@ var QuestionUiElement = function( questionModel ){
             $( '#' + question.uiId + ' .skipto' ).draggable({
                     start: function(){
                         $( '#' + optionId.uiId + ' .optionIcon' ).addClass( 'iconVisibleDrag' );
+                        Editor.updateContainerSize();
                     },
                     stop: function(){
                         $( '#' + optionId.uiId + ' .optionIcon' ).removeClass( 'iconVisibleDrag' );

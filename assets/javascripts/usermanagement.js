@@ -349,11 +349,11 @@ var UserManagement = function() {
         if(  $( '#dynamicGroupRow' + e.data ).hasClass( "selectedGroup" ) ){
             return;
         }
-        $('#dynamicGroupRow'+ e.data).addClass("hoverRow");
+        //$('#dynamicGroupRow'+ e.data).addClass("hoverRow");
     }
 
     function onMouseOutHandler(e){
-        $('#dynamicGroupRow'+ e.data).removeClass("hoverRow");
+        //$('#dynamicGroupRow'+ e.data).removeClass("hoverRow");
     }
 
     function onGroupClicked(event) {

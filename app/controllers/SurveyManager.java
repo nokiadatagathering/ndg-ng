@@ -5,6 +5,7 @@ import controllers.exceptions.SurveySavingException;
 import controllers.logic.AuthorizationUtils;
 import controllers.logic.SurveyPersister;
 import controllers.logic.SurveyXmlBuilder;
+import controllers.util.Constants;
 import flexjson.JSONSerializer;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -134,7 +135,11 @@ public class SurveyManager extends Controller {
 
             transaction.address = request.remoteAddress;
             transaction.ndgUser = NdgQuery.getUsersbyId(Long.parseLong(users[i]));
-            transaction.survey = NdgQuery.getSurveyById(formID);
+
+            Survey surveyTemp = NdgQuery.getSurveyById(formID);
+            surveyTemp.available = Constants.SURVEY_AVAILABLE;
+            surveyTemp.save();
+            transaction.survey = surveyTemp;
 
             transaction.save();
         }

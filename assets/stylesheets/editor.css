@@ -207,8 +207,6 @@ span.expandIcon.expanded{
 {
     width: 100%;
     float:left;
-    max-height: 600px;
-    overflow: auto;
 }
 
 span.edit

@@ -171,6 +171,9 @@ public class SMSModemHandler {
     }
 
     public void sendTextSMS(String dest, String textMsg, int port) throws SMSSenderException {
+        if( dest == null || dest.length() < 2 ) {
+            throw new SMSSenderException("Phone number is too short...");
+        }
         if (dest.substring(0, 2).equals("+0")) {
             dest = "+55" + dest.substring(2);
         }

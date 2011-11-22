@@ -55,6 +55,7 @@ var SendSurvey = function() {
                    selectedUsers = new Array();
                    sendSurveyDialog.dialog("close");
                    $('#sendSurveyUsers').empty();
+                   DynamicTable.refresh();
                 },
                 error: function(result, textStatus, error) {
                        if(!Utils.redirectIfUnauthorized(result, textStatus, error) ) {

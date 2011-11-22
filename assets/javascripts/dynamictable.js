@@ -234,12 +234,12 @@ var DynamicTable = function() {
 
     function onMouseOverHandler(e){
         $('#menu' + e.data + " span" ).addClass("hover");
-        $('#dynamicRow'+ e.data).addClass("hoverRow");
+        //$('#dynamicRow'+ e.data).addClass("hoverRow");
     }
 
     function onMouseOutHandler(e){
         $('#menu' + e.data+ " span" ).removeClass("hover");
-        $('#dynamicRow'+ e.data).removeClass("hoverRow");
+        //$('#dynamicRow'+ e.data).removeClass("hoverRow");
     }
 
     function onMouseOverNext(){

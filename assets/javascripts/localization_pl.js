@@ -65,7 +65,8 @@ var LOC = (function() {
         LOC_SEND_SMS: 'Wy\u015blij wiadomo\u015b\u0107',
         LOC_TO: 'Do',
         LOC_PHONE_NUMBER: 'Numer tel.',
-        LOC_EXTERNAL_SERVICE: 'Serwis zew.'
+        LOC_EXTERNAL_SERVICE: 'Serwis zew.',
+        LOC_CANNOT_EDIT_SURVEY: 'Nie można edytować ankiety w trybie dostępności. Zduplikuj ankiete, żeby edytować.'
     };
 
     return {

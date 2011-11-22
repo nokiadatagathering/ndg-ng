@@ -65,7 +65,8 @@ var LOC = (function() {
         LOC_SEND_SMS: 'Send SMS',
         LOC_TO: 'To',
         LOC_PHONE_NUMBER: 'Phone no.',
-        LOC_EXTERNAL_SERVICE: 'External Service'
+        LOC_EXTERNAL_SERVICE: 'External Service',
+        LOC_CANNOT_EDIT_SURVEY: 'Cannot edit survey. Survey is now available. Duplicate and then edit.'
     };
 
     return {

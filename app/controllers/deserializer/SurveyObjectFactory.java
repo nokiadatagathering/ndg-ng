@@ -1,5 +1,6 @@
 package controllers.deserializer;
 
+import controllers.util.Constants;
 import flexjson.ObjectBinder;
 import flexjson.ObjectFactory;
 import java.lang.reflect.Type;
@@ -56,7 +57,7 @@ public class SurveyObjectFactory implements ObjectFactory{
         survey.surveyId = newId;
         survey.lang = "eng";
         survey.uploadDate = new Date();
-
+        survey.available = Constants.SURVEY_BUILDING;
 
         return survey;
     }

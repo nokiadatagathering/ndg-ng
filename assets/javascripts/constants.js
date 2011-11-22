@@ -11,3 +11,4 @@ var CONST = (function() {
 })();
 
 var QuestionType = { DESCRIPTIVE : 1, INTEGER : 2, DECIMAL : 3, DATE : 4, IMAGE : 6, EXCLUSIVE : 10, CHOICE : 11, TIME : 12}
+var SurveyAvailable = { BUILDING : 0, AVAILABLE : 1, CLOSED : 2 }

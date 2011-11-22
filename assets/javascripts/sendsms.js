@@ -41,7 +41,7 @@ var SendSMS = function() {
                 error: function(result, textStatus, error) {
                            if(!Utils.redirectIfUnauthorized(result, textStatus, error) ) {
                                alert("Error with connection to server");
-                               $('#buttonSendSMSDone').click( function(){onStartSendingClicked();} );
+                               $('#buttonSendSMSDone').click( currentUser, function(event){onStartSendingClicked(event);} );
                            }
                 }
             });
