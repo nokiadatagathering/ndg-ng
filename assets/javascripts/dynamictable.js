@@ -38,12 +38,6 @@ var DynamicTable = function() {
               $('#contentToolbar').addClass('backgroundHide');
           }
           $('#contentToolbar').animate({top: $('#dynamicListTable').position().top + $('#dynamicListTable').height()});
-//
-//        $('#contentToolbar').append( '<span class="buttonNext"  id="buttonNext"></span>'
-//                                   + '<span class="buttonPrevious" id="buttonPrevious"></span>' +
-//                                     '<span class="toolbarText" id="itemRangeLabel"></span>');
-//        $('#buttonPrevious').click( function(event){onPreviousClicked(event);} );
-//        $('#buttonNext').click(  function(event){onNextClicked(event);} );
     }
 
     function scrollDownList() {
@@ -119,8 +113,9 @@ var DynamicTable = function() {
         htmlContent += '><div>';
         if(LOC.get(columnTexts[i]) != null) {
             htmlContent += LOC.get(columnTexts[i]);
+            htmlContent += '<span class="sortIndicatorPlaceholder"/>';
         }
-        htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>';
+        htmlContent +='</div></th>';
     });
     htmlContent += '</tr></thead>'
                  + '<tbody id="dynamicListTable">'

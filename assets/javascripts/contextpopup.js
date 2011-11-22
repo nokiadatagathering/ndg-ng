@@ -159,11 +159,15 @@ var ContextComboBox = function() {
 
         $('#popup-context').addClass("popup-export-results");
 
-        $('#popup-context').append( '<div id="newCategoryAction"><span>' + 'Excel' + '</span></div>');
-        $('#popup-context').append( '<div id="newCategoryAction"><span>' + 'KML' + '</span></div>');
-        $('#popup-context').append( '<div id="newCategoryAction"><span>' + LOC.get('LOC_EXTERNAL_SERVICE') + '</span></div>');
+        $('#popup-context').append( '<div id="exportExcel"><span>' + 'Excel' + '</span></div>');
+        $('#popup-context').append( '<div id="exportKml"><span>' + 'KML' + '</span></div>');
+        $('#popup-context').append( '<div id="exportExternal"><span>' + LOC.get('LOC_EXTERNAL_SERVICE') + '</span></div>');
 
         var pos = $('#exportContextMenu').offset();
+
+        $('#exportExcel').click(ResultList.exportResults);
+        $('#exportKml').click(function(){alert('not supported')});
+        $('#exportExternal').click(function(){alert('not supported')});
 
         showMenu(pos.left, pos.top, 0, $('#exportContextMenu').height() );
         stopEvent(event);

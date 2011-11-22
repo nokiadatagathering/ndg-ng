@@ -21,7 +21,8 @@ var ResultList = function() {
             loadingFinished: function() {loadingFinished();},
             searchFieldChange: function(event){searchFieldChange(event);},
             getSearchBy: function() {return searchBy;},
-            prepareLayout: function(tableHtml){prepareLayout(tableHtml);}
+            prepareLayout: function(tableHtml){prepareLayout(tableHtml);},
+            exportResults: function(){exportResults();}
     };
 
     function backToSurveyList() {
@@ -42,13 +43,16 @@ var ResultList = function() {
 
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList, ajaxParams);
 
+        var selectAllCheckbox = '<input type="checkbox" class="resultCheckboxClass" id="selectAllResults" "/>';
+        $('#checkboxColumnId').append(selectAllCheckbox);
+        $('#selectAllResults').bind( 'check uncheck', $(this), function(data){selectAllResultsClicked(data);} )
+
         $('#sectionTitle').text(LOC.get('LOC_RESULT_LIST'));
         $('#userManagement').text('');
 
         $('#searchComboBox').click( function(event) {createSearchList(event);});
         $('#searchComboText').text(LOC.get("LOC_RESULTTITLE"));
 
-        prepareContentToolbar();
     }
 
     function prepareLayout(tableHtml) {
@@ -67,9 +71,9 @@ var ResultList = function() {
         columnContent += '<span id="mapView" class="buttonMapView resultListButton">';
         columnContent += LOC.get('LOC_MAP_VIEW');
         columnContent +=  '</span>';
-        columnContent += '<span id="exportContextMenu" class="buttonExport resultListButton">';
+        columnContent += '<div id="exportContextMenu" class="buttonExport resultListButton"><span>';
         columnContent += LOC.get('LOC_EXPORT_TO');
-        columnContent +=  '</span>';
+        columnContent +=  '</span></div>';
         columnContent +=  '</div>';
 
         $('#leftColumn').append( columnContent );
@@ -110,24 +114,24 @@ var ResultList = function() {
         }
     }
 
-    function exportResults() {
-        if( allResultSelected ) {
-            ExportResults.exportAllResults( currentSurveyId );
+    function selectAllResultsClicked(data) {
+        if(data.currentTarget.checked) {
+            selectAllResults();
         } else {
-            ExportResults.exportResults( currentSurveyId, selectedResults );
+            unselectAllResults();
         }
     }
 
-    function prepareContentToolbar() {
-//        $('#contentToolbar').append( '<span class="comboBoxSelection" id="comboBoxSelection" unselectable="on"></span>');
-//        $('#contentToolbar').append( '<span class="buttonExportExcel" id="buttonExportExcel" unselectable="on"></span>');
-//        $('#contentToolbar').append( '<span class="buttonExportKML" id="buttonExportKML" unselectable="on"></span>');
-//        $('#contentToolbar').append( '<span class="buttonExportExternal" id="buttonExportExternal" unselectable="on"></span>');
-//        $('#contentToolbar span').mousedown(function() { onButtonMouseDownHandler($(this));} );
-//        $('#comboBoxSelection').click( function(event) { SurveyListCombo.showResultSelectionMenu(event); } );
-//        $('#buttonExportExcel').click( function(event) { exportResults(); } );
-
+    function exportResults() {
+        if( allResultSelected ) {
+            ExportResults.exportAllResults( currentSurveyId );
+        } else if(selectedResults.length) {
+            ExportResults.exportResults( currentSurveyId, selectedResults );
+        } else {
+            alert("no results selected");
+        }
     }
+
 
     function onButtonMouseDownHandler(source) {
         source.addClass('pushed');

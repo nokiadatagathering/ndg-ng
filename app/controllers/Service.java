@@ -83,7 +83,7 @@ public class Service extends Controller {
 
         if ( resultsIds.length > 0 ) {
             for ( int i = 0; i < resultsIds.length; i++ ) {
-                result = NdgResult.find( "resultId", resultsIds[0] ).first();
+                result = NdgResult.find( "byId", Long.parseLong(resultsIds[i]) ).first();
                 if ( result != null ) {
                     results.add( result );
                 }

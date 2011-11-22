@@ -30,6 +30,7 @@
 .resultListButton {
     display: inline-block;
     min-width: 101px;
+    max-width: 101px;
     height: 29px;
     margin-left: 35px;
     margin-top: 10px;
@@ -49,6 +50,14 @@
 
 .buttonExport {
     background: url(../images/export.png);
+}
+
+.buttonExport span {
+    overflow: hidden;
+    float: left;
+    width: 75px;
+    white-space: nowrap;
+    margin-left: 5px;
 }
 
 .resultListButton:hover {
