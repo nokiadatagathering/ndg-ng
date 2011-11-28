@@ -55,12 +55,14 @@ var UserManagement = function() {
         loadGroups();
 
         $('#plusButton').click( function(eventObject) {ContextComboBox.showUserManagementMenu(eventObject);});
-        $('#sectionTitle').text('User Admin');
-        $('#userManagement').text('Survey List');
+
+        $('#userManagement').text( LOC.get('LOC_SURVEY_LIST') );
+        $('#sectionTitle').text( LOC.get('LOC_USER_ADMIN') );
+
         $('#userManagement').click(function() {SurveyList.showSurveyList();});
 
         $('#searchComboBox').click( function(event) {createSearchList(event);});
-        $('#searchComboText').text(LOC.get("LOC_NAME"));
+        $('#searchComboText').text(LOC.get( "LOC_NAME" ));
 
         $(window).scroll(function(){
             if  ($(window).scrollTop() == $(document).height() - $(window).height()){
@@ -276,6 +278,9 @@ var UserManagement = function() {
         $('#dynamicGroupListTable').append( '<tr groupName="' + item.groupName + '" id="dynamicGroupRow'+ i + '">'
                                     + '<td id="' + item.groupName + '"><p class="tableEntryGroupName">'+ item.groupName + '</p>'
                                     + '<p class="tableEntryQuantity">('+ item.userCollection + ' ' + LOC.get('LOC_USERS') + ')</p>'
+                                    + '</td>'
+                                    + '<td class="groups menubar" id="groupMenu' + i + '" >'
+                                    + '<span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
                                     + '</td>'
                                     + '</tr>' );
     }

@@ -19,7 +19,6 @@ var SurveyList = function() {
     };
 
     function showSurveyList (){
-
         var columnIds = ["executeSortBySurveyName", "executeSortByDatePublished", "executeSortByPublisher", "executeSortByResults",null];//null is for item toolbar
         var columnTexts = ["LOC_SURVEY_NAME", "LOC_DATE_PUBLISHED", "LOC_PUBLISHER", "LOC_RESULTS"];
         var columnDbFields = ["title","uploadDate", "ndgUser.username", "resultCollection"];
@@ -33,10 +32,10 @@ var SurveyList = function() {
 
 
         $('#pageSelect').empty();
-        $('#pageSelect').append('<H2 id=sectionTitle>Survey List</H2>');
+        $('#pageSelect').append('<H2 id=sectionTitle></H2>');
         if(hasAdminPermission)
             {
-            $('#pageSelect').append('<H3 id=userManagement>User Admin</H3>');
+            $('#pageSelect').append('<H3 id=userManagement></H3>');
             $('#userManagement').click(function() {UserManagement.showUserManagement()});
             }
         $('#uploadForm').submit( function () {uploadNewSurvey();} );
@@ -44,6 +43,10 @@ var SurveyList = function() {
 
         $('#searchComboText').text("ID");
         $('#searchComboBox').click( function(event) {createSearchList(event);});
+
+        $( '#sectionTitle' ).text( LOC.get('LOC_SURVEY_LIST') );
+        $( '#userManagement' ).text( LOC.get('LOC_USER_ADMIN') );
+
     }
 
     function prepareLayout(tableHtml) {
@@ -194,7 +197,7 @@ var SurveyList = function() {
         document.getElementById('dialog-confirmDelete-query').textContent = LOC.get('LOC_SURVEY_DELETE_CONFIRM');
         confirmDeleteDialog.dialog("open");
         $("#buttonDeleteYes").click( e.data, function(e) {
-            $.post( "/delete/" + e.data, function(data) {
+            $.post( "delete/" + e.data, function(data) {
                 confirmDeleteDialog.dialog("close");
                 DynamicTable.checkIfDeletingLast();
                 DynamicTable.refresh();
@@ -210,7 +213,7 @@ var SurveyList = function() {
     }
 
     function onDuplicateSurveyClicked(e) {
-       $.post( "/duplicate/" + e.data, function(data) {
+       $.post( "duplicate/" + e.data, function(data) {
             DynamicTable.refresh();
         });
     }

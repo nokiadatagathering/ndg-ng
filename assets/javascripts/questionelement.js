@@ -64,7 +64,7 @@ var QuestionUiElement = function( questionModel ){
         var elem = $(
                 '<div>'
             +   '<span class="detailLabel defaultLabel">DEFAULT:</span><input class="defaultAnswer descriptiveDefault detailInputText" type="text" name="descriptiveDefault" />'
-            +   '<span class="detailLabel">LENGTH:</span><input class="descriptiveLength detailInputText" type="text" name="length" />' // TODO localize
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_LENGTH' ) + '</span><input class="descriptiveLength detailInputText" type="text" name="length" />'
             +   '</div>'
             );//TODO length can be only numeric
 
@@ -82,12 +82,12 @@ var QuestionUiElement = function( questionModel ){
                 '<div>'
             +   '<span class="detailLabel defaultLabel">DEFAULT:</span><input class="defaultAnswer numericDefault detailInputText" type="text" name="numericDefault" />'
             +   '<input class="rangeCheckMin" type="checkbox" name="minRangeCheckBox" />'
-            +   '<span class="detailLabel">MIN.RANGE</span>'
-            +   '<input class="rangeInputMin detailInputText" type="text" name="minRangeInput" />' // TODO localize
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_MIN_RANGE' ) + '</span>'
+            +   '<input class="rangeInputMin detailInputText" type="text" name="minRangeInput" />'
 
             +   '<input class="rangeCheckMax" type="checkbox" name="maxRangeCheckBox" />'
-            +   '<span class="detailLabel">MAX.RANGE</span>'
-            +   '<input class="rangeInputMax detailInputText" type="text" name="maxRange" />' // TODO localize
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_MAX_RANGE' ) + '</span>'
+            +   '<input class="rangeInputMax detailInputText" type="text" name="maxRange" />'
             +   '</div>'
             );
 
@@ -141,11 +141,11 @@ var QuestionUiElement = function( questionModel ){
             +   '</div>'
             +   '<div>'
             +   '<input class="rangeCheckMin" type="checkbox" name="minRangeCheckBox" />'
-            +   '<span class="detailLabel">MIN.RANGE</span>'
-            +   '<input class="dateInput rangeInputMin detailInputText" type="text" name="minRange" />' // TODO localize
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_MIN_RANGE' ) + '</span>'
+            +   '<input class="dateInput rangeInputMin detailInputText" type="text" name="minRange" />'
             +   '<input class="rangeCheckMax" type="checkbox" name="maxRangeCheckBox" />'
-            +   '<span class="detailLabel">MAX.RANGE</span>'
-            +   '<input class="dateInput rangeInputMax detailInputText" type="text" name="maxRange" />' // TODO localize
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_MAX_RANGE' ) + '</span>'
+            +   '<input class="dateInput rangeInputMax detailInputText" type="text" name="maxRange" />'
             +   '</div>'
             );
 

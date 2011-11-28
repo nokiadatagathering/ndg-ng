@@ -11,7 +11,7 @@ var Utils = function() {
 
     function redirectIfUnauthorized(jqXHR, textStatus, errorThrown) {
         if(errorThrown === "Unauthorized") {
-            window.location = "/login";
+            window.location = "login";
             return true;
         }
     return false;

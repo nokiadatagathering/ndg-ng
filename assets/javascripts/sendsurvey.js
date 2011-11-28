@@ -18,7 +18,7 @@ var SendSurvey = function() {
                                + '<tbody id="userListTable">'
                                + '</tbody></table>' );
 
-        var getJSONQuery = $.getJSON('/listData/sendSurveysUserList', {'formID': currentSurveyId}, function(i) {fillUserTable(i);} );
+        var getJSONQuery = $.getJSON('listData/sendSurveysUserList', {'formID': currentSurveyId}, function(i) {fillUserTable(i);} );
         getJSONQuery.error(Utils.redirectIfUnauthorized);
         sendSurveyDialog.dialog({beforeClose: function(){$('#buttonSendSurveyDone').unbind('click');}} )
         $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );

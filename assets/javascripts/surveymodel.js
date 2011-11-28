@@ -241,7 +241,7 @@ var SurveyModel = function(s){
 
 var Category = function(){
     var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
-    this.label = "New Category";
+    this.label = LOC.get( 'LOC_NEW_CATEGORY' );
     this.objectName = "category" + numRand;
     this.questionCollection = [];
 }
@@ -262,7 +262,7 @@ var Question = function( question ){
         this.defaultAnswer = new DefaultAnswer( question.defaultAnswer );
 
     }else{
-        this.label = "New question";
+        this.label = LOC.get( 'LOC_NEW_QUESTION' );
         this.objectName = "question" + numRand;
         this.questionType = new Object();
         this.questionType.id = QuestionType.DESCRIPTIVE;
@@ -272,7 +272,7 @@ var Question = function( question ){
 };
 
 var Survey = function(){
-    this.title = "New Survey";
+    this.title = LOC.get( 'LOC_NEW_SURVEY' );
     this.categoryCollection = [];
     this.categoryCollection.push( new Category() );
 }
@@ -282,7 +282,7 @@ var QuestionOption = function( option ){
         this.label = option.label;
         this.optionValue = option.optionValue;
     }else{
-        this.label = "New option";
+        this.label = LOC.get( 'LOC_NEW_OPTION' );
         this.optionValue = "newoption";
     }
 }

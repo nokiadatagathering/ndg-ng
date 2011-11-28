@@ -66,7 +66,17 @@ var LOC = (function() {
         LOC_TO: 'To',
         LOC_PHONE_NUMBER: 'Phone no.',
         LOC_EXTERNAL_SERVICE: 'External Service',
-        LOC_CANNOT_EDIT_SURVEY: 'Cannot edit survey. Survey is now available. Duplicate and then edit.'
+        LOC_CANNOT_EDIT_SURVEY: 'Can not edit survey. Survey is now available. Duplicate and then edit.',
+        LOC_SURVEY_LIST: 'Survey List',
+        LOC_USER_ADMIN: 'User Admin',
+        LOC_NEW_CATEGORY: 'New category',
+        LOC_NEW_QUESTION: 'New question',
+        LOC_NEW_OPTION: 'New option',
+        LOC_SAVE_SURVEY : 'Do you want to save survey?',
+        LOC_LENGTH : 'LENGTH',
+        LOC_MIN_RANGE: 'MIN.RANGE',
+        LOC_MAX_RANGE: 'MAX.RANGE'
+
     };
 
     return {

@@ -91,6 +91,10 @@
     font-size: 12px;
     font-family: "Nokia Pure Text";
     color: #6388bb;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 1px;
+    margin-top: 1px;
 }
 
 /* table styles */

@@ -33,7 +33,7 @@ var Editor = function() {
 
     function createEditor(){
         $('#container').height('715px');
-        var getJSONQuery = $.getJSON( '/surveyManager/questionType', function( data ){
+        var getJSONQuery = $.getJSON( 'surveyManager/questionType', function( data ){
                                                    typeList = data.types;
                                                    optionsTypeListHtml = "";
                                                    $.each( typeList, function( idx, type ){
@@ -141,7 +141,7 @@ var Editor = function() {
         $.ajax(
         {
             type: "POST",
-            url: "/surveyManager/saveSurvey",
+            url: "surveyManager/saveSurvey",
             data: {surveyData : surveyModel.getSurveyString()},
             success: function( msg ){
                 backToSurveyList();
@@ -183,7 +183,7 @@ var Editor = function() {
         $( '#buttonDeleteSurveyCancel' ).unbind('click');
 
 
-        $( '#dialogConfirmSaveSurveyQuestion' ).text( 'Do you want to save survey?' );
+        $( '#dialogConfirmSaveSurveyQuestion' ).text( LOC.get( 'LOC_SAVE_SURVEY' ) );
         $( '#buttonDeleteSurveyYes' ).text( LOC.get( 'LOC_YES' ) );
         $( '#buttonDeleteSurveyNo' ).text( LOC.get( 'LOC_NO' ) );
         $( '#buttonDeleteSurveyCancel' ).text( LOC.get( 'LOC_CANCEL' ) );
@@ -195,10 +195,6 @@ var Editor = function() {
         $( '#buttonDeleteSurveyCancel' ).click(function(){confirmSaveSurveyDialog.dialog("close");});
 
         confirmSaveSurveyDialog.dialog("open");
-
-//        confirmSaveSurveyDialog.dialog( "close" );
-//        restoreLayout()
-//        SurveyList.showSurveyList();
     }
 
     function restoreLayout() {
@@ -243,7 +239,7 @@ var Editor = function() {
     }
 
     function fillEditor(id){
-        var getJSONQuery = $.getJSON('/surveyManager/getSurvey', {'surveyId': parseInt(id)}, function(data){
+        var getJSONQuery = $.getJSON('surveyManager/getSurvey', {'surveyId': parseInt(id)}, function(data){
                                                                 surveyModel = new SurveyModel(data.survey);
                                                                 fillCategoryList();
                                                                 surveyModel.addSkipLogic();

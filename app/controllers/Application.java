@@ -35,7 +35,7 @@ public class Application extends Controller {
 
         if(currentUser != null && checkPermission(currentUser)) {
             session.put("ndgUser", username);
-            redirect("/");
+            index();
         } else {
             flash.put("error", "wrong username / password");
             render("Application/login.html");
@@ -46,7 +46,7 @@ public class Application extends Controller {
         session.remove("ndgUser");
         session.clear();
         flash.put("url", "/");
-        redirect("/login");
+        login(null);
     }
 
     private static boolean checkPermission(NdgUser user) {

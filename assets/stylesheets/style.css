@@ -457,7 +457,7 @@ searchTextField:-moz-placeholder {
     background: url('../images/[list-arrow]down.png') no-repeat;
 }
 
-#minimalist td {/*ROWS*/
+#minimalist td, #dynamicListTable td {/*ROWS*/
     height: 44px;
     border-bottom: 1px solid #dadbe0;
     text-align: left;

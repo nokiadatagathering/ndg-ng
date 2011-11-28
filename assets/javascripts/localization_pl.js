@@ -66,7 +66,17 @@ var LOC = (function() {
         LOC_TO: 'Do',
         LOC_PHONE_NUMBER: 'Numer tel.',
         LOC_EXTERNAL_SERVICE: 'Serwis zew.',
-        LOC_CANNOT_EDIT_SURVEY: 'Nie można edytować ankiety w trybie dostępności. Zduplikuj ankiete, żeby edytować.'
+        LOC_CANNOT_EDIT_SURVEY: 'Nie mo\u017cna edytować ankiety w trybie dostępności. Zduplikuj ankiete, żeby edytować.',
+        LOC_SURVEY_LIST: 'Lista ankiet',
+        LOC_USER_ADMIN: 'Narz\u0119dzia administracyjne',
+        LOC_NEW_CATEGORY: 'Nowa categoria',
+        LOC_NEW_QUESTION: 'Nowe pytanie',
+        LOC_NEW_OPTION: 'Nowa opcja',
+        LOC_SAVE_SURVEY : 'Czy chcesz zapisa\u0107 ankietę?',
+        LOC_LENGTH : 'D\u0142ugość',
+        LOC_MIN_RANGE: 'MIN. ZAKRES',
+        LOC_MAX_RANGE: 'MAX. ZAKRES'
+
     };
 
     return {
