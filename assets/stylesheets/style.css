@@ -450,11 +450,11 @@ searchTextField:-moz-placeholder {
 }
 
 .sortAscending {
-    background: url('../images/[list-arrow]up.png') no-repeat;
+    background: url('../images/list-arrow-up.png') no-repeat;
 }
 
 .sortDescending {
-    background: url('../images/[list-arrow]down.png') no-repeat;
+    background: url('../images/list-arrow-down.png') no-repeat;
 }
 
 #minimalist td, #dynamicListTable td {/*ROWS*/
@@ -468,6 +468,11 @@ searchTextField:-moz-placeholder {
     padding-bottom: 0px;
     margin-bottom: 1px;
     margin-top: 1px;
+}
+
+.clicableElem
+{
+    cursor: pointer;
 }
 
 @import url('resultlist.css');

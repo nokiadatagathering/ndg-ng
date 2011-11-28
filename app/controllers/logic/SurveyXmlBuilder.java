@@ -60,7 +60,6 @@ public class SurveyXmlBuilder {
         FormDef formDef = definitionBuilder.readFormDefinition(survey);
 
         printFormDef(formDef, writer);
-
     }
 
 
@@ -124,8 +123,14 @@ public class SurveyXmlBuilder {
     private void fillModelTree(TreeElement parent, Element data) {
         for (int i = 0; i < parent.getNumChildren(); i++) {
             TreeElement element = parent.getChildAt(i);
-            Element child = data.createElement(null, element.getName());
-            data.addChild(Node.ELEMENT, child);
+            Element child = data.createElement( null, element.getName());
+
+            if(element.getValue() != null ){
+                    child.addChild( Node.TEXT, element.getValue().getDisplayText() );
+            }
+
+            data.addChild( Node.ELEMENT, child );
+
             if(element.getNumChildren() > 0)
             {
                 fillModelTree(element, child);

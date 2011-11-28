@@ -75,7 +75,12 @@ var LOC = (function() {
         LOC_SAVE_SURVEY : 'Do you want to save survey?',
         LOC_LENGTH : 'LENGTH',
         LOC_MIN_RANGE: 'MIN.RANGE',
-        LOC_MAX_RANGE: 'MAX.RANGE'
+        LOC_MAX_RANGE: 'MAX.RANGE',
+        LOC_DRAG_NEW_CATEGORY: 'Drag to add new category',
+        LOC_DRAG_NEW_QUESTION : 'Drag to add new question',
+        LOC_DROP_CATEGORY: 'DROP HERE TO ADD A NEW CATEGORY',
+        LOC_DROP_QUESTION: 'DROP HERE TO ADD A NEW QUESTION',
+        LOC_WARN_DELETE_OPTION :'This type of question must have at least one option'
 
     };
 

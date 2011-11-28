@@ -62,16 +62,19 @@ public class AuthorizationUtils {
 
     public static void setDigestResponse(Response response)
     {
-        response.setHeader("WWW-Authenticate", AuthorizationUtils.generateDigest());
+        String digest = AuthorizationUtils.generateDigest();
+        response.setHeader("WWW-Authenticate", digest);
+        response.setHeader("X-WWW-Authenticate", digest.substring(digest.indexOf(' ') + 1));
+
         response.status = StatusCode.UNAUTHORIZED;
     }
 
     private static String generateDigest() {
         StringBuilder authHeader = new StringBuilder();
-        authHeader.append("Digest realm=\"NDG\", qop=\"auth,auth-int\", nonce=\"");
+        authHeader.append("Digest realm=\"NDG\", qop=\"auth\", nonce=\"");
         authHeader.append(Calendar.getInstance().getTimeInMillis());
         authHeader.append(Constants.SERVER_KEY);
-        authHeader.append("\", opaque=\"bmRnb3BhcXVl\" ");
+        authHeader.append("\", opaque=\"bmRnb3BhcXVl\"");
         return authHeader.toString();
     }
 

@@ -208,6 +208,7 @@ var QuestionUiElement = function( questionModel ){
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
         $( '#' + question.uiId + ' .timeInput' ).timeEntry({
                                                 spinnerImage: '',
+                                                showSeconds: true,
                                                 show24Hours: true
                                             });
 
@@ -237,6 +238,11 @@ var QuestionUiElement = function( questionModel ){
 
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
         $( '#' + question.uiId + ' div.addOption').bind('click', +isExclusive, function( event ) {onAddOptionClicked( event );} );
+
+        if( question.questionOptionCollection.length == 0 ){
+            var option = new QuestionOption();
+            question.questionOptionCollection.push( option );
+        }
 
         $.each( question.questionOptionCollection, function( i, item ){
             if( !item.hasOwnProperty( 'isDelete' ) ){
@@ -329,10 +335,25 @@ var QuestionUiElement = function( questionModel ){
     }
 
     function deleteOption( optId ){
+        if( getOptionCount() <= 1 ){
+            alert( LOC.get( 'LOC_WARN_DELETE_OPTION' ) );
+            return;
+        }
+
         var option = getOption( optId );
         option.isDelete = 'true';
 
         $( '#'+ optId ).remove();
+    }
+
+    function getOptionCount(){
+        var count = 0;
+        $.each( question.questionOptionCollection , function( idx, item ){
+            if( !item.hasOwnProperty( 'isDelete' ) ){
+                count++;
+            }
+        });
+        return count;
     }
 
     function onOptionLabelChanged( optionId, newLabel ){

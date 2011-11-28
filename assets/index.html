@@ -55,7 +55,7 @@
             <div id="headerLeft">
                 <img src="images/brand.jpg"/>
                 <div id=pageSelect>
-                    <H2 id="sectionTitle"</H2><H3 id="userManagement"></H3>
+                    <H2 id="sectionTitle"> </H2><H3 id="userManagement"></H3>
                 </div>
             </div>
             <div id="user">${session.ndgUser} <a href="logout">Logout</a>
@@ -66,7 +66,7 @@
         </div><!--END of header-->
         <div id="leftColumn">
             <div class="plusButton" id="plusButton" >
-                    <a href="#"><img id ="plusButtonImage" src="images/plus.png"></a>
+                <div id ="plusButtonImage"></div>
             </div>
             <div id=filter>
                 <span id="leftColumnContent"></span>
@@ -126,15 +126,6 @@
         <div id="dialog-sendSurvey" class="dialogs">
             <div id="sendSurveyUsers"></div>
             <div><span id="buttonSendSurveyDone" class="buttonSmall" ></span></div>
-        </div>
-
-        <div id="dialog-editorSwitchCategory" class="dialogs">
-            <div id="switchCategory">
-                <label>Choose category:</label>
-                <select id="combobox">
-                </select>
-                <div id="confirmCategoryButton"></div>
-            </div>
         </div>
 
         <div id="dialog-sendUserSMS" class="dialogs">
@@ -219,15 +210,6 @@ var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
     zIndex: 9999,
     resizable: false,
     width: 350
-});
-
-var switchCategoryDialog = $("#dialog-editorSwitchCategory").dialog(
-{
-    autoOpen: false,
-    modal: true,
-    width: 400,
-    zIndex: 9999,
-    resizable: false
 });
 
 var confirmSaveSurveyDialog = $("#dialog-confirmSaveSurvey").dialog(

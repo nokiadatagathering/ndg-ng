@@ -62,6 +62,7 @@
     border-color: #dadbe0;
     border-style: solid;
     border-width: 1px;
+    width: 630px;
 }
 
 .newUserTable form{
@@ -201,3 +202,9 @@
     border-radius: 2px;
 }
 
+#plusButtonImage
+{
+    height: 33px;
+    width: 32px;
+    background: url(../images/plus.png);
+}

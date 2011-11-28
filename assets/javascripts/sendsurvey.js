@@ -29,7 +29,7 @@ var SendSurvey = function() {
         $.each(data.items,function(i,item) {
             fillWithResults(i,item);
         });
-        $('input:checkbox:not([safari])').checkbox({cls:'sendSurvey-customCheckbox', empty:'../images/empty.png'});
+        $('input:checkbox:not([safari])').checkbox({cls:'sendSurvey-customCheckbox', empty:'images/empty.png'});
     }
 
     function fillWithResults(i, item) {

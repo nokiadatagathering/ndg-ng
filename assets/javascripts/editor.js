@@ -9,12 +9,6 @@ var Editor = function() {
     return {
         openSurvey : function(id) {openSurvey(id);},
         createSurvey : function() {createSurvey();},
-        addCategory : function(id) {addCategory(id);},
-        addQuestion : function(id) {addQuestion(id);},
-        setQlistConfig : function() {setQlistConfig();},
-        removeQlistConfig: function() {removeQlistConfig();},
-        setCatListConfig: function() {setCatListConfig();},
-        removeCatListConfig: function() {removeCatListConfig();},
         updateContainerSize: function() {updateContainerSize();}
     };
 
@@ -53,20 +47,38 @@ var Editor = function() {
             + '</ul>'
             + '</div>'
         );
-
         new EditedLabel( $( "#sectionTitle" ), function( newTitle ){
                                                     surveyModel.updateSurveyTitle( newTitle );
                                                 } );
 
-        $( "#plusButton" ).unbind( 'mouseover' );
-        $( "#plusButton" ).mouseover( function( event ) {ContextComboBox.showEditorMenu( event );});
+        $('#plusButton').draggable({
+            connectToSortable: "#categories",
+            helper: 'clone',
+            revert: 'invalid'
+        });
+
+        $( "#addQuestion" ).draggable({
+            connectToSortable: " .listQuestion",
+            helper: 'clone',
+            revert: 'invalid',
+            start: function () {setHoverConfig();},
+            stop: function () {removeHoverConfig();}
+        });
+
+
         $( "#editorBackButton" ).click( function(){
             onBackClicked();
         } );
-//        $( "#executeSave" ).click( function(){onSaveClicked();} );
 
         $( "#categories" ).sortable( {
-                start: function(event, ui) {updateContainerSize();},
+                start: function(event, ui) {
+                    if( ui.item.hasClass( 'drag' ) ){
+                        ui.placeholder.append(
+                            '<span class="placeholderText">' + LOC.get( 'LOC_DROP_CATEGORY' ) + '</span>')
+                    }
+                    updateContainerSize();
+                    unbindToggleCategory();
+                },
                 delay: 50,
                 revert: true,
                 forcePlaceholderSize: true,
@@ -78,12 +90,13 @@ var Editor = function() {
                         ui.item.replaceWith( createCategoryElement( newCategory ) );
                         setCategoryUiOptions( newCategory.uiId );
                     }
+                    bindToggleCategory();
                 }
         });
     }
 
     function updateContainerSize() {
-        var totalHeight = $('#categories').height();;
+        var totalHeight = $('#categories').height();
         if ( $('#container').height() < totalHeight + 185 ) {
             $('#container').height( totalHeight + 185 );
         }
@@ -93,29 +106,18 @@ var Editor = function() {
         $('#content').width( 865 );
         $('#leftColumn').width( 80 );
         $('#plusButton').removeClass('plusButton');
+        $('#plusButton').attr( 'title', LOC.get( 'LOC_DRAG_NEW_CATEGORY' ) );
         $('#plusButton').addClass('plusButton_layout3');
+        $('#plusButton').unbind( 'click' );
         $('#content').empty();
-        $('#plusButton').before( '<div class="buttonBack" id="editorBackButton"/>');
-//        $('#plusButton').before( '<div class="leftMenuButtonBlock" id="executeSave"/>');
+        $('#plusButton').before( '<div class="editorButton" id="editorBackButton"/>');
+        $('#plusButton').after( '<div class="editorButton addQuestionButton clicableElem" id="addQuestion"/>');
+        $('#addQuestion').attr( 'title', LOC.get( 'LOC_DRAG_NEW_QUESTION' ) );
         $('#leftColumnContent' ).empty();
-    }
 
-    function setCatListConfig(){
-        $( "#categories" ).sortable( "option", "placeholder", 'categoryPlaceholder newCategory' );
-    }
+        $('#plusButton').addClass( 'drag' );
+        $('#addQuestion').addClass( 'drag' );
 
-    function removeCatListConfig(){
-        $( "#categories" ).sortable( "option", "placeholder", 'categoryPlaceholder' );
-    }
-
-    function setQlistConfig(){
-        setHoverConfig();
-        $( '.listQuestion' ).sortable( "option", "placeholder", 'questionPlaceholder newQuestion' );
-    }
-
-    function removeQlistConfig(){
-        removeHoverConfig();
-        $( '.listQuestion' ).sortable( "option", "placeholder", 'questionPlaceholder' );
     }
 
     function setHoverConfig(){
@@ -202,40 +204,15 @@ var Editor = function() {
         $('#content').width( 820 );
         $('#leftColumn').width( 125 );
         $('#plusButton').removeClass('plusButton_layout3');
+        $('#plusButton').removeClass('drag');
         $('#plusButton').addClass('plusButton');
         $('#editorBackButton').detach();
-//        $('#executeSave').detach();
+        $('#addQuestion').detach();
     }
 
     function addCategory(){
         var category = surveyModel.newCategory();
         appendCategoryElement( createCategoryElement( category ), category );
-    }
-
-    function addQuestion(){
-        var children = $( "#categories" ).find( ".listCategory" );
-        $( "#combobox" ).empty();
-
-        $.each(children, function(i, item){
-            var categoryId = item.id;
-            var catName = $( '#' + item.id + ' span.categoryName').text();
-
-            $( "#combobox" ).append('<option value="'+ categoryId +'">' + catName + '</option>');
-        });
-
-        $( '#confirmCategoryButton' ).empty();
-        $( '#confirmCategoryButton' ).append( '<button id="confirmCategory">Confirm</button>' );
-        $( '#confirmCategory').click( function(){onConfirmCategory();} );
-        switchCategoryDialog.dialog( "open" );
-    }
-
-    function onConfirmCategory(){
-        var selectElem = $( "#combobox" ).val();
-
-        var question = surveyModel.newQuestion( selectElem );
-        appendQuestionElement( createQuestionElement( question ), question, selectElem );
-
-        showCategory( selectElem );
     }
 
     function fillEditor(id){
@@ -252,8 +229,10 @@ var Editor = function() {
         $.each( surveyModel.getSurvey().categoryCollection, function( i, item ) {
             appendCategoryElement( createCategoryElement( item ), item );
             fillQuestions( item.questionCollection, item.uiId );
+            bindToggleQuestions();
         });
         updateContainerSize();
+        bindToggleCategory(); // allows to show and hide questions in category
     }
 
     function createCategoryElement( category ){
@@ -297,15 +276,9 @@ var Editor = function() {
         $( '#' + categoryId + ' .listQuestion' ).show( 'fast', function(){
             $( '#' + categoryId + ' .listQuestion' ).sortable( 'refresh' );
             updateContainerSize();
-            //refreshLists();
         });
         $( expandIconElem ).addClass( 'expanded' );
     }
-
-//    function refreshLists(){
-//        $( '.listQuestion' ).sortable( 'refresh' );
-//        $( ".listCategory" ).sortable( 'refresh' );
-//    }
 
     function setCategoryUiOptions( categoryId, bVal ){
 
@@ -318,7 +291,6 @@ var Editor = function() {
 
         var listRef = '#' + categoryId + ' .listQuestion';
         var catHeaderRef = "#" + categoryId + " h3";
-        var expandIconElem = "#" + categoryId + ' span.expandIcon';
 
         $( catHeaderRef ).droppable({
             accept: '.skipto',
@@ -345,8 +317,13 @@ var Editor = function() {
             connectWith: " .listQuestion",
             placeholder : 'questionPlaceholder',
             delay: 50,
-            start : function(){
+            start : function( event, ui ){
+                if( ui.item.hasClass( 'drag' ) ){
+                        ui.placeholder.append(
+                        '<span class="placeholderText">' + LOC.get( 'LOC_DROP_QUESTION') + '</span>');
+                }
                 setHoverConfig();
+                unbindToggleQuestions();
             },
             stop: function( event, ui ) {
                 if( ui.item.hasClass( 'drag' ) ){
@@ -356,20 +333,29 @@ var Editor = function() {
                 }
                 removeHoverConfig();
                 updateContainerSize();
+                bindToggleQuestions();
             }
         });//.disableSelection();
 
-        //hide and show questions in category
-        $( catHeaderRef ).bind( 'click' , function(){
+        hideCategory ( categoryId );
+    }
+
+    function bindToggleCategory(){
+        unbindToggleCategory();
+        $( ".listCategory h3" ).bind( 'click.showCategory' , function(){
+            var catId = $(this).parents('.listCategory')[0].id;
+            var expandIconElem = '#' + catId + ' span.expandIcon';
             if($(expandIconElem).hasClass('expanded')){
-                hideCategory( categoryId );
+                hideCategory( catId );
             }else{
-                showCategory( categoryId );
+                showCategory( catId );
             }
             return false;
         });
+    }
 
-        hideCategory ( categoryId );
+    function unbindToggleCategory(){
+        $( ".listCategory h3" ).unbind( 'click.showCategory' );
     }
 
     function fillQuestions( data, categoryId ){
@@ -412,6 +398,7 @@ var Editor = function() {
     function appendQuestionElement( questionElement, question, categoryId ){
         $( '#' + categoryId + ' ul.listQuestion' ).append( questionElement );
         setQuestionUiOptions( question );
+        bindToggleQuestions();
     }
 
     function setQuestionUiOptions( question ){
@@ -423,7 +410,6 @@ var Editor = function() {
 
         $( '#'+ question.uiId + ' .deleteQuestion' ).bind( 'click', question.uiId, function( i ){onDeleteQuestionClicked ( i );} );
         $( '#'+ question.uiId + ' .duplicateQuestion' ).bind( 'click', question.uiId, function( i ){onDuplicateQuestionClicked ( i );} );
-        $( '#'+ question.uiId ).bind( 'click', question.uiId, function( i ){onQuestionClicked( i );} );
 
         new EditedLabel( $( "#" + question.uiId + 'label' ), function( newTitle ){
                                                     surveyModel.updateQuestionTitle( question.uiId, newTitle );
@@ -434,9 +420,19 @@ var Editor = function() {
         uiDetails.init();
     }
 
+    function bindToggleQuestions(){
+        unbindToggleQuestions();
+        $( '.listItemQuestion' ).bind( 'click.toggleQuestion', function(){
+            onQuestionClicked( this.id );
+        });
+    }
+
+    function unbindToggleQuestions(){
+        $( '.listItemQuestion' ).unbind( 'click.toggleQuestion' );
+    }
+
     function hideQuestion( qId ){
          $( '#'+ qId + ' .questionDetails' ).hide();
-//         $( '#'+ qId + ' .qType' ).hide();
          $( '#'+ qId + ' .additionalButtons' ).hide();
          $( '#'+ qId + ' .deleteQuestion' ).hide();
          $( '#'+ qId + ' .duplicateQuestion' ).hide();
@@ -446,7 +442,6 @@ var Editor = function() {
 
     function showQuestion( qId ){
          $( '#'+ qId + ' .questionDetails' ).show();
-//         $( '#'+ qId + ' .qType' ).show();
          $( '#'+ qId + ' .additionalButtons' ).show();
          $( '#'+ qId + ' .deleteQuestion' ).show();
          $( '#'+ qId + ' .duplicateQuestion' ).show();
@@ -473,18 +468,18 @@ var Editor = function() {
     }
 
     function onDuplicateQuestionClicked ( event ){
-        var category = surveyModel.getCategoryForQuestion( event.data );
-        var newQuestion = surveyModel.duplicateQuestion( event.data, category );
+        var catId = $( '#' + event.data ).parents( '.listCategory' )[0].id;
+        var newQuestion = surveyModel.duplicateQuestion( event.data, catId );
         appendQuestionElement(  createQuestionElement( newQuestion ),
                                 newQuestion,
-                                category.uiId );
+                                catId );
 
     }
 
-    function onQuestionClicked( event ){
+    function onQuestionClicked( questionId ){
 
         hideQuestion( currentSelectionId );
-        currentSelectionId = event.data;
+        currentSelectionId = questionId;
 
         showQuestion( currentSelectionId );
     }

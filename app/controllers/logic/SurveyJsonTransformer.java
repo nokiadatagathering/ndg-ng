@@ -1,6 +1,5 @@
 package controllers.logic;
 
-import controllers.ConstraintJsonTransformer;
 import controllers.deserializer.CategoryObjectFactory;
 import controllers.deserializer.DefaultAnswerObjectFactory;
 import controllers.deserializer.NdgUserObjectFactory;
@@ -56,7 +55,7 @@ public class SurveyJsonTransformer {
         return surveySerializer.serialize( survey );
     }
 
-    public static long saveSurvey( String jsonSurvey ){
+    public static long saveSurvey( String jsonSurvey, String username ){
         JSONDeserializer<Survey> deserializer = new JSONDeserializer<Survey>();
         deserializer
                 .use( "ndgUser", new NdgUserObjectFactory() )
@@ -69,7 +68,7 @@ public class SurveyJsonTransformer {
                 .use( "categoryCollection.values.questionCollection.values.defaultAnswer", new DefaultAnswerObjectFactory() )
                 .use( "categoryCollection.values.questionCollection.values.questionType", new QuestionTypeObjectFactory());
 
-        Survey survey = deserializer.deserialize( jsonSurvey, new SurveyObjectFactory() );
+        Survey survey = deserializer.deserialize( jsonSurvey, new SurveyObjectFactory( username ) );
         survey.save();
 
         return survey.id;

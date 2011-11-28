@@ -143,6 +143,11 @@
     line-height: 11px;
 }
 
+.selectedGroup p.tableEntryGroupName, .selectedGroup p.tableEntryQuantity
+{
+    color: red;
+}
+
 .tableEntryQuantity {
     padding: 0px;
     margin: 0px;
@@ -174,10 +179,6 @@
     font-size: 11px;
     font-family: "Nokia Pure Text";
     color: #3a77ca;
-}
-
-.selectedGroup {
-    background-color: #33ffff;
 }
 
 .draggingElement {

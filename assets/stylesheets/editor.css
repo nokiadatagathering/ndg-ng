@@ -13,6 +13,7 @@
     height: auto;
     border: none;
     width: 100%;
+    min-height: 44px;
 }
 .listCategory
 {
@@ -218,11 +219,6 @@ span.edit
     cursor: pointer;
 }
 
-.addPlace:after
-{
-    content: 'DROP HERE TO ADD A NEW CATEGORY';
-}
-
 .categoryPlaceholder
 {
     height: 44px;
@@ -232,10 +228,6 @@ span.edit
     font-size: 11pt;
 }
 
-.newCategory:after
-{
-    content: 'DROP HERE TO ADD A NEW CATEGORY';
-}
 
 .questionPlaceholder
 {
@@ -246,7 +238,42 @@ span.edit
     font-size: 11pt;
 }
 
-.newQuestion:after
+.placeholderText
 {
-    content: 'DROP HERE TO ADD A NEW QUESTION';
+    margin-top:10px;
+    display: inline-block;
+}
+
+.editorButton
+{
+    display: inline-block;
+    min-width: 30px;
+    margin-left: 35px;
+}
+
+#editorBackButton
+{
+    height: 43px;
+    background: url(../images/back-43px.png);
+    background-position: 0px 0px;
+}
+
+.plusButton_layout3 {
+    margin-left: 35px;
+    margin-top: 8px;
+}
+
+#editorBackButton:hover {
+    background-position: 0px 87px;
+}
+
+#editorBackButton:active {
+    background-position: 0px 44px;
+}
+
+.addQuestionButton
+{
+    background: url(../images/plus.png);
+    background-position: 0px 0px;
+    height: 33px;
 }

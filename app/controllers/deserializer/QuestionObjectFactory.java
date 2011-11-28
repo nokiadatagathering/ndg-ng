@@ -79,7 +79,7 @@ public class QuestionObjectFactory implements ObjectFactory{
         if( maxValue != null && !maxValue.isEmpty() ){
 
             if( !constraintString.isEmpty() ){
-                constraintString += " and";
+                constraintString += " and ";
             }
             constraintString += MAX_CONSTR_STR + maxValue;
         }

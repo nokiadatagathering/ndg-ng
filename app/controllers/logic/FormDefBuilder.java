@@ -23,6 +23,7 @@ import org.javarosa.core.model.condition.Condition;
 import org.javarosa.core.model.condition.Constraint;
 import org.javarosa.core.model.condition.IConditionExpr;
 import org.javarosa.core.model.condition.Triggerable;
+import org.javarosa.core.model.data.StringData;
 import org.javarosa.core.model.instance.FormInstance;
 import org.javarosa.core.model.instance.TreeElement;
 import org.javarosa.core.model.instance.TreeReference;
@@ -178,6 +179,10 @@ public class FormDefBuilder {
 
     private void addQuestionToModel(TreeElement parent, Question question) {
         TreeElement questionMeta = new TreeElement(question.objectName);
+        if( question.defaultAnswer != null ){
+            questionMeta.setValue( new StringData( question.defaultAnswer.textData ) );
+        }
+
         parent.addChild(questionMeta);
         questionMeta.setRequired(question.required == 0 ? false : true);
         questionMeta.setEnabled(question.readonly != null && question.readonly == 1 ? false : true);

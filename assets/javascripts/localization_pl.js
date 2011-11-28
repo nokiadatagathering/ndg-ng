@@ -16,7 +16,7 @@ var LOC = (function() {
         LOC_BACK_TO_SURVEY_LIST: 'Wróc do list ankiet',
         LOC_EXPORT_RESULTS: 'Exportuj resultaty',
         LOC_EXPORT_ALL_RESULTS: 'Export wszytkie resultaty',
-        LOC_DOWNLOAD: '\u015aaci\u0105gnij',
+        LOC_DOWNLOAD: '\u015aci\u0105gnij',
         LOC_UPLOAD: 'Za\u0142aduj',
         LOC_EDIT: 'Edytuj',
         LOC_DUPLICATE: 'Duplikuj',
@@ -75,7 +75,12 @@ var LOC = (function() {
         LOC_SAVE_SURVEY : 'Czy chcesz zapisa\u0107 ankietę?',
         LOC_LENGTH : 'D\u0142ugość',
         LOC_MIN_RANGE: 'MIN. ZAKRES',
-        LOC_MAX_RANGE: 'MAX. ZAKRES'
+        LOC_MAX_RANGE: 'MAX. ZAKRES',
+        LOC_DRAG_NEW_CATEGORY: 'Przeci\u0105gnij element aby doda\u0107 now\u0105 kategori\u0119',
+        LOC_DRAG_NEW_QUESTION : 'Przeci\u0105gnij element aby doda\u0107 nowe pytanie',
+        LOC_DROP_CATEGORY: 'UPU\u015a\u0106 TUTAJ ABY DODA\u0106 NOW\u0104 KATEGORI\u0118',
+        LOC_DROP_QUESTION: 'UPU\u015a\u0106 TUTAJ ABY DODA\u0106 NOWE PYTANIE',
+        LOC_WARN_DELETE_OPTION : 'Pytanie musi mieć przynajmniej jedną opcję'
 
     };
 

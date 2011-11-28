@@ -27,7 +27,8 @@ var SurveyList = function() {
 
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "surveys", SurveyList);
 
-        $('#plusButton').bind('mouseover.surveyList', function(event) {ContextComboBox.showSurveyMenu();});
+        $('#plusButton').bind( 'click', function(event) { Editor.createSurvey(); } );
+        $('#plusButton').attr( 'title', LOC.get( 'LOC_NEW_SURVEY' ) );
         $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="labelBuilding">Building</h4><h4 class="labelAvailable">Available</h4><h4 class="labelClosed">Closed</h4>');
 
 
@@ -35,10 +36,13 @@ var SurveyList = function() {
         $('#pageSelect').append('<H2 id=sectionTitle></H2>');
         if(hasAdminPermission)
             {
-            $('#pageSelect').append('<H3 id=userManagement></H3>');
+            $('#pageSelect').append('<H3 id=userManagement class="clicableElem"></H3>');
             $('#userManagement').click(function() {UserManagement.showUserManagement()});
             }
+        $('#uploadForm').unbind('submit');
         $('#uploadForm').submit( function () {uploadNewSurvey();} );
+
+        $('#buttonSendFile').unbind( 'click' );
         $('#buttonSendFile').click( function() {$('#uploadForm').submit( )});
 
         $('#searchComboText').text("ID");
@@ -50,7 +54,7 @@ var SurveyList = function() {
     }
 
     function prepareLayout(tableHtml) {
-         $('#minimalist').empty();
+        $('#minimalist').empty();
         $('#leftColumnContent' ).empty();
         $('#plusButton').unbind('mouseover');
         $('#userManagement').unbind('click');
@@ -73,9 +77,9 @@ var SurveyList = function() {
         $( '#content' ).remove();
         var layout = "";
         layout += "<div id='leftColumn'>"
-                + "<span class='plusButton' id='plusButton' >"
-                + "<a href='#'><img id ='plusButtonImage' src='images/plus.png'></a>"
-                + "</span>"
+                + "<div class='plusButton clicableElem' id='plusButton' >"
+                + "<div id ='plusButtonImage'></div>"
+                + "</div>"
                 + "<div id=filter>"
                 + "<span id='leftColumnContent'>"
                 + "</span>"
@@ -121,7 +125,7 @@ var SurveyList = function() {
                                     + '<td id="surveyNameCell"><pre class="surveyNameText" >'+ item.title + '</pre><pre class="surveyIdText">ID: ' + item.surveyId + '</pre></td>'
                                 + '<td>' + date.toString("dd/MM/yy") + '</td>'
                                 + '<td>' + item.ndgUser.username + '</td>'
-                                + '<td class="resultCollectionQuantity" id="resultCollectionQuantityString' + item.id + '"></td>'
+                                + '<td class="resultCollectionQuantity clicableElem" id="resultCollectionQuantityString' + item.id + '"></td>'
                                 + '<td class="menubar" id="menu' + i + '" >'
                                 + '<span title="' + LOC.get('LOC_DOWNLOAD') + '"class="buttonDownload" id="buttonDownload" unselectable="on"></span>'
                                 + '<span title="' + LOC.get('LOC_UPLOAD') + '"class="buttonUpload" id="buttonUpload" unselectable="on"></span>'
@@ -151,7 +155,7 @@ var SurveyList = function() {
         }
 
         $('#menu' + i +' #buttonDownload').click( item.surveyId, function(i){onDownloadSurveyClicked(i);} );
-        $('#menu' + i +' #buttonUpload').click( item.surveyId, function(i){onUploadSurveyClicked(i);} );
+        $('#menu' + i +' #buttonUpload').click( item, function(i){onUploadSurveyClicked(i);} );
         $('#menu' + i +' #buttonDelete').click( item.surveyId, function(i){onDeleteSurveyClicked(i);} );
         $('#menu' + i +' #buttonDuplicate').click( item.surveyId, function(i){onDuplicateSurveyClicked(i);} );
         $('#menu' + i +' #buttonPhone').click( item.surveyId, function(i){onSendSurveyClicked(i);} );
@@ -161,7 +165,6 @@ var SurveyList = function() {
     function onEditSurveyClicked(e) {
 
         if( e.data.available == SurveyAvailable.BUILDING ){
-            $('#plusButton').unbind('mouseover.surveyList');
             $(window).unbind('scroll');
             Editor.openSurvey(e.data.id);
         }else{
@@ -174,6 +177,11 @@ var SurveyList = function() {
     }
 
     function onUploadSurveyClicked(e) {
+        if( e.data.available != SurveyAvailable.BUILDING ){
+            alert( LOC.get( 'LOC_CANNOT_EDIT_SURVEY' ) );
+            return;
+        }
+
        $('#uploadSurveyFormButton').text(LOC.get('LOC_SEARCH'));
        $('#uploadSurveyInput').unbind('change');
        $('#uploadSurveyInput').change( function(){
@@ -186,15 +194,15 @@ var SurveyList = function() {
        uploadDialog.dialog({close: function(){$.unblockUI();}} )
        uploadDialog.dialog("open");
 
-       $("#uploadSurveyId").val(e.data);
+       $("#uploadSurveyId").val(e.data.surveyId);
        $.blockUI( {message: null} );
     }
 
     function onDeleteSurveyClicked(e) {
         confirmDeleteDialog.dialog( {title: LOC.get('LOC_EXPORT_RESULTS')} );
-        document.getElementById('buttonDeleteYes').textContent = LOC.get('LOC_YES');
-        document.getElementById('buttonDeleteNo').textContent = LOC.get('LOC_NO');
-        document.getElementById('dialog-confirmDelete-query').textContent = LOC.get('LOC_SURVEY_DELETE_CONFIRM');
+        $('#buttonDeleteYes').text( LOC.get('LOC_YES') );
+        $('#buttonDeleteNo').text( LOC.get('LOC_NO') );
+        $('#dialog-confirmDelete-query').text( LOC.get('LOC_SURVEY_DELETE_CONFIRM') );
         confirmDeleteDialog.dialog("open");
         $("#buttonDeleteYes").click( e.data, function(e) {
             $.post( "delete/" + e.data, function(data) {
@@ -221,7 +229,7 @@ var SurveyList = function() {
     function onSendSurveyClicked(e) {
         SendSurvey.showUserList(e);
         sendSurveyDialog.dialog( {title: LOC.get('LOC_SEND_SURVEY')} );
-        document.getElementById('buttonSendSurveyDone').textContent = LOC.get('LOC_DONE');
+        $('#buttonSendSurveyDone').text( LOC.get('LOC_DONE') );
         sendSurveyDialog.dialog({close: function(){$.unblockUI();}} )
         sendSurveyDialog.dialog("open");
         $.blockUI( {message: null} );
@@ -232,6 +240,7 @@ var SurveyList = function() {
         {
            var response = resultFrame.contents().find('body').find('pre').html();
             if(response === "success") {
+                DynamicTable.refresh();
                 alert("success");
                } else {
                 alert("failure")

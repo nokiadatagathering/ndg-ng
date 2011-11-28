@@ -60,4 +60,15 @@ public class UserManager extends Controller {
         deleted.delete();
     }
 
+    public static void deleteGroup( String groupname ){
+        NdgGroup group = NdgGroup.find( "byGroupName", groupname ).first();
+
+        for( NdgUser user : group.userCollection ){
+            user.ndg_group = null;
+            user.save();
+        }
+        group.userCollection.clear();
+        group.delete();
+    }
+
 }

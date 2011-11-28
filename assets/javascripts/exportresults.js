@@ -38,13 +38,13 @@ var ExportResults = function() {
     }
 
 //    function exportCSVResults() {
-//        $.getJSON( '/service/surveyHasImages',
+//        $.getJSON( 'service/surveyHasImages',
 //                   { 'surveyId': surveyId },
 //                   function(result) { proceedExportResults( ".CSV", result.hasImages ); } );
 //    }
 
     function exportXLSResults() {
-        var getJSONQuery = $.getJSON( '/service/surveyHasImages',
+        var getJSONQuery = $.getJSON( 'service/surveyHasImages',
                    { 'surveyId': surveyId },
                    function(result) { proceedExportResults( ".XLS", result.hasImages ); } );
         getJSONQuery.error(Utils.redirectIfUnauthorized);
@@ -73,9 +73,9 @@ var ExportResults = function() {
         $('#exportResults-step_3').append( '<b>Exporting survey results to' + fileFormat + ' file...</>' );
 
         if( isAllResults ) {
-            window.location.href = "/service/prepare?surveyId=" + surveyId + "&fileFormat=" + fileFormat + "&exportWithImages=" + isWithImages;//'exportWithImages': false//TODO handle additional question
+            window.location.href = "service/prepare?surveyId=" + surveyId + "&fileFormat=" + fileFormat + "&exportWithImages=" + isWithImages;//'exportWithImages': false//TODO handle additional question
         } else {
-            window.location.href = "/service/prepareselected?ids=" + resultList.join(',') + "&fileFormat=" + fileFormat + "&exportWithImages=" + isWithImages;//'exportWithImages': false//TODO handle additional question
+            window.location.href = "service/prepareselected?ids=" + resultList.join(',') + "&fileFormat=" + fileFormat + "&exportWithImages=" + isWithImages;//'exportWithImages': false//TODO handle additional question
         }
         exportDialog.dialog("close");
     }

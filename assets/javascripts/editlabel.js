@@ -5,6 +5,7 @@ var EditedLabel = function( elem, callbackFun ){
     var editingStart = false;
 
     element.bind( 'click' , function( event ){onClicked( event );});
+    element.addClass('clicableElem');
 
     function onClicked( event ){
         editBoxId = element.attr('id') + 'edit';

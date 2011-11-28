@@ -85,6 +85,7 @@ var UserManagement = function() {
         htmlContent += '><div>';
         htmlContent += LOC.get( 'LOC_GROUP' );
         htmlContent +='<span class="sortIndicatorPlaceholder"/></div></th>';
+        htmlContent +='<th></th>';
 
         htmlContent += '</thead>'
                      + '<tbody id="dynamicGroupListTable">'
@@ -129,6 +130,8 @@ var UserManagement = function() {
             $( '#dynamicGroupRow' + i ).mouseover( i, function(i) {onMouseOverHandler(i);} );
             $( '#dynamicGroupRow' + i ).mouseout( i, function(i) {onMouseOutHandler(i);} );
             $( '#dynamicGroupRow' + i).click( {index: i}, function(event){onGroupClicked(event);} );
+            $( '#dynamicGroupRow' + i + ' .groupDelete').click( {index: i}, function(event){
+                                                                                onDeleteGroupClicked(event);} );
         });
 
         if( selectedGroupName != null && selectedGroupName.length > 0 ) {
@@ -141,18 +144,35 @@ var UserManagement = function() {
             $('#contentToolbar2').removeClass('backgroundHide');
             $('#contentToolbar2').append('<span class="toolbarText">Click here to expand item list</span>');
             $('#contentToolbar2').click(function() {
-            $('#contentToolbar2').unbind('click');
-                scrollDownList();
-            });
+                $('#contentToolbar2').unbind('click');
+                    scrollDownList();
+                });
         } else {
             $('#contentToolbar2').addClass('backgroundHide');
         }
         $('#contentToolbar2').animate({top: $('#dynamicGroupListTable').position().top + $('#dynamicGroupListTable').height()});
         if(scrollReady) {
-                loadUsers();
-            }
+            loadUsers();
+        }
+        loadingFinished();
         scrollReady = true;
+    }
 
+    function onDeleteGroupClicked( event ){
+        var groupName = $( '#dynamicGroupRow' + event.data.index )[0].firstChild.id;
+
+        $( '#dynamicGroupRow' + event.data.index ).remove();
+        $.ajax({url: 'userManager/deleteGroup',
+                        data: {groupname: groupName},
+                        error: function(data, textStatus, jqXHR){
+                                if(!Utils.redirectIfUnauthorized(data, textStatus, jqXHR)){
+                                    alert("error");
+                                }},
+                        success: function(data, textStatus, jqXHR){
+                            selectedGroupName = null;
+                            UserManagement.refresh();
+                        }
+        });
     }
 
     function selectGroup(i, item) {
@@ -185,11 +205,7 @@ var UserManagement = function() {
         });
 
         $( "#plusButton" ).draggable({
-            helper: function(event) {
-                var dragging = $('<div><span></span></div>')
-                    .find('span').append($(event.target).closest('img').clone()).end();
-                return dragging;
-            },
+            helper: 'clone',
             appendTo: 'body'
         });
 
@@ -250,7 +266,7 @@ var UserManagement = function() {
 
         var layout = "";
         layout += "<div id='leftColumn_layout2'>"
-                + "<span class='plusButton_layout2' id='plusButton'><a href='#'><img id ='plusButtonImage' src='images/plus.png'></a></span>"
+                + "<div class='plusButton_layout2 clicableElem' id='plusButton'><div id ='plusButtonImage'></div></div>"
                 + "</div>"
         layout += "<div id='middleColumn_layout2'>"
                 +   "<table id='minimalist_layout2'></table>"
@@ -276,11 +292,11 @@ var UserManagement = function() {
 
     function fillGroupWithData(i,item) {
         $('#dynamicGroupListTable').append( '<tr groupName="' + item.groupName + '" id="dynamicGroupRow'+ i + '">'
-                                    + '<td id="' + item.groupName + '"><p class="tableEntryGroupName">'+ item.groupName + '</p>'
+                                    + '<td id="' + item.groupName + '" class="clicableElem"><p class="tableEntryGroupName">'+ item.groupName + '</p>'
                                     + '<p class="tableEntryQuantity">('+ item.userCollection + ' ' + LOC.get('LOC_USERS') + ')</p>'
                                     + '</td>'
                                     + '<td class="groups menubar" id="groupMenu' + i + '" >'
-                                    + '<span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
+                                    + '<div class="groupDelete" ><span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span><div>'
                                     + '</td>'
                                     + '</tr>' );
     }
@@ -298,10 +314,10 @@ var UserManagement = function() {
                                     + '</td>'
                                     + '</tr>' );
          $('#menu' + i +' #buttonDelete').click( {index: i, id: item.id}, function(event){onDeleteUserClicked(event);} );
-         $('#menu' + i +' #buttonPhone').click( { index: i,
+         $('#menu' + i +' #buttonPhone').click( {index: i,
                                                   fullName: item.firstName + " " + item.lastName,
-                                                  phoneNumber: item.phoneNumber },
-         function(i){ onPhoneUserClicked(i); } );
+                                                  phoneNumber: item.phoneNumber},
+         function(i){onPhoneUserClicked(i);} );
      }
 
     function toggleSortByColumn(event) {
@@ -334,7 +350,7 @@ var UserManagement = function() {
      function onPhoneUserClicked(event) {
         SendSMS.showSendUserSMS(event.data);
         sendUserSMSDialog.dialog( {title: LOC.get('LOC_SEND_SMS')} );
-        document.getElementById('buttonSendSMSDone').textContent = LOC.get('LOC_SEND');
+        $('#buttonSendSMSDone').text( LOC.get('LOC_SEND') );
         sendUserSMSDialog.dialog("open");
      }
 
@@ -351,14 +367,11 @@ var UserManagement = function() {
     }
 
     function onMouseOverHandler(e){
-        if(  $( '#dynamicGroupRow' + e.data ).hasClass( "selectedGroup" ) ){
-            return;
-        }
-        //$('#dynamicGroupRow'+ e.data).addClass("hoverRow");
+        $('#dynamicGroupRow'+ e.data + " span").addClass("hover");
     }
 
     function onMouseOutHandler(e){
-        //$('#dynamicGroupRow'+ e.data).removeClass("hoverRow");
+        $('#dynamicGroupRow'+ e.data + " span").removeClass("hover");
     }
 
     function onGroupClicked(event) {
@@ -380,8 +393,17 @@ var UserManagement = function() {
     }
 
     function removeGroupSelection(i, item ) {
-        if( item.classList.contains("selectedGroup") ) {
-            item.classList.remove("selectedGroup");
+        if( item.classList != null ) {
+            if( item.classList.contains("selectedGroup") ) {
+                item.classList.remove("selectedGroup");
+            }
+        } else {/*This part is for IE. IE does not support 'classList' property*/
+            var classes = item.className.split(' ');
+            if( jQuery.inArray( "selectedGroup", classes ) >=0 ) {
+                classes.splice(jQuery.inArray( "selectedGroup", classes ))
+                newClassesList = classes.toString();
+                item.className = newClassesList;
+            }
         }
     }
 

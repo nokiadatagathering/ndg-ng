@@ -47,12 +47,13 @@ var DynamicTable = function() {
             scrollReady = true;
             var diff = totalItems - elementEndIndex;
             if( diff > 0 ){
+                elementStartIndex = elementEndIndex;
                 if(diff > 5){
                     elementEndIndex += 5;
                 } else{
                     elementEndIndex += diff;
                 }
-            DynamicTable.refresh();
+            loadMoreData();
             }
         }
     }
@@ -80,6 +81,7 @@ var DynamicTable = function() {
         contentHandler = _contentHandler;
         columnDbFields = _columnDbFields;
         lastSortByColumn = undefined;
+        lastSortAscending = true;
         ajaxParams = _ajaxParams;
     }
 
@@ -91,8 +93,9 @@ var DynamicTable = function() {
         $('#searchTextField').unbind('keyup');
         $('#searchTextField').keyup( function(event){performSearch(event)});
 
-        fillListData( lastSortByColumn, true );
+        fillListData();
 
+        $(window).unbind('scroll');
         $(window).scroll(function(){
         if  ($(window).scrollTop() == $(document).height() - $(window).height()){
            scrollDownList();
@@ -144,7 +147,8 @@ var DynamicTable = function() {
             lastSortAscending = columnSortAscending[columnIndex] = true;
         }
         lastSortByColumn = columnDbFields[columnIndex];
-        fillListData( lastSortByColumn, columnSortAscending[columnIndex] );
+        elementStartIndex = 0;
+        fillListData();
     }
 
     function resetColumnTitle() {
@@ -162,45 +166,54 @@ var DynamicTable = function() {
     }
 
     function refresh() {
-        fillListData( lastSortByColumn, lastSortAscending );
+        elementStartIndex = 0;
+        fillListData( );
     }
 
-    function fillListData( orderByColumn, isAscending ) {
-
-        lastSortByColumn = orderByColumn;
-        var params = {'startIndex': elementStartIndex,
-                      'endIndex' : elementEndIndex,
-                      'isAscending': isAscending,
-                      'orderBy': orderByColumn};
-        jQuery.extend(params, ajaxParams);
-        var searchText = $('#searchTextField').val();
-        if( searchText != "") {
-            var searchParams = {
-                'searchField' : contentHandler.getSearchBy(),
-                'searchText' : escape(searchText)
-            };
-            jQuery.extend(params, searchParams);
-        }
-        var getJSONQuery = $.getJSON( contentUrl, params, function(data){refreshTable(data);});
+    function loadMoreData() {
+        var getJSONQuery = $.getJSON( contentUrl, prepareGetContentQuery(), function(data){renderTableData(data);});
         getJSONQuery.error(Utils.redirectIfUnauthorized) ;
     }
 
-    function refreshTable(data) {
+    function fillListData( ) {
+        var getJSONQuery = $.getJSON( contentUrl, prepareGetContentQuery(), function(data){
+            $('#dynamicListTable').empty();
+            renderTableData(data);});
+        getJSONQuery.error(Utils.redirectIfUnauthorized) ;
+    }
+
+    function prepareGetContentQuery() {
+        var params = {'startIndex': elementStartIndex,
+                  'endIndex' : elementEndIndex,
+                  'isAscending': lastSortAscending,
+                  'orderBy': lastSortByColumn};
+        jQuery.extend(params, ajaxParams);
+        var searchText = $('#searchTextField').val();
+        if( searchText != "") {
+        var searchParams = {
+            'searchField' : contentHandler.getSearchBy(),
+            'searchText' : escape(searchText)
+        };
+        jQuery.extend(params, searchParams);
+        }
+        return params;
+    }
+
+    function renderTableData(data) {
         totalItems = data.totalSize;
         if($('#container').height() < elementEndIndex * CONST.get('TABLE_ROW_HEIGHT_TOTAL') + 280){
             $('#container').height(elementEndIndex * CONST.get('TABLE_ROW_HEIGHT_TOTAL') + 280)
         }
-        $('#dynamicListTable').empty();
         $.each(data.items,function(i,item) {
-                contentHandler.fillWithData(i,item);
-            $('#menu' + i+ ' span').mousedown( function() {onButtonMouseDownHandler($(this));} );
-            $( '#dynamicRow' + i ).mouseover( i, function(i) {onMouseOverHandler(i);} );
-            $( '#dynamicRow' + i ).mouseout( i, function(i) {onMouseOutHandler(i);} );
+            var offset = elementStartIndex + i;
+            contentHandler.fillWithData(offset,item);
+            $('#menu' +  offset + ' span').mousedown( function() {onButtonMouseDownHandler($(this));} );
+            $( '#dynamicRow' + offset ).mouseover( offset, function(offset) {onMouseOverHandler(offset);} );
+            $( '#dynamicRow' + offset ).mouseout( offset, function(offset) {onMouseOutHandler(offset);} );
         });
-        if(contentHandler.loadingFinished)
-            {
+        if(contentHandler.loadingFinished) {
             contentHandler.loadingFinished();
-            }
+        }
         prepareContentToolbar();
         scrollReady = true;
     }

@@ -91,7 +91,7 @@ public class ListData extends Controller {
                 query.append(searchFilter);
             }
             query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
-            surveys = Survey.find(query.toString()).from(startIndex).fetch(endIndex);
+            surveys = Survey.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
         }
         serializeSurveys(surveys, startIndex, totalItems);
     }
@@ -146,7 +146,7 @@ public class ListData extends Controller {
                 query.append(groupFilter);
             }
             query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
-            users = NdgUser.find(query.toString()).from(startIndex).fetch(endIndex);
+            users = NdgUser.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
         }
         serializeUsers(users, startIndex, totalItems);
     }

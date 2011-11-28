@@ -113,3 +113,20 @@
     -moz-border-radius: 5px;
     border-radius: 5px;
 }
+
+.buttonBack {
+    display: inline-block;
+    min-width: 30px;
+    margin-left: 35px;
+    height: 43px;
+    background: url(../images/back-43px.png);
+    background-position: 0px 0px;
+}
+
+.buttonBack:hover {
+    background-position: 0px 87px;
+}
+
+.buttonBack:active {
+    background-position: 0px 44px;
+}

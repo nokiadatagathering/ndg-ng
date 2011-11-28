@@ -49,7 +49,9 @@ public class SurveyManager extends Controller {
         if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
             return;
         }
-        renderText(SurveyJsonTransformer.saveSurvey(surveyData));
+
+        String username = session.get( "ndgUser" );
+        renderText(SurveyJsonTransformer.saveSurvey( surveyData, username ) );
     }
 
     public static void getSurvey(long surveyId) {

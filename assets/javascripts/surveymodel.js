@@ -118,7 +118,8 @@ var SurveyModel = function(s){
         });
     }
 
-    this.duplicateQuestion = function( queId, category ){
+    this.duplicateQuestion = function( queId, categoryId ){
+        var category = getCategory( categoryId );
         var newQuestion = new Question( getQue( queId ) );
         category.questionCollection.push( newQuestion );
         return newQuestion;
@@ -134,10 +135,6 @@ var SurveyModel = function(s){
             });
         });
         return category;
-    }
-
-    this.getCategoryForQuestion = function( qId ){
-        return getCategoryForQue( qId );
     }
 
     function removeFromOldCategory( question ){

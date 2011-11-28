@@ -9,6 +9,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import javax.mail.Session;
 import models.Category;
 import models.NdgUser;
 import models.Survey;
@@ -19,6 +20,12 @@ import play.cache.Cache;
  * @author damian.janicki
  */
 public class SurveyObjectFactory implements ObjectFactory{
+
+    private String username = null;
+
+    public SurveyObjectFactory( String username ){
+        this.username = username;
+    }
 
     public Object instantiate( ObjectBinder ob, Object o, Type type, Class type1 ) {
         Survey survey = null;
@@ -53,7 +60,7 @@ public class SurveyObjectFactory implements ObjectFactory{
         Survey survey = new Survey();
         survey.title = "";
         survey.categoryCollection = new ArrayList<Category>();
-        survey.ndgUser = (NdgUser) NdgUser.all().fetch().get( 0 ); //TODO get current user
+        survey.ndgUser = (NdgUser) NdgUser.find( "byUsername", username ).first();
         survey.surveyId = newId;
         survey.lang = "eng";
         survey.uploadDate = new Date();

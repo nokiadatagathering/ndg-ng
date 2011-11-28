@@ -18,7 +18,6 @@ var NewUserTable = (function() {
                                 'class': 'newUserTable',
                                 style: 'left:' + position.left + 'px;'
                                 + 'top:' + (position.top + 39) + 'px;'});
-        addUserTable.width(position.width);
 
         dimmedBackground = jQuery('<div></div>', {
                 'class': "dimmedBackground"

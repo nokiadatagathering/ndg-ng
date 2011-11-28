@@ -44,11 +44,11 @@
     background: url(../images/download-44px.jpg) no-repeat;
 }
 
-#buttonDownload:hover, #buttonUpload:hover, #buttonPhone:hover, #buttonEdit:hover, #buttonDuplicate:hover, #buttonDelete:hover  {
+#buttonDownload:hover, #buttonUpload:hover, #buttonPhone:hover, #buttonEdit:hover, #buttonDuplicate:hover, #buttonDelete:hover, .buttonDelete:hover  {
     background-position: 0 -44px;
 }
 
-#buttonDownload:active, #buttonUpload:active, #buttonPhone:active, #buttonEdit:active, #buttonDuplicate:active, #buttonDelete:active  {
+#buttonDownload:active, #buttonUpload:active, #buttonPhone:active, #buttonEdit:active, #buttonDuplicate:active, #buttonDelete:active, .buttonDelete:active  {
     background-position: 0 -87px;
 }
 
@@ -68,29 +68,14 @@
     background: url(../images/duplicate-44px.jpg);
 }
 
-#buttonDelete {
+#buttonDelete, .buttonDelete {
     background: url(../images/delete-44px.jpg);
 }
 
-.buttonBack {
-    display: inline-block;
-    min-width: 30px;
-    height: 43px;
-    margin-left: 35px;
-    background: url(../images/back-43px.png);
-    background-position: 0px 0px;
+.groupDelete
+{
+    display: block;
+    float:right;
 }
 
-.plusButton_layout3 {
-    margin-left: 35px;
-    margin-top: 8px;
-}
-
-.buttonBack:hover {
-    background-position: 0px 87px;
-}
-
-.buttonBack:active {
-    background-position: 0px 44px;
-}
 

@@ -1,4 +1,4 @@
-package controllers;
+package controllers.logic;
 
 import controllers.logic.SurveyJsonTransformer;
 import flexjson.TypeContext;

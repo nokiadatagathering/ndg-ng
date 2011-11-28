@@ -57,6 +57,7 @@ var ResultList = function() {
 
     function prepareLayout(tableHtml) {
         $('#minimalist').empty();
+        $('#searchComboBox').unbind('click');
         $('#minimalist').append(tableHtml);
         $('#minimalist').addClass('resultListTable');
         $('#content').addClass('resultListTable');
@@ -179,7 +180,7 @@ var ResultList = function() {
     }
 
     function loadingFinished() {
-         $('input:checkbox:not([safari])').checkbox({cls:'customCheckbox', empty:'../images/empty.png'});
+         $('input:checkbox:not([safari])').checkbox({cls:'customCheckbox', empty:'images/empty.png'});
          if( allResultSelected ) {
             doSelectAllVisibleResults();
          }

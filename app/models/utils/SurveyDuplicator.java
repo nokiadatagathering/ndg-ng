@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import models.Category;
+import models.DefaultAnswer;
 import models.Question;
 import models.QuestionOption;
 import models.Survey;
@@ -73,6 +74,7 @@ public class SurveyDuplicator {
             copiedQuestion.required = question.required;
             copiedQuestion.category = newCategory;
             copiedQuestion.questionOptionCollection = copyQuestionOptions(question.questionOptionCollection, copiedQuestion);
+            copiedQuestion.defaultAnswer = copyDefaultAnswer( question.defaultAnswer, copiedQuestion );
             copy.add(copiedQuestion);
         }
         return copy;
@@ -89,6 +91,17 @@ public class SurveyDuplicator {
            copy.add(copiedOption);
         }
         return copy;
+    }
+
+    private static DefaultAnswer copyDefaultAnswer(DefaultAnswer origin, Question newQuestion ){
+        DefaultAnswer newAnswer = new DefaultAnswer();
+        newAnswer.binaryData = origin.binaryData;
+        newAnswer.textData = origin.textData;
+        newAnswer.questionCollection.add( newQuestion );
+        newAnswer.save();
+
+        return newAnswer;
+
     }
 
 }

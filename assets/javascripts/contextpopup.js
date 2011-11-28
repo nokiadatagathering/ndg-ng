@@ -10,21 +10,6 @@ var ContextComboBox = function() {
             showExportResultsMenu: function(event){showExportResultsMenu(event)}
     };
 
-    function showSurveyMenu(){
-        document.onclick=closeMenu;
-        if(menuBeingShown()) {
-            return;
-        }
-
-        $('#popup-context').append( '<a id="newSurveyAction" href="#">' + LOC.get( 'LOC_NEW_SURVEY' ) + '</a>' );
-
-        $('#popup-context').addClass("popup-context");
-
-        $('#newSurveyAction').click( function(){Editor.createSurvey();});
-        var pos = $('#plusButtonImage').position();
-        showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3);
-    }
-
     function showUserManagementMenu(event){
         document.onclick=closeMenu;
 
@@ -64,48 +49,6 @@ var ContextComboBox = function() {
         var pos = $('#plusButtonImage').position();
         showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3);
         stopEvent(event);
-    }
-
-    function showEditorMenu(event){
-        document.onclick=closeMenu;
-        if(menuBeingShown()) {
-            return;
-        }
-
-        $('#popup-context').append( '<div id="newCategoryAction"><span>' + 'New Category' + '</span></div>' ); //TODO localize
-        $('#popup-context').append( '<div id="newQuestionAction"><span>' + 'New Question' + '</span></div>' );
-
-        $('#popup-context').addClass("popup-context");
-
-        $('#newCategoryAction').click( function(){Editor.addCategory();} );
-        $('#newQuestionAction').click( function(){Editor.addQuestion();});
-
-        var pos = $('#plusButtonImage').position();
-        showMenu(pos.left, pos.top, $('#plusButtonImage').width() + 5, 3) ;
-
-        $( "#newCategoryAction" ).addClass( 'drag' ); //TODO refactor - move to editor.js
-        $( "#newCategoryAction" ).draggable({
-            connectToSortable: "#categories",
-            helper: function(event) {
-                var dragging = $('<div><img id ="plusButtonImage" src="images/plus.png"></div>')
-                return dragging;
-            },
-            revert: 'invalid',
-            start: Editor.setCatListConfig,
-            stop: Editor.removeCatListConfig
-        });
-
-        $( "#newQuestionAction" ).addClass( 'drag' ); //TODO refactor - move to editor.js
-        $( "#newQuestionAction" ).draggable({
-            connectToSortable: " .listQuestion",
-            helper: function(event) {
-                var dragging = $('<div><img id ="plusButtonImage" src="images/plus.png"></div>')
-                return dragging;
-            },
-            revert: 'invalid',
-            start: Editor.setQlistConfig,
-            stop: Editor.removeQlistConfig
-        });
     }
 
     function showSearchMenu(event, searchLabels, searchIds, contentHandler) {

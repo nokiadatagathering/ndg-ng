@@ -4,6 +4,7 @@
  */
 package models;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,14 +21,15 @@ public class DefaultAnswer extends Model {
     @Lob
     @Column(name = "text_data")
     public String textData;
-    
+
     @Column(name = "binary_data")
     public Blob binaryData;
-    
+
     @OneToMany(mappedBy = "defaultAnswer")
     public Collection<Question> questionCollection;
 
     public DefaultAnswer() {
+        questionCollection = new ArrayList<Question>();
     }
 
     @Override
