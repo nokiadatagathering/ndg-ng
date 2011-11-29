@@ -78,45 +78,56 @@ public class ResultParser {
     }
 
     public void parse() {
-        result.ndgUser = NdgUser.find( "byId", new Long( 1 ) ).first();// todo correct user from parsed device Id
         Document xmlDoc = XFormParser.getXMLDocument( reader );
         Element root = xmlDoc.getRootElement();
 
-        parseXmlElement( root );
+        parseXmlElement( root, null );
 
         result.save();
     }
 
-    private void parseXmlElement( Element element ) {
+    private void parseXmlElement( Element element, Category category ) {
         String name = element.getName();
         if ( element.getNamespace().equals( OPEN_ROSA_NAMESPACE ) ) {
             ResultElementHandler handler = elementHandlers.get( name );
             if ( handler != null ) {
                 handler.handleElement( this, element );
             } else {
-                parseChilds( element );
+                parseChilds( element, null );
             }
         } else if ( name.equals( OPEN_ROSA_ROOT ) ) {
-            parseChilds( element );
-        } else {
-            if ( element.getChildCount() > 0 ) {
-                parseAnswer( element );
+            parseChilds( element, null );
+        } else if ( element.getChildCount() > 0 ) {
+                if(element.getText(0).trim().equals(""))
+                {
+                    parseCategory( element );
+                } else {
+                    parseAnswer( element, category );
+                }
             }
-        }
     }
 
-    private void parseChilds( Element element ) {
+    private void parseChilds( Element element, Category category ) {
         for ( int i = 0; i < element.getChildCount(); i++ ) {
             if ( element.getType( i ) == Element.ELEMENT ) {
-                parseXmlElement( element.getElement( i ) );
+                parseXmlElement( element.getElement( i ), category );
             }
         }
     }
 
-    private void parseAnswer( Element element ) {
-        Survey survey = Survey.find("bySurveyId",  result.survey.surveyId ).first();
-        Category getCategory = survey.categoryCollection.get(0);
-        Question answeredQuestion = Question.find( "byObjectNameAndCategory_id", element.getName(), getCategory.id ).first();
+    private void parseCategory(Element element) {
+        Category category   = Category.find("bySurveyAndObjectName", result.survey, element.getName()).first();
+        if(category != null) {
+            parseChilds(element, category);
+        }
+    }
+
+    private void parseAnswer( Element element, Category category ) {
+        if(category == null)
+        {
+            category = result.survey.categoryCollection.get(0);//default category
+        }
+        Question answeredQuestion = Question.find( "byObjectNameAndCategory_id", element.getName(), category.id ).first();
         if ( answeredQuestion != null ) {
             Answer answer = new Answer( result.answerCollection.size() );
             answer.ndgResult = result;

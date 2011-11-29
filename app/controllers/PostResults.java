@@ -38,7 +38,7 @@ public class PostResults extends Controller{
             try {
                 ResultPersister persister = new ResultPersister();
                 FileReader reader = new FileReader(filename);
-                persister.postResult(reader, surveyId);
+                persister.postResult(reader, surveyId, AuthorizationUtils.extractUserFromHeader(request.headers.get("authorization")));
             } catch (IOException ex) {
                 Logger.getLogger(PostResults.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MSMApplicationException ex) {

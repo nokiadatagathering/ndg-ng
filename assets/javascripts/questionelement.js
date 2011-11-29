@@ -100,11 +100,21 @@ var QuestionUiElement = function( questionModel ){
         $( '#' + question.uiId + ' .rangeInputMin').keyup( function (){onRangeInputMinChanged();} );
         $( '#' + question.uiId + ' .rangeInputMax').keyup( function (){onRangeInputMaxChanged();} );
 
-        $( '#'+ question.uiId + ' .rangeInputMax' ).val( question.constraintMax );
-        $( '#'+ question.uiId + ' .rangeInputMin' ).val( question.constraintMin );
 
+
+
+        if( question.constraintMax != undefined &&  question.constraintMax != null && question.constraintMax != "" ){
+            $( '#'+ question.uiId + ' .rangeInputMax' ).val( question.constraintMax );
+            $( '#' + question.uiId + ' input.rangeCheckMax' ).attr( 'checked', true)
+        }
+
+        if( question.constraintMin != undefined &&  question.constraintMin != null && question.constraintMin != ""){
+            $( '#'+ question.uiId + ' .rangeInputMin' ).val( question.constraintMin );
+            $( '#' + question.uiId + ' input.rangeCheckMin' ).attr( 'checked', true);
+        }
         onCheckBoxMinChange();
         onCheckBoxMaxChange();
+
     }
 
     function onRangeInputMaxChanged(){
@@ -117,20 +127,23 @@ var QuestionUiElement = function( questionModel ){
 
 
     function onCheckBoxMinChange(){
+
         var inputElem = $( '#' + question.uiId + ' input.rangeInputMin' );
-        if( $( '#' + question.uiId + ' input.rangeCheckMin' ).attr( 'checked' ) ){
+        if( $( '#' + question.uiId + ' input.rangeCheckMin' ).is( ':checked' ) ){
             inputElem.removeAttr( 'disabled' );
         }else{
             inputElem.attr( 'disabled', 'disabled' );
+            question.constraintMin = null;
         }
     }
 
     function onCheckBoxMaxChange(){
         var inputElem = $( '#' + question.uiId + ' input.rangeInputMax' );
-        if( $( '#' + question.uiId + ' input.rangeCheckMax' ).attr( 'checked' ) ){
+        if( $( '#' + question.uiId + ' input.rangeCheckMax' ).is( ':checked' ) ){
             inputElem.removeAttr( 'disabled' );
         }else{
             inputElem.attr( 'disabled', 'disabled' );
+            question.constraintMax = null;
         }
     }
 
@@ -200,8 +213,8 @@ var QuestionUiElement = function( questionModel ){
                '<div class="timeDefault">'
             +   '<span class="detailLabel defaultLabel">DEFAULT:</span>'
             +   '<input class="defaultAnswer detailInputText timeInput" type="text" name="numericDefault" />'
-            +   '<input class="amPmRadio" type="radio" name="amPm" value="ampm" /><span class="amPmLabel">AM/PM</span>'
-            +   '<input class="amPmRadio" checked="checked" type="radio" name="amPm" value="24hrs" /><span class="amPmLabel">24 HRS</span>'
+//            +   '<input class="amPmRadio" type="radio" name="amPm" value="ampm" /><span class="amPmLabel">AM/PM</span>'
+//            +   '<input class="amPmRadio" checked="checked" type="radio" name="amPm" value="24hrs" /><span class="amPmLabel">24 HRS</span>'
             +   '</div>'
             );
 
@@ -212,14 +225,7 @@ var QuestionUiElement = function( questionModel ){
                                                 show24Hours: true
                                             });
 
-        $( '#' + question.uiId + ' .amPmRadio' ).click(function(){
-            var value = $("#" + question.uiId + " input[@name=amPm]:checked").attr('value');
-            if( value == 'ampm' ){
-                $('#' + question.uiId + ' .timeInput' ).timeEntry('change', {show24Hours: false});
-            }else{
-                $('#' + question.uiId + ' .timeInput' ).timeEntry('change', {show24Hours: true});
-            }
-        });
+
 
         $( '#' + question.uiId + ' .timeInput' ).val( );
     }
@@ -238,6 +244,7 @@ var QuestionUiElement = function( questionModel ){
 
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
         $( '#' + question.uiId + ' div.addOption').bind('click', +isExclusive, function( event ) {onAddOptionClicked( event );} );
+        $( '#' + question.uiId + ' div.importOption').bind('click',  function( event ) { alert("Not supported")} );
 
         if( question.questionOptionCollection.length == 0 ){
             var option = new QuestionOption();

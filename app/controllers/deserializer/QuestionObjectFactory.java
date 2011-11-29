@@ -86,6 +86,8 @@ public class QuestionObjectFactory implements ObjectFactory{
 
         if( !constraintString.isEmpty() ){
             question.constraintText = "(" + constraintString + ")";
+        }else{
+            question.constraintText = null;
         }
     }
 

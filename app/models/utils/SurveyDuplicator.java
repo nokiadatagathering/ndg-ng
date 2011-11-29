@@ -101,7 +101,6 @@ public class SurveyDuplicator {
         newAnswer.save();
 
         return newAnswer;
-
     }
 
 }
