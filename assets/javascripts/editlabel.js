@@ -53,6 +53,7 @@ var EditedLabel = function( elem, callbackFun ){
 
         element.bind( 'click', function( event ){onClicked( event );});
         onLabelChanged( newVal );
+        Editor.updateContainerSize();
     }
 
     function finishEditOnDocumentClick( event ) {

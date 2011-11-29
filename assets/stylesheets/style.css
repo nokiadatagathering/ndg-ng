@@ -237,7 +237,8 @@ body {
 #header {
     float: left;
     width: 100%;
-    height: 185px;
+    min-height: 185px;
+    height: auto;
 }
 
 #header img {
@@ -369,6 +370,9 @@ searchTextField:-moz-placeholder {
     display: inline;
     font-size: 28px;
     font-family: "Nokia Pure Text";
+    white-space: pre-line;
+    word-wrap: break-word;
+    height: auto;
 }
 
 #pageSelect #userManagement {
@@ -458,7 +462,8 @@ searchTextField:-moz-placeholder {
 }
 
 #minimalist td, #dynamicListTable td {/*ROWS*/
-    height: 44px;
+    min-height: 44px;
+    height: auto;
     border-bottom: 1px solid #dadbe0;
     text-align: left;
     vertical-align: middle;

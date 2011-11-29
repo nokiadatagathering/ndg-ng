@@ -19,6 +19,7 @@ GET     /webui                                  webui.Administration.index
 
 GET     /ClientUpdate                           ClientUpdate.index
 GET     /CheckUrl                               ClientUtils.checkUrl
+GET     /TestConnection                         ClientUtils.testConnection
 
 GET     /ReceiveSurvey                          Surveys.list
 GET     /ReceiveSurvey/{<[0-9]+>formID}         Surveys.download

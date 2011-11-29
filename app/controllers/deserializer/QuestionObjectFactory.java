@@ -20,8 +20,8 @@ import play.cache.Cache;
 public class QuestionObjectFactory implements ObjectFactory{
 
 
-    public static final String MIN_CONSTR_STR = ". > ";
-    public static final String MAX_CONSTR_STR = ". < ";
+    public static final String MIN_CONSTR_STR = ". >= ";
+    public static final String MAX_CONSTR_STR = ". <= ";
 
     public Object instantiate( ObjectBinder ob, Object o, Type type, Class type1 ) {
         Question question = null;

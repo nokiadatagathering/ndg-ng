@@ -26,6 +26,7 @@ var Editor = function() {
     }
 
     function createEditor(){
+        $(window).unbind('scroll');
         $('#container').height('715px');
         var getJSONQuery = $.getJSON( 'surveyManager/questionType', function( data ){
                                                    typeList = data.types;
@@ -97,8 +98,8 @@ var Editor = function() {
 
     function updateContainerSize() {
         var totalHeight = $('#categories').height();
-        if ( $('#container').height() < totalHeight + 185 ) {
-            $('#container').height( totalHeight + 185 );
+        if ( $('#container').height() < totalHeight + $('#header').height() ) {
+            $('#container').height( totalHeight + $('#header').height() + 1 );
         }
     }
 

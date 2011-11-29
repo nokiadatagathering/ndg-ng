@@ -102,6 +102,37 @@ var ResultList = function() {
                                     + '</tr>' );
 
         $( '#resultCheckbox' + item.id ).bind( 'check uncheck', item.id, function(i){resultCheckboxClicked(i);} )
+        $( '#menu' + i +' #buttonDelete' ).click( item.id, function(i){onDeleteResultClicked(i);} );
+    }
+
+    function onDeleteResultClicked(event) {
+        confirmDeleteDialog.dialog( {title: LOC.get('LOC_DELETE')} );
+        $('#buttonDeleteYes').text( LOC.get('LOC_YES') );
+        $('#buttonDeleteNo').text( LOC.get('LOC_NO') );
+        $('#dialog-confirmDelete-query').text( LOC.get('LOC_RESULT_DELETE_CONFIRM') );
+        confirmDeleteDialog.dialog("open");
+        $("#buttonDeleteYes").click( event.data, function(event) {
+             $.ajax({url: 'postResults/deleteResult',
+                         data: {id: event.data},
+                         error: function(data, textStatus, jqXHR){
+                                 confirmDeleteDialog.dialog("close");
+                                 if(!Utils.redirectIfUnauthorized(data, textStatus, jqXHR)){
+                                     alert("error");
+                         }},
+                         success: function(data, textStatus, jqXHR){
+                             confirmDeleteDialog.dialog("close");
+                             DynamicTable.checkIfDeletingLast();
+                             DynamicTable.refresh();
+                         }
+            });
+            $("#buttonDeleteYes").unbind("click");
+            $("#buttonDeleteNo").unbind("click");
+        });
+        $("#buttonDeleteNo").click( function() {
+            $("#buttonDeleteYes").unbind("click");
+            $("#buttonDeleteNo").unbind("click");
+            confirmDeleteDialog.dialog("close");
+        });
     }
 
     function resultCheckboxClicked(i) {

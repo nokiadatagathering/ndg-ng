@@ -86,6 +86,9 @@ h4.labelClosed {
     font-family: "Nokia Pure Text Bold";
     font-size: 13px;
     margin: 0 0 0 0;
+    max-width: 210px;
+    white-space: pre-line;
+    word-wrap: break-word;
 }
 
 .surveyIdText {

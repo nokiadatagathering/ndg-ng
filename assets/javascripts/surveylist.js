@@ -199,7 +199,7 @@ var SurveyList = function() {
     }
 
     function onDeleteSurveyClicked(e) {
-        confirmDeleteDialog.dialog( {title: LOC.get('LOC_EXPORT_RESULTS')} );
+        confirmDeleteDialog.dialog( {title: LOC.get('LOC_DELETE')} );
         $('#buttonDeleteYes').text( LOC.get('LOC_YES') );
         $('#buttonDeleteNo').text( LOC.get('LOC_NO') );
         $('#dialog-confirmDelete-query').text( LOC.get('LOC_SURVEY_DELETE_CONFIRM') );

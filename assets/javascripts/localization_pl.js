@@ -80,8 +80,8 @@ var LOC = (function() {
         LOC_DRAG_NEW_QUESTION : 'Przeci\u0105gnij element aby doda\u0107 nowe pytanie',
         LOC_DROP_CATEGORY: 'UPU\u015a\u0106 TUTAJ ABY DODA\u0106 NOW\u0104 KATEGORI\u0118',
         LOC_DROP_QUESTION: 'UPU\u015a\u0106 TUTAJ ABY DODA\u0106 NOWE PYTANIE',
-        LOC_WARN_DELETE_OPTION : 'Pytanie musi mie\u0107 przynajmniej jedn\u0105 opcj\u0119'
-
+        LOC_WARN_DELETE_OPTION : 'Pytanie musi mie\u0107 przynajmniej jedn\u0105 opcj\u0119',
+        LOC_RESULT_DELETE_CONFIRM: 'Czy napewno chcesz usun\u0105\u0107 rezultat?'
     };
 
     return {

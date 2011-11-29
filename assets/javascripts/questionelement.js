@@ -193,15 +193,22 @@ var QuestionUiElement = function( questionModel ){
 
         $( '#' + question.uiId + ' input.rangeCheckMin').change( function (){onCheckBoxMinChange();} );
         $( '#' + question.uiId + ' input.rangeCheckMax').change( function (){onCheckBoxMaxChange();} );
+
+        if( question.constraintMax != undefined &&  question.constraintMax != null && question.constraintMax != "" ){
+            $( '#'+ question.uiId + ' .rangeInputMax' ).val( question.constraintMax );
+            $( '#' + question.uiId + ' input.rangeCheckMax' ).attr( 'checked', true)
+        }
+
+        if( question.constraintMin != undefined &&  question.constraintMin != null && question.constraintMin != ""){
+            $( '#'+ question.uiId + ' .rangeInputMin' ).val( question.constraintMin );
+            $( '#' + question.uiId + ' input.rangeCheckMin' ).attr( 'checked', true);
+        }
+
         onCheckBoxMinChange();
         onCheckBoxMaxChange();
 
         $( '#' + question.uiId + ' .rangeInputMin').keyup( function (){onRangeInputMinChanged();} );
         $( '#' + question.uiId + ' .rangeInputMax').keyup( function (){onRangeInputMaxChanged();} );
-
-        $( '#'+ question.uiId + ' .rangeInputMax' ).val( question.constraintMax );
-        $( '#'+ question.uiId + ' .rangeInputMin' ).val( question.constraintMin );
-
     }
 
     function createImage(){

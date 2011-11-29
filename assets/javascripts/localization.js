@@ -80,8 +80,8 @@ var LOC = (function() {
         LOC_DRAG_NEW_QUESTION : 'Drag to add new question',
         LOC_DROP_CATEGORY: 'DROP HERE TO ADD A NEW CATEGORY',
         LOC_DROP_QUESTION: 'DROP HERE TO ADD A NEW QUESTION',
-        LOC_WARN_DELETE_OPTION :'This type of question must have at least one option'
-
+        LOC_WARN_DELETE_OPTION :'This type of question must have at least one option',
+        LOC_RESULT_DELETE_CONFIRM: 'Are you sure you want to delete this result?'
     };
 
     return {

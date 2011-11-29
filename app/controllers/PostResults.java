@@ -25,6 +25,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.NdgResult;
 import play.mvc.Controller;
 
 public class PostResults extends Controller{
@@ -54,5 +55,13 @@ public class PostResults extends Controller{
         } else {
             renderText("OK");
         }
+    }
+
+    public static void deleteResult( long id ) {
+        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
+            return;
+        }
+        NdgResult deleted = NdgResult.findById( id );
+        deleted.delete();
     }
 }

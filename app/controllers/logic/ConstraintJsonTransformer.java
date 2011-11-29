@@ -16,8 +16,8 @@ public class ConstraintJsonTransformer extends AbstractTransformer {
     String constraintMin = "";
     String constraintString  = null;
 
-    public static final String MIN_REGEX = ".\\s*>\\s* \\d+(/\\d{1,2}/\\d{4})?";
-    public static final String MAX_REGEX = ".\\s*<\\s* \\d+(/\\d{1,2}/\\d{4})?";
+    public static final String MIN_REGEX = ".\\s*>=\\s* \\d+(/\\d{1,2}/\\d{4})?";
+    public static final String MAX_REGEX = ".\\s*<=\\s* \\d+(/\\d{1,2}/\\d{4})?";
 
 
     public void transform( Object o ) {
@@ -82,13 +82,13 @@ public class ConstraintJsonTransformer extends AbstractTransformer {
 
     public String parseMinMax(String expr){
         int i = -1;
-        if( expr.contains( "<" ) ){
-            i = expr.indexOf( "<" );
-        }else if( expr.contains( ">" ) ){
-            i = expr.indexOf( ">" );
+        if( expr.contains( "<=" ) ){
+            i = expr.indexOf( "<=" );
+        }else if( expr.contains( ">=" ) ){
+            i = expr.indexOf( ">=" );
         }
 
-        return expr.substring( i + 1 ).trim();
+        return expr.substring( i + 2 ).trim();
     }
 
     @Override
