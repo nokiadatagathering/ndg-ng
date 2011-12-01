@@ -46,6 +46,7 @@ public class SurveyJsonTransformer {
                 .exclude(
                     "transactionLogCollection",
                     "uploadDate",
+                    "ndgUser",
                     "resultCollection",
                     "categoryCollection.survey",
                     "categoryCollection.questionCollection.category",

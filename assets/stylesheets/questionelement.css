@@ -131,8 +131,11 @@ div.skipto.selected, div.skipto.selected:hover, div.skipto.selected:active
 
 .optionInput
 {
-    height: 20px;
-    width: auto;
+    min-height: 20px;
+    max-width: 450px;
+    height: auto;
+    white-space: pre-line;
+    word-wrap: break-word;
 }
 
 .optionCheckBox

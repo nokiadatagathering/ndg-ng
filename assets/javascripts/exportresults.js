@@ -53,9 +53,18 @@ var ExportResults = function() {
     function proceedExportResults(fileFormat, hasImages) {
         $('#exportResults-step_1').empty();
         if ( hasImages ) {
-            $('#exportResults-step_2').append( LOC.get('LOC_EXPORT_IMAGES')  );
-            $('#exportResults-step_2').append( '<button id="buttonYES" type="button" title="' + LOC.get('LOC_YES') + '">' + LOC.get('LOC_YES') + '</button>' );
-            $('#exportResults-step_2').append( '<button id="buttonNO" type="button" title="' + LOC.get('LOC_NO') + '">' + LOC.get('LOC_NO') + '</button>' );
+            $('#exportResults-step_2').append( '<div class="exportImagesQuery">'
+                                             + '<span>'
+                                             + LOC.get('LOC_EXPORT_IMAGES')
+                                             + '</span>'
+                                             + '</div>' );
+            $('#exportResults-step_2').append( '<div class=".exportResultsButtons">'
+                                             + '<span id="buttonYES" class="buttonSmall"></span>'
+                                             + '<span id="buttonNO" class="buttonSmall"></span>'
+                                             + '</div>' );
+
+            $('#buttonYES').text( LOC.get('LOC_YES') );
+            $('#buttonNO').text( LOC.get('LOC_NO') );
             $('#buttonYES').click( function(i) { includeImages( fileFormat,i ) } );
             $('#buttonNO').click( function(i) { includeImages( fileFormat, i ) } );
         } else {

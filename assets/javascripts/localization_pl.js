@@ -14,8 +14,8 @@ var LOC = (function() {
         LOC_USER: 'U\u017cytkownik',
         LOC_LOCATION: 'Lokalizacja',
         LOC_BACK_TO_SURVEY_LIST: 'Wróc do list ankiet',
-        LOC_EXPORT_RESULTS: 'Exportuj resultaty',
-        LOC_EXPORT_ALL_RESULTS: 'Export wszytkie resultaty',
+        LOC_EXPORT_RESULTS: 'Exportuj rezultaty',
+        LOC_EXPORT_ALL_RESULTS: 'Export wszytkie rezultaty',
         LOC_DOWNLOAD: '\u015aci\u0105gnij',
         LOC_UPLOAD: 'Za\u0142aduj',
         LOC_EDIT: 'Edytuj',
@@ -81,7 +81,9 @@ var LOC = (function() {
         LOC_DROP_CATEGORY: 'UPU\u015a\u0106 TUTAJ ABY DODA\u0106 NOW\u0104 KATEGORI\u0118',
         LOC_DROP_QUESTION: 'UPU\u015a\u0106 TUTAJ ABY DODA\u0106 NOWE PYTANIE',
         LOC_WARN_DELETE_OPTION : 'Pytanie musi mie\u0107 przynajmniej jedn\u0105 opcj\u0119',
-        LOC_RESULT_DELETE_CONFIRM: 'Czy napewno chcesz usun\u0105\u0107 rezultat?'
+        LOC_RESULT_DELETE_CONFIRM: 'Czy napewno chcesz usun\u0105\u0107 rezultat?',
+        LOC_MSG_PASSWORD_NOT_MATCH: 'Podane has\u0142a nie pasuj\u0105 do siebie',
+        LOC_MSG_SHORT_NUMBER: 'Numer telefonu jest zbyt krótki'
     };
 
     return {

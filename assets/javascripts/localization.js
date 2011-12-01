@@ -81,7 +81,10 @@ var LOC = (function() {
         LOC_DROP_CATEGORY: 'DROP HERE TO ADD A NEW CATEGORY',
         LOC_DROP_QUESTION: 'DROP HERE TO ADD A NEW QUESTION',
         LOC_WARN_DELETE_OPTION :'This type of question must have at least one option',
-        LOC_RESULT_DELETE_CONFIRM: 'Are you sure you want to delete this result?'
+        LOC_RESULT_DELETE_CONFIRM: 'Are you sure you want to delete this result?',
+        LOC_MSG_PASSWORD_NOT_MATCH: 'Password do not match',
+        LOC_MSG_SHORT_NUMBER: 'Phone number is too short'
+
     };
 
     return {

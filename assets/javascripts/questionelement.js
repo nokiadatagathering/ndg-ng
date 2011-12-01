@@ -56,6 +56,12 @@ var QuestionUiElement = function( questionModel ){
         question.defaultAnswer.textData = newDefValue;
     }
 
+    function clearDefaultAnswer(){
+        if(question.defaultAnswer != null){
+            question.defaultAnswer.textData = '';
+        }
+    }
+
     function onDefaultChanged(){
         setDefaultAnswer( $( '#' + question.uiId + ' .defaultAnswer ').val() );
     }
@@ -71,10 +77,18 @@ var QuestionUiElement = function( questionModel ){
         $( '#'+ question.uiId + ' div.questionDetails' ).append( elem );
         $( '#'+ question.uiId + ' .descriptiveLength' ).val( question.constraintMax );
         $( '#'+ question.uiId + ' .descriptiveLength' ).keyup( function (){onQuestionLengthChanged()});
+
+        $( '#'+ question.uiId + ' .descriptiveLength' ).numeric( {decimal: false, negative: false} );
     }
 
     function onQuestionLengthChanged(){
-        question.constraintMax = $( '#'+ question.uiId + ' .descriptiveLength' ).val();
+        var val = $( '#'+ question.uiId + ' .descriptiveLength').val();
+        if( +val === 0 ){
+            question.constraintMax = null;
+            $( '#' + question.uiId + ' .descriptiveLength ').val( "" );
+        }else{
+            question.constraintMax = val;
+        }
     }
 
     function createNumeric( allowDecimal ){
@@ -177,7 +191,7 @@ var QuestionUiElement = function( questionModel ){
                         changeYear: true,
                         dateFormat: 'yy-mm-dd',
                         onClose: function(dateText, inst) {onDefaultChanged();}
-        });
+        }).dateEntry( { dateFormat: 'ymd-', spinnerImage: ''} );
 
         $( '#' + question.uiId + ' .rangeInputMin' ).datepicker({
                         showOn: "button",
@@ -187,7 +201,7 @@ var QuestionUiElement = function( questionModel ){
                         changeYear: true,
                         dateFormat: 'yy-mm-dd',
                         onClose: function(dateText, inst) {onRangeInputMinChanged();}
-        });
+        }).dateEntry( { dateFormat: 'ymd-', spinnerImage: ''} );
 
         $( '#' + question.uiId + ' .rangeInputMax' ).datepicker({
                     showOn: "button",
@@ -197,8 +211,7 @@ var QuestionUiElement = function( questionModel ){
                     changeYear: true,
                     dateFormat: 'yy-mm-dd',
                     onClose: function(dateText, inst) {onRangeInputMaxChanged();}
-        });
-
+        }).dateEntry( { dateFormat: 'ymd-', spinnerImage: ''} );
 
         $( '#' + question.uiId + ' input.rangeCheckMin').change( function (){onCheckBoxMinChange();} );
         $( '#' + question.uiId + ' input.rangeCheckMax').change( function (){onCheckBoxMaxChange();} );
@@ -258,7 +271,7 @@ var QuestionUiElement = function( questionModel ){
 
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
         $( '#' + question.uiId + ' div.addOption').bind('click', +isExclusive, function( event ) {onAddOptionClicked( event );} );
-        $( '#' + question.uiId + ' div.importOption').bind('click',  function( event ) { alert("Not supported")} );
+        $( '#' + question.uiId + ' div.importOption').bind('click',  function( event ) {alert("Not supported")} );
 
         if( question.questionOptionCollection.length == 0 ){
             var option = new QuestionOption();
@@ -346,7 +359,6 @@ var QuestionUiElement = function( questionModel ){
                 $( '#' + optionId + ' .optionIcon' ).removeClass( 'iconVisible' );
             }
         );
-
     }
 
     function onAddOptionClicked( event ){
@@ -388,6 +400,16 @@ var QuestionUiElement = function( questionModel ){
     }
 
     function onQuestionTypeChanged(){
+        question.constraintMax = null;
+        question.constraintMin = null;
+        clearDefaultAnswer();
+
+        var type = +question.questionType.id;
+
+        if(  type != QuestionType.CHOICE && type != QuestionType.EXCLUSIVE ){
+            question.questionOptionCollection = [];
+        }
+
         appendDetails();
     }
 

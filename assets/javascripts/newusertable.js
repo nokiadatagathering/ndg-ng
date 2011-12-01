@@ -39,12 +39,14 @@ var NewUserTable = (function() {
                   + '<td class="newUserTdClass"><input class="newUserInput" type="text" name="lastName" title="Last Name" /></td>'
                   + '<td class="newUserTdClass"><input id="newUserFakePwdConfirm" class="grayed newUserInput" type="text" name="fakepwdconfirm" value="Retype Password" />'
                   +      '<input id="newUserPasswordConfirm" class="newUserPassword" type="password" name="passwordRetype" title="Retype Password" /></td>'
-                  + '<td class="newUserTdClass"><input class="newUserInput" type="number" name="phoneNumber" title="Phone Number" /></td>'
+                  + '<td class="newUserTdClass"><input id="phoneNumber" class="newUserInput" type="text" name="phoneNumber" title="Phone Number" /></td>'
               + '</tr></table></form>'
           addUserTable.append(tableHtml);
 
 
         $("body").prepend(addUserTable);
+        $("#phoneNumber").mask("+?999999999999999",{placeholder:" "});
+
 
         addUserTable.ready(function() {
             $(".newUserInput").focus(function(src)
@@ -95,31 +97,31 @@ var NewUserTable = (function() {
                 }
             });
 
-            $('#newUserForm').submit(function(data){
+         $('#newUserForm').submit(function(data){
                 //todo more validation
-                if( $("#newUserForm input[name=password]").val() === $("#newUserForm input[name=passwordRetype]").val()) {
-                  Utils.encryptCredentials(data);
-                  $("#newUserForm input[name=passwordRetype]").val("");
-                  var formData = $('#newUserForm').serialize();
-                    $.ajax({
-                        type: "post",
-                        url: "userManager/addUser",
-                        data: formData,
-                        success: function(result) {
-                            DynamicTable.refresh();
-                            hide();
-                        },
-                        error: function(result, textStatus, error) {
-                           if(!Utils.redirectIfUnauthorized(result, textStatus, error) ) {
-                              alert("ERROR!!");//todo ui spec for form validation
-                            }
-                        }
 
-                    });
-                } else {
-                    alert("Password do not match");//todo ui spec for form validation
+                if( !userInputValidation() ){
+                    return false;
                 }
-            return false;
+
+                Utils.encryptCredentials(data);
+                $("#newUserForm input[name=passwordRetype]").val("");
+                var formData = $('#newUserForm').serialize();
+                $.ajax({
+                    type: "post",
+                    url: "userManager/addUser",
+                    data: formData,
+                    success: function(result) {
+                        DynamicTable.refresh();
+                        hide();
+                    },
+                    error: function(result, textStatus, error) {
+                       if(!Utils.redirectIfUnauthorized(result, textStatus, error) ) {
+                          alert("ERROR!!");//todo ui spec for form validation
+                        }
+                    }
+                });
+                return false;
             });
 
             $('.newUserInput').blur();
@@ -129,6 +131,17 @@ var NewUserTable = (function() {
 
         $("body").prepend(dimmedBackground);
         dimmedBackground.click(function(){hide();});
+    }
+
+    function userInputValidation(){
+        if( $("#newUserForm input[name=password]").val() != $("#newUserForm input[name=passwordRetype]").val()) {
+            alert( LOC.get( 'LOC_MSG_PASSWORD_NOT_MATCH' ) );//todo ui spec for form validation
+            return false;
+        }else if( $( "#phoneNumber" ).val().length < 5 ){
+            alert( LOC.get( 'LOC_MSG_SHORT_NUMBER' ) );
+            return false;
+        }
+        return true;
     }
 
     function hide()
