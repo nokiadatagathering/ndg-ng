@@ -30,6 +30,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import models.Survey;
 import models.constants.QuestionTypesConsts;
+import org.apache.commons.collections.CollectionUtils;
 
 public class ExcelTransformer extends ResultsTransformer {
 
@@ -83,11 +84,11 @@ public class ExcelTransformer extends ResultsTransformer {
             row.createCell( (short) fieldcounter++ ).setCellValue( result.longitude );
 
             for ( Question question :survey.getQuestions() ) {//to ensure right answer order
-                question.answerCollection.retainAll( result.answerCollection );//only one should left, hope that it does not modify results
-                if ( question.answerCollection.isEmpty() ) {
+                Collection<Answer> answers = CollectionUtils.intersection(question.answerCollection, result.answerCollection );//only one should left, hope that it does not modify results
+                if ( answers.isEmpty() ) {
                     row.createCell( (short) fieldcounter++ ).setCellValue( "NULL - No answer" );
-                } else if ( question.answerCollection.size() == 1 ) {
-                    Answer answer = question.answerCollection.iterator().next();
+                } else if ( answers.size() == 1 ) {
+                    Answer answer = answers.iterator().next();
                     if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {//TODO handle other binary data
                         row.createCell( (short) fieldcounter++ ).setCellValue( storeImagesAndGetValueToExport( survey.surveyId, result.resultId, answer.id, answer.binaryData ) );
                     } else {
@@ -97,6 +98,7 @@ public class ExcelTransformer extends ResultsTransformer {
                     }
                 } else {
                     Logger.getAnonymousLogger().log( Level.WARNING, "to many answers. ResID={0}questioId={1}answerCount={2}", new Object[]{ result.resultId, question.id, question.answerCollection.size() } );
+                    break;
                 }
             }
             row = sheet.createRow( (short) ++countrow );

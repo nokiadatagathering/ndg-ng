@@ -74,7 +74,10 @@ public class SurveyDuplicator {
             copiedQuestion.required = question.required;
             copiedQuestion.category = newCategory;
             copiedQuestion.questionOptionCollection = copyQuestionOptions(question.questionOptionCollection, copiedQuestion);
-            copiedQuestion.defaultAnswer = copyDefaultAnswer( question.defaultAnswer, copiedQuestion );
+            if( question.defaultAnswer != null ){
+                copiedQuestion.defaultAnswer = copyDefaultAnswer( question.defaultAnswer, copiedQuestion );
+            }
+
             copy.add(copiedQuestion);
         }
         return copy;

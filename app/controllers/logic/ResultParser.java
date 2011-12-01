@@ -83,6 +83,9 @@ public class ResultParser {
 
         parseXmlElement( root, null );
 
+        if(result.title == null) {
+            result.title = result.resultId;
+        }
         result.save();
     }
 
@@ -137,6 +140,11 @@ public class ResultParser {
                 answer.binaryData.set( new ByteArrayInputStream( Codec.decodeBASE64( element.getText( 0 ) ) ), "image/jpeg" );
             } else {
                 answer.textData = element.getText( 0 );
+                if(result.title == null && answer.textData != null &&
+                   !answeredQuestion.questionType.typeName.equalsIgnoreCase(QuestionTypesConsts.EXCLUSIVECHOICE) &&
+                   !answeredQuestion.questionType.typeName.equalsIgnoreCase(QuestionTypesConsts.MULTIPLECHOICE) ) {
+                    result.title = answer.textData;
+                }
             }
             result.answerCollection.add( answer );
         }

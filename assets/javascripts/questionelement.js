@@ -18,10 +18,10 @@ var QuestionUiElement = function( questionModel ){
             createDescriptive();
             break;
         case QuestionType.INTEGER:
-            createNumeric();
+            createNumeric( false );
             break;
         case QuestionType.DECIMAL:
-            createNumeric();
+            createNumeric( true );
             break;
         case QuestionType.DATE:
             createDate();
@@ -77,7 +77,7 @@ var QuestionUiElement = function( questionModel ){
         question.constraintMax = $( '#'+ question.uiId + ' .descriptiveLength' ).val();
     }
 
-    function createNumeric(){
+    function createNumeric( allowDecimal ){
         var elem = $(
                 '<div>'
             +   '<span class="detailLabel defaultLabel">DEFAULT:</span><input class="defaultAnswer numericDefault detailInputText" type="text" name="numericDefault" />'
@@ -92,7 +92,6 @@ var QuestionUiElement = function( questionModel ){
             );
 
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
-
 
         $( '#' + question.uiId + ' input.rangeCheckMin').change( function (){onCheckBoxMinChange();} );
         $( '#' + question.uiId + ' input.rangeCheckMax').change( function (){onCheckBoxMaxChange();} );
@@ -114,6 +113,13 @@ var QuestionUiElement = function( questionModel ){
         }
         onCheckBoxMinChange();
         onCheckBoxMaxChange();
+
+        if( allowDecimal ){
+            $( '#' + question.uiId + ' .rangeInputMin, .rangeInputMax, .defaultAnswer').numeric();
+        }else{
+            $( '#' + question.uiId + ' .rangeInputMin, .rangeInputMax, .defaultAnswer').numeric( false );
+        }
+
 
     }
 
@@ -169,6 +175,7 @@ var QuestionUiElement = function( questionModel ){
                         buttonImageOnly: true,
                         changeMonth: true,
                         changeYear: true,
+                        dateFormat: 'yy-mm-dd',
                         onClose: function(dateText, inst) {onDefaultChanged();}
         });
 
@@ -178,6 +185,7 @@ var QuestionUiElement = function( questionModel ){
                         buttonImageOnly: true,
                         changeMonth: true,
                         changeYear: true,
+                        dateFormat: 'yy-mm-dd',
                         onClose: function(dateText, inst) {onRangeInputMinChanged();}
         });
 
@@ -187,6 +195,7 @@ var QuestionUiElement = function( questionModel ){
                     buttonImageOnly: true,
                     changeMonth: true,
                     changeYear: true,
+                    dateFormat: 'yy-mm-dd',
                     onClose: function(dateText, inst) {onRangeInputMaxChanged();}
         });
 
@@ -220,8 +229,6 @@ var QuestionUiElement = function( questionModel ){
                '<div class="timeDefault">'
             +   '<span class="detailLabel defaultLabel">DEFAULT:</span>'
             +   '<input class="defaultAnswer detailInputText timeInput" type="text" name="numericDefault" />'
-//            +   '<input class="amPmRadio" type="radio" name="amPm" value="ampm" /><span class="amPmLabel">AM/PM</span>'
-//            +   '<input class="amPmRadio" checked="checked" type="radio" name="amPm" value="24hrs" /><span class="amPmLabel">24 HRS</span>'
             +   '</div>'
             );
 

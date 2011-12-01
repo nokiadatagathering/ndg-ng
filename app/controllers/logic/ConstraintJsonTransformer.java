@@ -16,8 +16,8 @@ public class ConstraintJsonTransformer extends AbstractTransformer {
     String constraintMin = "";
     String constraintString  = null;
 
-    public static final String MIN_REGEX = ".\\s*>=\\s* \\d+(/\\d{1,2}/\\d{4})?";
-    public static final String MAX_REGEX = ".\\s*<=\\s* \\d+(/\\d{1,2}/\\d{4})?";
+    public static final String MIN_REGEX = ".\\s*>=\\s* \\d+(-\\d{1,2}-\\d{1,2})?";
+    public static final String MAX_REGEX = ".\\s*<=\\s* \\d+(-\\d{1,2}-\\d{1,2})?";
 
 
     public void transform( Object o ) {
@@ -47,6 +47,9 @@ public class ConstraintJsonTransformer extends AbstractTransformer {
         getContext().writeName( SurveyJsonTransformer.CONSTRAINT_MIN );
         getContext().writeQuoted( constraintMin );
 
+        constraintMax = "";
+        constraintMin = "";
+        constraintString  = null;
     }
 
     public void parseConstraintString(){
