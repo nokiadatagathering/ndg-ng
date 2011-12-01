@@ -275,13 +275,19 @@ var Survey = function(){
 }
 
 var QuestionOption = function( option ){
+    if( QuestionOption.idx == undefined ){
+        QuestionOption.idx = 0;
+    }
+
     if( option != undefined ){
         this.label = option.label;
         this.optionValue = option.optionValue;
     }else{
-        this.label = LOC.get( 'LOC_NEW_OPTION' );
-        this.optionValue = "newoption";
+        this.label = LOC.get( 'LOC_NEW_OPTION' ) + ' ' + QuestionOption.idx;
+        this.optionValue = "newoption" + QuestionOption.idx;
     }
+
+    QuestionOption.idx++;
 }
 
 var DefaultAnswer = function( answer ){

@@ -3,6 +3,9 @@
 #
 languageId = en
 views.main.localizationJSFile = localization.js
-views.login.login = Login
+views.main.searchPlaceHolder = Search...
+views.main.Logout = Logout
+views.login.Username = Username
 views.login.password = Password
 views.login.badPasswordAlert = username and/or password is incorrect
+views.login.Login = Login

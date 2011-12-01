@@ -3,7 +3,6 @@
 var ContextComboBox = function() {
 
     return {showSurveyMenu : function(){showSurveyMenu();},
-            showResultSelectionMenu : function(event){showResultSelectionMenu(event);},
             showEditorMenu : function(event){showEditorMenu(event);},
             showSearchMenu : function(event, searchLabels, searchIds, contentHandler){showSearchMenu(event, searchLabels, searchIds, contentHandler)},
             showUserManagementMenu: function(event){showUserManagementMenu(event)},
@@ -68,29 +67,6 @@ var ContextComboBox = function() {
 
         var pos = $('#searchComboBox').offset();
         showMenu(pos.left, pos.top, 1, $('#searchComboBox').height());
-        stopEvent(event);
-    }
-
-     function showResultSelectionMenu( event ){
-        document.onclick=closeMenu;
-        if ( menuBeingShown() ) {
-            return;
-        }
-
-        $('#popup-context').addClass("popup-selection-context");
-
-        $('#popup-context').append( '<a id="selectAllVisibleAction" href="#">' + LOC.get( 'LOC_ALL' ) + '</a>'
-                                  + '<a id="selectAllPagesAction" href="#">' + LOC.get( 'LOC_ALL_PAGES' ) + '</a>'
-                                  + '<a id="unselectAll" href="#">' + LOC.get( 'LOC_NONE' ) + '</a>' );
-
-        $('#selectAllVisibleAction').click( function(){ResultList.selectAllVisibleResults();} );
-        $('#selectAllPagesAction').click( function(){ResultList.selectAllResults();});
-        $('#unselectAll').click( function(){ResultList.unselectAllResults();});
-
-        var pos = $('#comboBoxSelection').position();
-
-        showMenu(pos.left, pos.top, 0, - $('#comboBoxSelection').height() - 40);
-
         stopEvent(event);
     }
 

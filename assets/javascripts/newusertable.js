@@ -24,28 +24,39 @@ var NewUserTable = (function() {
             });
         //fill table
         var tableHtml;
-        tableHtml = '<form id="newUserForm" method="post" action="userManager/addUser"><table class="newUserTableClass"><tr class="newUserTrClass">'
-                  + '<td class="newUserTdClass"><input class="newUserInput" type="text" name="username" title="Username" /></td>'
-                  + '<td class="newUserTdClass"><input class="newUserInput" type="text" name="firstName" title="First Name" /></td>'
-                  + '<td class="newUserTdClass"><input id="newUserFakePwd" class="grayed newUserInput" type="text" name="fakepwd" value="Password" />'
-                  +      '<input id="newUserPassword" class="newUserPassword" type="password" name="password" title="Password" /></td>'
+        tableHtml = '<form id="newUserForm" method="post" action="userManager/addUser"><table class="newUserTableClass">'
+                  + '<tr class="newUserTrClass">'
+                  + '<td class="newUserTdClass"><input class="newUserInput" type="text" name="username" title="' + LOC.get( 'LOC_USERNAME' ) + '" /></td>'
+                  + '<td class="newUserTdClass"><input class="newUserInput" type="text" name="firstName" title="' + LOC.get( 'LOC_FIRST_NAME' ) + '" /></td>'
+                  + '<td class="newUserTdClass">'
+                  +     '<input id="newUserFakePwd" class="grayed newUserInput" type="text" name="fakepwd" value="' + LOC.get( 'LOC_PASSWORD' ) + '" />'
+                  +     '<input id="newUserPassword" class="newUserPassword" type="password" name="password" title="' + LOC.get( 'LOC_PASSWORD' ) + '" />'
+                  + '</td>'
                   + '<td class="newUserTdClass"><select name="role" style="width:133px;height:34px;font-size:12px;line-height:29px;vertical-align:middle;margin-top:5px;margin-left:0px;text-transform: uppercase;'
-                  + 'border-bottom-color: #EEE;border-bottom-left-radius: 2px;border-bottom-right-radius: 2px;border-bottom-style: inset;border-bottom-width: 2px;border-collapse: collapse;border-left-color: #D0D1D5;border-left-style: inset;border-left-width: 1px;border-right-color: #EEE;border-right-style: inset;border-right-width: 2px;border-top-color: #D0D1D5;border-top-left-radius: 2px;border-top-right-radius: 2px;border-top-style: solid;border-top-width: 1px;">'
-                  + '<option value="Admin">Admin</option><option value="Field Worker">Field Worker</option><option value="Operator">Operator</option></select></td>'
+                  +         'border-bottom-color: #EEE;border-bottom-left-radius: 2px;border-bottom-right-radius: 2px;border-bottom-style: inset;border-bottom-width: 2px;border-collapse: collapse;border-left-color: #D0D1D5;border-left-style: inset;border-left-width: 1px;border-right-color: #EEE;border-right-style: inset;border-right-width: 2px;border-top-color: #D0D1D5;border-top-left-radius: 2px;border-top-right-radius: 2px;border-top-style: solid;border-top-width: 1px;">'
+                  +     '<option value="Admin">' + LOC.get( 'LOC_ADMIN' ) + '</option>'
+                  +     '<option value="Field Worker">' + LOC.get( 'LOC_FIELD_WORKER' ) + '</option>'
+                  +     '<option value="Operator">' + LOC.get( 'LOC_OPERATOR' ) + '</option></select></td>'
                   + '<td><input type="submit" class="submitNewUserButton" value="" /></td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
-                  + '<td class="newUserTdClass"><input class="newUserInput" type="email" name="email" title="E-Mail" /></td>'
-                  + '<td class="newUserTdClass"><input class="newUserInput" type="text" name="lastName" title="Last Name" /></td>'
-                  + '<td class="newUserTdClass"><input id="newUserFakePwdConfirm" class="grayed newUserInput" type="text" name="fakepwdconfirm" value="Retype Password" />'
-                  +      '<input id="newUserPasswordConfirm" class="newUserPassword" type="password" name="passwordRetype" title="Retype Password" /></td>'
-                  + '<td class="newUserTdClass"><input id="phoneNumber" class="newUserInput" type="text" name="phoneNumber" title="Phone Number" /></td>'
-              + '</tr></table></form>'
+                  + '<td class="newUserTdClass">'
+                  +     '<input class="newUserInput" type="email" name="email" title="E-Mail" />'
+                  + '</td>'
+                  + '<td class="newUserTdClass">'
+                  +     '<input class="newUserInput" type="text" name="lastName" title="' + LOC.get( 'LOC_LAST_NAME' ) + '" />'
+                  + '</td>'
+                  + '<td class="newUserTdClass">'
+                  +     '<input id="newUserFakePwdConfirm" class="grayed newUserInput" type="text" name="fakepwdconfirm" value="' + LOC.get( 'LOC_RETYPE_PASSWORD' ) + '" />'
+                  +     '<input id="newUserPasswordConfirm" class="newUserPassword" type="password" name="passwordRetype" title="' + LOC.get( 'LOC_RETYPE_PASSWORD' ) + '" />'
+                  + '</td>'
+                  + '<td class="newUserTdClass"><input id="newUserPhoneNumber" class="newUserInput" type="text" name="phoneNumber" title="' + LOC.get( 'LOC_PHONE_NUMBER_LONG' ) + '" /></td>'
+                  + '</tr></table></form>'
           addUserTable.append(tableHtml);
 
 
         $("body").prepend(addUserTable);
-        $("#phoneNumber").mask("+?999999999999999",{placeholder:" "});
+        $("#newUserPhoneNumber").mask("+?999999999999999",{placeholder:" "});
 
 
         addUserTable.ready(function() {
@@ -80,6 +91,21 @@ var NewUserTable = (function() {
                     $(this).val($(this)[0].title);
                 }
             });
+
+            $("#newUserPhoneNumber").blur(function()
+            {
+                if ($(this).val() == "" || $(this).val() == "+")
+                {
+                    $(this).addClass("grayed");
+                    $(this).val($(this)[0].title);
+                }
+            });
+
+            $("#newUserPhoneNumber").focus(function()
+            {
+                $(this).removeClass("grayed");
+            });
+
             $("#newUserPassword").blur(function()
             {
                 if ($(this).val() == "")
@@ -137,7 +163,8 @@ var NewUserTable = (function() {
         if( $("#newUserForm input[name=password]").val() != $("#newUserForm input[name=passwordRetype]").val()) {
             alert( LOC.get( 'LOC_MSG_PASSWORD_NOT_MATCH' ) );//todo ui spec for form validation
             return false;
-        }else if( $( "#phoneNumber" ).val().length < 5 ){
+        }else if( $( "#newUserPhoneNumber" ).val().length < 5 ||
+                    $( "#newUserPhoneNumber" ).val() == 'Phone Number'){
             alert( LOC.get( 'LOC_MSG_SHORT_NUMBER' ) );
             return false;
         }

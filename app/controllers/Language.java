@@ -37,10 +37,13 @@ public class Language extends Controller {
         }
         NdgLanguage language = NdgLanguage.find( "byLocaleString", locale ).first();
 
-        File font = language.fontFile.getFile();
-        if( font != null ) {
-            renderBinary( font );
-        } else {
+        try {
+            if( language!= null && language.fontFile != null && language.fontFile.getFile() != null) {
+                renderBinary( language.fontFile.getFile() );
+            } else {
+                error( Http.StatusCode.NOT_FOUND, "Font file not found" );
+            }
+        } catch ( Exception ex ) {
             error( Http.StatusCode.NOT_FOUND, "Font file not found" );
         }
     }

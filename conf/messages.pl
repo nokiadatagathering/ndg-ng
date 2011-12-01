@@ -3,6 +3,9 @@
 #
 languageId = pl
 views.main.localizationJSFile = localization_pl.js
-views.login.login = Nazwa
+views.main.searchPlaceHolder = Szukaj...
+views.main.Logout = Wyloguj
+views.login.Username = Nazwa
 views.login.password = Hasło
 views.login.badPasswordAlert = złe hasło i/lub nazwa użytkownika
+views.login.Login = Zaloguj

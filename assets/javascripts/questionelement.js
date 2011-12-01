@@ -283,8 +283,6 @@ var QuestionUiElement = function( questionModel ){
                 appendOption( item, isExclusive );
             }
         });
-
-        $( '#' + question.uiId + ' .optionCheckBox' ).change( question.uiId, function( event ){onSelectChanged( event.data )} );
     }
 
     function onSelectChanged( questionUiId ){
@@ -359,6 +357,9 @@ var QuestionUiElement = function( questionModel ){
                 $( '#' + optionId + ' .optionIcon' ).removeClass( 'iconVisible' );
             }
         );
+
+        $( '#' + optionId ).unbind( 'change' );
+        $( '#' + optionId ).change( question.uiId, function( event ){onSelectChanged( event.data )} );
     }
 
     function onAddOptionClicked( event ){
@@ -410,6 +411,7 @@ var QuestionUiElement = function( questionModel ){
             question.questionOptionCollection = [];
         }
 
+
         appendDetails();
     }
 
@@ -420,6 +422,7 @@ var QuestionUiElement = function( questionModel ){
         $.each( question.questionOptionCollection , function( idx, item ){
             if( item.uiId == optionUiId ){
                 option = item;
+                option.index = idx;
             }
         });
         return option;

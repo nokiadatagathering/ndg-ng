@@ -143,6 +143,11 @@ var ResultList = function() {
         } else {
             if ( -1 != jQuery.inArray( i.data, selectedResults ) ) {
                 selectedResults.splice(jQuery.inArray( i.data, selectedResults ), 1 );
+                if(allResultSelected) {
+                    allResultSelected = false;
+                    var checkboxSelectAllResults = $('#selectAllResults')[0];
+                    checkboxSelectAllResults.checked = false;
+                }
             }
         }
     }
@@ -150,7 +155,7 @@ var ResultList = function() {
     function selectAllResultsClicked(data) {
         if(data.currentTarget.checked) {
             selectAllResults();
-        } else {
+        } else if(allResultSelected) {
             unselectAllResults();
         }
     }
