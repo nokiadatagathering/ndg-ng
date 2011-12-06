@@ -209,6 +209,7 @@ var Editor = function() {
         $('#plusButton').addClass('plusButton');
         $('#editorBackButton').detach();
         $('#addQuestion').detach();
+        scroll(0,0);
     }
 
     function addCategory(){
