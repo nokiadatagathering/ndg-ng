@@ -4,7 +4,6 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.7.min.js"><\/script>')</script>
         <script src="javascripts/libs/jquery.md5.js"></script>
-        <script type="text/javascript" src="javascripts/utils.js"></script>
     </head>
     <body>
         <div id="flags">
@@ -23,29 +22,41 @@
         <p>
             #{field 'Login'}
             <label>&{'views.login.Username'}</label>
-            <input type="text" name="username" />
+            <input id="usernameSubmit" type="text" name="username" />
             #{/field}
         </p>
         <p>
             #{field 'content'}
-            <label>&{'views.login.password'}</label>
-            <input type="password" name="password" />
+            <input id="passwordSubmit" style="display:none" hidden="true" type="password" name="password" />
             #{/field}
         </p>
+        #{/form}
+
         <p>
-            <input type="submit" value="&{'views.login.Login'}" />
+            <label>&{'views.login.password'}</label>
+            <input id="passwordInput" type="password" name="passwordText" />
         </p>
-    #{/form}
-    #{if flash.error}
+        <p>
+            <input id="submitLoginButton" type="button" value="&{'views.login.Login'}" />
+        </p>
 
-    <p style="color:red">&{'views.login.badPasswordAlert'}<p>
+        #{if flash.error}
+        <p style="color:red">&{'views.login.badPasswordAlert'}<p>
+        #{/if}
 
-    #{/if}
-    <script>
+        <script>
         var sURL = window.location.pathname;
 
+
         $(document).ready(function() {
-            $('#loginForm').submit($(this), function(data){Utils.encryptCredentials(data)});
+
+            $('#submitLoginButton').click(function() {
+                var username = document.getElementById("usernameSubmit").value;
+                var pass = document.getElementById("passwordInput").value;
+                var hash = $.md5( username + ":NDG:" +  pass );
+                document.getElementById("passwordSubmit").value = hash;
+                $('#loginForm').submit( );
+            });
 
             $('.langSelector').click(function() {
                $('#selectedLanguage').val( this.id );
