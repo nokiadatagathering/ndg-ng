@@ -72,6 +72,9 @@ var ResultList = function() {
         columnContent += '<span id="mapView" class="buttonMapView resultListButton">';
         columnContent += LOC.get('LOC_MAP_VIEW');
         columnContent +=  '</span>';
+        columnContent += '<span id="graphView" class="buttonGraphView resultListButton">';
+        columnContent += LOC.get('LOC_GRAPH_VIEW');
+        columnContent +=  '</span>';
         columnContent += '<div id="exportContextMenu" class="buttonExport resultListButton"><span>';
         columnContent += LOC.get('LOC_EXPORT_TO');
         columnContent +=  '</span></div>';
@@ -79,6 +82,7 @@ var ResultList = function() {
 
         $('#leftColumn').append( columnContent );
         $('#backResults').click( function(){backToSurveyList()} );
+        $('#graphView').click( function(){ alert("Graphing Not Supported (yet :)"); } );
         $('#mapView').click( function(){ alert("Not supported"); } );
         $('#exportContextMenu').click(function(event){ContextComboBox.showExportResultsMenu(event);});
     }

@@ -48,6 +48,10 @@
     background: url(../images/mapview.png);
 }
 
+.buttonGraphView {
+    background: url(../images/mapview.png);
+}
+
 .buttonExport {
     background: url(../images/export.png);
 }
