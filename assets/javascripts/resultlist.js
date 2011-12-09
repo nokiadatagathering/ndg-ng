@@ -29,6 +29,11 @@ var ResultList = function() {
         SurveyList.showSurveyList();
     }
 
+    function showGraphing() {
+       // Graph.showOptions();
+       alert('Graphing on the way');
+    }
+
     function showResultList(i) {
         selectedResults = new Array();
         currentSurveyId = i.data;
@@ -82,7 +87,7 @@ var ResultList = function() {
 
         $('#leftColumn').append( columnContent );
         $('#backResults').click( function(){backToSurveyList()} );
-        $('#graphView').click( function(){ alert("Graphing Not Supported (yet :)"); } );
+        $('#graphView').click( function(){ showGraphing()} );
         $('#mapView').click( function(){ alert("Not supported"); } );
         $('#exportContextMenu').click(function(event){ContextComboBox.showExportResultsMenu(event);});
     }
