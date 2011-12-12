@@ -30,8 +30,7 @@ var ResultList = function() {
     }
 
     function showGraphing() {
-       // Graph.showOptions();
-       alert('Graphing on the way');
+        Graphing.showGraph();
     }
 
     function showResultList(i) {
