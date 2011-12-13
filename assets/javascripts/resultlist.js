@@ -30,7 +30,7 @@ var ResultList = function() {
     }
 
     function showGraphing() {
-        Graphing.showGraph();
+        Graphing.setupGraph();
     }
 
     function showResultList(i) {
