@@ -19,7 +19,7 @@ GETTING STARTED
                   sudo apt-get update
                   sudo apt-get install ant
     )
-    ant build
+    ant -f build_dev.xml
     cd ../..
     play run
     http://localhost:9000/
