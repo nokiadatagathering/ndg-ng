@@ -29,7 +29,7 @@ var SurveyList = function() {
 
         $('#plusButton').bind( 'click', function(event) { Editor.createSurvey(); } );
         $('#plusButton').attr( 'title', LOC.get( 'LOC_NEW_SURVEY' ) );
-        $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="labelBuilding">Building</h4><h4 class="labelAvailable">Available</h4><h4 class="labelClosed">Closed</h4>');
+        $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="labelBuilding">Building</h4><h4 class="labelAvailable">Available</h4><!--<h4 class="labelClosed">Closed</h4>-->');
 
 
         $('#pageSelect').empty();
@@ -68,7 +68,7 @@ var SurveyList = function() {
     }
 
     function recreateContainers() {
-                if( $("#leftColumn_layout2" ).length ) {
+        if( $("#leftColumn_layout2" ).length ) {
             $("#leftColumn_layout2").remove();
             $("#middleColumn_layout2").remove();
             $("#rightColumn_layout2").remove();
