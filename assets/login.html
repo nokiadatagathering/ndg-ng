@@ -51,12 +51,11 @@
         $(document).ready(function() {
 
             $('#submitLoginButton').click(function() {
-                var username = document.getElementById("usernameSubmit").value;
-                var pass = document.getElementById("passwordInput").value;
-                var hash = $.md5( username + ":NDG:" +  pass );
-                document.getElementById("passwordSubmit").value = hash;
-                $('#loginForm').submit( );
+                loginSubmit()
             });
+
+            $( "#passwordInput" ).bind( 'keypress', function( event ){  if( event.which == 13 ){ loginSubmit(); } } );
+            $( "#usernameSubmit" ).bind( 'keypress', function( event ){  if( event.which == 13 ){ loginSubmit(); } } );
 
             $('.langSelector').click(function() {
                $('#selectedLanguage').val( this.id );
@@ -64,6 +63,14 @@
                window.location.replace( sURL );
             });
         });
+
+        function loginSubmit() {
+            var username = document.getElementById("usernameSubmit").value;
+            var pass = document.getElementById("passwordInput").value;
+            var hash = $.md5( username + ":NDG:" +  pass );
+            document.getElementById("passwordSubmit").value = hash;
+            $('#loginForm').submit( );
+        }
     </script>
     </body>
 </html>
