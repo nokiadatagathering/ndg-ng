@@ -16,7 +16,6 @@
  */
 package controllers;
 
-
 import controllers.exceptions.MSMApplicationException;
 import controllers.logic.AuthorizationUtils;
 import controllers.logic.ResultPersister;
@@ -28,10 +27,9 @@ import java.util.logging.Logger;
 import models.NdgResult;
 import play.mvc.Controller;
 
-public class PostResults extends Controller{
+public class PostResults extends Controller {
 
-    public static void upload(String surveyId, File filename )
-    {
+    public static void upload(String surveyId, File filename ) {
         if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method) )
         {
             AuthorizationUtils.setDigestResponse(response);

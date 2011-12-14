@@ -16,7 +16,6 @@ var UserManagement = function() {
     var lastSortAscending = true;
     var elementStartIndex = 0;
     var elementEndIndex = 10;
-    var ajaxParams;
     var totalItems;
 
     var scrollReady = true;
@@ -30,7 +29,8 @@ var UserManagement = function() {
         getSearchBy: function() {return searchBy;},
         refresh: function() {refresh();},
         loadingFinished: function() {loadingFinished();},
-        prepareLayout: function(tableHtml){prepareLayout(tableHtml);}
+        prepareLayout: function(tableHtml){prepareLayout(tableHtml);},
+        additionalAjaxParams: function() {return additionalAjaxParams();}
     };
 
     function showUserManagement (){
@@ -106,12 +106,10 @@ var UserManagement = function() {
                       'isAscending': isAscending,
                       'orderBy': orderByColumn
                      };
-         jQuery.extend(params, ajaxParams);
 
-         if( selectedGroupName != null && selectedGroupName.length > 0 ) {
-            var groupParam = {'groupName': selectedGroupName}
-            jQuery.extend(params, groupParam);
-         }
+        if( selectedGroupName != null && selectedGroupName.length > 0 ) {
+           jQuery.extend(params, additionalAjaxParams());
+        }
 
         var getJSONQuery = $.getJSON( contentUrl, params, function(data){refreshGroupTable(data);} );
         getJSONQuery.error(Utils.redirectIfUnauthorized);
@@ -176,9 +174,9 @@ var UserManagement = function() {
     }
 
     function selectGroup(i, item) {
-      if ( selectedGroupName == item.firstChild.id ) {
-          $( '#dynamicGroupRow' + i ).addClass( "selectedGroup" );
-      }
+        if ( selectedGroupName == item.firstChild.id ) {
+            $( '#dynamicGroupRow' + i ).addClass( "selectedGroup" );
+        }
     }
 
     function loadUsers() {
@@ -186,10 +184,14 @@ var UserManagement = function() {
         var columnTexts = ["LOC_USERNAME", "LOC_EMAIL", "LOC_PHONE", "LOC_PERMISSION",""];
         var columnDbFields = ["username", "email", "phoneNumber", "userRoleCollection", null];
 
+        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "users", UserManagement);
+    }
+
+    function additionalAjaxParams() {
         if ( selectedGroupName != null && selectedGroupName.length > 0 ) {
-            DynamicTable.showList(columnIds, columnTexts, columnDbFields, "users", UserManagement,{'groupName': selectedGroupName});
+            return { 'groupName': selectedGroupName };
         } else {
-            DynamicTable.showList(columnIds, columnTexts, columnDbFields, "users", UserManagement);
+            return null;
         }
     }
 
@@ -266,7 +268,7 @@ var UserManagement = function() {
 
         var layout = "";
         layout += "<div id='leftColumn_layout2'>"
-                + "<div class='plusButton_layout2 clicableElem' id='plusButton'><div id ='plusButtonImage'></div></div>"
+                + "<div class='plusButton_layout2 clickableElem' id='plusButton'><div id ='plusButtonImage'></div></div>"
                 + "</div>"
         layout += "<div id='middleColumn_layout2'>"
                 +   "<table id='minimalist_layout2'></table>"
@@ -292,7 +294,7 @@ var UserManagement = function() {
 
     function fillGroupWithData(i,item) {
         $('#dynamicGroupListTable').append( '<tr groupName="' + item.groupName + '" id="dynamicGroupRow'+ i + '">'
-                                    + '<td id="' + item.groupName + '" class="clicableElem"><p class="tableEntryGroupName">'+ item.groupName + '</p>'
+                                    + '<td id="' + item.groupName + '" class="clickableElem"><p class="tableEntryGroupName">'+ item.groupName + '</p>'
                                     + '<p class="tableEntryQuantity">('+ item.userCollection + ' ' + LOC.get('LOC_USERS') + ')</p>'
                                     + '</td>'
                                     + '<td class="groups menubar" id="groupMenu' + i + '" >'
@@ -381,14 +383,11 @@ var UserManagement = function() {
             $( '#dynamicGroupRow' + event.data.index ).removeClass( "selectedGroup" )
             $( '#dynamicGroupRow'+ event.data.index ).addClass("hoverRow");
             selectedGroupName = "";
-            loadUsers();
-            return;
+        } else {
+            $.each( $("[id^=dynamicGroupRow]"), function(i,item) {removeGroupSelection(i, item);});
+            $( '#dynamicGroupRow' + event.data.index ).addClass( "selectedGroup" );
+            selectedGroupName = $( '#dynamicGroupRow' + event.data.index )[0].firstChild.id;
         }
-
-        $.each( $("[id^=dynamicGroupRow]"), function(i,item) {removeGroupSelection(i, item);});
-
-        $( '#dynamicGroupRow' + event.data.index ).addClass( "selectedGroup" );
-        selectedGroupName = $( '#dynamicGroupRow' + event.data.index )[0].firstChild.id;
         loadUsers();
     }
 

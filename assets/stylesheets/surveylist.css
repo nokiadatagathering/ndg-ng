@@ -50,6 +50,10 @@
     line-height: 19px;
 }
 
+#filter .selectedFilter {
+    color: red;
+}
+
 h4.labelBuilding {
     background-color: #7691a9;
 }

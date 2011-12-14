@@ -112,7 +112,7 @@ var Editor = function() {
         $('#plusButton').unbind( 'click' );
         $('#content').empty();
         $('#plusButton').before( '<div class="editorButton" id="editorBackButton"/>');
-        $('#plusButton').after( '<div class="editorButton addQuestionButton clicableElem" id="addQuestion"/>');
+        $('#plusButton').after( '<div class="editorButton addQuestionButton clickableElem" id="addQuestion"/>');
         $('#addQuestion').attr( 'title', LOC.get( 'LOC_DRAG_NEW_QUESTION' ) );
         $('#leftColumnContent' ).empty();
 

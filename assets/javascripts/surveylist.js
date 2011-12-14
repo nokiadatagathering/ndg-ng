@@ -10,35 +10,42 @@ var SurveyList = function() {
     var searchIds;
     var searchDbFields = ["surveyId", "title", "ndgUser.username"];
     var searchBy = "surveyId";
+    var selectedFilterName = "";
+
+    var columnIds = ["executeSortBySurveyName", "executeSortByDatePublished", "executeSortByPublisher", "executeSortByResults",null];//null is for item toolbar
+    var columnTexts = ["LOC_SURVEY_NAME", "LOC_DATE_PUBLISHED", "LOC_PUBLISHER", "LOC_RESULTS"];
+    var columnDbFields = ["title","uploadDate", "ndgUser.username", "resultCollection"];
 
     return {showSurveyList : function(){showSurveyList();},
             fillWithData : function(i, item){fillWithData(i, item);},
             searchFieldChange: function(event){searchFieldChange(event);},
             getSearchBy: function() {return searchBy;},
-            prepareLayout: function(tableHtml){prepareLayout(tableHtml);}
+            prepareLayout: function(tableHtml){prepareLayout(tableHtml);},
+            additionalAjaxParams: function() {return additionalAjaxParams();}
     };
 
     function showSurveyList (){
-        var columnIds = ["executeSortBySurveyName", "executeSortByDatePublished", "executeSortByPublisher", "executeSortByResults",null];//null is for item toolbar
-        var columnTexts = ["LOC_SURVEY_NAME", "LOC_DATE_PUBLISHED", "LOC_PUBLISHER", "LOC_RESULTS"];
-        var columnDbFields = ["title","uploadDate", "ndgUser.username", "resultCollection"];
 
         recreateContainers();
 
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "surveys", SurveyList);
 
-        $('#plusButton').bind( 'click', function(event) { Editor.createSurvey(); } );
+        $('#plusButton').bind( 'click', function(event) {Editor.createSurvey();} );
         $('#plusButton').attr( 'title', LOC.get( 'LOC_NEW_SURVEY' ) );
-        $('#leftColumnContent' ).append( '<h3>STATUS</h3><h4 class="labelBuilding">Building</h4><h4 class="labelAvailable">Available</h4><!--<h4 class="labelClosed">Closed</h4>-->');
+        $('#leftColumnContent' ).append( '<h3>STATUS</h3>'
+                                       + '<h4 id="filterBuilding" class="labelBuilding filterable clickableElem">Building</h4>'
+                                       + '<h4 id="filterAvailable" class="labelAvailable filterable clickableElem">Available</h4>'
+                                       + '<!--<h4 id="filterClosed" class="labelClosed filterable clickableElem">Closed</h4>-->' );
 
+        bindFilter();
 
         $('#pageSelect').empty();
         $('#pageSelect').append('<H2 id=sectionTitle></H2>');
-        if(hasAdminPermission)
-            {
-            $('#pageSelect').append('<H3 id=userManagement class="clicableElem"></H3>');
+        if(hasAdminPermission) {
+            $('#pageSelect').append('<H3 id=userManagement class="clickableElem"></H3>');
             $('#userManagement').click(function() {UserManagement.showUserManagement()});
-            }
+        }
+
         $('#uploadForm').unbind('submit');
         $('#uploadForm').submit( function () {uploadNewSurvey();} );
 
@@ -51,6 +58,58 @@ var SurveyList = function() {
         $( '#sectionTitle' ).text( LOC.get('LOC_SURVEY_LIST') );
         $( '#userManagement' ).text( LOC.get('LOC_USER_ADMIN') );
 
+        if( selectedFilterName != null && selectedFilterName.length > 0 ) {
+            $.each( $('.filterable'), function( i, item ){selectFilter( i, item );});
+        }
+    }
+
+    function bindFilter() {
+        $('.filterable').click( function(event) {onFilterClicked( event )} );
+    }
+
+    function selectFilter(i, item) {
+        if ( selectedFilterName == item.id ) {
+            $( "#" + item.id ).addClass( "selectedFilter" )
+        }
+    }
+
+    function onFilterClicked(event) {
+        var clickedElem = event.currentTarget.id;
+        if( $( "#" + clickedElem ).hasClass( "selectedFilter" ) ) {
+
+            $( "#" + clickedElem ).removeClass( "selectedFilter" )
+            selectedFilterName = "";
+        } else {
+            $.each( $('.filterable'), function(i,item) { removeFilterSelection(i, item); } );
+
+            $( "#" + clickedElem ).addClass( "selectedFilter" );
+            selectedFilterName = clickedElem;
+        }
+        DynamicTable.refresh();
+    }
+
+    function additionalAjaxParams() {
+        return {'filter': selectedFilterName};
+    }
+
+    function removeFilterSelection(i, item ) {
+        if( item.classList != null ) {
+            if( item.classList.contains("selectedFilter") ) {
+                item.classList.remove("selectedFilter");
+            }
+        } else {/*This part is for IE. IE does not support 'classList' property*/
+            var classes = item.className.split(' ');
+            if( jQuery.inArray( "selectedFilter", classes ) >=0 ) {
+                classes.splice(jQuery.inArray( "selectedFilter", classes ))
+                newClassesList = classes.toString();
+                item.className = newClassesList;
+            }
+        }
+    }
+
+    function filterSurveys() {
+        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "surveys", SurveyList);
+        DynamicTable.refresh();
     }
 
     function prepareLayout(tableHtml) {
@@ -77,7 +136,7 @@ var SurveyList = function() {
         $( '#content' ).remove();
         var layout = "";
         layout += "<div id='leftColumn'>"
-                + "<div class='plusButton clicableElem' id='plusButton' >"
+                + "<div class='plusButton clickableElem' id='plusButton' >"
                 + "<div id ='plusButtonImage'></div>"
                 + "</div>"
                 + "<div id=filter>"
@@ -125,7 +184,7 @@ var SurveyList = function() {
                                     + '<td id="surveyNameCell"><pre class="surveyNameText" >'+ item.title + '</pre><pre class="surveyIdText">ID: ' + item.surveyId + '</pre></td>'
                                 + '<td>' + date.toString("dd/MM/yy") + '</td>'
                                 + '<td>' + item.ndgUser.username + '</td>'
-                                + '<td class="resultCollectionQuantity clicableElem" id="resultCollectionQuantityString' + item.id + '"></td>'
+                                + '<td class="resultCollectionQuantity clickableElem" id="resultCollectionQuantityString' + item.id + '"></td>'
                                 + '<td class="menubar" id="menu' + i + '" >'
                                 + '<span title="' + LOC.get('LOC_DOWNLOAD') + '"class="buttonDownload" id="buttonDownload" unselectable="on"></span>'
                                 + '<span title="' + LOC.get('LOC_UPLOAD') + '"class="buttonUpload" id="buttonUpload" unselectable="on"></span>'
@@ -185,7 +244,7 @@ var SurveyList = function() {
        $('#uploadSurveyFormButton').text(LOC.get('LOC_SEARCH'));
        $('#uploadSurveyInput').unbind('change');
        $('#uploadSurveyInput').change( function(){
-           $('#uploadSurveyFakeInput').text($(this).val()) } );
+           $('#uploadSurveyFakeInput').text($(this).val())} );
 
        uploadDialog.dialog( {title: LOC.get('LOC_SURVEY_UPLOAD')});
        $('#dialog-upload-query').text(LOC.get('LOC_CHOOSE_SURVEY_UPLOAD'));
@@ -205,11 +264,21 @@ var SurveyList = function() {
         $('#dialog-confirmDelete-query').text( LOC.get('LOC_SURVEY_DELETE_CONFIRM') );
         confirmDeleteDialog.dialog("open");
         $("#buttonDeleteYes").click( e.data, function(e) {
-            $.post( "delete/" + e.data, function(data) {
-                confirmDeleteDialog.dialog("close");
-                DynamicTable.checkIfDeletingLast();
-                DynamicTable.refresh();
-            });
+
+        $.ajax( { url: 'surveyManager/delete',
+                  data: { formID: e.data },
+                  error: function(data, textStatus, jqXHR) {
+                      if (!Utils.redirectIfUnauthorized(data, textStatus, jqXHR)) {
+                          alert("error");
+                      }
+                  },
+                  success: function(data, textStatus, jqXHR) {
+                      confirmDeleteDialog.dialog("close");
+                      DynamicTable.checkIfDeletingLast();
+                      DynamicTable.refresh();
+                  }
+                } );
+
             $("#buttonDeleteYes").unbind("click");
             $("#buttonDeleteNo").unbind("click");
         });
@@ -221,9 +290,17 @@ var SurveyList = function() {
     }
 
     function onDuplicateSurveyClicked(e) {
-       $.post( "duplicate/" + e.data, function(data) {
-            DynamicTable.refresh();
-        });
+        $.ajax( { url: 'surveyManager/duplicate',
+                  data: {formID: e.data},
+                  error: function(data, textStatus, jqXHR) {
+                      if (!Utils.redirectIfUnauthorized(data, textStatus, jqXHR)) {
+                          alert("error");
+                      }
+                      },
+                  success: function(data, textStatus, jqXHR) {
+                      DynamicTable.refresh();
+                  }
+                } );
     }
 
     function onSendSurveyClicked(e) {

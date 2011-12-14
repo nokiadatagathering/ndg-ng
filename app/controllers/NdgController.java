@@ -17,19 +17,16 @@
 package controllers;
 
 import controllers.logic.AuthorizationUtils;
+import play.mvc.Before;
 import play.mvc.Controller;
+import play.mvc.Http.StatusCode;
 
-public class ClientUtils extends Controller {
+public abstract class NdgController extends Controller {
 
-    public static void checkUrl() {
-        renderText("NdgServer");
-    }
-
-    public static void testConnection() {
-        if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method)) {
-            AuthorizationUtils.setDigestResponse(response);
-        } else {
-            renderText("OK");
+    @Before
+    public static void checkAccess() throws Throwable {
+        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
+            error( StatusCode.UNAUTHORIZED, "Session expired" );
         }
     }
 }

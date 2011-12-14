@@ -15,11 +15,10 @@ var DynamicTable = function() {
     var lastSortAscending = true;
     var contentUrl;
     var contentHandler;
-    var ajaxParams;
     var totalItems = 0;
     var scrollReady = false;
 
-    return {showList : function(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams){showList(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler, ajaxParams);},
+    return {showList : function(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler ){showList(columnIds, columnTexts, columnDbFields, remoteAction, contentHandler );},
             refresh: function() {refresh();},
             checkIfDeletingLast: function() {checkIfDeletingLast();}
       };
@@ -41,16 +40,15 @@ var DynamicTable = function() {
     }
 
     function scrollDownList() {
-        if(scrollReady)
-        {
+        if(scrollReady) {
             $('#contentToolbar span').text("Loading...");
             scrollReady = true;
             var diff = totalItems - elementEndIndex;
-            if( diff > 0 ){
+            if( diff > 0 ) {
                 elementStartIndex = elementEndIndex;
-                if(diff > 5){
+                if(diff > 5) {
                     elementEndIndex += 5;
-                } else{
+                } else {
                     elementEndIndex += diff;
                 }
             loadMoreData();
@@ -62,16 +60,16 @@ var DynamicTable = function() {
 
     }
 
-    function showList (_columnIds, _columnTexts, _columnDbFields, remoteAction, _contentHandler, _ajaxParams){
-        initVariables(_columnIds, _columnTexts, _columnDbFields, _contentHandler, _ajaxParams);
+    function showList( _columnIds, _columnTexts, _columnDbFields, remoteAction, _contentHandler ){
+        initVariables( _columnIds, _columnTexts, _columnDbFields, _contentHandler );
 
-        contentHandler.prepareLayout(createTableHtml());
+        contentHandler.prepareLayout( createTableHtml() );
 
-        addHandlers (remoteAction);
+        addHandlers( remoteAction );
 
     }
 
-    function initVariables(_columnIds, _columnTexts, _columnDbFields, _contentHandler, _ajaxParams){
+    function initVariables( _columnIds, _columnTexts, _columnDbFields, _contentHandler ){
         elementStartIndex = 0;
         elementEndIndex = 10;
         totalItems = 0;
@@ -82,7 +80,6 @@ var DynamicTable = function() {
         columnDbFields = _columnDbFields;
         lastSortByColumn = undefined;
         lastSortAscending = true;
-        ajaxParams = _ajaxParams;
     }
 
     function addHandlers(remoteAction) {
@@ -179,23 +176,27 @@ var DynamicTable = function() {
         var getJSONQuery = $.getJSON( contentUrl, prepareGetContentQuery(), function(data){
             $('#dynamicListTable').empty();
             renderTableData(data);});
-        getJSONQuery.error(Utils.redirectIfUnauthorized) ;
+        getJSONQuery.error(Utils.redirectIfUnauthorized);
     }
 
     function prepareGetContentQuery() {
-        var params = {'startIndex': elementStartIndex,
-                  'endIndex' : elementEndIndex,
-                  'isAscending': lastSortAscending,
-                  'orderBy': lastSortByColumn};
-        jQuery.extend(params, ajaxParams);
+        var params = { 'startIndex': elementStartIndex,
+                       'endIndex' : elementEndIndex,
+                       'isAscending': lastSortAscending,
+                       'orderBy': lastSortByColumn};
         var searchText = $('#searchTextField').val();
-        if( searchText != "") {
-        var searchParams = {
-            'searchField' : contentHandler.getSearchBy(),
-            'searchText' : escape(searchText)
-        };
-        jQuery.extend(params, searchParams);
+        if( searchText != "" ) {
+            var searchParams = {
+                'searchField' : contentHandler.getSearchBy(),
+                'searchText' : escape(searchText)
+            };
+            jQuery.extend(params, searchParams);
         }
+
+        if ( contentHandler.additionalAjaxParams ) {
+            jQuery.extend( params, contentHandler.additionalAjaxParams() );
+        }
+
         return params;
     }
 

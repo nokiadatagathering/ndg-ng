@@ -1,22 +1,33 @@
+/*
+ *  Copyright (C) 2011  INdT - Instituto Nokia de Tecnologia
+ *
+ *  NDG is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  NDG is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
+ */
 package controllers;
 
-import controllers.logic.AuthorizationUtils;
 import models.Company;
 import models.NdgGroup;
 import models.NdgRole;
 import models.NdgUser;
 import models.UserRole;
-import play.mvc.Controller;
 
-public class UserManager extends Controller {
+public class UserManager extends NdgController {
 
     public static void addUser( String username, String password, String firstName,
                                 String lastName, String email, String role,
                                 String phoneNumber )
     {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
-            return;
-        }
         NdgUser user = new NdgUser( password, username, email,
                                     firstName, lastName,
                                     phoneNumber,
@@ -32,9 +43,6 @@ public class UserManager extends Controller {
 
     public static void addUserToGroup( long username, String groupname )
     {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
-            return;
-        }
         NdgUser user = NdgUser.findById( username );
         NdgGroup group = NdgGroup.find( "byGroupName", groupname ).first();
         user.ndg_group = group;
@@ -43,9 +51,6 @@ public class UserManager extends Controller {
 
     public static void addGroup( String groupname )
     {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
-            return;
-        }
         NdgGroup group = new NdgGroup();
         group.groupName = groupname;
         group.save();
@@ -53,9 +58,6 @@ public class UserManager extends Controller {
 
     public static void deleteUser(String userId)
     {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
-            return;
-        }
         NdgUser deleted = NdgUser.find("byId", Long.parseLong(userId)).first();
         deleted.delete();
     }
@@ -70,5 +72,4 @@ public class UserManager extends Controller {
         group.userCollection.clear();
         group.delete();
     }
-
 }

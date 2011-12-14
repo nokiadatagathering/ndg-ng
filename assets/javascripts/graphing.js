@@ -20,39 +20,39 @@ var Graphing = function() {
         prepareGraph();
                         }
 
-     function prepareGraph() {   
+     function prepareGraph() {
         $('#minimalist').empty();
         $('#minimalist').height('400px');
         $('#minimalist').width('820px');
 
         // data
-	var data = [
-		{ label: "Question 1",  data: 10},
-		{ label: "Question 2",  data: 30},
-		{ label: "Question 3",  data: 90},
-		{ label: "Question 4",  data: 70},
-		{ label: "Question 5",  data: 80},
-		{ label: "Question 6",  data: 110}
-	];
-	
-	var data = [];
-	var series = Math.floor(Math.random()*10)+1;
-	for( var i = 0; i<series; i++)
-	{
-		data[i] = { label: "Question "+(i+1), data: Math.floor(Math.random()*100)+1 }
-	}
-       
-    
+    var data = [
+        { label: "Question 1",  data: 10},
+        { label: "Question 2",  data: 30},
+        { label: "Question 3",  data: 90},
+        { label: "Question 4",  data: 70},
+        { label: "Question 5",  data: 80},
+        { label: "Question 6",  data: 110}
+    ];
+
+    var data = [];
+    var series = Math.floor(Math.random()*10)+1;
+    for( var i = 0; i<series; i++)
+    {
+        data[i] = { label: "Question "+(i+1), data: Math.floor(Math.random()*100)+1 }
+    }
+
+
         // draw the graph
-         $.plot($("#minimalist"), data, 
-	{
-		series: {
-			pie: { 
-				show: true
-			}
-		}
-	});
-        
+         $.plot($("#minimalist"), data,
+    {
+        series: {
+            pie: {
+                show: true
+            }
+        }
+    });
+
         // add some extra content
         var extraGraphContent = '<div class="itemTextColor">extra graph content</div>';
         $('#minimalist').append(extraGraphContent);
@@ -69,6 +69,4 @@ var Graphing = function() {
 
                                }
 
-}();                   
-
-
+}();

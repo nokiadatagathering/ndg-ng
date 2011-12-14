@@ -22,7 +22,8 @@ var ResultList = function() {
             searchFieldChange: function(event){searchFieldChange(event);},
             getSearchBy: function() {return searchBy;},
             prepareLayout: function(tableHtml){prepareLayout(tableHtml);},
-            exportResults: function(){exportResults();}
+            exportResults: function(){exportResults();},
+            additionalAjaxParams: function() {return additionalAjaxParams();}
     };
 
     function backToSurveyList() {
@@ -40,12 +41,11 @@ var ResultList = function() {
         var columnIds = ["checkboxColumnId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation", null];
         var columnTexts = [null, "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
         var columnDbFields = [null, "title", "startTime", "ndgUser.username", "latitude"];
-        var ajaxParams = {surveyId: currentSurveyId};
 
         $('#container').height('715px');
         setupLeftColumn();
 
-        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList, ajaxParams);
+        DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList);
 
         var selectAllCheckbox = '<input type="checkbox" class="resultCheckboxClass" id="selectAllResults" "/>';
         $('#checkboxColumnId').append(selectAllCheckbox);
@@ -57,6 +57,10 @@ var ResultList = function() {
         $('#searchComboBox').click( function(event) {createSearchList(event);});
         $('#searchComboText').text(LOC.get("LOC_RESULTTITLE"));
 
+    }
+
+    function additionalAjaxParams() {
+        return { surveyId: currentSurveyId };
     }
 
     function prepareLayout(tableHtml) {

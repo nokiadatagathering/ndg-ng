@@ -10,10 +10,8 @@ POST    /authorize                              Application.authorize
 GET     /authorize                              Application.login
 
 GET     /surveyManager/get/{id}                 SurveyManager.get
-POST    /delete/{formID}                        SurveyManager.delete
 POST    /sendsurveys/{formID}                   SurveyManager.sendsurveys
 POST    /saveSurvey                             SurveyManager.saveSurvey
-POST    /duplicate/{formID}                     SurveyManager.duplicate
 GET     /service/{<[0-9]+>id}                   Service.get
 GET     /webui                                  webui.Administration.index
 

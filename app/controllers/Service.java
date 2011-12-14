@@ -16,7 +16,6 @@
  */
 package controllers;
 
-import controllers.logic.AuthorizationUtils;
 import controllers.transformer.CSVTransformer;
 import controllers.transformer.ExcelTransformer;
 import flexjson.JSONSerializer;
@@ -37,9 +36,8 @@ import models.Survey;
 import models.constants.QuestionTypesConsts;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
-import play.mvc.Controller;
 
-public class Service extends Controller {
+public class Service extends NdgController {
 
     private static final String CSV = ".csv";
     private static final String XLS = ".xls";
@@ -48,9 +46,6 @@ public class Service extends Controller {
     private static Log log = LogFactory.getLog( Service.class );
 
     public static void surveyHasImages( String surveyId ) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         Survey survey = Survey.findById( Long.decode( surveyId ) );
 
         boolean hasImages = false;
@@ -70,9 +65,6 @@ public class Service extends Controller {
     }
 
     public static void prepareselected( String ids, String fileFormat, Boolean exportWithImages ) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         String fileType = "";
         byte[] fileContent = null;
 
@@ -125,9 +117,6 @@ public class Service extends Controller {
     }
 
     public static void prepare( String surveyId, String fileFormat, Boolean exportWithImages ) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         String fileType = "";
         byte[] fileContent = null;
 

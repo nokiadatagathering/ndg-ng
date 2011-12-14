@@ -20,10 +20,18 @@ var ConfirmCover = (function() {
         coverDiv.append( '<p>' + LOC.get('LOC_CONFIRM_DELETE') +  '</p>');
         $("body").prepend(coverDiv);
         coverDiv.click(userId, function(event){
-            $.post( "userManager/deleteUser?userId=" + event.data, function(data) {
-                $('#confirmDeleteBar').remove();
-                DynamicTable.refresh();
-            });
+            $.ajax( { url: 'userManager/deleteUser',
+                      data: {userId: event.data},
+                      error: function(data, textStatus, jqXHR) {
+                          if (!Utils.redirectIfUnauthorized(data, textStatus, jqXHR)) {
+                              alert("error");
+                          }
+                      },
+                      success: function(data, textStatus, jqXHR) {
+                          $('#confirmDeleteBar').remove();
+                          DynamicTable.refresh();
+                      }
+                    } );
         });
         coverDiv.mouseleave( function(){
             close();

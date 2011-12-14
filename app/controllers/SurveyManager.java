@@ -1,8 +1,23 @@
+/*
+ *  Copyright (C) 2011  INdT - Instituto Nokia de Tecnologia
+ *
+ *  NDG is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  NDG is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
+ */
 package controllers;
 
 import controllers.logic.SurveyJsonTransformer;
 import controllers.exceptions.SurveySavingException;
-import controllers.logic.AuthorizationUtils;
 import controllers.logic.SurveyPersister;
 import controllers.logic.SurveyXmlBuilder;
 import controllers.util.Constants;
@@ -29,15 +44,11 @@ import models.constants.TransactionlogConsts;
 import models.utils.NdgQuery;
 import models.utils.SurveyDuplicator;
 import play.data.validation.Required;
-import play.mvc.Controller;
 import play.mvc.Http.StatusCode;
 
-public class SurveyManager extends Controller {
+public class SurveyManager extends NdgController {
 
     public static void questionType() {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         List<QuestionType> types = QuestionType.find("bySupported", 1).fetch();
 
         JSONSerializer typeSerializer = new JSONSerializer();
@@ -46,25 +57,15 @@ public class SurveyManager extends Controller {
     }
 
     public static void saveSurvey(String surveyData) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
-
         String username = session.get( "ndgUser" );
         renderText(SurveyJsonTransformer.saveSurvey( surveyData, username ) );
     }
 
     public static void getSurvey(long surveyId) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         renderJSON(SurveyJsonTransformer.getJsonSurvey(surveyId));
     }
 
     public static void upload(@Required File filename, String uploadSurveyId) throws IOException, SurveySavingException {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         InputStreamReader is = null;
         String result = "failure";
         if (!session.contains("ndgUser")) {
@@ -86,9 +87,6 @@ public class SurveyManager extends Controller {
     }
 
     public static void get(String id) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         try {
             final Writer result = new StringWriter();
             final PrintWriter printWriter = new PrintWriter(result);
@@ -103,17 +101,11 @@ public class SurveyManager extends Controller {
     }
 
     public static void delete(String formID) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         Survey deleted = Survey.find("bySurveyId", formID).first();
         deleted.delete();
     }
 
     public static void duplicate(String formID) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         Survey origin = Survey.find("bySurveyId", formID).first();
 
         SecureRandom random = new SecureRandom();
@@ -125,9 +117,6 @@ public class SurveyManager extends Controller {
     }
 
     public static void sendSurveys(String formID, String users[]) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         for (int i = 0; i < users.length; i++) {
             TransactionLog transaction = new TransactionLog();
             transaction.transactionDate = new Date();

@@ -1,16 +1,27 @@
+/*
+ *  Copyright (C) 2010-2011  INdT - Instituto Nokia de Tecnologia
+ *
+ *  NDG is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  NDG is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
+ */
 package controllers;
 
-import controllers.logic.AuthorizationUtils;
 import controllers.sms.SmsHandlerFactory;
-import play.mvc.Controller;
 
-public class SMSMessage extends Controller {
+public class SMSMessage extends NdgController {
 
     public static void sendSMS( String phoneNumber, String message )
     {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
-            return;
-        }
         if ( SmsHandlerFactory.getInstance().getSmsHandler() != null) {
             SmsHandlerFactory.getInstance().getSmsHandler().sendTextSMS( phoneNumber, message, 0 );
         }

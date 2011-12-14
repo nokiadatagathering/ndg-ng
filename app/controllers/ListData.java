@@ -1,9 +1,24 @@
+/*
+ *  Copyright (C) 2011  INdT - Instituto Nokia de Tecnologia
+ *
+ *  NDG is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  NDG is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with NDG.  If not, see <http://www.gnu.org/licenses/
+ */
 package controllers;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import controllers.logic.AuthorizationUtils;
 import flexjson.JSONSerializer;
 import flexjson.transformer.AbstractTransformer;
 import java.util.Collection;
@@ -16,171 +31,141 @@ import models.NdgResult;
 import models.NdgUser;
 import models.Survey;
 import models.UserRole;
+import models.constants.SurveyStatusConsts;
 import play.db.jpa.JPA;
-import play.mvc.Controller;
 
-public class ListData extends Controller {
+public class ListData extends NdgController {
 
     public static void categories(int surveyId) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
-            String query = "survey_id = " + String.valueOf(surveyId) + " order by categoryIndex";
-            List<Category> categories = Category.find(query).fetch();
-            JSONSerializer categoryListSerializer = new JSONSerializer();
-            categoryListSerializer.include("id", "categoryIndex", "questionCollection", "label").rootName("categories");
-            renderJSON(categoryListSerializer.serialize(categories));
+        String query = "survey_id = " + String.valueOf(surveyId) + " order by categoryIndex";
+        List<Category> categories = Category.find(query).fetch();
+        JSONSerializer categoryListSerializer = new JSONSerializer();
+        categoryListSerializer.include("id", "categoryIndex", "questionCollection", "label").rootName("categories");
+        renderJSON(categoryListSerializer.serialize(categories));
     }
 
     public static void results(int surveyId, int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
-            StringBuilder searchFilter = null;
 
-            if (searchField != null && searchText != null) {
-                searchFilter = new StringBuilder();
-                searchFilter.append(searchField).append(" like '").append(searchText).append("%' ");
-            }
-            StringBuilder query = new StringBuilder();
-            if (searchFilter != null) {
-                query.append(searchFilter);
-                query.append(" and ");
-            }
-            query.append("survey_id = ").append(String.valueOf(surveyId));
-            query.append(" order by ").append(orderBy).append(isAscending ? " asc" : " desc");
+        String query = getQuery( "survey_id", String.valueOf( surveyId ), false,
+                                 searchField, searchText,
+                                 null, isAscending );//sorting is not needed now
 
-            List<NdgResult> results = NdgResult.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
-            JSONSerializer surveyListSerializer = new JSONSerializer();
-            surveyListSerializer.include("id", "resultId", "title", "startTime", "ndgUser.username", "latitude").exclude("*").rootName("items");
+        long totalItems =  NdgResult.count( query );
 
-            renderJSON(addRangeToJson(surveyListSerializer.serialize(results), startIndex, NdgResult.count()));
+        query = getQuery( "survey_id" , String.valueOf( surveyId ), false,
+                          searchField, searchText,
+                          orderBy, isAscending );
+
+        List<NdgResult> results = NdgResult.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
+        JSONSerializer surveyListSerializer = new JSONSerializer();
+        surveyListSerializer.include("id", "resultId", "title", "startTime", "ndgUser.username", "latitude").exclude("*").rootName("items");
+
+        renderJSON(addRangeToJson(surveyListSerializer.serialize(results), startIndex, totalItems));
     }
 
-    public static void surveys(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText) {
-        if (!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
+    public static void surveys(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText, String filter) {
         List<Survey> surveys = null;
-        StringBuilder searchFilter = null;
+
+        String query = getQuery( "available" , (filter != null && filter.length() > 0)
+                                               ? String.valueOf( SurveyStatusConsts.getStatusFlag( filter ) ) : null,
+                                               false,
+                                searchField, searchText,
+                                null, isAscending );//sorting is not needed now
+
         long totalItems = 0;
-        if (searchField != null && searchText != null) {
-            searchFilter = new StringBuilder();
-            searchFilter.append(searchField).append(" like '").append(searchText).append("%' ");
-            totalItems = Survey.count(searchFilter.toString());
-        } else {
-            totalItems = Survey.count();
-        }
-        if (orderBy != null && orderBy.equals("resultCollection")) {
-            if (searchFilter != null) {
-                surveys = Survey.find(searchFilter.toString()).fetch();
-            } else {
-                surveys = Survey.all().fetch();
-            }
-            Collections.sort(surveys, new SurveyNdgResultCollectionComapator());
-            if (!isAscending) {
-                Collections.reverse(surveys);
+        totalItems = Survey.count( query );
+
+        if ( orderBy != null && orderBy.equals( "resultCollection" ) ) {
+            surveys = Survey.find( query ).fetch();
+            Collections.sort( surveys, new SurveyNdgResultCollectionComapator() );
+            if ( !isAscending ) {
+                Collections.reverse( surveys );
             }
 
             int subListEndIndex = surveys.size() <= endIndex
-                    ? surveys.size() : endIndex;
-            surveys = surveys.subList(startIndex, subListEndIndex);
+                                        ? surveys.size() : endIndex;
+            surveys = surveys.subList( startIndex, subListEndIndex );
         } else {
-            StringBuilder query = new StringBuilder();
-            if (searchFilter != null) {
-                query.append(searchFilter);
-            }
-            query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
-            surveys = Survey.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
+            query = getQuery( "available", ( filter != null && filter.length() > 0 )
+                                           ? String.valueOf( SurveyStatusConsts.getStatusFlag( filter ) ) : null,
+                                           false,
+                              searchField, searchText,
+                              orderBy, isAscending );
+            surveys = Survey.find( query ).from( startIndex ).fetch( endIndex - startIndex );
         }
         serializeSurveys(surveys, startIndex, totalItems);
     }
 
+    private static String getQuery( String filterName, String filterValue, boolean isFilterString, String searchField, String searchText, String orderBy, boolean isAscending ) {
+        StringBuilder query = new StringBuilder();
+
+        String statusQuery = "";
+        String searchQuery = "";
+        String sortingQuery = "";
+
+        if ( filterName != null && filterName.length() > 0
+          && filterValue != null && filterValue.length() >0 ) {
+            statusQuery = filterName + "=" + ( isFilterString ? ("'" + filterValue + "'") : filterValue );
+        }
+
+        if ( searchField != null && searchText != null && searchText.length() > 0 ) {
+            searchQuery = searchField + " like '%" + searchText + "%'";
+        }
+
+        if ( orderBy != null && orderBy.length()> 0 ) {
+            sortingQuery = "order by " + orderBy + ( isAscending ? " asc" : " desc" );
+        }
+
+        query.append( statusQuery )
+                .append( ( statusQuery.length() > 0 && searchQuery.length() > 0 ) ? " and " : ' ' )
+                   .append( searchQuery )
+                      .append( ' ' )
+                         .append( sortingQuery );
+
+        return query.toString();
+    }
+
     public static void users(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String groupName, String searchText) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
-            return;
-        }
         List<NdgUser> users = null;
-        StringBuilder searchFilter = null;
-        long totalItems = 0;
 
-        String groupFilter = "ndg_group.groupName ='" + groupName + "'";
-
-        if (searchField != null && searchText != null) {
-            searchFilter = new StringBuilder();
-            searchFilter.append(searchField).append(" like '").append(searchText).append("%' ");
-            if (groupName != null) {
-                searchFilter.append(" and ").append(groupFilter);
-            }
-            totalItems = NdgUser.count(searchFilter.toString());
-        } else {
-            if (groupName != null) {
-                totalItems = NdgUser.count(groupFilter);
-            } else {
-                totalItems = NdgUser.count();
-            }
-        }
+        String query = getQuery( "ndg_group.groupName", groupName != null && groupName.length() > 0
+                                                      ? groupName : null, true,
+                                 searchField, searchText,
+                                 null, isAscending );//sorting is not needed now
+        long totalItems = NdgUser.count( query );
 
         if (orderBy != null && orderBy.equals("userRoleCollection")) {
-            if (searchFilter != null) {
-                users = NdgUser.find(searchFilter.toString()).fetch();
-            } else {
-                if (groupName != null && groupName.length() > 0) {
-                    users = NdgUser.find(groupFilter).fetch();
-                } else {
-                    users = NdgUser.all().fetch();
-                }
-            }
+            users = NdgUser.find(query).fetch();
+
             Collections.sort(users, new NdgUserUserRoleCollectionComapator(isAscending));
             int subListEndIndex = users.size() <= endIndex
                     ? users.size() : endIndex;
+
             users = users.subList(startIndex, subListEndIndex);
         } else {
-            StringBuilder query = new StringBuilder();
-            if (searchFilter != null) {
-                query.append(searchFilter);
-            }
-            if (searchFilter != null && groupName != null) {
-                query.append(" and ").append(groupFilter);
-            } else if (groupName != null) {
-                query.append(groupFilter);
-            }
-            query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
+            query = getQuery( "ndg_group.groupName", groupName, true, searchField, searchText, orderBy, isAscending );
             users = NdgUser.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
         }
         serializeUsers(users, startIndex, totalItems);
     }
 
     public static void groups(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response, true)) {
-            return;
-        }
+
         List<NdgGroup> groups = null;
-        StringBuilder searchFilter = null;
         long totalItems = 0;
-        if (searchField != null && searchText != null) {
-            searchFilter = new StringBuilder();
-            searchFilter.append(searchField).append(" like '").append(searchText).append("%' ");
-            totalItems = NdgGroup.count(searchFilter.toString());
-        } else {
-            totalItems = NdgGroup.count();
-        }
+
+        String query = getQuery( null, null, false, searchField, searchText, null, isAscending );//sorting is not needed now
+
+        totalItems = NdgGroup.count( query );
+
         if (orderBy != null && orderBy.equals("resultCollection")) {
-            if (searchFilter != null) {
-                groups = NdgGroup.find(searchFilter.toString()).fetch();
-            } else {
-                groups = NdgGroup.all().fetch();
-            }
+            groups = NdgGroup.find( query ).fetch();
 
             int subListEndIndex = groups.size() <= endIndex
-                    ? groups.size() : endIndex;
+                                    ? groups.size() : endIndex;
             groups = groups.subList(startIndex, subListEndIndex);
         } else {
-            StringBuilder query = new StringBuilder();
-            if (searchFilter != null) {
-                query.append(searchFilter);
-            }
-            query.append("order by ").append(orderBy).append(isAscending ? " asc" : " desc");
+            query = getQuery( null, null, false, searchField, searchText, orderBy, isAscending );
             groups = NdgGroup.find(query.toString()).from(startIndex).fetch(endIndex);
         }
         serializeGroups(groups, startIndex, totalItems);
@@ -225,9 +210,6 @@ public class ListData extends Controller {
     }
 
     public static void sendSurveysUserList(String formID) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         List<NdgUser> users = JPA.em().createNamedQuery("findUserSendingSurvey").setParameter("surveyId", formID).getResultList();
 
         JSONSerializer userListSerializer = new JSONSerializer();

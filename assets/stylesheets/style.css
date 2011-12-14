@@ -475,8 +475,7 @@ searchTextField:-moz-placeholder {
     margin-top: 1px;
 }
 
-.clicableElem
-{
+.clickableElem {
     cursor: pointer;
 }
 

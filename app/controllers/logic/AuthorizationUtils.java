@@ -91,7 +91,7 @@ public class AuthorizationUtils {
     public static boolean checkWebAuthorization(Session session, Response response, boolean adminRestricted) {
         boolean retval = true;
         if (!session.contains("ndgUser") || ( adminRestricted && !sessionHasAdmin(session))) {
-            response.status = response.status = StatusCode.UNAUTHORIZED;
+            response.status = StatusCode.UNAUTHORIZED;
             retval = false;
         }
         return retval;
