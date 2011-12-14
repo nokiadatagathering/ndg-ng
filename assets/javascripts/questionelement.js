@@ -336,7 +336,10 @@ var QuestionUiElement = function( questionModel ){
                         $( '#' + optionId.uiId + ' .optionIcon' ).removeClass( 'iconVisible' );
                     },
                     revert: 'invalid',
-                    helper: 'clone'
+                    helper: function(event) {
+                        var dragging = $('<div class="optionIcon skipto" style="visibility:visible" ></div>');
+                        return dragging;
+                }
                 });
         }
 
