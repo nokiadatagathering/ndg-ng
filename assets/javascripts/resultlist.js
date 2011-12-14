@@ -241,5 +241,4 @@ var ResultList = function() {
         searchBy = searchDbFields[nameIndex];
         $('#searchTextField').val("");
     }
-
 }();

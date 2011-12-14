@@ -48,6 +48,9 @@
     vertical-align: middle;
     color: #eeeff4;
     line-height: 19px;
+    word-wrap: normal;
+    white-space: pre-line;
+    overflow-wrap: hyphenate;
 }
 
 #filter .selectedFilter {

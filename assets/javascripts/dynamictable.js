@@ -28,7 +28,7 @@ var DynamicTable = function() {
         $('#contentToolbar').unbind('click');
         if(elementEndIndex < totalItems){
             $('#contentToolbar').removeClass('backgroundHide');
-            $('#contentToolbar').append('<span class="toolbarText">Click here for more items</span>');
+            $('#contentToolbar').append('<span class="toolbarText">' + LOC.get( 'LOC_EXPAND_ITEM_LIST' ) + '</span>');
             $('#contentToolbar').click(function() {
                 $('#contentToolbar').unbind('click');
                 scrollDownList();
@@ -41,7 +41,7 @@ var DynamicTable = function() {
 
     function scrollDownList() {
         if(scrollReady) {
-            $('#contentToolbar span').text("Loading...");
+            $('#contentToolbar span').text( LOC.get('LOC_LOADING') );
             scrollReady = true;
             var diff = totalItems - elementEndIndex;
             if( diff > 0 ) {
@@ -66,7 +66,6 @@ var DynamicTable = function() {
         contentHandler.prepareLayout( createTableHtml() );
 
         addHandlers( remoteAction );
-
     }
 
     function initVariables( _columnIds, _columnTexts, _columnDbFields, _contentHandler ){
@@ -93,34 +92,34 @@ var DynamicTable = function() {
         fillListData();
 
         $(window).unbind('scroll');
-        $(window).scroll(function(){
-        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-           scrollDownList();
-        }
+        $(window).scroll( function() {
+            if($(window).scrollTop() == $(document).height() - $(window).height()) {
+                scrollDownList();
+            }
         });
     }
 
     function createTableHtml() {
-    var htmlContent = '';
-    htmlContent += '<thead>' + '<tr>';
-    $.each(columnIds,function(i,item) {
-        htmlContent += '<th scope="col" id="' + item + '" ';
-        if(i == 0 && item != null) {
-            htmlContent +='class = "columnHeaderNoWrap sortHeader firstColumnHeader ' + item + 'Width"';
-        } else if( item != null ) {
-            htmlContent +='class = "columnHeaderNoWrap sortHeader ' + item + 'Width"';
-        }
-        htmlContent += '><div>';
-        if(LOC.get(columnTexts[i]) != null) {
-            htmlContent += LOC.get(columnTexts[i]);
-            htmlContent += '<span class="sortIndicatorPlaceholder"/>';
-        }
-        htmlContent +='</div></th>';
-    });
-    htmlContent += '</tr></thead>'
-                 + '<tbody id="dynamicListTable">'
-                 + '</tbody>';
-    return htmlContent;
+        var htmlContent = '';
+        htmlContent += '<thead>' + '<tr>';
+        $.each(columnIds,function(i,item) {
+            htmlContent += '<th scope="col" id="' + item + '" ';
+            if(i == 0 && item != null) {
+                htmlContent +='class = "columnHeaderNoWrap sortHeader firstColumnHeader ' + item + 'Width"';
+            } else if( item != null ) {
+                htmlContent +='class = "columnHeaderNoWrap sortHeader ' + item + 'Width"';
+            }
+            htmlContent += '><div>';
+            if(LOC.get(columnTexts[i]) != null) {
+                htmlContent += LOC.get(columnTexts[i]);
+                htmlContent += '<span class="sortIndicatorPlaceholder"/>';
+            }
+            htmlContent +='</div></th>';
+        });
+        htmlContent += '</tr></thead>'
+                    + '<tbody id="dynamicListTable">'
+                    + '</tbody>';
+        return htmlContent;
     }
 
     function performSearch(event) {
@@ -131,8 +130,7 @@ var DynamicTable = function() {
         DynamicTable.refresh();
     }
 
-    function toggleSortByColumn(event)
-    {
+    function toggleSortByColumn(event) {
         var columnId = event.currentTarget.id;
         var columnIndex = jQuery.inArray( columnId, columnIds );
         resetColumnTitle();
@@ -156,10 +154,9 @@ var DynamicTable = function() {
     }
 
     function checkIfDeletingLast() {
-        if( (totalItems - 1) % CONST.get('TABLE_ROW_COUNT') == 0 && elementStartIndex > 0)
-            {
-                elementStartIndex -= CONST.get('TABLE_ROW_COUNT');
-            }
+        if( (totalItems - 1) % CONST.get('TABLE_ROW_COUNT') == 0 && elementStartIndex > 0 ) {
+            elementStartIndex -= CONST.get('TABLE_ROW_COUNT');
+        }
     }
 
     function refresh() {
@@ -175,7 +172,8 @@ var DynamicTable = function() {
     function fillListData( ) {
         var getJSONQuery = $.getJSON( contentUrl, prepareGetContentQuery(), function(data){
             $('#dynamicListTable').empty();
-            renderTableData(data);});
+            renderTableData(data);
+        });
         getJSONQuery.error(Utils.redirectIfUnauthorized);
     }
 
@@ -183,7 +181,8 @@ var DynamicTable = function() {
         var params = { 'startIndex': elementStartIndex,
                        'endIndex' : elementEndIndex,
                        'isAscending': lastSortAscending,
-                       'orderBy': lastSortByColumn};
+                       'orderBy': lastSortByColumn
+                     };
         var searchText = $('#searchTextField').val();
         if( searchText != "" ) {
             var searchParams = {
@@ -224,13 +223,14 @@ var DynamicTable = function() {
         $(document).bind('mouseup.menubutton',function() {
             $('.pushed').removeClass('pushed');
             $(document).unbind('mouseup.menubutton');
-            return false;});
+            return false;
+        });
         return false;
     }
 
 
     function onPreviousClicked(e) {
-        if ( elementStartIndex - CONST.get('TABLE_ROW_COUNT') >= 0 ) {
+        if( elementStartIndex - CONST.get('TABLE_ROW_COUNT') >= 0 ) {
             elementStartIndex -= CONST.get('TABLE_ROW_COUNT')
             refresh();
         }
@@ -238,40 +238,39 @@ var DynamicTable = function() {
     }
 
     function onNextClicked(e) {
-        if( elementStartIndex + CONST.get('TABLE_ROW_COUNT') < totalItems )
-        {
+        if( elementStartIndex + CONST.get('TABLE_ROW_COUNT') < totalItems ) {
             elementStartIndex += CONST.get('TABLE_ROW_COUNT');
             refresh();
         }
         e.preventDefault();
     }
 
-    function onMouseOverHandler(e){
+    function onMouseOverHandler(e) {
         $('#menu' + e.data + " span" ).addClass("hover");
         //$('#dynamicRow'+ e.data).addClass("hoverRow");
     }
 
-    function onMouseOutHandler(e){
+    function onMouseOutHandler(e) {
         $('#menu' + e.data+ " span" ).removeClass("hover");
         //$('#dynamicRow'+ e.data).removeClass("hoverRow");
     }
 
-    function onMouseOverNext(){
+    function onMouseOverNext() {
         this.bgColor='#dbe4f1';
         document.getElementById('next_button').src='images/icon_next_on.png';
     }
 
-    function onMouseOutNext(){
+    function onMouseOutNext() {
         this.bgColor='#edf0f6';
         document.getElementById('next_button').src='images/icon_next_off.png';
     }
 
-    function onMouseOverPrevious(){
+    function onMouseOverPrevious() {
         this.bgColor='#dbe4f1';
         document.getElementById('prev_button').src='images/icon_previous_on.png';
     }
 
-    function onMouseOutPrevious(){
+    function onMouseOutPrevious() {
         this.bgColor='#edf0f6';
         document.getElementById('prev_button').src='images/icon_previous_off.png';
     }

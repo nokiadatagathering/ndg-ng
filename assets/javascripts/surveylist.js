@@ -32,10 +32,10 @@ var SurveyList = function() {
 
         $('#plusButton').bind( 'click', function(event) {Editor.createSurvey();} );
         $('#plusButton').attr( 'title', LOC.get( 'LOC_NEW_SURVEY' ) );
-        $('#leftColumnContent' ).append( '<h3>STATUS</h3>'
-                                       + '<h4 id="filterBuilding" class="labelBuilding filterable clickableElem">Building</h4>'
-                                       + '<h4 id="filterAvailable" class="labelAvailable filterable clickableElem">Available</h4>'
-                                       + '<!--<h4 id="filterClosed" class="labelClosed filterable clickableElem">Closed</h4>-->' );
+        $('#leftColumnContent' ).append( '<h3>' + LOC.get( 'LOC_STATUS' ) + '</h3>'
+                                       + '<h4 id="filterBuilding" class="labelBuilding filterable clickableElem">' + LOC.get( 'LOC_BUILDING' ) + '</h4>'
+                                       + '<h4 id="filterAvailable" class="labelAvailable filterable clickableElem">' + LOC.get( 'LOC_AVAILABLE' ) + '</h4>'
+                                       + '<!--<h4 id="filterClosed" class="labelClosed filterable clickableElem">' + LOC.get( 'LOC_CLOSED' ) + '</h4>-->' );
 
         bindFilter();
 
@@ -64,12 +64,12 @@ var SurveyList = function() {
     }
 
     function bindFilter() {
-        $('.filterable').click( function(event) {onFilterClicked( event )} );
+        $('.filterable').click( function(event) { onFilterClicked( event ); } );
     }
 
     function selectFilter(i, item) {
         if ( selectedFilterName == item.id ) {
-            $( "#" + item.id ).addClass( "selectedFilter" )
+            $( "#" + item.id ).addClass( "selectedFilter" );
         }
     }
 
@@ -77,7 +77,7 @@ var SurveyList = function() {
         var clickedElem = event.currentTarget.id;
         if( $( "#" + clickedElem ).hasClass( "selectedFilter" ) ) {
 
-            $( "#" + clickedElem ).removeClass( "selectedFilter" )
+            $( "#" + clickedElem ).removeClass( "selectedFilter" );
             selectedFilterName = "";
         } else {
             $.each( $('.filterable'), function(i,item) { removeFilterSelection(i, item); } );
@@ -131,7 +131,7 @@ var SurveyList = function() {
             $("#leftColumn_layout2").remove();
             $("#middleColumn_layout2").remove();
             $("#rightColumn_layout2").remove();
-            }
+        }
         $( '#leftColumn' ).remove();
         $( '#content' ).remove();
         var layout = "";
@@ -157,7 +157,7 @@ var SurveyList = function() {
         $('.resultListTable').removeClass('resultListTable');
         $('.userManagement').removeClass('userManagement');
 
-        if( !$('#datatable').length ){
+        if( !$('#datatable').length ) {
             $('#content').append( '<div id="contentMain">'
                                 + '<div id="datatable">'
                                 + '<table id="minimalist">'
@@ -166,7 +166,7 @@ var SurveyList = function() {
                                 + '</div>');
         }
 
-        if( !$('#contentToolbar').length ){
+        if( !$('#contentToolbar').length ) {
             $('#content').append('<div id=contentToolbar></div>');
         }
         $('#container').height('715px');
@@ -223,10 +223,10 @@ var SurveyList = function() {
 
     function onEditSurveyClicked(e) {
 
-        if( e.data.available == SurveyAvailable.BUILDING ){
+        if( e.data.available == SurveyAvailable.BUILDING ) {
             $(window).unbind('scroll');
             Editor.openSurvey(e.data.id);
-        }else{
+        } else {
             alert( LOC.get( 'LOC_CANNOT_EDIT_SURVEY' ) );
         }
     }
@@ -243,8 +243,9 @@ var SurveyList = function() {
 
        $('#uploadSurveyFormButton').text(LOC.get('LOC_SEARCH'));
        $('#uploadSurveyInput').unbind('change');
-       $('#uploadSurveyInput').change( function(){
-           $('#uploadSurveyFakeInput').text($(this).val())} );
+       $('#uploadSurveyInput').change( function() {
+           $('#uploadSurveyFakeInput').text($(this).val())
+       } );
 
        uploadDialog.dialog( {title: LOC.get('LOC_SURVEY_UPLOAD')});
        $('#dialog-upload-query').text(LOC.get('LOC_CHOOSE_SURVEY_UPLOAD'));
@@ -282,11 +283,11 @@ var SurveyList = function() {
             $("#buttonDeleteYes").unbind("click");
             $("#buttonDeleteNo").unbind("click");
         });
-       $("#buttonDeleteNo").click( function() {
-           $("#buttonDeleteYes").unbind("click");
-           $("#buttonDeleteNo").unbind("click");
-           confirmDeleteDialog.dialog("close");
-       });
+        $("#buttonDeleteNo").click( function() {
+            $("#buttonDeleteYes").unbind("click");
+            $("#buttonDeleteNo").unbind("click");
+            confirmDeleteDialog.dialog("close");
+        });
     }
 
     function onDuplicateSurveyClicked(e) {
@@ -319,9 +320,9 @@ var SurveyList = function() {
             if(response === "success") {
                 DynamicTable.refresh();
                 alert("success");
-               } else {
+            } else {
                 alert("failure")
-               }
+            }
 
            resultFrame.unbind('load');
            uploadDialog.dialog("close");
@@ -338,5 +339,4 @@ var SurveyList = function() {
         searchBy = searchDbFields[nameIndex];
         $('#searchTextField').val("");
     }
-
 }();

@@ -92,8 +92,13 @@ var LOC = (function() {
         LOC_WARN_DELETE_OPTION :'This type of question must have at least one option',
         LOC_RESULT_DELETE_CONFIRM: 'Are you sure you want to delete this result?',
         LOC_MSG_PASSWORD_NOT_MATCH: 'Password do not match',
-        LOC_MSG_SHORT_NUMBER: 'Phone number is too short'
-
+        LOC_MSG_SHORT_NUMBER: 'Phone number is too short',
+        LOC_EXPAND_ITEM_LIST:'Click here for more items',
+        LOC_LOADING: 'Loading...',
+        LOC_BUILDING: 'Building',
+        LOC_AVAILABLE: 'Available',
+        LOC_CLOSED: 'Closed',
+        LOC_STATUS: 'STATUS'
     };
 
     return {

@@ -20,7 +20,7 @@ var UserManagement = function() {
 
     var scrollReady = true;
 
-    var selectedGroupName = ""
+    var selectedGroupName = "";
 
     return {
         showUserManagement : function(){showUserManagement();},
@@ -140,7 +140,7 @@ var UserManagement = function() {
         $('#contentToolbar2').unbind('click');
         if(elementEndIndex < totalItems){
             $('#contentToolbar2').removeClass('backgroundHide');
-            $('#contentToolbar2').append('<span class="toolbarText">Click here to expand item list</span>');
+            $('#contentToolbar2').append('<span class="toolbarText">' + LOC.get( 'LOC_EXPAND_ITEM_LIST' ) + '</span>');
             $('#contentToolbar2').click(function() {
                 $('#contentToolbar2').unbind('click');
                     scrollDownList();
@@ -408,7 +408,7 @@ var UserManagement = function() {
 
     function scrollDownList() {
         if(scrollReady) {
-            $('#contentToolbar2 span').text("Loading...");
+            $('#contentToolbar2 span').text( LOC.get('LOC_LOADING') );
             scrollReady = false;
             var diff = totalItems - elementEndIndex;
             if( diff > 0 ){

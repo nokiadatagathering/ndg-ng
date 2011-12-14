@@ -92,7 +92,13 @@ var LOC = (function() {
         LOC_WARN_DELETE_OPTION : 'Pytanie musi mie\u0107 przynajmniej jedn\u0105 opcj\u0119',
         LOC_RESULT_DELETE_CONFIRM: 'Czy napewno chcesz usun\u0105\u0107 rezultat?',
         LOC_MSG_PASSWORD_NOT_MATCH: 'Podane has\u0142a nie pasuj\u0105 do siebie',
-        LOC_MSG_SHORT_NUMBER: 'Numer telefonu jest zbyt krótki'
+        LOC_MSG_SHORT_NUMBER: 'Numer telefonu jest zbyt krótki',
+        LOC_EXPAND_ITEM_LIST: 'Kliknij aby rozwin\u0105\u0107 list\u0119',
+        LOC_LOADING: '\u0141adowanie...',
+        LOC_BUILDING: 'Budowana',
+        LOC_AVAILABLE: 'Dost\u0119pna',
+        LOC_CLOSED: 'Zamkni\u0119ta',
+        LOC_STATUS: 'STATUS'
     };
 
     return {
