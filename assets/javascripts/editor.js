@@ -98,8 +98,12 @@ var Editor = function() {
 
     function updateContainerSize() {
         var totalHeight = $('#categories').height();
-        if ( $('#container').height() < totalHeight + $('#header').height() ) {
-            $('#container').height( totalHeight + $('#header').height() + 1 );
+        var headerHeight = $('#header').height();
+
+        if ( (totalHeight + headerHeight) < 715 ) {
+            $('#container').height( 715 );
+        } else if ( $('#container').height() < totalHeight + headerHeight ) {
+            $('#container').height( totalHeight + headerHeight + 1 );
         }
     }
 
@@ -276,8 +280,8 @@ var Editor = function() {
     function showCategory( categoryId ){
         var expandIconElem = "#" + categoryId + ' span.expandIcon';
         $( '#' + categoryId + ' .listQuestion' ).show( 'fast', function(){
-            $( '#' + categoryId + ' .listQuestion' ).sortable( 'refresh' );
             updateContainerSize();
+            $( '#' + categoryId + ' .listQuestion' ).sortable( 'refresh' );
         });
         $( expandIconElem ).addClass( 'expanded' );
     }
@@ -323,6 +327,7 @@ var Editor = function() {
                 if( ui.item.hasClass( 'drag' ) ){
                         ui.placeholder.append(
                         '<span class="placeholderText">' + LOC.get( 'LOC_DROP_QUESTION') + '</span>');
+                        updateContainerSize();
                 }
                 setHoverConfig();
                 unbindToggleQuestions();
@@ -440,7 +445,6 @@ var Editor = function() {
          $( '#'+ qId + ' .duplicateQuestion' ).hide();
          $( '#'+ qId + ' .typeComboboxSelection' ).hide();
     }
-
 
     function showQuestion( qId ){
          $( '#'+ qId + ' .questionDetails' ).show();
