@@ -29,8 +29,8 @@ import play.mvc.Http.StatusCode;
 import play.mvc.Scope.Session;
 
 public class AuthorizationUtils {
-    public static boolean isAuthorized(Http.Header authorizationHeader, String method)
-    {
+
+    public static boolean isAuthorized(Http.Header authorizationHeader, String method) {
         boolean retval = false;
         if(authorizationHeader != null) {
 
@@ -70,17 +70,16 @@ public class AuthorizationUtils {
         StringBuilder combinedH1H2 = new StringBuilder();
         StringBuilder H2 = new StringBuilder(method);
         H2.append(":").append(uri);
-        combinedH1H2.append(password).
-                     append(":").append(nonce).
-                     append(":").append(nc).
-                     append(":").append(cnonce).
-                     append(":").append(qop).
-                     append(":").append(Codec.hexMD5(H2.toString()));
+        combinedH1H2.append(password)
+                     .append(":").append(nonce)
+                      .append(":").append(nc)
+                       .append(":").append(cnonce)
+                        .append(":").append(qop)
+                         .append(":").append(Codec.hexMD5(H2.toString()));
         return Codec.hexMD5(combinedH1H2.toString());
     }
 
-    public static void setDigestResponse(Response response)
-    {
+    public static void setDigestResponse(Response response) {
         String digest = AuthorizationUtils.generateDigest();
         response.setHeader("WWW-Authenticate", digest);
         response.setHeader("X-WWW-Authenticate", digest.substring(digest.indexOf(' ') + 1));
@@ -98,9 +97,9 @@ public class AuthorizationUtils {
     }
 
     public static NdgUser extractUserFromHeader(Http.Header authorizationHeader) {
-            String authorizationString = authorizationHeader.value().replace(',', ' ');
-            String username = getParamValue("username", authorizationString);
-            return NdgUser.find("byUsername", username).first();
+        String authorizationString = authorizationHeader.value().replace(',', ' ');
+        String username = getParamValue("username", authorizationString);
+        return NdgUser.find("byUsername", username).first();
     }
 
     public static boolean checkWebAuthorization(Session session, Response response) {
@@ -116,9 +115,7 @@ public class AuthorizationUtils {
         return retval;
     }
 
-    private static boolean sessionHasAdmin(Session session)
-    {
+    private static boolean sessionHasAdmin(Session session) {
         return session.contains("admin") && session.get("admin").equals("true");
     }
-
 }

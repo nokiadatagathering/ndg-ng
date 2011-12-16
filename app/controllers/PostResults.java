@@ -20,27 +20,53 @@
 package controllers;
 
 import controllers.exceptions.MSMApplicationException;
+import controllers.exceptions.ResultSaveException;
 import controllers.logic.AuthorizationUtils;
 import controllers.logic.ResultPersister;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.NdgResult;
+import models.NdgUser;
+import models.Survey;
+import models.TransactionLog;
+import play.mvc.Before;
 import play.mvc.Controller;
 
 public class PostResults extends Controller {
 
-    public static void upload(String surveyId, File filename ) {
-        if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method) )
-        {
+    private static final int CONFLICT = 409;
+
+    @Before(unless={"upload","checkAuthorization"})
+    public static void checkAccess() throws Throwable {
+        NdgController.checkAccess();
+    }
+
+    public static void upload( String surveyId, File filename ) {
+        if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method) ) {
             AuthorizationUtils.setDigestResponse(response);
         } else {
             try {
+                NdgUser userName = AuthorizationUtils.extractUserFromHeader(request.headers.get("authorization"));
+                Survey survey = Survey.find("bySurveyId", surveyId).first();
+                if (survey == null) {
+                    throw new ResultSaveException(ResultSaveException.ERROR_CODE_NO_SURVEY);
+                }
+
+                List<TransactionLog> transactionList = TransactionLog.find("byNdg_user_idAndsurvey",
+                    userName.id,
+                    survey).fetch();
+                if( transactionList == null || transactionList.isEmpty() ) {//this survey wasn't sent to this user -  rejecting result...
+                    error( CONFLICT , "This survey has not been sent to this user" );
+                    return;
+                }
+
                 ResultPersister persister = new ResultPersister();
                 FileReader reader = new FileReader(filename);
-                persister.postResult(reader, surveyId, AuthorizationUtils.extractUserFromHeader(request.headers.get("authorization")));
+                persister.postResult(reader, surveyId, userName);
             } catch (IOException ex) {
                 Logger.getLogger(PostResults.class.getName()).log(Level.SEVERE, null, ex);
             } catch (MSMApplicationException ex) {
@@ -50,8 +76,7 @@ public class PostResults extends Controller {
     }
 
     public static void checkAuthorization() {
-        if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method) )
-        {
+        if(!AuthorizationUtils.isAuthorized(request.headers.get("authorization"), request.method) ) {
             AuthorizationUtils.setDigestResponse(response);
         } else {
             renderText("OK");
@@ -59,9 +84,6 @@ public class PostResults extends Controller {
     }
 
     public static void deleteResult( long id ) {
-        if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
-            return;
-        }
         NdgResult deleted = NdgResult.findById( id );
         deleted.delete();
     }

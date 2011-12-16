@@ -49,7 +49,7 @@ public class ResultPersister {
     private NdgResult createResult(String surveyId) throws ResultSaveException {
         Survey survey = Survey.find("bySurveyId", surveyId).first();
         if (survey == null) {
-            throw new ResultSaveException(ResultSaveException._ERROR_CODE_NO_SURVEY);
+            throw new ResultSaveException(ResultSaveException.ERROR_CODE_NO_SURVEY);
         }
 
         NdgResult retval = new NdgResult();

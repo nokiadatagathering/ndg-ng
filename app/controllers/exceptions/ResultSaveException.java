@@ -22,8 +22,9 @@ package controllers.exceptions;
 public class ResultSaveException extends MSMApplicationException {
 
     private static final long serialVersionUID = 1L;
-    private static final String _ERROR_CODE = "MSM_CORE_MSG_RESULT_NOT_SAVED";
-    public static final String _ERROR_CODE_NO_SURVEY = "SURVEY_NOT_FOUND";
+    private static final String ERROR_CODE = "MSM_CORE_MSG_RESULT_NOT_SAVED";
+    public static final String ERROR_CODE_NO_SURVEY = "SURVEY_NOT_FOUND";
+    public static final String ERROR_CODE_SURVEY_NOT_SEND_TO_USER = "USER_CANT_USE_THIS_SURVEY";
 
     public ResultSaveException(String errorCode) {
         super();
@@ -32,11 +33,11 @@ public class ResultSaveException extends MSMApplicationException {
     
     public ResultSaveException() {
         super();
-        setErrorCode( _ERROR_CODE );
+        setErrorCode( ERROR_CODE );
     }
 
     public ResultSaveException( Exception e ) {
         super( e );
-        setErrorCode( _ERROR_CODE );
+        setErrorCode( ERROR_CODE );
     }
 }
