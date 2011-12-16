@@ -98,7 +98,10 @@ var LOC = (function() {
         LOC_BUILDING: 'Budowana',
         LOC_AVAILABLE: 'Dost\u0119pna',
         LOC_CLOSED: 'Zamkni\u0119ta',
-        LOC_STATUS: 'STATUS'
+        LOC_STATUS: 'STATUS',
+        LOC_CSV_FILE_UPLOAD: '\u0141aduj plik CSV',
+        LOC_CHOOSE_CSV_FILE_UPLOAD: 'Wybie\u017c plik CSV do za\u0142adowania',
+        LOC_LOAD: '\u0141aduj'
     };
 
     return {

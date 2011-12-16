@@ -68,7 +68,6 @@ var Editor = function() {
             stop: function () {removeHoverConfig();}
         });
 
-
         $( "#editorBackButton" ).click( function(){
             onBackClicked();
         } );
@@ -96,6 +95,8 @@ var Editor = function() {
                     bindToggleCategory();
                 }
         });
+
+        $('#categories').resize( function(e) { updateContainerSize(); });
     }
 
     function updateContainerSize() {
@@ -124,7 +125,6 @@ var Editor = function() {
 
         $('#plusButton').addClass( 'drag' );
         $('#addQuestion').addClass( 'drag' );
-
     }
 
     function setHoverConfig(){
@@ -186,11 +186,9 @@ var Editor = function() {
     }
 
     function onBackClicked(){
-
         $( '#buttonDeleteSurveyYes' ).unbind('click');
         $( '#buttonDeleteSurveyNo' ).unbind('click');
         $( '#buttonDeleteSurveyCancel' ).unbind('click');
-
 
         $( '#dialogConfirmSaveSurveyQuestion' ).text( LOC.get( 'LOC_SAVE_SURVEY' ) );
         $( '#buttonDeleteSurveyYes' ).text( LOC.get( 'LOC_YES' ) );
@@ -239,7 +237,7 @@ var Editor = function() {
             fillQuestions( item.questionCollection, item.uiId );
             bindToggleQuestions();
         });
-        updateContainerSize();
+        //updateContainerSize();
         bindToggleCategory(); // allows to show and hide questions in category
     }
 
@@ -282,7 +280,7 @@ var Editor = function() {
     function showCategory( categoryId ){
         var expandIconElem = "#" + categoryId + ' span.expandIcon';
         $( '#' + categoryId + ' .listQuestion' ).show( 'fast', function(){
-            updateContainerSize();
+            //updateContainerSize();
             $( '#' + categoryId + ' .listQuestion' ).sortable( 'refresh' );
         });
         $( expandIconElem ).addClass( 'expanded' );
@@ -312,7 +310,7 @@ var Editor = function() {
                 if( ui.item.hasClass( 'drag' ) ){
                         ui.placeholder.append(
                         '<span class="placeholderText">' + LOC.get( 'LOC_DROP_QUESTION') + '</span>');
-                        updateContainerSize();
+                        //updateContainerSize();
                 }
                 setHoverConfig();
                 unbindToggleQuestions();
@@ -324,7 +322,7 @@ var Editor = function() {
                     setQuestionUiOptions( newQuestion );
                 }
                 removeHoverConfig();
-                updateContainerSize();
+                //updateContainerSize();
                 bindToggleQuestions();
             }
         });//.disableSelection();
@@ -389,7 +387,7 @@ var Editor = function() {
             drop: function( event, ui ){
                   var dragQuestionId = $( $( ui.draggable ).parents( '.listItemQuestion' )[0] ).attr( 'id' );
                   var dropQuestionId = $( this ).attr( 'id' );
-                  var dragCategoryId = $( $( ui.draggable ).parents( '.listCategory' )[0] ).attr( 'id' ); 
+                  var dragCategoryId = $( $( ui.draggable ).parents( '.listCategory' )[0] ).attr( 'id' );
                     if( dragQuestionId == dropQuestionId ){
                         return;
                     }
@@ -480,14 +478,11 @@ var Editor = function() {
         appendQuestionElement(  createQuestionElement( newQuestion ),
                                 newQuestion,
                                 catId );
-
     }
 
     function onQuestionClicked( questionId ){
-
         hideQuestion( currentSelectionId );
         currentSelectionId = questionId;
-
         showQuestion( currentSelectionId );
     }
 }();

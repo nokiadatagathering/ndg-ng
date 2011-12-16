@@ -191,7 +191,7 @@ var QuestionUiElement = function( questionModel ){
                         changeYear: true,
                         dateFormat: 'yy-mm-dd',
                         onClose: function(dateText, inst) {onDefaultChanged();}
-        }).dateEntry( { dateFormat: 'ymd-', spinnerImage: ''} );
+        }).dateEntry( {dateFormat: 'ymd-', spinnerImage: ''} );
 
         $( '#' + question.uiId + ' .rangeInputMin' ).datepicker({
                         showOn: "button",
@@ -201,7 +201,7 @@ var QuestionUiElement = function( questionModel ){
                         changeYear: true,
                         dateFormat: 'yy-mm-dd',
                         onClose: function(dateText, inst) {onRangeInputMinChanged();}
-        }).dateEntry( { dateFormat: 'ymd-', spinnerImage: ''} );
+        }).dateEntry( {dateFormat: 'ymd-', spinnerImage: ''} );
 
         $( '#' + question.uiId + ' .rangeInputMax' ).datepicker({
                     showOn: "button",
@@ -211,7 +211,7 @@ var QuestionUiElement = function( questionModel ){
                     changeYear: true,
                     dateFormat: 'yy-mm-dd',
                     onClose: function(dateText, inst) {onRangeInputMaxChanged();}
-        }).dateEntry( { dateFormat: 'ymd-', spinnerImage: ''} );
+        }).dateEntry( {dateFormat: 'ymd-', spinnerImage: ''} );
 
         $( '#' + question.uiId + ' input.rangeCheckMin').change( function (){onCheckBoxMinChange();} );
         $( '#' + question.uiId + ' input.rangeCheckMax').change( function (){onCheckBoxMaxChange();} );
@@ -271,7 +271,7 @@ var QuestionUiElement = function( questionModel ){
 
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
         $( '#' + question.uiId + ' div.addOption').bind('click', +isExclusive, function( event ) {onAddOptionClicked( event );} );
-        $( '#' + question.uiId + ' div.importOption').bind('click',  function( event ) {alert("Not supported")} );
+        $( '#' + question.uiId + ' div.importOption').bind('click',  function( event ) {loadOptionsFromFile();} );
 
         if( question.questionOptionCollection.length == 0 ){
             var option = new QuestionOption();
@@ -283,6 +283,61 @@ var QuestionUiElement = function( questionModel ){
                 appendOption( item, isExclusive );
             }
         });
+    }
+
+    function loadCSVFile(data) {
+        var file = data.files[0];
+
+        if (file) {
+            var r = new FileReader();
+            r.onload = function(e) {
+            var contents = e.target.result;
+                var importFileLines = contents.split( /(.*?)[\r\n]/ );
+                $.each( importFileLines, function( i, item ) {
+                    szData = item;
+                    if ( szData.charCodeAt(0) == 34 ) {
+                        szChoice = szData.substr(1,szData.length-2);
+                    } else if ( szData == "" ) {
+                        return;
+                    } else {
+                        szChoice = szData;
+                    }
+
+                    var option = new QuestionOption();
+                    option.label = szChoice;
+                    question.questionOptionCollection.push( option );
+                    appendOption( option, question.questionType.typeName == "select1" );
+                });
+            }
+            r.readAsText(file);
+        } else {
+            alert("Failed to load file");
+        }
+        uploadDialog.dialog("close");
+    }
+
+    function loadOptionsFromFile() {
+        if ( window.File && window.FileReader && window.FileList) {
+            $('#buttonSendFile').unbind( 'click' );
+            $('#buttonSendFile').click( function() {loadCSVFile( document.getElementById('uploadSurveyInput') );});
+
+            $('#uploadSurveyFormButton').text(LOC.get('LOC_SEARCH'));
+            $('#uploadSurveyInput').unbind('change');
+            $('#uploadSurveyInput').change( function() {
+                $('#uploadSurveyFakeInput').text($(this).val())
+             } );
+
+            uploadDialog.dialog( {title: LOC.get('LOC_CSV_FILE_UPLOAD')});
+            $('#dialog-upload-query').text(LOC.get('LOC_CHOOSE_CSV_FILE_UPLOAD'));
+            $('#buttonSendFile').text(LOC.get('LOC_LOAD'));
+
+            uploadDialog.dialog({close: function(){$.unblockUI();}} )
+            uploadDialog.dialog("open");
+            $.blockUI( {message: null} );
+
+        } else {
+            alert('HTML5 support is needed to use this functionality. The File APIs are not fully supported in this browser.');
+        }
     }
 
     function onSelectChanged( questionUiId ){
@@ -300,7 +355,7 @@ var QuestionUiElement = function( questionModel ){
         if( option.hasOwnProperty( 'id' ) ){
             optionId = 'option' + option.id;
         }else{
-            var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get rundom id
+            var numRand = Math.floor( Math.random() * 10000 ); //TODO maybe exist better way to get random id
             optionId = 'option' + numRand;
         }
         option.uiId = optionId;
@@ -416,10 +471,8 @@ var QuestionUiElement = function( questionModel ){
             question.questionOptionCollection = [];
         }
 
-
         appendDetails();
     }
-
 
     function getOption( optionUiId ){// TODO move to model
         var option;
