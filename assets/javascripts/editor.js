@@ -9,7 +9,9 @@ var Editor = function() {
     return {
         openSurvey : function(id) {openSurvey(id);},
         createSurvey : function() {createSurvey();},
-        updateContainerSize: function() {updateContainerSize();}
+        updateContainerSize: function() {updateContainerSize();},
+        setHoverConfig : function() {setHoverConfig();},
+        removeHoverConfig : function() {removeHoverConfig();}
     };
 
     function createSurvey(){
@@ -298,23 +300,6 @@ var Editor = function() {
         var listRef = '#' + categoryId + ' .listQuestion';
         var catHeaderRef = "#" + categoryId + " h3";
 
-        $( catHeaderRef ).droppable({
-            accept: '.skipto',
-            drop: function( event, ui ){
-                var dragCategoryId = $( $( ui.draggable ).parents( '.listCategory' )[0] ).attr( 'id' );
-                var dropCategoryId = $( $( this ).parents( '.listCategory' )[0] ).attr( 'id' );
-
-                if( dragCategoryId == dropCategoryId ){
-                    return;
-                }
-
-                var optionId = $( $( ui.draggable ).parents( '.optionInput' )[0] ).attr( 'id' );
-                var queId = $( $( ui.draggable ).parents( '.listItemQuestion' )[0] ).attr( 'id' );
-
-                surveyModel.setSkipCategory( queId, optionId, dropCategoryId );
-            }
-        });
-
         //allows sort question
         $( listRef ).sortable({
             revert: true,
@@ -398,6 +383,22 @@ var Editor = function() {
                     + '</div>'
                     + '<div class="questionDetails"></div>'
                     + '</li>');
+
+       qElement.droppable({
+            accept: '.skipto',
+            drop: function( event, ui ){
+                  var dragQuestionId = $( $( ui.draggable ).parents( '.listItemQuestion' )[0] ).attr( 'id' );
+                  var dropQuestionId = $( this ).attr( 'id' );
+                  var dragCategoryId = $( $( ui.draggable ).parents( '.listCategory' )[0] ).attr( 'id' ); 
+                    if( dragQuestionId == dropQuestionId ){
+                        return;
+                    }
+
+                    var optionId = $( $( ui.draggable ).parents( '.optionInput' )[0] ).attr( 'id' );
+
+                    surveyModel.setSkipQuestion( dragCategoryId, dragQuestionId, optionId, dropQuestionId );
+            }
+        });
 
         return qElement;
     }

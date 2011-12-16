@@ -83,22 +83,20 @@ var SurveyModel = function(s){
             if( category != null ){
                 category.categoryIndex = idx + 1;
             }
-            prepereRelevant( category );
+//            prepareRelevant( question );
         });
         currentQuestionIndex = 0;
     }
 
-    function prepereRelevant( category ){
+    function prepareRelevant( question ){
         var relevantStr;
-        if( !skipLogicController.contains(category) ){
+        if( !skipLogicController.contains(question) ){
             relevantStr = undefined;
         }else{
-            relevantStr = skipLogicController.getRelevantString( category );
+            relevantStr = skipLogicController.getRelevantString( question );
         }
 
-        $.each( category.questionCollection, function( idx, item ) {
-            item.relevant = relevantStr;
-        });
+        question.relevant = relevantStr;
     }
 
     this.reorderQuestion = function ( newOrder, currentCategoryId ){
@@ -114,6 +112,7 @@ var SurveyModel = function(s){
                 removeFromOldCategory(question);
                 currentCategory.questionCollection.push( question );
             }
+            prepareRelevant( question );
             currentQuestionIndex++;
         });
     }
@@ -181,6 +180,15 @@ var SurveyModel = function(s){
         skipLogicController.add( skipedCategory, new SkipObject( option, question, category ));
     }
 
+    this.setSkipQuestion = function( dragCategoryId, dragQuestionId, optionId, dropQuestionId ) {
+        var category = getCategory( dragCategoryId );
+        var question = getQue( dragQuestionId );
+        var option = getOpt( question, optionId );
+        var skipedQuestion = getQue( dropQuestionId );
+
+        skipLogicController.add( skipedQuestion, new SkipObject( option, question, category ));
+    }
+
     function getOpt( question, optionId ){
         var option;
         $.each( question.questionOptionCollection , function( idx, item ){
@@ -217,21 +225,25 @@ var SurveyModel = function(s){
 
     this.findOptionByValue = function ( question, val ){
         var option;
-        $.each( question.questionOptionCollection, function( i, item ){
-           if( item.optionValue == val ){
-               option = item;
-               return false;
-           }
-           return true;
-        });
+        if(question) {
+            $.each( question.questionOptionCollection, function( i, item ){
+               if( item.optionValue == val ){
+                   option = item;
+                   return false;
+               }
+               return true;
+            });
+        }
         return option;
     }
 
     this.addSkipLogic = function(){
         $.each(survey.categoryCollection, function( i, item ){
-            if( item.questionCollection[0] != undefined && item.questionCollection[0].relevant != undefined ){
-                skipLogicController.addSkipLogic( item, item.questionCollection[0].relevant );
-            }
+            $.each(item.questionCollection, function(j, questionItem) {
+                if( questionItem != undefined && questionItem.relevant != undefined ){
+                    skipLogicController.addSkipLogic( questionItem, questionItem.relevant );
+                }
+            });
         });
     }
 };

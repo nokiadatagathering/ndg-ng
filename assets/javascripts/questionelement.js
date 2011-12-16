@@ -327,18 +327,20 @@ var QuestionUiElement = function( questionModel ){
             $( '#' + question.uiId + ' .skipto' ).hide();
         }else{
             $( '#' + question.uiId + ' .skipto' ).draggable({
+                refreshPositions: true,
                     start: function(){
                         $( '#' + optionId.uiId + ' .optionIcon' ).addClass( 'iconVisibleDrag' );
-                        Editor.updateContainerSize();
+                         Editor.setHoverConfig();
                     },
                     stop: function(){
                         $( '#' + optionId.uiId + ' .optionIcon' ).removeClass( 'iconVisibleDrag' );
                         $( '#' + optionId.uiId + ' .optionIcon' ).removeClass( 'iconVisible' );
+                        Editor.removeHoverConfig();
                     },
                     revert: 'invalid',
                     helper: function(event) {
-                        var dragging = $('<div class="optionIcon skipto" style="visibility:visible" ></div>');
-                        return dragging;
+                    var dragging = $('<div class="optionIcon skipto" style="visibility:visible" ></div>');
+                return dragging;
                 }
                 });
         }

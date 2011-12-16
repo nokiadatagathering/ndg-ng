@@ -11,28 +11,28 @@ var SkipLogicController = function ( model ){
         addSkipLogic : function ( skipedCategory, relevantStr ) { addSkipLogic( skipedCategory, relevantStr ) }
     };
 
-    function add( skipedCategory, skipObject ){
-        if(skipLogicMap.contains( skipedCategory ) ){
-            var oldSkipOptionObj = skipLogicMap.get( skipedCategory );
-            $( '#' + oldSkipOptionObj.quesiton.uiId + ' div.skipto.selected' ).removeClass( 'selected' );
+    function add( skippedQuestion, skipObject ){
+        if(skipLogicMap.contains( skippedQuestion ) ){
+            var oldSkipOptionObj = skipLogicMap.get( skippedQuestion );
+            $( '#' + oldSkipOptionObj.uiId + ' div.skipto.selected' ).removeClass( 'selected' );
         }
-        skipLogicMap.add( skipedCategory,  skipObject );
-        $( '#' + skipObject.option.uiId + ' div.skipto' ).addClass( 'selected' );
+        skipLogicMap.add( skippedQuestion,  skipObject );
+        $( '#' + skipObject.uiId + ' div.skipto' ).addClass( 'selected' );
     }
 
-    function contains( category ){
-        return skipLogicMap.contains( category );
+    function contains( question ){
+        return skipLogicMap.contains( question );
     }
 
-    function getRelevantString( category ){
-        return skipLogicMap.get( category ).getRelevantString();
+    function getRelevantString( question ){
+        return skipLogicMap.get( question ).getRelevantString();
     }
 
 
-    function addSkipLogic( skipedCategory, relevantStr ){
+    function addSkipLogic( skipedQuestion, relevantStr ){
 
         relevantStr = relevantStr.replace( new RegExp("'", "g"), "" );
-        relevantStr = relevantStr.replace( new RegExp("/", "g"), " " ).replace( "!=", " " );
+        relevantStr = relevantStr.replace( new RegExp("/", "g"), " " ).replace( "=", " " );
         relevantStr = $.trim( relevantStr );
         var expr = relevantStr.split( " " );
 
@@ -40,7 +40,7 @@ var SkipLogicController = function ( model ){
         var question = surveyModel.findQuestionByObjectName( category, $.trim( expr[2] ) ) ;
         var option = surveyModel.findOptionByValue( question, $.trim( expr[3] ) );
 
-        add( skipedCategory, new SkipObject( option, question, category ) );
+        add( skipedQuestion, new SkipObject( option, question, category ) );
     }
 }
 
@@ -58,12 +58,12 @@ var SkipObject = function(  opt, que, cat ){
     }
 
     function getRelevantString(){
-        return  '/data/' + category.objectName + '/' + question.objectName + "!='" + option.optionValue + "'";
+        return  '/data/' + category.objectName + '/' + question.objectName + "='" + option.optionValue + "'";
     }
 };
 
 var SkipLogicMap = function (){
-    var skipedCategoryArray = [];
+    var skipedQuestionArray = [];
     var skipObjectArray = [];
 
 
@@ -74,24 +74,24 @@ var SkipLogicMap = function (){
     }
 
     function get( keyCategory ){
-        var index = $.inArray( keyCategory, skipedCategoryArray );
+        var index = $.inArray( keyCategory, skipedQuestionArray );
         return skipObjectArray[ index ];
     }
 
-    function add( keyCategory, valueSkipObj ){
+    function add( keyQuestion, valueSkipObj ){
 
-        var index = $.inArray( keyCategory, skipedCategoryArray );
+        var index = $.inArray( keyQuestion, skipedQuestionArray );
         if( index != -1 ){
-            skipedCategoryArray[index] = keyCategory;
+            skipedQuestionArray[index] = keyQuestion;
             skipObjectArray[index] = valueSkipObj;
         }else{
-            skipedCategoryArray.push( keyCategory );
+            skipedQuestionArray.push( keyQuestion );
             skipObjectArray.push( valueSkipObj );
         }
     }
 
     function contains( keyCategory ){
-        var index = $.inArray( keyCategory, skipedCategoryArray );
+        var index = $.inArray( keyCategory, skipedQuestionArray );
 
         if( index != -1 ){
              return true;
