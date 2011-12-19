@@ -67,6 +67,9 @@ public class SurveyPersister {
         persistSurvey(formDefinition, newSurvey);
         persistChildSet(formDefinition, formDefinition, defCategory);
         persistTriggerables( formDefinition );
+        if ( defCategory.questionCollection == null || defCategory.questionCollection.size() == 0 ) {
+            defCategory.delete();
+        }
     }
 
     private void persistSurvey(FormDef formDefinition, Survey newSurvey) throws SurveySavingException {
@@ -90,11 +93,12 @@ public class SurveyPersister {
         defCategory.label = "Default";
         defCategory.objectName = "DefaultCategory";
         defCategory.categoryIndex  = 0;
+        defCategory.questionCollection = new ArrayList<Question>();
 
         newSurvey.categoryCollection = new ArrayList<Category>();
-        newSurvey.categoryCollection.add(defCategory);
 
         newSurvey.save();
+        defCategory.save();
         survey = newSurvey;
     }
 
