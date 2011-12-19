@@ -57,6 +57,7 @@ public class QuestionObjectFactory implements ObjectFactory{
             }else{ //edit question
                 bind( ob, map, question );
                 addConstraintString( map, question );
+                verifyRelevant(map, question);
 
                 if( !currentCategory.questionCollection.contains( question ) ){ // move to other category
                     question.category.questionCollection.remove( question );
@@ -127,6 +128,12 @@ public class QuestionObjectFactory implements ObjectFactory{
             question.readonly = 0;
 
             return question;
+    }
+
+    private void verifyRelevant(HashMap map, Question question) {
+        if(!map.containsKey("relevant") && question.relevant != null) {
+            question.relevant = null;
+        }
     }
 }
 

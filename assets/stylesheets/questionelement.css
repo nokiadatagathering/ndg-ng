@@ -88,6 +88,11 @@ div.optionIcon.iconVisible
     visibility: visible;
 }
 
+div.optionIcon.selected
+{
+    visibility: visible;
+}
+
 div.optionIcon.iconVisibleDrag
 {
     visibility: visible;

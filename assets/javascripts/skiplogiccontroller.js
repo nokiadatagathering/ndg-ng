@@ -17,7 +17,16 @@ var SkipLogicController = function ( model ){
             $( '#' + oldSkipOptionObj.uiId + ' div.skipto.selected' ).removeClass( 'selected' );
         }
         skipLogicMap.add( skippedQuestion,  skipObject );
-        $( '#' + skipObject.uiId + ' div.skipto' ).addClass( 'selected' );
+        $( '#' + skipObject.option.uiId + ' div.skipto' ).addClass( 'selected' );
+        $( '#' + skipObject.option.uiId + ' div.skipto' ).unbind( 'click' );
+        $( '#' + skipObject.option.uiId + ' div.skipto' ).click( function(){selectedSkipClicked($(this));});
+    }
+
+    function selectedSkipClicked(source) {
+        var optionId = source.parents('.optionInput').attr('id');
+        skipLogicMap.removeOption(optionId);
+        source.removeClass('selected');
+        source.unbind('click');
     }
 
     function contains( question ){
@@ -53,7 +62,7 @@ var SkipObject = function(  opt, que, cat ){
     return {
         getRelevantString : function (){return getRelevantString()},
         option : option,
-        quesiton: question,
+        question: question,
         category: category
     }
 
@@ -70,11 +79,12 @@ var SkipLogicMap = function (){
     return {
         add : function ( keyCategory, valueSkipObj ){add( keyCategory, valueSkipObj )},
         get : function ( keyCategory ) {return get( keyCategory )},
-        contains : function ( keyCategory ) {return contains( keyCategory )}
+        contains : function ( keyCategory ) {return contains( keyCategory )},
+        removeOption : function(optionId){return removeOption(optionId)}
     }
 
-    function get( keyCategory ){
-        var index = $.inArray( keyCategory, skipedQuestionArray );
+    function get( keyQuestion ){
+        var index = $.inArray( keyQuestion, skipedQuestionArray );
         return skipObjectArray[ index ];
     }
 
@@ -90,13 +100,23 @@ var SkipLogicMap = function (){
         }
     }
 
-    function contains( keyCategory ){
-        var index = $.inArray( keyCategory, skipedQuestionArray );
+    function contains( keyQuestion ){
+        var index = $.inArray( keyQuestion, skipedQuestionArray );
 
         if( index != -1 ){
              return true;
         }else{
             return false;
         }
+    }
+
+    function removeOption(optionId) {
+        $.each(skipObjectArray, function(i, current){
+            if(current.option.uiId == optionId) {
+                skipedQuestionArray.splice(i);
+                skipObjectArray.splice(i);
+                return false;
+            }
+        });
     }
 }
