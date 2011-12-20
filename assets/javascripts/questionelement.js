@@ -306,7 +306,7 @@ var QuestionUiElement = function( questionModel ){
                     var option = new QuestionOption();
                     option.label = szChoice;
                     question.questionOptionCollection.push( option );
-                    appendOption( option, question.questionType.typeName == "select1" );
+                    appendOption( option, question.questionType.id == QuestionType.EXCLUSIVE );
                 });
             }
             r.readAsText(file);
