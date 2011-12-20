@@ -8,7 +8,10 @@ var SkipLogicController = function ( model ){
         add: function ( category, skipOption ) { add( category, skipOption ) },
         getRelevantString : function ( category ) { return getRelevantString( category ) },
         contains : function ( category ) { return contains( category ) },
-        addSkipLogic : function ( skipedCategory, relevantStr ) { addSkipLogic( skipedCategory, relevantStr ) }
+        addSkipLogic : function ( skipedCategory, relevantStr ) { addSkipLogic( skipedCategory, relevantStr ) },
+        optionDeleted : function ( optionId) { optionDeleted(optionId);},
+        questionDeleted: function(questionId) {questionDeleted(questionId);},
+        categoryDeleted: function(categoryId) {categoryDeleted(categoryId);}
     };
 
     function add( skippedQuestion, skipObject ){
@@ -24,9 +27,12 @@ var SkipLogicController = function ( model ){
 
     function selectedSkipClicked(source) {
         var optionId = source.parents('.optionInput').attr('id');
-        skipLogicMap.removeOption(optionId);
-        source.removeClass('selected');
-        source.unbind('click');
+        var question = $('#' + skipLogicMap.getSkipTarget(optionId).uiId);
+        var categoryToExpand = $(question).parents('.listCategory')[0];
+        Editor.showCategory(categoryToExpand.getAttribute('id'));
+        question.addClass('highlightRelevant');
+        scroll(0, question[0].offsetTop);
+        setTimeout( function() {question.removeClass('highlightRelevant'); }, 750);
     }
 
     function contains( question ){
@@ -51,6 +57,18 @@ var SkipLogicController = function ( model ){
 
         add( skipedQuestion, new SkipObject( option, question, category ) );
     }
+
+    function optionDeleted(optionId) {
+        skipLogicMap.removeOption(optionId);
+    }
+
+    function questionDeleted(questionId) {
+        skipLogicMap.removeQuestion(questionId);
+    }
+
+    function categoryDeleted(categoryId) {
+        skipLogicMap.removeCategory(categoryId);
+    }
 }
 
 var SkipObject = function(  opt, que, cat ){
@@ -72,7 +90,7 @@ var SkipObject = function(  opt, que, cat ){
 };
 
 var SkipLogicMap = function (){
-    var skipedQuestionArray = [];
+    var skippedQuestionArray = [];
     var skipObjectArray = [];
 
 
@@ -80,28 +98,31 @@ var SkipLogicMap = function (){
         add : function ( keyCategory, valueSkipObj ){add( keyCategory, valueSkipObj )},
         get : function ( keyCategory ) {return get( keyCategory )},
         contains : function ( keyCategory ) {return contains( keyCategory )},
-        removeOption : function(optionId){return removeOption(optionId)}
+        removeOption : function(optionId){return removeOption(optionId)},
+        removeQuestion : function(questionId){return removeQuestion(questionId)},
+        removeCategory : function(categoryId){return removeCategory(categoryId)},
+        getSkipTarget : function(optionId) {return getSkipTarget(optionId)}
     }
 
     function get( keyQuestion ){
-        var index = $.inArray( keyQuestion, skipedQuestionArray );
+        var index = $.inArray( keyQuestion, skippedQuestionArray );
         return skipObjectArray[ index ];
     }
 
     function add( keyQuestion, valueSkipObj ){
 
-        var index = $.inArray( keyQuestion, skipedQuestionArray );
+        var index = $.inArray( keyQuestion, skippedQuestionArray );
         if( index != -1 ){
-            skipedQuestionArray[index] = keyQuestion;
+            skippedQuestionArray[index] = keyQuestion;
             skipObjectArray[index] = valueSkipObj;
         }else{
-            skipedQuestionArray.push( keyQuestion );
+            skippedQuestionArray.push( keyQuestion );
             skipObjectArray.push( valueSkipObj );
         }
     }
 
     function contains( keyQuestion ){
-        var index = $.inArray( keyQuestion, skipedQuestionArray );
+        var index = $.inArray( keyQuestion, skippedQuestionArray );
 
         if( index != -1 ){
              return true;
@@ -110,12 +131,47 @@ var SkipLogicMap = function (){
         }
     }
 
+    function getSkipTarget(optionId) {
+        var question = undefined;
+        $.each(skipObjectArray, function(i, current){
+            if(current.option.uiId == optionId) {
+                question = skippedQuestionArray[i];
+                return false;
+            }
+        });  
+        return question;
+    }
+
     function removeOption(optionId) {
         $.each(skipObjectArray, function(i, current){
             if(current.option.uiId == optionId) {
-                skipedQuestionArray.splice(i);
-                skipObjectArray.splice(i);
+                skippedQuestionArray.splice(i, 1);
+                skipObjectArray.splice(i, 1);
                 return false;
+            }
+        });
+    }
+
+    function removeQuestion(questionId) {
+        $.each(skipObjectArray, function(i, current){
+            if(current.question.uiId == questionId) {
+                skippedQuestionArray.splice(i, 1);
+                skipObjectArray.splice(i, 1);
+                if(i >= skipObjectArray.length) {
+                    return false;
+                }
+            }
+        });
+    }
+
+    function removeCategory(categoryId) {
+        $.each(skipObjectArray, function(i, current){
+            if(current.category.uiId == categoryId) {
+                skippedQuestionArray.splice(i, 1);
+                skipObjectArray.splice(i, 1);
+                if(i >= skipObjectArray.length) {
+                    return false;
+                }
             }
         });
     }

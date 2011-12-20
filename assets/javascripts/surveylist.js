@@ -100,7 +100,7 @@ var SurveyList = function() {
         } else {/*This part is for IE. IE does not support 'classList' property*/
             var classes = item.className.split(' ');
             if( jQuery.inArray( "selectedFilter", classes ) >=0 ) {
-                classes.splice(jQuery.inArray( "selectedFilter", classes ))
+                classes.splice(jQuery.inArray( "selectedFilter", classes ), 1);
                 newClassesList = classes.toString();
                 item.className = newClassesList;
             }

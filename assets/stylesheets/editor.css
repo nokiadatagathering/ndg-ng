@@ -96,6 +96,10 @@ li.listItemQuestion.elementSelected {
     background: black ;
 }
 
+li.highlightRelevant {
+    border: 5px solid red;
+}
+
 .qType
 {
     float: right;

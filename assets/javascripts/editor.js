@@ -11,8 +11,18 @@ var Editor = function() {
         createSurvey : function() {createSurvey();},
         updateContainerSize: function() {updateContainerSize();},
         setHoverConfig : function() {setHoverConfig();},
-        removeHoverConfig : function() {removeHoverConfig();}
+        removeHoverConfig : function() {removeHoverConfig();},
+        getSkipLogicController: function(){return getSkipLogicController()},
+        showCategory: function(categoryId){showCategory(categoryId)}
     };
+
+    function getSkipLogicController() {
+        if(surveyModel) {
+            return surveyModel.getSkipController();
+        } else {
+            return undefined;
+        }
+    }
 
     function createSurvey(){
         createEditor();

@@ -437,6 +437,7 @@ var QuestionUiElement = function( questionModel ){
         var option = getOption( optId );
         option.isDelete = 'true';
 
+        Editor.getSkipLogicController().optionDeleted(optId);
         $( '#'+ optId ).remove();
     }
 

@@ -14,6 +14,10 @@ var SurveyModel = function(s){
         return survey.id;
     }
 
+    this.getSkipController = function() {
+        return skipLogicController;
+    }
+
     this.updateCategory = function ( catId, newLabel ){
         getCategory( catId).label = newLabel;
     }
@@ -69,12 +73,14 @@ var SurveyModel = function(s){
 
         var cat = getCategory( catId );
         cat.isDelete = 'true';
+        skipLogicController.categoryDeleted(catId);
     }
 
     this.deleteQuestion = function ( queId ){
 
         var que = getQue( queId );
         que.isDelete = 'true';
+        skipLogicController.questionDeleted(queId);
     }
 
     this.reorderCategory = function( newOrder ){

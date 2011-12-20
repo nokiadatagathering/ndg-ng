@@ -399,7 +399,7 @@ var UserManagement = function() {
         } else {/*This part is for IE. IE does not support 'classList' property*/
             var classes = item.className.split(' ');
             if( jQuery.inArray( "selectedGroup", classes ) >=0 ) {
-                classes.splice(jQuery.inArray( "selectedGroup", classes ))
+                classes.splice(jQuery.inArray( "selectedGroup", classes ), 1);
                 newClassesList = classes.toString();
                 item.className = newClassesList;
             }
