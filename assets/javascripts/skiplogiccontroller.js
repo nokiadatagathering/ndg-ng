@@ -113,6 +113,7 @@ var SkipLogicMap = function (){
 
         var index = $.inArray( keyQuestion, skippedQuestionArray );
         if( index != -1 ){
+            clearSelectedIndicator(skipObjectArray[index].option.uiId);
             skippedQuestionArray[index] = keyQuestion;
             skipObjectArray[index] = valueSkipObj;
         }else{
@@ -153,26 +154,44 @@ var SkipLogicMap = function (){
     }
 
     function removeQuestion(questionId) {
-        $.each(skipObjectArray, function(i, current){
+        for(var i = skipObjectArray.length - 1; i >= 0; i--) {
+            var current = skipObjectArray[i];
+            var deleteCurrent = false;
             if(current.question.uiId == questionId) {
+                deleteCurrent = true;
+            } else if (skippedQuestionArray[i].uiId == questionId) {
+                clearSelectedIndicator(skipObjectArray[i].option.uiId);
+                deleteCurrent = true;
+            }
+            if(deleteCurrent) {
                 skippedQuestionArray.splice(i, 1);
                 skipObjectArray.splice(i, 1);
-                if(i >= skipObjectArray.length) {
-                    return false;
-                }
             }
-        });
+        }
     }
 
     function removeCategory(categoryId) {
-        $.each(skipObjectArray, function(i, current){
+        for(var i = skipObjectArray.length - 1; i >= 0; i--) {
+            var current = skipObjectArray[i];
+            var deleteCurrent = false;
             if(current.category.uiId == categoryId) {
+                deleteCurrent = true;
+            } else if($('#' + skippedQuestionArray[i].uiId).length == 0) {
+                clearSelectedIndicator(skipObjectArray[i].option.uiId);
+                deleteCurrent = true;
+            }
+            if(deleteCurrent) {
                 skippedQuestionArray.splice(i, 1);
                 skipObjectArray.splice(i, 1);
-                if(i >= skipObjectArray.length) {
-                    return false;
-                }
             }
-        });
+        }
+    }
+
+    function clearSelectedIndicator(optionUiId) {
+        var selectedIndicator = $('#' + optionUiId + " .selected");
+        if(selectedIndicator.length) {
+            selectedIndicator.unbind('click');
+            selectedIndicator.removeClass('selected');
+        }
     }
 }
