@@ -11,14 +11,11 @@ var SkipLogicController = function ( model ){
         addSkipLogic : function ( skipedCategory, relevantStr ) { addSkipLogic( skipedCategory, relevantStr ) },
         optionDeleted : function ( optionId) { optionDeleted(optionId);},
         questionDeleted: function(questionId) {questionDeleted(questionId);},
-        categoryDeleted: function(categoryId) {categoryDeleted(categoryId);}
+        categoryDeleted: function(categoryId) {categoryDeleted(categoryId);},
+        questionMoved: function(questionId, newCategoryId){questionMoved(questionId, newCategoryId);}
     };
 
     function add( skippedQuestion, skipObject ){
-        if(skipLogicMap.contains( skippedQuestion ) ){
-            var oldSkipOptionObj = skipLogicMap.get( skippedQuestion );
-            $( '#' + oldSkipOptionObj.uiId + ' div.skipto.selected' ).removeClass( 'selected' );
-        }
         skipLogicMap.add( skippedQuestion,  skipObject );
         $( '#' + skipObject.option.uiId + ' div.skipto' ).addClass( 'selected' );
         $( '#' + skipObject.option.uiId + ' div.skipto' ).unbind( 'click' );
@@ -40,7 +37,9 @@ var SkipLogicController = function ( model ){
     }
 
     function getRelevantString( question ){
-        return skipLogicMap.get( question ).getRelevantString();
+        var skipObject = skipLogicMap.get( question );
+        var relevantString = '/data/' + skipObject.category.objectName + '/' + skipObject.question.objectName + "='" + skipObject.option.optionValue + "'";
+        return relevantString;
     }
 
 
@@ -68,6 +67,10 @@ var SkipLogicController = function ( model ){
 
     function categoryDeleted(categoryId) {
         skipLogicMap.removeCategory(categoryId);
+    }
+
+    function questionMoved(questionId, newCategory) {
+        skipLogicMap.questionMoved(questionId, newCategory);
     }
 }
 
@@ -101,7 +104,8 @@ var SkipLogicMap = function (){
         removeOption : function(optionId){return removeOption(optionId)},
         removeQuestion : function(questionId){return removeQuestion(questionId)},
         removeCategory : function(categoryId){return removeCategory(categoryId)},
-        getSkipTarget : function(optionId) {return getSkipTarget(optionId)}
+        getSkipTarget : function(optionId) {return getSkipTarget(optionId)},
+        questionMoved: function(questionId, newCategory){questionMoved(questionId, newCategory);}
     }
 
     function get( keyQuestion ){
@@ -193,5 +197,13 @@ var SkipLogicMap = function (){
             selectedIndicator.unbind('click');
             selectedIndicator.removeClass('selected');
         }
+    }
+
+    function questionMoved(questionId, newCategory) {
+        $.each(skipObjectArray, function(i, current){
+            if(current.question.uiId == questionId) {
+                current.category = newCategory;
+            }
+         });
     }
 }

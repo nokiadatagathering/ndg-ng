@@ -330,6 +330,8 @@ var Editor = function() {
                     var newQuestion = surveyModel.newQuestion();
                     ui.item.replaceWith( createQuestionElement( newQuestion ));
                     setQuestionUiOptions( newQuestion );
+                } else {
+                    updateSkipLogic(ui.item);
                 }
                 removeHoverConfig();
                 //updateContainerSize();
@@ -338,6 +340,11 @@ var Editor = function() {
         });//.disableSelection();
 
         hideCategory ( categoryId );
+    }
+
+    function updateSkipLogic(question) {
+        var category = question.parents('.listCategory')[0];
+        getSkipLogicController().questionMoved(question[0].id, surveyModel.getCategory(category.id));
     }
 
     function bindToggleCategory(){

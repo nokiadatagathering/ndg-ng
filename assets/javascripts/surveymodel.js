@@ -164,6 +164,10 @@ var SurveyModel = function(s){
     }
 
     //private methods
+    this.getCategory = function ( catId ){
+        return getCategory(catId);
+    }
+
     function getCategory( catId ){
         var category;
         $.each(survey.categoryCollection, function( i, item ){

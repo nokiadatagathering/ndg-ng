@@ -430,6 +430,8 @@ var QuestionUiElement = function( questionModel ){
 
     function deleteOption( optId ){
         if( getOptionCount() <= 1 ){
+            Editor.getSkipLogicController().optionDeleted(optId);
+            $( '#'+ optId + ' .skipto').removeClass('selected');
             alert( LOC.get( 'LOC_WARN_DELETE_OPTION' ) );
             return;
         }
