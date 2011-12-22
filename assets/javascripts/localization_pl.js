@@ -101,7 +101,9 @@ var LOC = (function() {
         LOC_STATUS: 'STATUS',
         LOC_CSV_FILE_UPLOAD: '\u0141aduj plik CSV',
         LOC_CHOOSE_CSV_FILE_UPLOAD: 'Wybie\u017c plik CSV do za\u0142adowania',
-        LOC_LOAD: '\u0141aduj'
+        LOC_LOAD: '\u0141aduj',
+        LOC_CLICK_TO_DISABLE_FILTER: 'Kliknij tu aby usun\u0105ć zaznaczony filter',
+        LOC_CLICK_TO_DISABLE_SELECTED_GROUP: 'Kliknij tu aby usun\u0105ć zaznaczon\u0105 grup\u0119'
     };
 
     return {

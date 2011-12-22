@@ -61,10 +61,20 @@ var SurveyList = function() {
         if( selectedFilterName != null && selectedFilterName.length > 0 ) {
             $.each( $('.filterable'), function( i, item ){selectFilter( i, item );});
         }
+
+        $('#leftColumn' ).click( function(event) {clearFilter(event);});
+    }
+
+    function clearFilter( event ) {
+        $.each( $('.filterable'), function( i, item ){removeFilterSelection( i, item );} );
+        if ( selectedFilterName !="" ) {
+            selectedFilterName="";
+            DynamicTable.refresh();
+        }
     }
 
     function bindFilter() {
-        $('.filterable').click( function(event) { onFilterClicked( event ); } );
+        $('.filterable').click( function(event) {onFilterClicked( event );} );
     }
 
     function selectFilter(i, item) {
@@ -80,12 +90,13 @@ var SurveyList = function() {
             $( "#" + clickedElem ).removeClass( "selectedFilter" );
             selectedFilterName = "";
         } else {
-            $.each( $('.filterable'), function(i,item) { removeFilterSelection(i, item); } );
+            $.each( $('.filterable'), function(i,item) {removeFilterSelection(i, item);} );
 
             $( "#" + clickedElem ).addClass( "selectedFilter" );
             selectedFilterName = clickedElem;
         }
         DynamicTable.refresh();
+        event.stopPropagation();
     }
 
     function additionalAjaxParams() {
@@ -135,7 +146,7 @@ var SurveyList = function() {
         $( '#leftColumn' ).remove();
         $( '#content' ).remove();
         var layout = "";
-        layout += "<div id='leftColumn'>"
+        layout += "<div id='leftColumn' title='" + LOC.get('LOC_CLICK_TO_DISABLE_FILTER') + "'>"
                 + "<div class='plusButton clickableElem' id='plusButton' >"
                 + "<div id ='plusButtonImage'></div>"
                 + "</div>"
@@ -266,8 +277,8 @@ var SurveyList = function() {
         confirmDeleteDialog.dialog("open");
         $("#buttonDeleteYes").click( e.data, function(e) {
 
-        $.ajax( { url: 'surveyManager/delete',
-                  data: { formID: e.data },
+        $.ajax( {url: 'surveyManager/delete',
+                  data: {formID: e.data},
                   error: function(data, textStatus, jqXHR) {
                       if (!Utils.redirectIfUnauthorized(data, textStatus, jqXHR)) {
                           alert("error");
@@ -291,7 +302,7 @@ var SurveyList = function() {
     }
 
     function onDuplicateSurveyClicked(e) {
-        $.ajax( { url: 'surveyManager/duplicate',
+        $.ajax( {url: 'surveyManager/duplicate',
                   data: {formID: e.data},
                   error: function(data, textStatus, jqXHR) {
                       if (!Utils.redirectIfUnauthorized(data, textStatus, jqXHR)) {

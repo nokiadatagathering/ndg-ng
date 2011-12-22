@@ -69,6 +69,8 @@ var UserManagement = function() {
                 scrollDownList();
             }
         });
+
+        $('#leftColumn_layout2' ).click( function(event) {clearFilter(event);});
     }
 
     function prepareLayout(tableHtml) {
@@ -189,7 +191,7 @@ var UserManagement = function() {
 
     function additionalAjaxParams() {
         if ( selectedGroupName != null && selectedGroupName.length > 0 ) {
-            return { 'groupName': selectedGroupName };
+            return {'groupName': selectedGroupName};
         } else {
             return null;
         }
@@ -267,7 +269,7 @@ var UserManagement = function() {
         $('#content').remove();
 
         var layout = "";
-        layout += "<div id='leftColumn_layout2'>"
+        layout += "<div id='leftColumn_layout2' title='" + LOC.get('LOC_CLICK_TO_DISABLE_SELECTED_GROUP') + "'>"
                 + "<div class='plusButton_layout2 clickableElem' id='plusButton'><div id ='plusButtonImage'></div></div>"
                 + "</div>"
         layout += "<div id='middleColumn_layout2'>"
@@ -389,6 +391,14 @@ var UserManagement = function() {
             selectedGroupName = $( '#dynamicGroupRow' + event.data.index )[0].firstChild.id;
         }
         loadUsers();
+    }
+
+    function clearFilter( event ) {
+        $.each( $("[id^=dynamicGroupRow]" ), function( i, item ){removeGroupSelection( i, item );} );
+        if ( selectedGroupName != "" ) {
+            selectedGroupName="";
+            loadUsers();
+        }
     }
 
     function removeGroupSelection(i, item ) {
