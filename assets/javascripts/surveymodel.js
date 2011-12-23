@@ -27,7 +27,14 @@ var SurveyModel = function(s){
     }
 
     this.updateQuestionType = function( qId, type ){
-        getQue( qId ).questionType.id = parseInt( type );
+        var question = getQue( qId );
+        if(question.questionType.id == QuestionType.EXCLUSIVE &&  parseInt( type ) != QuestionType.EXCLUSIVE) {
+            $.each(question.questionOptionCollection, function(i, current) {
+                skipLogicController.optionDeleted(current.uiId);
+            });
+        }
+
+        question.questionType.id = parseInt( type );
     }
 
     this.updateSurveyTitle = function ( newTitle ){

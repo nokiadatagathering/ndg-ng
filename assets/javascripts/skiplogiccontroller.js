@@ -16,6 +16,7 @@ var SkipLogicController = function ( model ){
     };
 
     function add( skippedQuestion, skipObject ){
+        optionDeleted(skipObject.option.uiId);
         skipLogicMap.add( skippedQuestion,  skipObject );
         $( '#' + skipObject.option.uiId + ' div.skipto' ).addClass( 'selected' );
         $( '#' + skipObject.option.uiId + ' div.skipto' ).unbind( 'click' );
