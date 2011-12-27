@@ -149,18 +149,18 @@ div.questionText span
     float: right;
     width: 50px;
     height: 44px;
-    background: url(../images/delete-44px.jpg);
+    background: url(../images/delete-44px.png);
     background-position: 0px 0px;
 }
 
 .deleteElement:hover
 {
-    background-position: 0px 89px;
+    background-position: 0px 88px;
 }
 
 .deleteElement:active
 {
-    background-position: 0px 45px;
+    background-position: 0px 44px;
 }
 
 .qIcon
@@ -174,22 +174,22 @@ div.questionText span
 
 .qIcon:hover
 {
-    background-position: 0px 71px;
+    background-position: 0px 70px;
 }
 
 .qIcon:active
 {
-    background-position: 0px 36px;
+    background-position: 0px 35px;
 }
 
 .deleteQuestion
 {
-    background: url(../images/delete-35px.jpg);
+    background: url(../images/delete-35px.png);
 }
 
 .duplicateQuestion
 {
-    background: url(../images/duplicate-35px.jpg);
+    background: url(../images/duplicate-35px.png);
 }
 
 #executeSave{

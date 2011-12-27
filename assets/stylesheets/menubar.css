@@ -40,7 +40,7 @@
 }
 
 #buttonDownload {
-    background: url(../images/download-44px.jpg) no-repeat;
+    background: url(../images/download-44px.png) no-repeat;
 }
 
 #buttonDownload:hover, #buttonUpload:hover, #buttonPhone:hover, #buttonEdit:hover, #buttonDuplicate:hover, #buttonDelete:hover, .buttonDelete:hover  {
@@ -52,23 +52,23 @@
 }
 
 #buttonUpload {
-     background: url(../images/upload-44px.jpg) no-repeat;
+     background: url(../images/upload-44px.png) no-repeat;
 }
 
 #buttonPhone {
-    background: url(../images/mobile-44px.jpg);
+    background: url(../images/mobile-44px.png);
 }
 
 #buttonEdit {
-    background: url(../images/edit-44px.jpg);
+    background: url(../images/edit-44px.png);
 }
 
 #buttonDuplicate {
-    background: url(../images/duplicate-44px.jpg);
+    background: url(../images/duplicate-44px.png);
 }
 
 #buttonDelete, .buttonDelete {
-    background: url(../images/delete-44px.jpg);
+    background: url(../images/delete-44px.png);
 }
 
 .groupDelete
