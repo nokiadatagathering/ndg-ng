@@ -281,7 +281,15 @@ span.edit
 
 .addQuestionButton
 {
-    background: url(../images/plus.png);
+    background: url(../images/add-dragndrop-31px.png);
     background-position: 0px 0px;
-    height: 33px;
+    height: 31px;
+}
+
+.addQuestionButton:hover {
+    background-position: 0px -31px;
+}
+
+.addQuestionButton:active {
+    background-position: 0px -62px;
 }
