@@ -7,7 +7,7 @@
 
 .menubar.users {
     max-width: 100px;
-    width: 98px;
+    width: 100px;
     min-width: 98px;
  }
 
@@ -23,11 +23,10 @@
 .menubar span {
     margin-left: 0px;
     margin-right: 0px;
-/*   can be changed to 50px when font px unit accepted?*/
-    width: 48px;
-    height: 42px;
-    margin-bottom: 1px;
-    margin-top: 1px;
+    width: 50px;
+    height: 44px;
+    margin-bottom: 0px;
+    margin-top: 0px;
     float: left;
     visibility: hidden;
     -moz-user-select: -moz-none;
@@ -49,7 +48,7 @@
 }
 
 #buttonDownload:active, #buttonUpload:active, #buttonPhone:active, #buttonEdit:active, #buttonDuplicate:active, #buttonDelete:active, .buttonDelete:active  {
-    background-position: 0 -87px;
+    background-position: 0 -88px;
 }
 
 #buttonUpload {
