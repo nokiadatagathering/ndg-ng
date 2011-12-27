@@ -207,7 +207,7 @@ input:invalid, textarea:invalid { background-color: #f0dddd; }
    Tables
    ========================================================================== */
 
-table { border-collapse: collapse; border-spacing: 0; }
+table { /* border-collapse: collapse; */ border-spacing: 0; }
 td { vertical-align: top; }
 
 body {
@@ -412,7 +412,7 @@ searchTextField:-moz-placeholder {
 }
 
 #minimalist th {/*COLUMN HEADER*/
-    border-bottom: 2px solid #dadbe0;
+    border-bottom: 1px solid #dadbe0;
     padding-bottom: 10px;
     text-align: left;
     font-size: 14px;
@@ -465,14 +465,15 @@ searchTextField:-moz-placeholder {
     min-height: 44px;
     height: auto;
     border-bottom: 1px solid #dadbe0;
+    border-top: 1px solid #f9f9fa;
     text-align: left;
     vertical-align: middle;
     font-size: 12px;
     font-family: "Nokia Pure Text";
     padding-top: 0px;
     padding-bottom: 0px;
-    margin-bottom: 1px;
-    margin-top: 1px;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 .clickableElem {

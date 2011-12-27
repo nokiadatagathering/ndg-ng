@@ -69,7 +69,7 @@
 #minimalist_layout2 th {/*COLUMN HEADER*/
     padding-bottom: 10px;
     font-weight: bold;
-    border-bottom: 2px solid #dadbe0;
+    border-bottom: 1px solid #dadbe0;
     text-align: left;
     font-size: 14px;
     font-family: "Nokia Pure Text Bold";
@@ -86,6 +86,7 @@
 #minimalist_layout2 td {/*ROWS*/
     height: 44px;
     border-bottom: 1px solid #dadbe0;
+    border-top: 1px solid #f9f9fa;
     text-align: left;
     vertical-align: middle;
     font-size: 12px;
@@ -93,8 +94,8 @@
     color: #6388bb;
     padding-top: 0px;
     padding-bottom: 0px;
-    margin-bottom: 1px;
-    margin-top: 1px;
+    margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 /* table styles */
@@ -108,7 +109,7 @@
 #minimalist_layout2_2 th {/*COLUMN HEADER*/
     padding-bottom: 10px;
     font-weight: bold;
-    border-bottom: 2px solid #dadbe0;
+    border-bottom: 1px solid #dadbe0;
     text-align: left;
     font-size: 14px;
     font-family: "Nokia Pure Text Bold";
@@ -124,7 +125,8 @@
 
 #minimalist_layout2_2 td {/*ROWS*/
     height: 44px;
-    border-bottom: 1px solid #dadbe0;
+    border-bottom: 1px solid #dadbe0; 
+    border-top: 1px solid #f9f9fa;
     text-align: left;
     vertical-align: middle;
     font-size: 12px;
