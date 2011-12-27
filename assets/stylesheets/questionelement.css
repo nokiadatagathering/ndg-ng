@@ -47,19 +47,19 @@ div.addOption
 {
     margin-top: 4px;
     display: inline-block;
-    background: url(../images/Add.png);
-    height: 33px;
-    width: 30px;
+    background: url(../images/add-alternative-29px.png);
+    height: 32px;
+    width: 29px;
     background-position: 0px 0px;
 }
 
 div.addOption:hover
 {
-    background-position: 0px -33px;
+    background-position: 0px -32px;
 }
 
 div.addOption:active {
-    background-position: 0px -66px;
+    background-position: 0px -64px;
 }
 
 
@@ -76,11 +76,11 @@ div.importOption
 
 div.importOption:hover
 {
-    background-position: 0px 65px;
+    background-position: 0px -32px;
 }
 
 div.importOption:active {
-    background-position: 0px 33px;
+    background-position: 0px -64px;
 }
 
 div.optionIcon.iconVisible
