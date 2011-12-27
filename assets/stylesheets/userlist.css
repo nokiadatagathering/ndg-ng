@@ -63,7 +63,6 @@
     float: left;
     width: 199px;
     margin-top: 10px;
-    background: #edf0f6;
 }
 
 #minimalist_layout2 th {/*COLUMN HEADER*/
@@ -91,7 +90,7 @@
     vertical-align: middle;
     font-size: 12px;
     font-family: "Nokia Pure Text";
-    color: #6388bb;
+    color: #3a77ca;
     padding-top: 0px;
     padding-bottom: 0px;
     margin-bottom: 0px;
@@ -103,7 +102,6 @@
     float: left;
     margin-left: 14px;
     margin-top: 10px;
-    background: #edf0f6;
 }
 
 #minimalist_layout2_2 th {/*COLUMN HEADER*/
