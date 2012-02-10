@@ -23,7 +23,8 @@ var ResultList = function() {
             getSearchBy: function() {return searchBy;},
             prepareLayout: function(tableHtml){prepareLayout(tableHtml);},
             exportResults: function(){exportResults();},
-            additionalAjaxParams: function() {return additionalAjaxParams();}
+            additionalAjaxParams: function() {return additionalAjaxParams();},
+            showGraphing: function(){showGraphing();}
     };
 
     function backToSurveyList() {
@@ -31,22 +32,41 @@ var ResultList = function() {
     }
 
     function showGraphing() {
-        Graphing.setupGraph();
+        if( allResultSelected ) {
+            Graphing.graphAllResults( currentSurveyId );
+        } else if(selectedResults.length) {
+            Graphing.graphResults( currentSurveyId, selectedResults );
+        } else {
+            alert("No results selected");
+        }
     }
+
+    function is_int(value){ 
+            if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+               return true;
+            } else { 
+              return false;
+            } 
+                         }
 
     function showResultList(i) {
         selectedResults = new Array();
-        currentSurveyId = i.data;
+
+        if (is_int(i)){
+            currentSurveyId = i
+        } else {
+           currentSurveyId = i.data;
+        }
 
         var columnIds = ["checkboxColumnId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation", null];
         var columnTexts = [null, "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
         var columnDbFields = [null, "title", "startTime", "ndgUser.username", "latitude"];
 
         $('#container').height('715px');
-        setupLeftColumn();
-
+        setupLeftColumn();      
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList);
 
+                     
         var selectAllCheckbox = '<input type="checkbox" class="resultCheckboxClass" id="selectAllResults" "/>';
         $('#checkboxColumnId').append(selectAllCheckbox);
         $('#selectAllResults').bind( 'check uncheck', $(this), function(data){selectAllResultsClicked(data);} )

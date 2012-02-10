@@ -28,14 +28,19 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ArrayList;
 import models.Category;
+import models.Answer;
 import models.NdgGroup;
 import models.NdgResult;
 import models.NdgUser;
 import models.Survey;
 import models.UserRole;
 import models.constants.SurveyStatusConsts;
-import play.db.jpa.JPA;
+import play.db.jpa.JPA;	
+import java.lang.Exception;
+
+
 
 public class ListData extends NdgController {
 
@@ -48,7 +53,7 @@ public class ListData extends NdgController {
     }
 
     public static void results(int surveyId, int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText) {
-
+	try{
         String query = getQuery( "survey_id", String.valueOf( surveyId ), false,
                                  searchField, searchText,
                                  null, isAscending );//sorting is not needed now
@@ -64,7 +69,41 @@ public class ListData extends NdgController {
         surveyListSerializer.include("id", "resultId", "title", "startTime", "ndgUser.username", "latitude").exclude("*").rootName("items");
 
         renderJSON(addRangeToJson(surveyListSerializer.serialize(results), startIndex, totalItems));
+	}
+	catch(Exception ex){
+		ex.printStackTrace();
+	}
     }
+
+
+    public static void graphall(int questionId) {
+        String query = "select a.textData, count(a.textData) as cnt from Answer a where question_id = " + String.valueOf(questionId) + " group by text_data order by cnt asc";
+
+        List<Answer> answers = Answer.find(query).fetch();
+
+        JSONSerializer graphSerializer = new JSONSerializer();
+
+        graphSerializer.include("cnt").exclude("*").rootName("data");
+
+        renderJSON(graphSerializer.serialize(answers));
+
+    }
+
+
+
+    public static void graphselected( int questionId, String ids ) {
+
+       String query = "select a.textData, count(a.textData) as cnt from Answer a where ndg_result_id in (" + String.valueOf(ids) + ") and question_id = " + String.valueOf(questionId) + " group by text_data order by cnt asc";
+
+       List<Answer> answers = Answer.find(query).fetch();
+
+       JSONSerializer graphSerializer = new JSONSerializer();
+
+       graphSerializer.include("cnt").exclude("*").rootName("data");
+
+       renderJSON(graphSerializer.serialize(answers));
+    }
+
 
     public static void surveys(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText, String filter) {
         List<Survey> surveys = null;

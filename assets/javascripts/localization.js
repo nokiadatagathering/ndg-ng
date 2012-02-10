@@ -70,6 +70,7 @@ var LOC = (function() {
         LOC_RESULT_LIST: 'Result List',
         LOC_MAP_VIEW: 'Map View',
         LOC_GRAPH_VIEW: 'Graph View',
+        LOC_PIE_CHART: 'Pie Chart',
         LOC_EXPORT_TO: 'Export To',
         LOC_SEND_SMS: 'Send SMS',
         LOC_TO: 'To',
