@@ -25,8 +25,8 @@ GETTING STARTED
     vim application.conf - and change 
                                 http.address=<your_IP_address>
     vim msm-settings.properties - and change
-                                  client.ota=http\://<your_IP_address>/\:8081/ndg-ota/client/ndg.jad
-                                  urlServer=http\://<your_IP_address>\:8081
+                                  client.ota=http\://<your_IP_address>/\:9000/ndg-ota/client/ndg.jad
+                                  urlServer=http\://<your_IP_address>\:9000
     play run
     http://<your_IP_address>:9000/
 
