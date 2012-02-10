@@ -299,7 +299,7 @@ var UserManagement = function() {
                                     + '<td id="' + item.groupName + '" class="clickableElem"><p class="tableEntryGroupName">'+ item.groupName + '</p>'
                                     + '<p class="tableEntryQuantity">('+ item.userCollection + ' ' + LOC.get('LOC_USERS') + ')</p>'
                                     + '</td>'
-                                    + '<td class="groups menubar" id="groupMenu' + i + '" >'
+                                    + '<td class="menubar" id="groupMenu' + i + '" >'
                                     + '<div class="groupDelete" ><span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span><div>'
                                     + '</td>'
                                     + '</tr>' );
@@ -312,7 +312,7 @@ var UserManagement = function() {
                                     + '<td>' + item.email + '</td>'
                                     + '<td>' + item.phoneNumber + '</td>'
                                     + '<td>' + item.userRoleCollection[0].ndgRole.roleName + '</td>'
-                                    + '<td class="users menubar" id="menu' + i + '" >'
+                                    + '<td class="menubar" id="menu' + i + '" >'
                                     + '<span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"></span>'
                                     + '<span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
                                     + '</td>'
