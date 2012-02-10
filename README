@@ -4,7 +4,7 @@ NOKIA DATA GATHERING
 * Info: See <http://> for introductory docs.
 * Author: Ian Lawrence <root@ianlawrence.info>
 * Date: $Date: 2011-08-12 12:50:48 -0400 (Fre, 12. Aug 2011) $
-* Revision: $Revision: 3 $
+* Revision: $Revision: 4 $
 * Description: This is the main documentation
 
 
@@ -21,8 +21,14 @@ GETTING STARTED
     )
     ant -f build_dev.xml
     cd ../..
+    cd conf
+    vim application.conf - and change 
+                                http.address=<your_IP_address>
+    vim msm-settings.properties - and change
+                                  client.ota=http\://<your_IP_address>/\:9000/ndg-ota/client/ndg.jad
+                                  urlServer=http\://<your_IP_address>\:9000
     play run
-    http://localhost:9000/
+    http://<your_IP_address>:9000/
 
 
 DEVELOPER PRACTICES
