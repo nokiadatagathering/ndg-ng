@@ -15,11 +15,13 @@
 
 /* THANKS */
   Comarch: http://www.comarch.com/
+  Seton Hall: http://cmri.shu.edu/
+  QArea: http://www.qarea.com/
 
 /* SITE */
-  Standards: HTML5, CSS3
-  Components: Modernizr, jQuery
-  Software: Play, Tomcat
+  Standards: HTML5
+  Components: jQuery
+  Software: Play
   
 
                        
