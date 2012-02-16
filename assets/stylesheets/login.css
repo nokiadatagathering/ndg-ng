@@ -117,7 +117,7 @@ body {
 
 .container .header .login .btn_login
 {
-	background-image:url(../images/en/login.png);
+	background-image:url(../images/login.png);
 	border:none;
 	width:82px;
 	height:32px;
@@ -125,22 +125,7 @@ body {
 	cursor:pointer;	
 }
 
-.container .header .login .btn_login:hover
-{
-	background-image:url(../images/en/login_hover.png);
-}
 
-.container .header .remember
-{
-	background-image:url(../images/checkbox_off.png);	
-	background-repeat:no-repeat;
-	display:block;
-	margin-top:10px;
-	padding-left:25px;
-	text-decoration:underline;
-	color:#a5acc5;
-	font-size:14px;
-}
 /************************************************************************************************************************/
 
 
