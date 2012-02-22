@@ -489,6 +489,8 @@ searchTextField:-moz-placeholder {
     cursor: pointer;
 }
 
+
+
 @import url('resultlist.css');
 @import url('surveylist.css');
 @import url('userlist.css');
@@ -503,6 +505,7 @@ searchTextField:-moz-placeholder {
 @import url('questionelement.css');
 @import url('fileinput.css');
 @import url('sendsms.css');
+@import url('graphing.css');
 
 /* ==|== non-semantic helper classes ========================================
    Please define your styles before this section.
