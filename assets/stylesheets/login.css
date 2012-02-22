@@ -1,4 +1,6 @@
+/* Importing Nokia fonts */
 
+@import url('fonts.css');
 
 
 /********************************************************* body *********************************************************/
@@ -10,7 +12,7 @@ body {
 }
 
 .container
-{	
+{   
     background: #eeeff4;
     min-height: 740px;
     width: 980px;
@@ -21,7 +23,7 @@ body {
 .container .header,
 .container .content
 {
-	background-color:#eeeff4;
+    background-color:#eeeff4;
 }
 /************************************************************************************************************************/
 
@@ -30,89 +32,91 @@ body {
 /****************************************************** header **********************************************************/
 .container .header
 {
-	width:971px;
-	height:157px;	
+    width:971px;
+    height:157px;   
 }
 
 .container .header .logo
 {
-	background-image:url(../images/brand.jpg);	
-	background-position:0px 0px;
-	background-repeat:no-repeat;
-	width:650px;
-	height:157px;	
-	display:inline-block;
-	vertical-align:top;	
+    background-image:url(../images/brand.jpg);  
+    background-position:0px 0px;
+    background-repeat:no-repeat;
+    width:650px;
+    height:157px;   
+    display:inline-block;
+    vertical-align:top; 
 }
 
 .container .header .header-content
 {
-	width:307px;
-	height:157px;
-	display:inline-block;
-	vertical-align:top;
+    width:307px;
+    height:157px;
+    display:inline-block;
+    vertical-align:top;
 }
 
 .container .header .lang
 {
-	text-align:right;
-	padding-right:10px;
+    text-align:right;
+    padding-right:10px;
 }
 
 .container .header .lang li
 {
-	display:inline-block;
-	margin-left:3px;
-	width:15px;
-	height:9px;	
+    display:inline-block;
+    margin-left:3px;
+    width:15px;
+    height:9px; 
 }
 
 
 .container .header .sign-in
 {
-	padding-top:15px;	
+    padding-top:15px;   
 }
 
 .container .header .recover
 {
-	font-size:12px;
-	color:#b7b7b7;
+    font-size:12px;
+    color:#b7b7b7;
+    font-family: "Nokia Pure Text";
 }
 
 .container .header .recover a
 {
-	color:#a5acc5;
-	text-decoration:underline;
+    color:#a5acc5;
+    text-decoration:underline;
 }
 
 .container .header .login
 {
-	margin-top:15px;
+    margin-top:15px;
 }
 
 .container .header .login li
 {
-	display:inline-block;
-	vertical-align:middle;
-	margin-right:3px;
+    display:inline-block;
+    vertical-align:middle;
+    margin-right:3px;
 }
 
 .container .header .login .username,
 .container .header .login .password
 {
-	background-image:url(../images/textfield01.png);
-	border:none;
-	width:80px;
-	height:29px;
-	padding-left:5px;
-	font-size:12px;
-	color:#b7b7b7;
+    background-image:url(../images/textfield01.png);
+    border:none;
+    width:80px;
+    height:29px;
+    padding-left:5px;
+    font-size:12px;
+    color:#b7b7b7;
+    font-family: "Nokia Pure Text";
 }
 
 .container .header .login .username:hover,
 .container .header .login .password:hover
 {
-	color:#5a5670;
+    color:#5a5670;
 }
 
 .container .header .login .btn_login
@@ -133,17 +137,18 @@ body {
 /****************************************************** footer **********************************************************/
 .container .footer
 {
-	width:971px;
-	text-align:center;
-	font-size:13px;
-	color:#8287a3;
-	padding-top: 15px;
-	padding-bottom: 15px;
+    width:971px;
+    text-align:center;
+    font-size:13px;
+    color:#8287a3;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-family: "Nokia Pure Text";
 }
 
 .container .footer a
 {
-	color:#8287a3;	
+    color:#8287a3;  
 }
 /************************************************************************************************************************/
 
@@ -152,161 +157,222 @@ body {
 /************* Home: 'Create' (box 1), 'Use Mobile' (box 2) and 'Get Results' (box 3); 'start today' (box 4) ************/
 .container .content .titulo_purple
 {
-	font-size:22px;
-	color:#7b86ab;
-	font-weight:600;
+    font-size:22px;
+    color:#7b86ab;
+    font-weight:600;
+    font-family: "Nokia Pure Text";
 }
 .container .content .subtitulo_purple
 {
-	font-size:12px;
-	color:#7b86ab;
+    font-size:12px;
+    color:#7b86ab;
+    font-family: "Nokia Pure Text";
 }
 .container .content .titulo_white
 {
-	font-size:22px;
-	color:#edf1fc;
+    font-size:22px;
+    color:#edf1fc;
+    font-family: "Nokia Pure Text";
 }
 
 .content .home-view .box-text
 {
-	font-size:14px;
-	color:#949fa8;
-	background-color:#342a38;	
-	width:999px;
-	margin-left:-14px;
+    font-size:14px;
+    color:#949fa8;
+    background-color:#043a66;
+    width:999px;
+    margin-left:-14px;
+    font-family: "Nokia Pure Text";
 }
 
 .content .home-view .box-text .box01
 {
-	background-image:url(../images/box01.png);
-	background-repeat:no-repeat;
-	background-position:26px 23px;	
-	background-color:#b5bcd0;	
-	display:inline-block;
-	vertical-align:top;	
-	height:355px;
-	width:230px;
-	margin-right:-5px;		
+    background-image:url(../images/box01.png);
+    background-repeat:no-repeat;
+    background-position:26px 23px;  
+    background-color:#b5bcd0;   
+    display:inline-block;
+    vertical-align:top; 
+    height:355px;
+    width:230px;
+    margin-right:-5px;      
 }
 .content .home-view .box-text .box01 div
 {
-	padding-left:26px;
-	padding-right:15px;
+    padding-left:26px;
+    padding-right:15px;
 }
 
 .content .home-view .box-text .box02
 {
-	background-image:url(../images/box02.png);
-	background-repeat:no-repeat;	
-	background-position:16px 23px;
-	background-color:#b5bcd0;	
-	display:inline-block;
-	vertical-align:top;	
-	height:355px;	
-	width:230px;
-	margin-right:-5px;
+    background-image:url(../images/box02.png);
+    background-repeat:no-repeat;    
+    background-position:16px 23px;
+    background-color:#b5bcd0;   
+    display:inline-block;
+    vertical-align:top; 
+    height:355px;   
+    width:230px;
+    margin-right:-5px;
 }
 .content .home-view .box-text .box02 div
 {
-	padding-left:16px;
-	padding-right:25px;	
+    padding-left:16px;
+    padding-right:25px; 
 }
 
 .content .home-view .box-text .box03
 {
-	background-image:url(../images/box03.png);
-	background-repeat:no-repeat;
-	background-position:7px 23px;	
-	background-color:#b5bcd0;	
-	display:inline-block;
-	vertical-align:top;
-	height:355px;	
-	width:230px;	
-	margin-right:-4px;	
+    background-image:url(../images/box03.png);
+    background-repeat:no-repeat;
+    background-position:7px 23px;   
+    background-color:#b5bcd0;   
+    display:inline-block;
+    vertical-align:top;
+    height:355px;   
+    width:230px;    
+    margin-right:-4px;  
 }
 .content .home-view .box-text .box03 div
 {
-	padding-left:7px;
-	padding-right:34px;	
+    padding-left:7px;
+    padding-right:34px; 
 }
 
 .content .home-view .box-text .box01 div,
 .content .home-view .box-text .box02 div,
 .content .home-view .box-text .box03 div
 {
-	background-color:#ffffff;
-	height:118px;
-	padding-top:8px;
-	margin-top:229px;
+    background-color:#ffffff;
+    height:118px;
+    padding-top:8px;
+    margin-top:229px;
 }
 .content .home-view .box-text .box01 div p,
 .content .home-view .box-text .box02 div p,
 .content .home-view .box-text .box03 div p
 {
-	font-size:11px;
-	margin-top: 10px;
+    font-size:11px;
+    margin-top: 10px;
+    font-family: "Nokia Pure Text";
 }
 
 .content .home-view .box-text .box04
-{	
-	display:inline-block;
-	vertical-align:top;	
-	width:307px;
-	height:355px;
+{   
+    display:inline-block;
+    vertical-align:top; 
+    width:307px;
+    height:355px;
+    background-color:#043a66;
+}
+
+.content .home-view .box-text .box04 .username,
+.content .home-view .box-text .box04 .password,
+.content .home-view .box-text .box04 .email
+
+{
+    background-image:url(../images/textfield01.png);
+    border:none;
+    width:80px;
+    height:29px;
+    padding-left:5px;
+    font-size:12px;
+    color:#b7b7b7;
+    font-family: "Nokia Pure Text";
 }
 .content .home-view .box-text .box04 h1
 {
-	margin: 19px 0 5px 40px;
+    margin: 19px 0 5px 40px;
 }
 .content .home-view .box-text .box04 .btn_trynow
 {
-	background-image:url(../images/en/trynow.png);
-	width:240px;
-	height:106px;
-	cursor:pointer;
-	margin:73px auto 73px;
+    background-image:url(../images/en/trynow.png);
+    width:240px;
+    height:106px;
+    cursor:pointer;
+    margin:73px auto 73px;
 }
 .content .home-view .box-text .box04 .btn_trynow:hover
 {
-	background-image:url(../images/en/trynow_hover.png);
+    background-image:url(../images/en/trynow_hover.png);
 }
 .content .home-view .box-text .box04 .box-account
 {
-	background-color:#5a5670;
-	width:309px;
-	height:58px;
+    width:309px;
+    height:58px;
 }
 .content .home-view .box-text .box04 .box-account .box-text-account
 {
-	display:inline-block;
-	vertical-align:top;
-	font-size:12px;
-	color:#b2b9ce;
-	width:110px;
-	text-align:right;
-	height:48px;
-	padding-top:10px;	
+    display:inline-block;
+    vertical-align:top;
+    font-size:12px;
+    color:#b2b9ce;
+    width:110px;
+    text-align:right;
+    height:48px;
+    padding-top:10px;   
+    font-family: "Nokia Pure Text";
 }
 .content .home-view .box-text .box04 .box-account .box-btn-account
 {
-	display:inline-block;
-	vertical-align:top;
-	height:46px;
-	width:155px;
-	padding-top:12px;
-	padding-left:10px;
+    display:inline-block;
+    vertical-align:top;
+    height:46px;
+    width:155px;
+    padding-top:12px;
+    padding-left:10px;
 }
-.content .home-view .box-text .box04 .btn_create_account
-{
-	background-image:url(../images/en/createaccount.png);
-	width:149px;
-	height:35px;
-	cursor:pointer;
-}
+
 .content .home-view .box-text .box04 .btn_create_account:hover
 {
-	background-image:url(../images/en/createaccount_hover.png);
+    background-image:url(../images/en/createaccount_hover.png);
 }
+
+.buttonAccount {
+    background: url(../images/account.png);
+}
+
+.createAccountButton {
+    display: inline-block;
+    min-width: 287px;
+    max-width: 287px;
+    border:none;
+    height: 55px;
+    margin-top: 10px;
+}
+
+table.register{
+    padding:10px;
+    width: 307px;
+}
+
+table.register tr{
+	padding: 10px;
+	text-align: left;
+}
+
+table.register td { 
+	padding:10px;
+        width:10px;
+        height:29px;
+	}
+
+.registrationForm
+{
+    background-image:url(../images/textfield02.png);
+    border:none;
+    width:115px;
+    height:39px;
+    font-size:12px;
+    color:#b7b7b7;
+    font-family: "Nokia Pure Text";
+    display:inline-block;
+    vertical-align:right;
+    margin-right:20px;
+
+}
+
+
 /************************************************************************************************************************/
 
 
@@ -314,68 +380,71 @@ body {
 /*********************** Home: video (box 1), 'ITHAX Video' (box 2) and 'About ITHAX' (box 3) ***************************/
 .content .home-view .box-video
 {
-	font-size:14px;
-	color:#949fa8;
-	background-image:url(../images/line.png); 
-	background-repeat:no-repeat;	
-	width:999px;
-	margin-left:-14px;
+    font-size:14px;
+    color:#949fa8;
+    background-image:url(../images/line.png); 
+    background-repeat:no-repeat;    
+    width:999px;
+    margin-left:-14px;
+    font-family: "Nokia Pure Text";
 }
 
 .content .home-view .box-video .box01
 {
-	background-image:url(../images/line.png);
-	background-position:-14px top;	
-	background-repeat:no-repeat;
-	background-color:#e1e5ef;
-	display:inline-block;
-	vertical-align:top;	
-	width:441px;
-	margin:0 -5px 0 14px;
-	text-align:right; 
-	padding:25px 0;
+    background-image:url(../images/line.png);
+    background-position:-14px top;  
+    background-repeat:no-repeat;
+    background-color:#e1e5ef;
+    display:inline-block;
+    vertical-align:top; 
+    width:441px;
+    margin:0 -5px 0 14px;
+    text-align:right; 
+    padding:25px 0;
 }
 
 .content .home-view .box-video .box02
 {
-	background-image:url(../images/line.png);
-	background-position:-331px top;	
-	background-repeat:no-repeat;
-	background-color:#e1e5ef;
-	display:inline-block;
-	vertical-align:top;
-	width:170px;
-	margin-right:-3px;
-	padding:22px 25px;
-	height:232px; 
+    background-image:url(../images/line.png);
+    background-position:-331px top; 
+    background-repeat:no-repeat;
+    background-color:#e1e5ef;
+    display:inline-block;
+    vertical-align:top;
+    width:170px;
+    margin-right:-3px;
+    padding:22px 25px;
+    height:232px; 
 }
 
 .content .home-view .box-video .box03
 {
-	background-color:#eeff4;
-	display:inline-block;
-	vertical-align:top;
-	width:249px;
-	padding:22px 30px;		
+    background-color:#eeff4;
+    display:inline-block;
+    vertical-align:top;
+    width:249px;
+    padding:22px 30px;      
 }
 
 .content .home-view .box-video .box02 p,
 .content .home-view .box-video .box03 p
 {
-	font-size:14px;
-	margin-top:10px;
+    font-size:14px;
+    margin-top:10px;
+    font-family: "Nokia Pure Text";
 }
 
 .content .home-view .box-video .box03 .btn_know_more
 {
-	background-image:url(../images/en/knowmore.png);
-	width:122px;
-	height:35px;
-	cursor:pointer;
-	margin:30px 0 0 120px;
+    background-image:url(../images/en/knowmore.png);
+    width:122px;
+    height:35px;
+    cursor:pointer;
+    margin:30px 0 0 120px;
 }
 .content .home-view .box-video .box03 .btn_know_more:hover
 {
-	background-image:url(images/en/knowmore_hover.png);
+    background-image:url(images/en/knowmore_hover.png);
 }
 /************************************************************************************************************************/
+
