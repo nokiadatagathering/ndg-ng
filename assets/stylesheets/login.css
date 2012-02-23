@@ -4,26 +4,25 @@
 
 
 /********************************************************* body *********************************************************/
-body {
-    margin: 0px;
-    padding: 0px;
-    background: #20264a url(../images/bg_pattern.png) repeat-x;
-    background-position: 0px 230px;
+body
+{
+	background-image:url(image/bg.png);
+	background-repeat:repeat-x;
+	background-color:#20264a;
+	font-family: "Nokia Pure Text";
 }
 
 .container
-{   
-    background: #eeeff4;
-    min-height: 740px;
+{	
     width: 980px;
     margin: 45px auto;
 }
-
 
 .container .header,
 .container .content
 {
     background-color:#eeeff4;
+    width:971px;
 }
 /************************************************************************************************************************/
 
@@ -35,6 +34,8 @@ body {
     width:971px;
     height:157px;   
 }
+
+
 
 .container .header .logo
 {
@@ -195,7 +196,7 @@ body {
     vertical-align:top; 
     height:355px;
     width:230px;
-    margin-right:-5px;      
+    margin-right:-5px;     
 }
 .content .home-view .box-text .box01 div
 {
@@ -284,18 +285,7 @@ body {
 {
     margin: 19px 0 5px 40px;
 }
-.content .home-view .box-text .box04 .btn_trynow
-{
-    background-image:url(../images/en/trynow.png);
-    width:240px;
-    height:106px;
-    cursor:pointer;
-    margin:73px auto 73px;
-}
-.content .home-view .box-text .box04 .btn_trynow:hover
-{
-    background-image:url(../images/en/trynow_hover.png);
-}
+
 .content .home-view .box-text .box04 .box-account
 {
     width:309px;
@@ -434,17 +424,5 @@ table.register td {
     font-family: "Nokia Pure Text";
 }
 
-.content .home-view .box-video .box03 .btn_know_more
-{
-    background-image:url(../images/en/knowmore.png);
-    width:122px;
-    height:35px;
-    cursor:pointer;
-    margin:30px 0 0 120px;
-}
-.content .home-view .box-video .box03 .btn_know_more:hover
-{
-    background-image:url(images/en/knowmore_hover.png);
-}
 /************************************************************************************************************************/
 
