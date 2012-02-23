@@ -14,7 +14,6 @@
 		
 </head>
 	<body>
-          <!--[if lt IE 9]><p>This site needs either a webkit based browser or Internet Explorer 9 or greater. You can still experience Nokia Data Gathering though if you have an older browser by <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a></p><![endif]-->
 		<div id="container" class="container">
 			<div id="header" class="header">
 		    	<div id="logo" class="logo"></div>
@@ -50,6 +49,7 @@
 		                </form>
                                 #{/form}
 		            </div>
+                           <!--[if lt IE 9]><p>This site needs either a webkit based browser or Internet Explorer 9 or greater. You can still use Nokia Data Gathering with an older browser by <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a></p><![endif]-->
 		        </div>
 		    </div>
 		    <div id="content" class="content">
@@ -124,9 +124,9 @@
 		                    <p>Just watch our getting started video</p>
 		                </li>
 		                <li class="box03">
-		                	<h1 class="titulo_purple">DOWNLOAD</h1> 
-                                        <h2 class="subtitulo_purple">OUR MOBILE CLIENT FOR</h2>
-		                    <p><img src="images/wp7.png"><a href="ndg-ota/client/ndg.jad"><img src="images/java.png"></a></p>
+		                	<h1 class="titulo_purple">MOBILE CLIENTS</h1> 
+                                        <h2 class="subtitulo_purple">You need to have an account on this server to use the mobile clients</h2>
+		                    <p><button onclick="fetchClient()"><img src="images/wp7.png"></button><button onclick="fetchClient()"><img src="images/java.png"></button></p>
 		                </li>
 		            </ul>
 		        </div>
@@ -166,6 +166,10 @@
             document.getElementById("passwordSubmit").value = hash;
             $('#loginForm').submit( );
         }
+
+       function fetchClient(){
+
+                             }
     </script>
 	</body>
 </html>
