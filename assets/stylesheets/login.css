@@ -349,8 +349,6 @@ table.register td {
 
 .registrationForm
 {
-    background-image:url(../images/textfield02.png);
-    border:none;
     width:115px;
     height:39px;
     font-size:12px;
@@ -359,8 +357,11 @@ table.register td {
     display:inline-block;
     vertical-align:right;
     margin-right:20px;
-
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px; 
 }
+
 
 
 /************************************************************************************************************************/
