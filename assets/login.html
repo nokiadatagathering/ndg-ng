@@ -20,27 +20,26 @@
 		        <div id="header-content" class="header-content">
 		        	<ul id="lang" class="lang">
 		            	<li><a href="#" class="langSelector" id="en" ><img src="images/flag_eua.jpg"></a></li>
-		            	<li><a href="#" class="langSelector" id="pr" ><img src="images/flag_bra.jpg"></a></li>
-		            	<li><a href="#" class="langSelector" id="sp" ><img src="images/flag_spa.jpg"></a></li>             
+		            	<li><a href="#" class="langSelector" id="pt_br" ><img src="images/flag_bra.jpg"></a>           
                                 <li><a href="#" class="langSelector" id="pl" ><img src="images/flag_pol.jpg"></a></li> 
 		            </ul>
 		            <div id="sign-in" class="sign-in">
 		            	<span class="recover">
-		                	Forgot your username or password? <a id="btn_recover" href="javascript:void(0);">Recover</a>
+		                	&{'views.login.forgot'}<a id="btn_recover" href="javascript:void(0);">&{'views.login.recover'}</a>
 		                </span>
                                 #{form @Application.authorize(), id:'loginForm'}
 		                <form>
 		                	<ul id="login" class="login">
                                                  #{field 'lang'}
-                           <input id="selectedLanguage" type="text" name="lang" style="display:none" hidden="true" value="&{'languageId'}"/>
+                                                <input id="selectedLanguage" type="text" name="lang" style="display:none" hidden="true" value="&{'languageId'}"/>
                                                  #{/field}
                                                  #{field 'Login'}  
-		                		<li><input id="usernameSubmit" class="username" type="text" name="username" value="Username"/></li>
+		                		<li><input id="usernameSubmit" class="username" type="text" name="username" placeholder="&{'views.login.username'}"/></li>
                                                  #{/field}
                                                  #{field 'content'}
 		                		<li><input id="passwordSubmit" style="display:none"  hidden="true" type="password" name="password"/></li>
                                                 #{/field}
-                                                <li><input id="passwordInput" type="password" class="password" name="passwordText" value="Password" /></li>
+                                                <li><input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}"/></li>
                                                   #{if flash.error}
                                                    <p style="color:red">&{'views.login.badPasswordAlert'}<p>
                                                   #{/if}
@@ -57,23 +56,23 @@
 		        	<ul class="box-text">
 		            	<li class="box01">
 		                	<div>
-		                        <h1 class="titulo_purple">Create</h1>
-		                        <h2 class="subtitulo_purple">YOUR SURVEY</h2>
-		                        <p>Create your survey</p>
+		                        <h1 class="titulo_purple">&{'views.login.Create'}</h1>
+		                        <h2 class="subtitulo_purple">&{'views.login.YourSurvey'}</h2>
+		                        <p>&{'views.login.box01Text'}</p>
 		                    </div>                                      
 		                </li>
 		                <li class="box02">               
 		                	<div>
-		                        <h1 class="titulo_purple">Use Mobile</h1>
-		                        <h2 class="subtitulo_purple">TO INTERVIEW</h2>
-		                        <p>Interview people in the field</p>
+		                        <h1 class="titulo_purple">&{'views.login.UseMobile'}</h1>
+		                        <h2 class="subtitulo_purple">&{'views.login.ToInterview'}</h2>
+		                        <p>&{'views.login.box02Text'}</p>
 		                    </div>                
 		                </li>
 		                <li class="box03">               
 		                	<div>
-		                        <h1 class="titulo_purple">Get Results</h1>
-		                        <h2 class="subtitulo_purple">AS GRAPHIC AND OTHERS</h2>
-		                        <p>See a graphical representation of your results!</p>
+		                        <h1 class="titulo_purple">&{'views.login.GetResults'}</h1>
+		                        <h2 class="subtitulo_purple">&{'views.login.AsGraphics'}</h2>
+		                        <p>&{'views.login.box03Text'}</p>
 		                    </div>                  
 		                </li>
 		                <li class="box04">
@@ -83,25 +82,25 @@
                                               <tbody>
                                                 <tr>
                                                  <td>              
-                                                  <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" placeholder="Username"/>
-                                                  <input id="emailReg" class="registrationForm" type="text" name="emailReg" placeholder="Email"/>        
+                                                  <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" placeholder="&{'views.login.username'}"/>
+                                                  <input id="emailReg" class="registrationForm" type="text" name="emailReg" placeholder="&{'views.login.email'}"/>        
                                                  </td>
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                  <input id="passwordReg" type="password" class="registrationForm" name="passwordReg" placeholder="Password" />
-                                                  <input id="retypePasswordReg" type="password" class="registrationForm" name="retypePassword" placeholder="Retype Password" />
+                                                  <input id="passwordReg" type="password" class="registrationForm" name="passwordReg" placeholder="&{'views.login.password'}" />
+                                                  <input id="retypePasswordReg" type="password" class="registrationForm" name="retypePassword" placeholder="&{'views.login.retypepassword'}" />
                                                   </td>
                                                 <tr>
                                                   <td>
-                                                  <input id="firstName" class="registrationForm" type="text" name="firstName" placeholder="First Name" />                        
-                                                  <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="Last Name" />
+                                                  <input id="firstName" class="registrationForm" type="text" name="firstName" placeholder="&{'views.login.firstname'}" />                        
+                                                  <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" />
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                  <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" placeholder="Phone Number" />
-                                                  <input id="company" class="registrationForm" type="text" name="company" placeholder="Company" />
+                                                  <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" />
+                                                  <input id="company" class="registrationForm" type="text" name="company" placeholder="&{'views.login.company'}" />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -120,12 +119,12 @@
 		                	<img src="images/video.png"/>
 		                </li>
 		                <li class="box02">
-		                	<h1 class="titulo_purple">GETTING STARTED</h1>
-		                    <p>Just watch our getting started video</p>
+		                	<h1 class="titulo_purple">&{'views.login.GettingStarted'}</h1>
+		                    <p>&{'views.login.JustWatch'}</p>
 		                </li>
 		                <li class="box03">
-		                	<h1 class="titulo_purple">MOBILE CLIENTS</h1> 
-                                        <h2 class="subtitulo_purple">You need to have an account on this server to use the mobile clients</h2>
+		                	<h1 class="titulo_purple">&{'views.login.MobileClients'}</h1> 
+                                        <h2 class="subtitulo_purple">&{'views.login.NeedAccount'}</h2>
 		                    <p><button onclick="fetchClient()"><img src="images/wp7.png"></button><button onclick="fetchClient()"><img src="images/java.png"></button></p>
 		                </li>
 		            </ul>

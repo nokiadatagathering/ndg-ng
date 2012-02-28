@@ -1,0 +1,33 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+languageId = pt_br
+views.main.localizationJSFile = localization_pt_br.js
+views.main.searchPlaceHolder = Search...br
+views.login.forgot = Forgot your username or password br?
+views.login.recover = Recover br
+views.main.Logout = Logout br
+views.login.username = Username br
+views.login.password = Password br
+views.login.retypepassword = Retype Password br
+views.login.email = Email br
+views.login.firstname = First Name br
+views.login.lastname = Last Name br
+views.login.phone = Phone Number br
+views.login.company = Company br
+views.login.badPasswordAlert = username and/or password is incorrect br
+views.login.Login = Login br
+views.login.Create = Create br
+views.login.YourSurvey = YOUR SURVEY br
+views.login.box01Text = Create your survey br
+views.login.UseMobile = Use Your Mobile br
+views.login.ToInterview = TO INTERVIEW br
+views.login.box02Text = Interview people in the field br
+views.login.GetResults = Get Results br
+views.login.AsGraphics = AS GRAPHICS OR EXPORT THEM br
+views.login.box03Text = See a graphical representation of your results! br
+views.login.GettingStarted = Getting Started br
+views.login.JustWatch = Just watch our getting started video br
+views.login.MobileClients = MOBILE CLIENTS br
+views.login.NeedAccount = You need an account on this server to use a mobile client br
+
