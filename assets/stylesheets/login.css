@@ -6,10 +6,11 @@
 /********************************************************* body *********************************************************/
 body
 {
-	background-image:url(image/bg.png);
-	background-repeat:repeat-x;
-	background-color:#20264a;
-	font-family: "Nokia Pure Text";
+
+    margin: 0px;
+    padding: 0px;
+    background: #20264a url(../images/bg_pattern.png) repeat-x;
+    background-position: 0px 230px;
 }
 
 .container
@@ -333,7 +334,7 @@ body
 
 table.register{
     padding:10px;
-    width: 307px;
+    width: 300px;
 }
 
 table.register tr{
@@ -349,8 +350,6 @@ table.register td {
 
 .registrationForm
 {
-    background-image:url(../images/textfield02.png);
-    border:none;
     width:115px;
     height:39px;
     font-size:12px;
@@ -359,8 +358,11 @@ table.register td {
     display:inline-block;
     vertical-align:right;
     margin-right:20px;
-
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px; 
 }
+
 
 
 /************************************************************************************************************************/
