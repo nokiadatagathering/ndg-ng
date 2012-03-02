@@ -30,4 +30,5 @@ views.login.GettingStarted = Getting Started
 views.login.JustWatch = Just watch our getting started video
 views.login.MobileClients = MOBILE CLIENTS
 views.login.NeedAccount = You need an account on this server to use a mobile client
+views.login.compatibility = This site needs either a webkit based browser or Internet Explorer 9 or greater. You can still use Nokia Data Gathering with an older browser by <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a>
 

@@ -16,11 +16,11 @@
 	<body>
 		<div id="container" class="container">
 			<div id="header" class="header">
-		    	<div id="logo" class="logo"></div>
+		    	<a href="/"><div id="logo" class="logo"></div></a>
 		        <div id="header-content" class="header-content">
 		        	<ul id="lang" class="lang">
 		            	<li><a href="#" class="langSelector" id="en" ><img src="images/flag_eua.jpg"></a></li>
-		            	<li><a href="#" class="langSelector" id="pt_br" ><img src="images/flag_bra.jpg"></a>           
+		            	<li><a href="#" class="langSelector" id="pt_br" ><img src="images/flag_bra.jpg"></a></li>           
                                 <li><a href="#" class="langSelector" id="pl" ><img src="images/flag_pol.jpg"></a></li> 
 		            </ul>
 		            <div id="sign-in" class="sign-in">
@@ -40,18 +40,18 @@
 		                		<li><input id="passwordSubmit" style="display:none"  hidden="true" type="password" name="password"/></li>
                                                 #{/field}
                                                 <li><input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}"/></li>
-                                                  #{if flash.error}
-                                                   <p style="color:red">&{'views.login.badPasswordAlert'}<p>
-                                                  #{/if}
 		                		<li><input id="submitLoginButton" class="btn_login" type="button" /></li>
+                                                #{if flash.error}
+                                                   <p style="color:red">&{'views.login.badPasswordAlert'}<p>
+                                                #{/if}
 		                	</ul>
 		                </form>
                                 #{/form}
 		            </div>
-                           <!--[if lt IE 9]><p>This site needs either a webkit based browser or Internet Explorer 9 or greater. You can still use Nokia Data Gathering with an older browser by <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a></p><![endif]-->
 		        </div>
 		    </div>
 		    <div id="content" class="content">
+                     <!--[if lt IE 9]><p>&{'views.login.compatibility'}</p><![endif]-->
 		    	<div id="home-view" class="home-view">
 		        	<ul class="box-text">
 		            	<li class="box01">
@@ -105,7 +105,7 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                 <id="createAccount" class="buttonAccount createAccountButton" type="button">
+                                                 <input id="createAccount" class="createAccountButton" type="button">
                                                 </td>
                                             </tr>
                                          </form>

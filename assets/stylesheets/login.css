@@ -113,7 +113,24 @@ body
     font-size:12px;
     color:#b7b7b7;
     font-family: "Nokia Pure Text";
+    -webkit-border-radius: 5px; 
+    -moz-border-radius: 5px; 
+    border-radius: 5px;
+    outline:none;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
+
+.container .header .login .username:focus,
+.container .header .login .password:focus 
+{
+		border: 3px solid #959495;
+		-webkit-box-shadow: 0px 0px 6px #007eff;
+		-moz-box-shadow: 0px 0px 5px #007eff;
+		box-shadow: 0px 0px 5px #007eff;
+}
+
 
 .container .header .login .username:hover,
 .container .header .login .password:hover
@@ -268,62 +285,9 @@ body
     background-color:#043a66;
 }
 
-.content .home-view .box-text .box04 .username,
-.content .home-view .box-text .box04 .password,
-.content .home-view .box-text .box04 .email
-
-{
-    background-image:url(../images/textfield01.png);
-    border:none;
-    width:80px;
-    height:29px;
-    padding-left:5px;
-    font-size:12px;
-    color:#b7b7b7;
-    font-family: "Nokia Pure Text";
-}
-.content .home-view .box-text .box04 h1
-{
-    margin: 19px 0 5px 40px;
-}
-
-.content .home-view .box-text .box04 .box-account
-{
-    width:309px;
-    height:58px;
-}
-.content .home-view .box-text .box04 .box-account .box-text-account
-{
-    display:inline-block;
-    vertical-align:top;
-    font-size:12px;
-    color:#b2b9ce;
-    width:110px;
-    text-align:right;
-    height:48px;
-    padding-top:10px;   
-    font-family: "Nokia Pure Text";
-}
-.content .home-view .box-text .box04 .box-account .box-btn-account
-{
-    display:inline-block;
-    vertical-align:top;
-    height:46px;
-    width:155px;
-    padding-top:12px;
-    padding-left:10px;
-}
-
-.content .home-view .box-text .box04 .btn_create_account:hover
-{
-    background-image:url(../images/en/createaccount_hover.png);
-}
-
-.buttonAccount {
-    background: url(../images/account.png);
-}
 
 .createAccountButton {
+    background: url(../images/account.png);
     display: inline-block;
     min-width: 287px;
     max-width: 287px;
@@ -332,21 +296,26 @@ body
     margin-top: 10px;
 }
 
+
+
 table.register{
     padding:10px;
     width: 300px;
 }
+
 
 table.register tr{
 	padding: 10px;
 	text-align: left;
 }
 
+
 table.register td { 
 	padding:10px;
         width:10px;
         height:29px;
 	}
+
 
 .registrationForm
 {
@@ -357,11 +326,24 @@ table.register td {
     font-family: "Nokia Pure Text";
     display:inline-block;
     vertical-align:right;
-    margin-right:20px;
     -webkit-border-radius: 5px; 
     -moz-border-radius: 5px; 
-    border-radius: 5px; 
+    border-radius: 5px;
+    outline:none;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+ 
 }
+
+.registrationForm:focus 
+{
+		border: 3px solid #959495;
+		-webkit-box-shadow: 0px 0px 6px #007eff;
+		-moz-box-shadow: 0px 0px 5px #007eff;
+		box-shadow: 0px 0px 5px #007eff;
+}
+
 
 
 
