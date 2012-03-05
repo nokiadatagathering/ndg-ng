@@ -319,8 +319,6 @@ p
     *display: inline
 }
 
-
-
 table.register{
     padding:10px;
     width: 300px;
@@ -356,6 +354,8 @@ table.register td {
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    zoom:1;	
+    *display: inline
  
 }
 
