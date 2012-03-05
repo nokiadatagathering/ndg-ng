@@ -11,6 +11,7 @@ NOKIA DATA GATHERING
 GETTING STARTED
 ================================
 
+    We use Ubuntu 11.10
     First, install mysql server if needed (if its not already installed):
     $ sudo apt-get install mysql-server
     Then, login to mysql as a root:
