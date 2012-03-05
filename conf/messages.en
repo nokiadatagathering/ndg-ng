@@ -7,6 +7,7 @@ views.main.searchPlaceHolder = Search...
 views.login.forgot = Forgot your username or password?
 views.login.recover = Recover
 views.main.Logout = Logout
+views.login.usersname = Username
 views.login.username = Username
 views.login.password = Password
 views.login.retypepassword = Retype Password

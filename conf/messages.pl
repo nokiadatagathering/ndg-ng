@@ -8,6 +8,7 @@ views.login.forgot = Forgot your username or password in Polish?
 views.login.recover = Recover in Polish
 views.main.Logout = Wyloguj
 views.login.username = Nazwa
+views.login.usersname = Nazwa
 views.login.password = Hasło
 views.login.retypepassword = Retype Password Polish
 views.login.email = Email Polish

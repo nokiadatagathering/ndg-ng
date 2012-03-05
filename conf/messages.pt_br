@@ -8,6 +8,7 @@ views.login.forgot = Forgot your username or password br?
 views.login.recover = Recover br
 views.main.Logout = Logout br
 views.login.username = Username br
+views.login.usersname = Username br
 views.login.password = Password br
 views.login.retypepassword = Retype Password br
 views.login.email = Email br

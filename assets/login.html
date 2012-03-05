@@ -77,30 +77,70 @@
 		                </li>
 		                <li class="box04">
                                         <div id="form">
-                                         <form>
+                                         <form autocomplete="off">
                                              <table class="register">
                                               <tbody>
                                                 <tr>
                                                  <td>              
-                                                  <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" placeholder="&{'views.login.username'}"/>
-                                                  <input id="emailReg" class="registrationForm" type="text" name="emailReg" placeholder="&{'views.login.email'}"/>        
+                                <!--[if IE]>	
+                                                    <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" value="&{'views.login.usersname'}" />												  
+												  <![endif]-->
+												  <!--[if !IE]><!-->
+												    <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" placeholder="&{'views.login.usersname'}" />
+												  <!--<![endif]-->
+												  <!--[if IE]>	
+                                                    <input id="emailReg" class="registrationForm" type="text" name="emailReg" value="&{'views.login.email'}" />  												  
+												  <![endif]-->
+												  <!--[if !IE]><!-->	
+												    <input id="emailReg" class="registrationForm" type="text" name="emailReg" placeholder="&{'views.login.email'}" />  
+												  <!--<![endif]-->        
                                                  </td>
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                                  <input id="passwordReg" type="password" class="registrationForm" name="passwordReg" placeholder="&{'views.login.password'}" />
-                                                  <input id="retypePasswordReg" type="password" class="registrationForm" name="retypePassword" placeholder="&{'views.login.retypepassword'}" />
+                                              <!--[if IE]>	
+                                                   <input id="passwordReg" type="password" class="registrationForm" name="passwordReg" value="&{'views.login.password'}" />												  
+												  <![endif]-->
+												  <!--[if !IE]><!-->
+												    <input id="passwordReg" type="password" class="registrationForm" name="passwordReg" placeholder="&{'views.login.password'}" />
+												  <!--<![endif]-->
+												  <!--[if IE]>	
+                                                    <input id="retypePasswordReg" type="password" class="registrationForm" name="retypePassword" value="&{'views.login.retypepassword'}" />  												  
+												  <![endif]-->
+												  <!--[if !IE]><!-->	
+												    <input id="retypePasswordReg" type="password" class="registrationForm" name="retypePassword" placeholder="&{'views.login.retypepassword'}" />  
+												  <!--<![endif]-->
                                                   </td>
                                                 <tr>
                                                   <td>
-                                                  <input id="firstName" class="registrationForm" type="text" name="firstName" placeholder="&{'views.login.firstname'}" />                        
-                                                  <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" />
+                                        <!--[if IE]>	
+                                                   <input id="firstName" class="registrationForm" type="text" name="firstName" value="&{'views.login.firstname'}" /> 											  
+												  <![endif]-->
+												  <!--[if !IE]><!-->
+												    <input id="firstName" class="registrationForm" type="text" name="firstName" placeholder="&{'views.login.firstname'}" /> 
+												  <!--<![endif]-->
+												  <!--[if IE]>	
+                                                    <input id="lastName" class="registrationForm" type="text" name="lastName" value="&{'views.login.lastname'}" /> 												  
+												  <![endif]-->
+												  <!--[if !IE]><!-->	
+												    <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" />  
+												  <!--<![endif]-->
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                  <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" />
-                                                  <input id="company" class="registrationForm" type="text" name="company" placeholder="&{'views.login.company'}" />
+                             <!--[if IE]>	
+                                                   <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" value="&{'views.login.phone'}" />												  
+												  <![endif]-->
+												  <!--[if !IE]><!-->
+												   <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" /> 
+												  <!--<![endif]-->
+												  <!--[if IE]>	
+                                                    <input id="company" class="registrationForm" type="text" name="company" value="&{'views.login.company'}" />												  
+												  <![endif]-->
+												  <!--[if !IE]><!-->	
+												    <input id="company" class="registrationForm" type="text" name="company" placeholder="&{'views.login.company'}" /> 
+												  <!--<![endif]-->
                                                 </td>
                                             </tr>
                                             <tr>
