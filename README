@@ -4,14 +4,23 @@ NOKIA DATA GATHERING
 * Info: See <http://> for introductory docs.
 * Author: Ian Lawrence <root@ianlawrence.info>
 * Date: $Date: 2011-08-12 12:50:48 -0400 (Fre, 12. Aug 2011) $
-* Revision: $Revision: 4 $
+* Revision: $Revision: 5 $
 * Description: This is the main documentation
 
 
 GETTING STARTED
 ================================
 
-    mysql> CREATE DATABASE ndg2;
+    First, install mysql server if needed (if its not already installed):
+    $ sudo apt-get install mysql-server
+    Then, login to mysql as a root:
+    mysql -u root -p
+    This will ask you for the root password for mysql.
+    In mysql the ndg local user should be created with the same password and then the database 'ndg2' should be created
+    and the user granted access to it:
+    mysql> create user 'ndg'@'localhost' identified by 'ndg';
+    mysql> create database ndg2;
+    mysqil> grant all priveleges on ndg2.* to ndg@localhost;
     git clone git@github.com:nokiadatagathering/ndg-ng.git
     cd assets/build/
     (install necessary tools (sudo apt-get install optipng libjpeg-progs) to optimize assets. ant needs to be version 1.8.2 so you may need to do
