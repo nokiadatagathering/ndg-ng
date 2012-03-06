@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Unauthorized :(</title> 
+  <style>
+    body { text-align: center;}
+    span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
+    ::-moz-selection{ background:#FF5E99; color:#fff; }
+    ::selection { background:#FF5E99; color:#fff; }
+  </style>
+    <link rel="stylesheet" href="stylesheets/login.css">	
+    <link rel="stylesheet" href="stylesheets/reset.css">
+</head>
+<body>
+     <div id="container" class="container">
+			<div id="header" class="header">
+                        </div>
+       <div id="content" class="content">
+         <div id="home-view" class="home-view">
+           <p>Authentication credentials were missing or incorrect.</p>
+          </div>
+        </div>
+</body>
+</html>
