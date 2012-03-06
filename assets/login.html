@@ -33,13 +33,23 @@
                                                  #{field 'lang'}
                                                 <input id="selectedLanguage" type="text" name="lang" style="display:none" hidden="true" value="&{'languageId'}"/>
                                                  #{/field}
-                                                 #{field 'Login'}  
-		                		<li><input id="usernameSubmit" class="username" type="text" name="username" placeholder="&{'views.login.username'}" value="&{'views.login.username'}"/></li>
+                                                 #{field 'Login'} 
+                                                <!--[if IE]> 
+		                		<li><input id="usernameSubmit" class="username" type="text" name="username" value="&{'views.login.username'}"/></li>
+                                                <![endif]-->
+                                                <!--[if !IE]><!-->
+                                                <li><input id="usernameSubmit" class="username" type="text" name="username" placeholder="&{'views.login.username'}" /></li> 
+                                                <!--<![endif]-->
                                                  #{/field}
                                                  #{field 'content'}
 		                		<li><input id="passwordSubmit" style="display:none"  hidden="true" type="password" name="password"/></li>
                                                 #{/field}
-                                                <li><input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}" value="&{'views.login.password'}"/></li>
+                                                <!--[if IE]> 
+                                                <li><input id="passwordInput" type="password" class="password" name="passwordText" value="&{'views.login.password'}"/></li>
+                                                <![endif]-->
+                                                <!--[if !IE]><!-->
+                                                <li><input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}"/></li>
+                                                 <!--<![endif]-->
 		                		<li><input id="submitLoginButton" class="btn_login" type="button" /></li>
                                                 #{if flash.error}
                                                    <p style="color:red">&{'views.login.badPasswordAlert'}<p>

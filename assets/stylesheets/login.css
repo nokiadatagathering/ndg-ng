@@ -58,7 +58,7 @@ p
 
 .container .header .header-content
 {
-    width:307px;
+    width:300px;
     height:157px;
     display:inline-block;
     vertical-align:top;
@@ -109,8 +109,7 @@ p
 .container .header .login li
 {
     display:inline-block;
-    vertical-align:middle;
-    margin-right:3px;
+    vertical-align:left;
     zoom:1;	
     *display: inline;;
 }
@@ -118,14 +117,13 @@ p
 .container .header .login .username,
 .container .header .login .password
 {
-    background-image:url(../images/textfield01.png);
-    border:none;
-    width:80px;
-    height:29px;
-    padding-left:5px;
+    width:100px;
+    height:30px;
     font-size:12px;
     color:#b7b7b7;
     font-family: "Nokia Pure Text";
+    display:inline-block;
+    vertical-align:top;
     -webkit-border-radius: 5px; 
     -moz-border-radius: 5px; 
     border-radius: 5px;
@@ -133,10 +131,13 @@ p
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
+    zoom:1;	
+    *display: inline;
+ 
 }
 
 .container .header .login .username:focus,
-.container .header .login .password:focus 
+.container .header .login .password:focus
 {
 		border: 3px solid #007eff;
 		-webkit-box-shadow: 0px 0px 6px #007eff;
@@ -144,20 +145,15 @@ p
 		box-shadow: 0px 0px 5px #007eff;
 }
 
-
-.container .header .login .username:hover,
-.container .header .login .password:hover
-{
-    color:#5a5670;
-}
-
 .container .header .login .btn_login
 {
 	background-image:url(../images/login.png);
 	border:none;
-	width:82px;
-	height:32px;
-	margin-left:10px;
+	width:80px;
+	height:32px; 
+        vertical-align:middle;   
+        margin-left:2px; 
+        margin-top:8px; 
 	cursor:pointer;	
 }
 
