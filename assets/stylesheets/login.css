@@ -53,7 +53,7 @@ p
     display:inline-block;
     vertical-align:top;
     zoom:1;	
-    *display: inline; 
+    *display: inline;; 
 }
 
 .container .header .header-content
@@ -63,7 +63,7 @@ p
     display:inline-block;
     vertical-align:top;
     zoom:1;	
-    *display: inline;
+    *display: inline;;
 }
 
 .container .header .lang
@@ -79,7 +79,7 @@ p
     width:15px;
     height:9px; 
     zoom:1;	
-    *display: inline;
+    *display: inline;;
 }
 
 
@@ -112,7 +112,7 @@ p
     vertical-align:middle;
     margin-right:3px;
     zoom:1;	
-    *display: inline;
+    *display: inline;;
 }
 
 .container .header .login .username,
@@ -229,7 +229,7 @@ p
     width:230px;
     margin-right:-5px;
     zoom:1;	
-    *display: inline;     
+    *display: inline;;     
 }
 .content .home-view .box-text .box01 div
 {
@@ -249,7 +249,7 @@ p
     width:230px;
     margin-right:-5px;
     zoom:1;	
-    *display: inline
+    *display: inline;
 }
 .content .home-view .box-text .box02 div
 {
@@ -269,7 +269,7 @@ p
     width:230px;    
     margin-right:-4px;
     zoom:1;	
-    *display: inline  
+    *display: inline;  
 }
 .content .home-view .box-text .box03 div
 {
@@ -303,7 +303,7 @@ p
     height:355px;
     background-color:#043a66;
     zoom:1;	
-    *display: inline
+    *display: inline;
 }
 
 
@@ -316,7 +316,7 @@ p
     height: 55px;
     margin-top: 10px;
     zoom:1;	
-    *display: inline
+    *display: inline;
 }
 
 table.register{
@@ -327,20 +327,18 @@ table.register{
 
 table.register tr{
 	padding: 10px;
-	text-align: left;
+	text-align: center;
 }
 
 
 table.register td { 
-	padding:10px;
-        width:10px;
-        height:29px;
+	padding:5px;
 	}
 
 
 .registrationForm
 {
-    width:115px;
+    width:110px;
     height:39px;
     font-size:12px;
     color:#b7b7b7;
@@ -355,7 +353,7 @@ table.register td {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     zoom:1;	
-    *display: inline
+    *display: inline;
  
 }
 
@@ -399,7 +397,7 @@ table.register td {
     text-align:right; 
     padding:25px 0;
     zoom:1;	
-    *display: inline
+    *display: inline;
 }
 
 .content .home-view .box-video .box02
@@ -415,7 +413,7 @@ table.register td {
     padding:22px 25px;
     height:232px; 
     zoom:1;	
-    *display: inline
+    *display: inline;
 }
 
 .content .home-view .box-video .box03
@@ -426,7 +424,7 @@ table.register td {
     width:249px;
     padding:22px 30px; 
     zoom:1;	
-    *display: inline     
+    *display: inline;     
 }
 
 .content .home-view .box-video .box02 p,

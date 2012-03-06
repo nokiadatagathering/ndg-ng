@@ -34,12 +34,12 @@
                                                 <input id="selectedLanguage" type="text" name="lang" style="display:none" hidden="true" value="&{'languageId'}"/>
                                                  #{/field}
                                                  #{field 'Login'}  
-		                		<li><input id="usernameSubmit" class="username" type="text" name="username" placeholder="&{'views.login.username'}"/></li>
+		                		<li><input id="usernameSubmit" class="username" type="text" name="username" placeholder="&{'views.login.username'}" value="&{'views.login.username'}"/></li>
                                                  #{/field}
                                                  #{field 'content'}
 		                		<li><input id="passwordSubmit" style="display:none"  hidden="true" type="password" name="password"/></li>
                                                 #{/field}
-                                                <li><input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}"/></li>
+                                                <li><input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}" value="&{'views.login.password'}"/></li>
 		                		<li><input id="submitLoginButton" class="btn_login" type="button" /></li>
                                                 #{if flash.error}
                                                    <p style="color:red">&{'views.login.badPasswordAlert'}<p>
@@ -83,7 +83,7 @@
                                                 <tr>
                                                  <td>              
                                 <!--[if IE]>	
-                                                    <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" value="&{'views.login.usersname'}" />												  
+                                  <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" value="&{'views.login.usersname'}" />												  
 												  <![endif]-->
 												  <!--[if !IE]><!-->
 												    <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" placeholder="&{'views.login.usersname'}" />
@@ -165,7 +165,7 @@
 		                <li class="box03">
 		                	<h1 class="titulo_purple">&{'views.login.MobileClients'}</h1> 
                                         <h2 class="subtitulo_purple">&{'views.login.NeedAccount'}</h2>
-		                    <p><button onclick="fetchClient()"><img src="images/wp7.png"></button><button onclick="fetchClient()"><img src="images/java.png"></button></p>
+		                    <p><img src="images/wp7.png"><img src="images/java.png"></p>
 		                </li>
 		            </ul>
 		        </div>
