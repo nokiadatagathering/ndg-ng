@@ -1,19 +1,41 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html>
-    <head>
-        <title>Not found</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=${_response_encoding}"/>    
-    </head>
-    <body>
-        #{if play.mode.name() == 'DEV'}
+<head>
+  <meta charset="utf-8">
+  <title>Page Not Found :(</title> 
+  <style>
+    body { text-align: center;}
+    span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
+    ::-moz-selection{ background:#FF5E99; color:#fff; }
+    ::selection { background:#FF5E99; color:#fff; }
+  </style>
+    <link rel="stylesheet" href="stylesheets/login.css">	
+    <link rel="stylesheet" href="stylesheets/reset.css">
+</head>
+<body>
+     <div id="container" class="container">
+			<div id="header" class="header">
+                        </div>
+       <div id="content" class="content">
+         <div id="home-view" class="home-view">
+           #{if play.mode.name() == 'DEV'}
             #{404 result /}
         #{/if}
         #{else}
-            <h1>Not found</h1>
+            <h1 class="titulo_purple">Not found <span frown>:(</span></h1>
             <p>
-                ${result.message}
+                <div>
+	          <p>Sorry, but the page you were trying to view does not exist.</p>
+	          <p>It looks like this was the result of either:</p>
+	          <p> a mistyped address <br>
+		      an out-of-date link<br>
+                      but it was probably a result of doing <h2 class="subtitulo_purple">${result.message}<h2>
+	          </p>
+	       </div>          
             </p>
+             <br><br>
         #{/else}
-    </body>
+          </div>
+        </div>
+</body>
 </html>

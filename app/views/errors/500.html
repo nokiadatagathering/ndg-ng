@@ -1,21 +1,36 @@
-<!DOCTYPE html>
-
+<!doctype html>
 <html>
-    <head>
-        <title>Application error</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=${_response_encoding}"/>	
-    </head>
-    <body>
-        #{if play.mode.name() == 'DEV'}
-            #{500 exception /}
-        #{/if}
-        #{else}
-            <h1>Oops, an error occured</h1>
-            #{if exception instanceof play.exceptions.PlayException}
+<head>
+  <meta charset="utf-8">
+  <title>Page Not Found :(</title> 
+  <style>
+    body { text-align: center;}
+    span[frown] { transform: rotate(90deg); display:inline-block; color: #bbb; }
+    ::-moz-selection{ background:#FF5E99; color:#fff; }
+    ::selection { background:#FF5E99; color:#fff; }
+  </style>
+    <link rel="stylesheet" href="stylesheets/login.css">	
+    <link rel="stylesheet" href="stylesheets/reset.css">
+</head>
+<body>
+     <div id="container" class="container">
+			<div id="header" class="header">
+                        </div>
+       <div id="content" class="content">
+         <div id="home-view" class="home-view">
+             #{if play.mode.name() == 'DEV'}
+               #{500 exception /}
+             #{/if}
+             #{else}
+              <h1 class="titulo_purple">Oops, an error occured</h1>
+                  #{if exception instanceof play.exceptions.PlayException}
                 <p>
                     This exception has been logged with id <strong>${exception.id}</strong>.
                 </p>
+                <br><br>
             #{/if}
         #{/else}
-    </body>
+         </div>
+        </div>
+</body>
 </html>
