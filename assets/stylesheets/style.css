@@ -327,6 +327,7 @@ searchTextField:-moz-placeholder {
     font-size: 13px;
     font-family: "Nokia Pure Text";
     color: #acacac;
+    border:none;
     width: 122px;
     height: 22px;
     padding-left: 3px;

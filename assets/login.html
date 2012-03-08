@@ -28,7 +28,7 @@
 		                	&{'views.login.forgot'}<a id="btn_recover" href="javascript:void(0);">&{'views.login.recover'}</a>
 		                </span>
                                 #{form @Application.authorize(), id:'loginForm'}
-		                <form>
+		                <form autocomplete="off">
 		                	<ul id="login" class="login">
                                                  #{field 'lang'}
                                                 <input id="selectedLanguage" type="text" name="lang" style="display:none" hidden="true" value="&{'languageId'}"/>
@@ -50,7 +50,7 @@
                                                 <!--[if !IE]><!-->
                                                 <li><input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}"/></li>
                                                  <!--<![endif]-->
-		                		<li><input id="submitLoginButton" class="btn_login" type="button" /></li>
+		                		<li><input id="submitLoginButton" class="btn_login" type="button" value="OK" /></li>
                                                 #{if flash.error}
                                                    <p style="color:red">&{'views.login.badPasswordAlert'}<p>
                                                 #{/if}
