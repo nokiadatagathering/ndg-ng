@@ -109,16 +109,16 @@
                                                 <tr>
                                                   <td>
                                               <!--[if IE]>	
-                                                   <input id="passwordReg" type="password" class="registrationForm" name="passwordReg" value="&{'views.login.password'}" />												  
+                                                   <input id="passwordReg" type="text" class="registrationForm" name="passwordReg" value="&{'views.login.password'}" />												  
 												  <![endif]-->
 												  <!--[if !IE]><!-->
-												    <input id="passwordReg" type="password" class="registrationForm" name="passwordReg" placeholder="&{'views.login.password'}" />
+												    <input id="passwordReg" type="text" class="registrationForm" name="passwordReg" placeholder="&{'views.login.password'}" />
 												  <!--<![endif]-->
 												  <!--[if IE]>	
-                                                    <input id="retypePasswordReg" type="password" class="registrationForm" name="retypePassword" value="&{'views.login.retypepassword'}" />  												  
+                                                    <input id="retypePasswordReg" type="text" class="registrationForm" name="retypePassword" value="&{'views.login.retypepassword'}" />  												  
 												  <![endif]-->
 												  <!--[if !IE]><!-->	
-												    <input id="retypePasswordReg" type="password" class="registrationForm" name="retypePassword" placeholder="&{'views.login.retypepassword'}" />  
+												    <input id="retypePasswordReg" type="text" class="registrationForm" name="retypePassword" placeholder="&{'views.login.retypepassword'}" />  
 												  <!--<![endif]-->
                                                   </td>
                                                 <tr>
@@ -206,6 +206,7 @@
                sURL += "?lang=" + this.id;
                window.location.replace( sURL );
             });
+
         });
 
         function loginSubmit() {
@@ -216,9 +217,7 @@
             $('#loginForm').submit( );
         }
 
-       function fetchClient(){
 
-                             }
     </script>
 	</body>
 </html>
