@@ -149,13 +149,25 @@ p
 
 .container .header .login .btn_login
 {
-        width:51px;
-        height:31px;
+        background:url(../images/login.png) no-repeat;
+        width:54px;
+        height:33px;
         font-family: "Nokia Pure Text";
         font-size:15px;
+        border:none;
         color:#075a9e;
         vertical-align:middle;  
-        margin-top:6px;     
+        margin-top:10px;
+        zoom:1;	
+        *display: inline     
+}
+
+.container .header .login .btn_login:active
+{
+		border: 2px solid #3f76c1;
+		-webkit-box-shadow: 0px 0px 2px #3f76c1;
+		-moz-box-shadow: 0px 0px 1px #3f76c1;
+		box-shadow: 0px 0px 1px #3f76c1;
 }
 
 
@@ -344,6 +356,7 @@ table.register td {
     display:inline-block;
     vertical-align:top;
     border:none;
+    outline:none;
     webkit-input-placeholder:color: #a77ca;
     -moz-placeholder:color: #a77ca;
     box-sizing: border-box;
