@@ -497,8 +497,25 @@
         <!-- overwrite=no here means not to overwrite if the target is newer than the sources -->
         <concat destfile="./${dir.intermediate}/${dir.js}/scripts-concat.js" overwrite="no">
             <fileset dir="./${dir.intermediate}/">
-                <include name="${dir.js.main}/plugins.js"/>
-                <include name="${dir.js.main}/script.js"/>
+                <include name="${dir.js.main}/constants.js"/>
+                <include name="${dir.js.main}/editlabel.js"/>
+                <include name="${dir.js.main}/surveylist.js"/>
+                <include name="${dir.js.main}/skiplogiccontroller.js"/>
+                <include name="${dir.js.main}/contextpopup.js"/>
+                <include name="${dir.js.main}/surveymodel.js"/>
+                <include name="${dir.js.main}/questionelement.js"/>
+                <include name="${dir.js.main}/editor.js"/>
+                <include name="${dir.js.main}/resultlist.js"/>
+                <include name="${dir.js.main}/graphing.js"/>
+                <include name="${dir.js.main}/sendsurvey.js"/>
+                <include name="${dir.js.main}/exportresults.js"/>
+                <include name="${dir.js.main}/usermanagement.js"/>
+                <include name="${dir.js.main}/dynamictable.js"/>
+                <include name="${dir.js.main}/confirmcover.js"/>
+                <include name="${dir.js.main}/newusertable.js"/>
+                <include name="${dir.js.main}/newgrouptable.js"/>
+                <include name="${dir.js.main}/utils.js"/>
+                <include name="${dir.js.main}/sendsms.js"/>
             </fileset>      
         </concat>
     </target>
@@ -573,6 +590,25 @@
               <exclude name="${dir.js}/scripts-concat.min.js"/>
               <exclude name="${dir.js}/plugins.js"/>
               <exclude name="${dir.js}/script.js"/>
+              <exclude name="${dir.js}/constants.js"/>
+              <exclude name="${dir.js}/editlabel.js"/>
+              <exclude name="${dir.js}/surveylist.js"/>
+              <exclude name="${dir.js}/skiplogiccontroller.js"/>
+              <exclude name="${dir.js}/contextpopup.js"/>
+              <exclude name="${dir.js}/surveymodel.js"/>
+              <exclude name="${dir.js}/questionelement.js"/>
+              <exclude name="${dir.js}/editor.js"/>
+              <exclude name="${dir.js}/resultlist.js"/>
+              <exclude name="${dir.js}/graphing.js"/>
+              <exclude name="${dir.js}/sendsurvey.js"/>
+              <exclude name="${dir.js}/exportresults.js"/>
+              <exclude name="${dir.js}/usermanagement.js"/>
+              <exclude name="${dir.js}/dynamictable.js"/>
+              <exclude name="${dir.js}/confirmcover.js"/>
+              <exclude name="${dir.js}/newusertable.js"/>
+              <exclude name="${dir.js}/newgrouptable.js"/>
+              <exclude name="${dir.js}/utils.js"/>
+              <exclude name="${dir.js}/sendsms.js"/>
           </fileset>                                   
         </copy>
         <copy todir="${dir.publish}/${dir.js.mylibs}/">
@@ -653,7 +689,6 @@
             <arg path="./${dir.build.tools}/${tool.htmlcompressor}"/>
             <arg line="--preserve-multi-spaces"/>
             <arg line="--remove-quotes"/>
-            <arg line="--compress-js"/>
             <arg line="--compress-css"/>
             <arg line="--preserve-php"/>
             <arg line="--preserve-ssi"/>
@@ -676,7 +711,6 @@
             <arg path="./${dir.build.tools}/${tool.htmlcompressor}"/>
             <arg value="--preserve-comments"/>
             <arg line="--preserve-multi-spaces"/>
-            <arg line="--compress-js"/>
             <arg line="--compress-css"/>
             <arg line="--preserve-php"/>
             <arg line="--preserve-ssi"/>
@@ -698,7 +732,6 @@
             <arg value="-jar"/>
             <arg path="./${dir.build.tools}/${tool.htmlcompressor}"/>
             <arg line="--remove-quotes"/>
-            <arg line="--compress-js"/>
             <arg line="--compress-css"/>
             <arg line="--preserve-php"/>
             <arg line="--preserve-ssi"/>

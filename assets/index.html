@@ -158,8 +158,9 @@ window.location.replace("http://calm.nokiadatagathering.net/ndgFlex/swf/main.htm
   <script src="javascripts/libs/jqplot.pieRenderer.min.js"></script>
   <script src="javascripts/libs/jqplot.toImage.js"></script>
   <script src="javascripts/libs/jquery.ba-resize.min.js"></script>
-  <script type="text/javascript" src="javascripts/constants.js"></script>
   <script type="text/javascript" src="javascripts/&{'views.main.localizationJSFile'}"></script>
+  <!-- scripts concatenated and minified via ant build script-->
+  <script type="text/javascript" src="javascripts/constants.js"></script>
   <script type="text/javascript" src="javascripts/editlabel.js"></script>
   <script type="text/javascript" src="javascripts/surveylist.js"></script>
   <script type="text/javascript" src="javascripts/skiplogiccontroller.js"></script>
@@ -178,7 +179,7 @@ window.location.replace("http://calm.nokiadatagathering.net/ndgFlex/swf/main.htm
   <script type ="text/javascript" src="javascripts/newgrouptable.js"></script>
   <script type ="text/javascript" src="javascripts/utils.js"></script>
   <script type ="text/javascript" src="javascripts/sendsms.js"></script>
-
+ <!-- end scripts-->
 <script>
 
 // IE won’t support any execution stack longer than 12 frames so cannot assign the function to a property on the window object, hence this ->
@@ -195,8 +196,6 @@ window.location.replace("http://calm.nokiadatagathering.net/ndgFlex/swf/main.htm
 $(document).ready(function() {
     recurse();
 });
-
-
     var hasAdminPermission = false;
     #{if session.admin}
     hasAdminPermission = true;
