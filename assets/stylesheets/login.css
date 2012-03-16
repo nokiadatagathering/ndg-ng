@@ -170,27 +170,6 @@ p
 /************************************************************************************************************************/
 
 
-
-/****************************************************** footer **********************************************************/
-.container .footer
-{
-    width:971px;
-    text-align:center;
-    font-size:13px;
-    color:#8287a3;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    font-family: "Nokia Pure Text";
-}
-
-.container .footer a
-{
-    color:#8287a3;  
-}
-/************************************************************************************************************************/
-
-
-
 /************* Home: 'Create' (box 1), 'Use Mobile' (box 2) and 'Get Results' (box 3); 'start today' (box 4) ************/
 .container .content .titulo_purple
 {
@@ -203,12 +182,6 @@ p
 {
     font-size:12px;
     color:#7b86ab;
-    font-family: "Nokia Pure Text";
-}
-.container .content .titulo_white
-{
-    font-size:22px;
-    color:#edf1fc;
     font-family: "Nokia Pure Text";
 }
 
