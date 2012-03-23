@@ -28,7 +28,7 @@ views.login.GetResults = Get Results in Polish
 views.login.AsGraphics = AS GRAPHICS OR EXPORT THEM in Polish
 views.login.box03Text = See a graphical representation of your results! in Polish
 views.login.GettingStarted = Getting Started Polish
-views.login.JustWatch = Just watch our getting started video in Polish
+views.login.JustWatch = Read our friendly <a href="http://docs.nokiadatagathering.net/"> users guide</a> or watch the video to see how Nokia Data Gathering is being used to fight disease and save lives.
 views.login.MobileClients = MOBILE CLIENTS in Polish
-views.login.NeedAccount = You need an account on this server to use a mobile client in Polish
+views.login.NeedAccount = You need an account on this server to use Nokia Data Gathering on your mobile device. Please register above.
 views.login.compatibility = This site needs either a webkit based browser or Internet Explorer 9 or greater. You can still use Nokia Data Gathering with an older browser by <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a> polish

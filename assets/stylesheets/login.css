@@ -387,9 +387,9 @@ table.register td {
     display:inline-block;
     vertical-align:top;
     width:170px;
+    height:275px;
     margin-right:-3px;
-    padding:22px 25px;
-    height:232px; 
+    padding:22px 25px;  
     zoom:1;	
     *display: inline;
 }

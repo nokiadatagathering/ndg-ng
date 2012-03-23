@@ -28,8 +28,8 @@ views.login.GetResults = Get Results
 views.login.AsGraphics = AS GRAPHICS OR EXPORT THEM
 views.login.box03Text = See a graphical representation of your results!
 views.login.GettingStarted = Getting Started
-views.login.JustWatch = Just watch our getting started video
+views.login.JustWatch = Read our friendly <a href="http://docs.nokiadatagathering.net/"> users guide</a> or watch the video to see how Nokia Data Gathering is being used to fight disease and save lives.
 views.login.MobileClients = MOBILE CLIENTS
-views.login.NeedAccount = You need an account on this server to use a mobile client
+views.login.NeedAccount = You need an account on this server to use Nokia Data Gathering on your mobile device. Please register above and then download a client.
 views.login.compatibility = This site needs either a webkit based browser or Internet Explorer 9 or greater. You can still use Nokia Data Gathering with an older browser by <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a>
 
