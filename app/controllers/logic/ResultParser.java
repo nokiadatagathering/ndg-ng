@@ -43,6 +43,7 @@ public class ResultParser {
     private static final String OPEN_ROSA_INSTANCE_ID = "instanceID";
     private static final String OPEN_ROSA_TIME_START = "timeStart";
     private static final String OPEN_ROSA_TIME_FINISH = "timeEnd";
+    private static final String OPEN_ROSA_GEOSTAMP = "geostamp"; //Not OpenROSA
     private static final String OPEN_ROSA_NAMESPACE = "http://openrosa.org/xforms/metadata";
     private NdgResult result;
     private final Reader reader;
@@ -75,6 +76,15 @@ public class ResultParser {
             @Override
             public void handleElement( ResultParser parser, Element element ) {
                 result.endTime = ISODateTimeFormat.dateTimeNoMillis().parseDateTime( element.getText( 0 ) ).toDate();
+            }
+        } );
+
+        elementHandlers.put( OPEN_ROSA_GEOSTAMP, new ResultElementHandler() {
+
+            public void handleElement( ResultParser parser, Element element ) {
+                String[] coordinates = element.getText( 0 ).split(" ");
+                result.latitude = coordinates[0];
+                result.longitude = coordinates[1];
             }
         } );
 
