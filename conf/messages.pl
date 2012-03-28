@@ -20,13 +20,13 @@ views.login.badPasswordAlert = złe hasło i/lub nazwa użytkownika
 views.login.Login = Zaloguj
 views.login.Create = Create in Polish
 views.login.YourSurvey = Your Survey in Polish
-views.login.box01Text = Create your survey in Polish
+views.login.box01Text = Using our unique <b>Drag 'n' Drop</b> survey editor
 views.login.UseMobile = Use Your Mobile in Polish
 views.login.ToInterview = TO INTERVIEW in Polish
-views.login.box02Text = Interview people in the field in Polish
+views.login.box02Text = People in the field in Polish
 views.login.GetResults = Get Results in Polish
-views.login.AsGraphics = AS GRAPHICS OR EXPORT THEM in Polish
-views.login.box03Text = See a graphical representation of your results! in Polish
+views.login.AsGraphics = AS GRAPHICS in Polish
+views.login.box03Text = Or export them to Excel in Polish
 views.login.GettingStarted = Getting Started Polish
 views.login.JustWatch = Read our friendly <a href="http://docs.nokiadatagathering.net/"> users guide</a> or watch the video to see how Nokia Data Gathering is being used to fight disease and save lives.
 views.login.MobileClients = MOBILE CLIENTS in Polish

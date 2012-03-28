@@ -83,7 +83,7 @@ var LOC = (function() {
         LOC_NEW_QUESTION: 'New question',
         LOC_NEW_OPTION: 'New option',
         LOC_SAVE_SURVEY : 'Do you want to save survey?',
-        LOC_LENGTH : 'LENGTH',
+        LOC_LENGTH : 'MAX LENGTH',
         LOC_MIN_RANGE: 'MIN.RANGE',
         LOC_MAX_RANGE: 'MAX.RANGE',
         LOC_DRAG_NEW_CATEGORY: 'Drag to add new category',

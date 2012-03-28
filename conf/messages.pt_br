@@ -20,13 +20,13 @@ views.login.badPasswordAlert = username and/or password is incorrect br
 views.login.Login = Login br
 views.login.Create = Create br
 views.login.YourSurvey = YOUR SURVEY br
-views.login.box01Text = Create your survey br
+views.login.box01Text = Using our unique <b>Drag 'n' Drop</b> survey editor
 views.login.UseMobile = Use Your Mobile br
 views.login.ToInterview = TO INTERVIEW br
-views.login.box02Text = Interview people in the field br
+views.login.box02Text = People in the field br
 views.login.GetResults = Get Results br
-views.login.AsGraphics = AS GRAPHICS OR EXPORT THEM br
-views.login.box03Text = See a graphical representation of your results! br
+views.login.AsGraphics = AS GRAPHICS br
+views.login.box03Text = Or export them to Excel
 views.login.GettingStarted = Getting Started br
 views.login.JustWatch = Read our friendly <a href="http://docs.nokiadatagathering.net/"> users guide</a> or watch the video to see how Nokia Data Gathering is being used to fight disease and save lives.
 views.login.MobileClients = MOBILE CLIENTS br
