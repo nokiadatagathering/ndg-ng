@@ -393,7 +393,7 @@ var Editor = function() {
 
                     + '<div class="qIcon deleteQuestion" title="' + LOC.get('LOC_DELETE') + '"></div>'
                     + '<div class="qIcon duplicateQuestion"></div>'
-                    + '<div class="qType typeComboboxSelection"><span><select style="width:125px;" class="typeSelect"></select></span></div>'
+                    + '<div class="qType"><span class="typeComboboxSelection"><select class="typeSelect"></select></span></div>'
                     + '<div style="clear:both;"></div>'
                     + '</div>'
                     + '<div class="questionDetails"></div>'
@@ -426,6 +426,7 @@ var Editor = function() {
 
     function setQuestionUiOptions( question ){
         fillTypeCombo( question.uiId );
+
 
         $( '#'+ question.uiId + ' .typeSelect' ).val( question.questionType.id );
         $( '#'+ question.uiId + ' .typeSelect' ).bind( 'change', question.uiId, function( i ){onQuestionTypeChanged( i );} );
@@ -472,7 +473,7 @@ var Editor = function() {
     }
 
     function fillTypeCombo( qId ){
-        $( '#'+ qId + ' .typeSelect' ).append( optionsTypeListHtml );
+        $( '#'+ qId + ' .typeSelect' ).append( optionsTypeListHtml ).selectbox();
     }
 
     function onQuestionTypeChanged( event ){

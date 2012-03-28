@@ -21,6 +21,26 @@ div.questionDetails
     margin-right: 10px;
 }
 
+/*.descriptiveDefault
+{
+display:none;
+}
+
+.numericDefault
+{
+display:none;
+}
+
+.defaultAnswer{
+display:none;
+}
+
+.dateDefault
+{
+display:none;
+}
+*/
+
 .detailInputText
 {
     font-size: 12px;
@@ -39,7 +59,7 @@ div.questionDetails
 
 .defaultLabel
 {
-    display: none;
+    visibility: hidden;
 }
 
 
