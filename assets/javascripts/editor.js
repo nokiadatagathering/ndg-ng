@@ -393,7 +393,7 @@ var Editor = function() {
 
                     + '<div class="qIcon deleteQuestion" title="' + LOC.get('LOC_DELETE') + '"></div>'
                     + '<div class="qIcon duplicateQuestion"></div>'
-                    + '<div class="qType"><span class="typeComboboxSelection"><select class="typeSelect"></select></span></div>'
+                    + '<div class="qType typeComboboxSelection"><span><select class="typeSelect"></select></span></div>'
                     + '<div style="clear:both;"></div>'
                     + '</div>'
                     + '<div class="questionDetails"></div>'
