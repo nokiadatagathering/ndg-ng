@@ -35,7 +35,7 @@ var SurveyList = function() {
         $('#leftColumnContent' ).append( '<h3>' + LOC.get( 'LOC_STATUS' ) + '</h3>'
                                        + '<h4 id="filterBuilding" class="labelBuilding filterable clickableElem">' + LOC.get( 'LOC_BUILDING' ) + '</h4>'
                                        + '<h4 id="filterAvailable" class="labelAvailable filterable clickableElem">' + LOC.get( 'LOC_AVAILABLE' ) + '</h4>'
-                                       + '<!--<h4 id="filterClosed" class="labelClosed filterable clickableElem">' + LOC.get( 'LOC_CLOSED' ) + '</h4>-->' );
+                                       + '<h4 id="filterAll" class="labelClosed clickableElem">' + LOC.get( 'LOC_ALL' ) + '</h4>' );
 
         bindFilter();
 
@@ -108,14 +108,6 @@ var SurveyList = function() {
             if( item.classList.contains("selectedFilter") ) {
                 item.classList.remove("selectedFilter");
             }
-        } else {/*This part is for IE. IE does not support 'classList' property*/
-            var classes = item.className.split(' ');
-            if( jQuery.inArray( "selectedFilter", classes ) >=0 ) {
-                classes.splice(jQuery.inArray( "selectedFilter", classes ), 1);
-                newClassesList = classes.toString();
-                item.className = newClassesList;
-            }
-        }
     }
 
     function filterSurveys() {

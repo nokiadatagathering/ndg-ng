@@ -311,10 +311,10 @@ body {
 }
 
 searchTextField::-webkit-input-placeholder {
-    color: #a77ca;
+    color: #3a77ca;
 }
 searchTextField:-moz-placeholder {
-    color: #a77ca;
+    color: #3a77ca;
 }
 
 .searchTextField {
