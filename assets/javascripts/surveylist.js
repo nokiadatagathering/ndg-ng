@@ -107,8 +107,9 @@ var SurveyList = function() {
         if( item.classList != null ) {
             if( item.classList.contains("selectedFilter") ) {
                 item.classList.remove("selectedFilter");
-            }
-    }
+                                                            }
+                                     }
+                                             }
 
     function filterSurveys() {
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "surveys", SurveyList);
