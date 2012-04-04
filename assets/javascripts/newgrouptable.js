@@ -27,7 +27,7 @@ var NewGroupTable = (function() {
         //fill table
         var tableHtml;
         tableHtml = '<form id="newGroupForm" method="post" action="userManager/addGroup"><table><tr>'
-                  + '<td><input class="newGroupInput" type="text" name="groupname" title="Groupname" /></td>'
+                  + '<td><input class="newGroupInput" type="text" name="groupname" maxlength="20" title="Groupname" /></td>'
                   + '<td><input type="submit" class="submitNewUserButton" value="" /></td>'
                   + '</tr></table></form>'
         addGroupTable.append(tableHtml);

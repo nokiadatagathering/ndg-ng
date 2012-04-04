@@ -22,13 +22,4 @@
     font-style: normal;
 }
 
-@font-face {
-    font-family: "Nokia Pure Text Light";
-    src: url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.eot"); /* IE9 */
-    src: url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.eot") format("eot"), /* IE6-IE8 */
-         url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.woff") format("woff"), /* Modern Browsers */
-         url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.ttf") format("truetype"); /* Safari, Android, iOS */
-         url("../other/NokiaPureTextLight/nokiapuretextlight-webfont.svg") format("svg"); /* Legacy iOS */
-    font-weight: normal;
-    font-style: normal;
-}
+

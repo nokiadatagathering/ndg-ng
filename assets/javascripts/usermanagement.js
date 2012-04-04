@@ -306,11 +306,24 @@ var UserManagement = function() {
     }
 
     function fillWithData(i, item) {
+        var total = 10; 
+
+        if (item.email.length > 12){
+                 var email = item.email.substring(0,total) + '..';
+                                     }else{
+                 var email = item.email;
+                                     }
+        if (item.phoneNumber.length > 12){
+                 var phone = item.phoneNumber.substring(0,total) + '..';
+                                     }else{
+                 var phone = item.phoneNumber;
+                                     }
+
         $('#dynamicListTable').append( '<tr class="addableToUserList" id="dynamicRow'+ i + '" userId="' + item.id + '">'
-                                    + '<td><p class="tableEntryUsername">'+ item.username + '</p>'
-                                    +     '<p class="tableEntryFirstLastName">'+ item.firstName + ' ' + item.lastName + '</p></td>'
-                                    + '<td>' + item.email + '</td>'
-                                    + '<td>' + item.phoneNumber + '</td>'
+                                    + '<td><p style="overflow:hidden;word-wrap:break-word;" class="tableEntryUsername">'+ item.username + '</p>'
+                                    +     '<p style="overflow:hidden;word-wrap:break-word;" class="tableEntryFirstLastName">'+ item.firstName + '<br>' + item.lastName + '</p></td>'
+                                    + '<td>' + email + '</td>'
+                                    + '<td>' + phone + '</td>'
                                     + '<td>' + item.userRoleCollection[0].ndgRole.roleName + '</td>'
                                     + '<td class="menubar" id="menu' + i + '" >'
                                     + '<span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"></span>'
