@@ -1,4 +1,3 @@
-
 /********************************************************* body *********************************************************/
 body
 {
@@ -97,22 +96,15 @@ p
     text-decoration:underline;
 }
 
-.container .header .login
+.login
 {
-    margin-top:15px;
-}
-
-.container .header .login li
-{
-    display:inline-block;
-    vertical-align:left;
-    zoom:1;	
-    *display: inline;;
+    padding-top:15px; 
 }
 
 
-.container .header .login .username,
-.container .header .login .password
+
+.username,
+.password
 {
     width:100px;
     height:30px;
@@ -132,38 +124,34 @@ p
     *display: inline;
 }
 
+
 .username:focus,
 .password:focus
 {
-		border: 4px solid #3f76c1;
-		-webkit-box-shadow: 0px 0px 4px #3f76c1;
-		-moz-box-shadow: 0px 0px 3px #3f76c1;
-		box-shadow: 0px 0px 3px #3f76c1;
+		-webkit-box-shadow: 0px 0px 1px 2px #9cb4c9;
+		-moz-box-shadow: 0px 0px 1px 2px #9cb4c9;
+		box-shadow: 0px 0px 1px 2px #9cb4c9;
 }
 
 
 
-.container .header .login .btn_login
+.btn_login
 {
-        background:url(../images/login.png) no-repeat;
-        width:54px;
-        height:33px;
-        font-family: "Nokia Pure Text";
-        font-size:15px;
+        background:url(../images/login.png) no-repeat bottom right;
+        width:51px;
+        height:31px;
         border:none;
-        color:#075a9e;
         vertical-align:middle;  
-        margin-top:8px;
         zoom:1;	
         *display: inline     
 }
 
-.container .header .login .btn_login:active
+.btn_login:active
 {
-		border: 2px solid #3f76c1;
-		-webkit-box-shadow: 0px 0px 2px #3f76c1;
-		-moz-box-shadow: 0px 0px 1px #3f76c1;
-		box-shadow: 0px 0px 1px #3f76c1;
+		border: 1px solid #9cb4c9;
+		-webkit-box-shadow: 0px 0px 1px 1px #9cb4c9;
+		-moz-box-shadow: 0px 0px 1px 1px #9cb4c9;
+		box-shadow: 0px 0px 1px 1px #9cb4c9;
 }
 
 
@@ -340,10 +328,9 @@ table.register td {
 
 .registrationForm:focus 
 {
-		border: 4px solid #3f76c1;
-		-webkit-box-shadow: 0px 0px 4px #3f76c1;
-		-moz-box-shadow: 0px 0px 3px #3f76c1;
-		box-shadow: 0px 0px 3px #3f76c1;
+		-webkit-box-shadow: 0px 0px 2px 2px #9cb4c9;
+		-moz-box-shadow: 0px 0px 2px 2px #9cb4c9;
+		box-shadow: 0px 0px 2px 2px #9cb4c9;
 }
 
 /************************************************************************************************************************/

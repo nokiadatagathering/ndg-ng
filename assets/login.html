@@ -11,9 +11,7 @@
   <link rel="icon" type="image/png" href="images/favicon.ico"/>
   <link rel="stylesheet" href="stylesheets/login.css">
   <link rel="stylesheet" href="stylesheets/reset.css">	
-  <link rel="stylesheet" href="stylesheets/fonts.css">	
-
-		
+  <link rel="stylesheet" href="stylesheets/fonts.css">			
 </head>
 	<body>
 		<div id="container" class="container">
@@ -29,34 +27,34 @@
 		            	<span class="recover">
 		                	&{'views.login.forgot'}<a id="btn_recover" href="javascript:void(0);">&{'views.login.recover'}</a>
 		                </span>
-                                #{form @Application.authorize(), id:'loginForm'}
-		                <form autocomplete="off">
-		                	<ul id="login" class="login">
+                                 
+                                 #{form @Application.authorize(), id:'loginForm'}
+                                 <form autocomplete="off">
+                                  
+                                   <table border="0" style="background-color:#edf0f7" width="280" cellpadding="1" cellspacing="1">
+	                                 <tr>
+		                             <td id="login" class="login">
                                                  #{field 'lang'}
                                                 <input id="selectedLanguage" type="text" name="lang" style="display:none" hidden="true" value="&{'languageId'}"/>
                                                  #{/field}
                                                  #{field 'Login'} 
-                                                <!--[if IE]> 
-		                		<li><input id="usernameSubmit" class="username" type="text" name="username" value="&{'views.login.username'}"/></li>
-                                                <![endif]-->
-                                                <!--[if !IE]><!-->
-                                                <li><input id="usernameSubmit" class="username" type="text" name="username" placeholder="&{'views.login.username'}" /></li> 
-                                                <!--<![endif]-->
+                                                 <input id="usernameSubmit" class="username" type="text" name="username" placeholder="&{'views.login.username'}" />
+                                               
                                                  #{/field}
-                                                 #{field 'content'}
-		                		<li><input id="passwordSubmit" style="display:none"  hidden="true" type="password" name="password"/></li>
+                                             </td>
+		                             <td id="login" class="login">
+                                                #{field 'content'}
+		                		<input id="passwordSubmit" style="display:none"  hidden="true" type="password" name="password"/>
                                                 #{/field}
-                                                <!--[if IE]> 
-                                                <li><input id="passwordInput" type="password" class="password" name="passwordText" value="&{'views.login.password'}"/></li>
-                                                <![endif]-->
-                                                <!--[if !IE]><!-->
-                                                <li><input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}"/></li>
-                                                 <!--<![endif]-->
-		                		<li><input id="submitLoginButton" class="btn_login" type="button" /></li>
-                                                #{if flash.error}
-                                                   <p style="color:red">&{'views.login.badPasswordAlert'}<p>
-                                                #{/if}
-		                	</ul>
+                                                <input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}"/>
+                                             </td>
+		                             <td id="login" class="login"><input id="submitLoginButton" class="btn_login" type="button" /></td>
+	                                 </tr>
+                                   </table>
+                                       #{if flash.error}
+                                          <p style="color:red">&{'views.login.badPasswordAlert'}<p>
+                                       #{/if}
+                              
 		                </form>
                                 #{/form}
 		            </div>
@@ -66,7 +64,7 @@
 		    	<div id="home-view" class="home-view">
                             <!--[if lt IE 9]><p>&{'views.login.compatibility'}</p><![endif]-->
 		        	<ul class="box-text">
-		            	<li class="box01">
+		            	<li class="box01"><fieldset>
 		                	<div>
 		                        <h1 class="titulo_purple">&{'views.login.Create'}</h1>
 		                        <h2 class="subtitulo_purple">&{'views.login.YourSurvey'}</h2>
@@ -90,76 +88,36 @@
 		                <li class="box04">
                                         <div id="form">
                                          <form autocomplete="off">
+                                      
                                              <table class="register">
                                               <tbody>
                                                 <tr>
                                                  <td>              
-                                <!--[if IE]>	
-                                  <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" value="&{'views.login.usersname'}" />												  
-												  <![endif]-->
-												  <!--[if !IE]><!-->
-												    <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" placeholder="&{'views.login.usersname'}" />
-												  <!--<![endif]-->
-												  <!--[if IE]>	
-                                                    <input id="emailReg" class="registrationForm" type="text" name="emailReg" value="&{'views.login.email'}" />  												  
-												  <![endif]-->
-												  <!--[if !IE]><!-->	
-												    <input id="emailReg" class="registrationForm" type="text" name="emailReg" placeholder="&{'views.login.email'}" />  
-												  <!--<![endif]-->        
-                                                 </td>
+                         <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" placeholder="&{'views.login.usersname'}" />
+		         <input id="emailReg" class="registrationForm" type="text" name="emailReg" placeholder="&{'views.login.email'}" /> 						         </td>
                                                 </tr>
                                                 <tr>
                                                   <td>
-                                              <!--[if IE]>	
-                                                   <input id="passwordReg" type="text" class="registrationForm" name="passwordReg" value="&{'views.login.password'}" />												  
-												  <![endif]-->
-												  <!--[if !IE]><!-->
-												    <input id="passwordReg" type="text" class="registrationForm" name="passwordReg" placeholder="&{'views.login.password'}" />
-												  <!--<![endif]-->
-												  <!--[if IE]>	
-                                                    <input id="retypePasswordReg" type="text" class="registrationForm" name="retypePassword" value="&{'views.login.retypepassword'}" />  												  
-												  <![endif]-->
-												  <!--[if !IE]><!-->	
-												    <input id="retypePasswordReg" type="text" class="registrationForm" name="retypePassword" placeholder="&{'views.login.retypepassword'}" />  
-												  <!--<![endif]-->
+			<input id="passwordReg" type="text" class="registrationForm" name="passwordReg" placeholder="&{'views.login.password'}" />
+			<input id="retypePasswordReg" type="text" class="registrationForm" name="retypePassword" placeholder="&{'views.login.retypepassword'}" />  					
                                                   </td>
                                                 <tr>
                                                   <td>
-                                        <!--[if IE]>	
-                                                   <input id="firstName" class="registrationForm" type="text" name="firstName" value="&{'views.login.firstname'}" /> 											  
-												  <![endif]-->
-												  <!--[if !IE]><!-->
-												    <input id="firstName" class="registrationForm" type="text" name="firstName" placeholder="&{'views.login.firstname'}" /> 
-												  <!--<![endif]-->
-												  <!--[if IE]>	
-                                                    <input id="lastName" class="registrationForm" type="text" name="lastName" value="&{'views.login.lastname'}" /> 												  
-												  <![endif]-->
-												  <!--[if !IE]><!-->	
-												    <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" />  
-												  <!--<![endif]-->
-                                                </td>
+                        <input id="firstName" class="registrationForm" type="text" name="firstName" placeholder="&{'views.login.firstname'}" /> 
+		        <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" /> 				                          </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                             <!--[if IE]>	
-                                                   <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" value="&{'views.login.phone'}" />												  
-												  <![endif]-->
-												  <!--[if !IE]><!-->
-												   <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" /> 
-												  <!--<![endif]-->
-												  <!--[if IE]>	
-                                                    <input id="company" class="registrationForm" type="text" name="company" value="&{'views.login.company'}" />												  
-												  <![endif]-->
-												  <!--[if !IE]><!-->	
-												    <input id="company" class="registrationForm" type="text" name="company" placeholder="&{'views.login.company'}" /> 
-												  <!--<![endif]-->
-                                                </td>
+                        <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" /> 
+		        <input id="company" class="registrationForm" type="text" name="company" placeholder="&{'views.login.company'}" /> 
+					        </td>
                                             </tr>
                                             <tr>
                                                 <td>
                                                  <input id="createAccount" class="createAccountButton" type="button">
                                                 </td>
                                             </tr>
+                                  
                                          </form>
                                            </tbody>
                                            </table>       
@@ -189,8 +147,10 @@
   <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.6.4.min.js"><\/script>')</script>
   <script src="javascripts/libs/jquery.md5.js"></script>
   <script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"></script>
+  <script src="javascripts/libs/jquery.placeholder.min.js"></script>
 
         <script>
+        $('input').placeholder();
         var sURL = window.location.pathname;
 
 
