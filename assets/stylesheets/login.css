@@ -74,7 +74,7 @@ p
     width:15px;
     height:9px; 
     zoom:1;	
-    *display: inline;;
+    *display: inline;
 }
 
 
@@ -134,7 +134,6 @@ p
 }
 
 
-
 .btn_login
 {
         background:url(../images/login.png) no-repeat bottom right;
@@ -143,12 +142,11 @@ p
         border:none;
         vertical-align:middle;  
         zoom:1;	
-        *display: inline     
+        *display: inline;     
 }
 
 .btn_login:active
 {
-		border: 1px solid #9cb4c9;
 		-webkit-box-shadow: 0px 0px 1px 1px #9cb4c9;
 		-moz-box-shadow: 0px 0px 1px 1px #9cb4c9;
 		box-shadow: 0px 0px 1px 1px #9cb4c9;
@@ -195,7 +193,7 @@ p
     width:230px;
     margin-right:-5px;
     zoom:1;	
-    *display: inline;;     
+    *display: inline;     
 }
 .content .home-view .box-text .box01 div
 {

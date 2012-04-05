@@ -18,7 +18,7 @@
 			<div id="header" class="header">
 		    	<a href="/"><div id="logo" class="logo"></div></a>
 		        <div id="header-content" class="header-content">
-		        	<ul id="lang" class="lang">
+		            <ul id="lang" class="lang">
 		            	<li><a href="#" class="langSelector" id="en" ><img src="images/flag_eua.jpg"></a></li>
 		            	<li><a href="#" class="langSelector" id="pt_br" ><img src="images/flag_bra.jpg"></a></li>           
                                 <li><a href="#" class="langSelector" id="pl" ><img src="images/flag_pol.jpg"></a></li> 
@@ -29,8 +29,7 @@
 		                </span>
                                  
                                  #{form @Application.authorize(), id:'loginForm'}
-                                 <form autocomplete="off">
-                                  
+                                 <form autocomplete="off">                         
                                    <table border="0" style="background-color:#edf0f7" width="280" cellpadding="1" cellspacing="1">
 	                                 <tr>
 		                             <td id="login" class="login">
@@ -53,8 +52,7 @@
                                    </table>
                                        #{if flash.error}
                                           <p style="color:red">&{'views.login.badPasswordAlert'}<p>
-                                       #{/if}
-                              
+                                       #{/if}                        
 		                </form>
                                 #{/form}
 		            </div>
@@ -64,7 +62,7 @@
 		    	<div id="home-view" class="home-view">
                             <!--[if lt IE 9]><p>&{'views.login.compatibility'}</p><![endif]-->
 		        	<ul class="box-text">
-		            	<li class="box01"><fieldset>
+		            	<li class="box01">
 		                	<div>
 		                        <h1 class="titulo_purple">&{'views.login.Create'}</h1>
 		                        <h2 class="subtitulo_purple">&{'views.login.YourSurvey'}</h2>
