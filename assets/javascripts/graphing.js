@@ -17,6 +17,7 @@ var Graphing = function() {
 
      return  { graphResults : function( surveyId, selectedResults) {graphResults(surveyId,selectedResults);},
                graphAllResults : function(surveyId) {graphAllResults(surveyId);},
+               updateContainerSize: function() {updateContainerSize();},
                getGraphData : function() {getGraphData(questionId);}
                           };
 
@@ -81,6 +82,17 @@ var Graphing = function() {
                                       }
                                 }
 
+        function updateContainerSize() {
+          var totalHeight = $('#container').height();
+          var tableHeight = $('#minimalist').height();
+
+             if ( (totalHeight + tableHeight) < 400 ) {
+                 $('#container').height( 400 );
+             } else if ( $('#container').height() < totalHeight + tableHeight ) {
+                 $('#container').height( totalHeight + tableHeight + 1 );
+                                                                                  }
+                                       }
+
       function selectGraphType(){ 
                 $('#sectionTitle').empty();
                 $('#sectionTitle').append(surveyModel.getSurvey().title);
@@ -93,32 +105,58 @@ var Graphing = function() {
  
                 $.each( surveyModel.getSurvey().categoryCollection, function( i, item ) { 
                            $.each(item.questionCollection, function(j,items) {
-                                     if (items.objectName == 'ExclusiveQuestion'){ 
-                                           var questionId = items.id; 
-                                           var columnContentPie = '<span><td id="graphData" class="graphListButton">';
-                                               columnContentPie += LOC.get('LOC_PIE_CHART');
-                                               columnContentPie += '</td></span>';
+
+                                     switch(items.questionType.typeName){
+                                       case 'select1':
+
+                                          if(!items.relevant){
+                                            var questionId = items.id;
+                                            var columnContent = '<span class="graphRows"><td id="graphDataPie" class="graphListButton">';
+                                                 columnContent += LOC.get('LOC_PIE_CHART');
+                                                 columnContent += '</td></span>';
+                                            break;
+                                               }else{
+                                            var columnContent = '<span class="graphRows"><td></td></span>';
+                                            break;
+                                                    }
+                                        case 'int':
+                                          var questionId = items.id;
+                                          var columnContent = '<span class="graphRows"><td id="graphDataInt" class="graphListButton">';
+                                               columnContent += LOC.get('LOC_BAR_CHART');
+                                               columnContent += '</td></span>';
+                                          break;
+                                       default:
+                                          var columnContent = '<span class="graphRows"><td></td></span>';
+                                                                           }
+                                  
+                                     $('#minimalist').append( '<tr class="itemTextColor graphData" id="dynamicRow' + j + '">'
+                                                           + '<td>' + items.label + '</td>' + columnContent + '</tr>'); 
+
+
+                                     if (items.questionType.typeName == 'select1'){
+                                             var type = 'select1';  
+                                             $('#graphDataPie').click( function(){ getGraphData(questionId, type, items.label); return false;} );  
                                                                                  }
-                                     else                                        {
-                                        var columnContentPie = '<td></td>';
-                                                                                  }                    
-                                     $('#minimalist').append( '<tr class="itemTextColor" id="dynamicRow' + j + '">'
-                                                           + '<td>' + items.label + '</td>' + columnContentPie + '</tr>'); 
-                                     if (items.objectName == 'ExclusiveQuestion'){  
-                                             $('#graphData').click( function(){ getGraphData(questionId); return false;} );  
+                                     if (items.questionType.typeName == 'int'){ 
+                                             var type = 'int';   
+                                             $('#graphDataInt').click( function(){ getGraphData(questionId, type, items.label); return false;} ); 
                                                                                  }
+
                                                                               }); 
                                                                                          });  
-              $('#minimalist').append('</tbody>')                
+              $('#minimalist').append('</tbody>') 
+              updateContainerSize();              
                                   }
 
+  
 
 
-      function getGraphData(questionId){  
+
+      function getGraphData(questionId, type, questionlabel ){  
           if( isAllResults ) { 
                var contentUrl = 'listData/graphall?questionId='+questionId;
                var getJSONQuery = $.getJSON( contentUrl, function(item){
-                            renderGraphData(item.data);
+                            renderGraphData(item.data, type, questionlabel);
                                  });
                getJSONQuery.error(Utils.redirectIfUnauthorized) ;
                               }
@@ -126,18 +164,19 @@ var Graphing = function() {
                // get the selected results        
                var contentUrl = 'listData/graphselected?questionId='+questionId+'&ids=' + resultList.join(',');
                var getJSONQuery = $.getJSON( contentUrl, function(item){
-                            renderGraphData(item.data);
+                            renderGraphData(item.data, type, questionlabel);
                               });
                getJSONQuery.error(Utils.redirectIfUnauthorized) ;
                               }
                             }
       
               
-      function renderGraphData(data){
+      function renderGraphData(data, type, questionlabel){
                $('#minimalist').empty();
                $('#minimalist').replaceWith('<div id="canvas"></div>');
-
-               var output = jQuery.jqplot ('canvas', [data], 
+               switch (type){
+                  case 'select1':
+                   var output = jQuery.jqplot ('canvas', [data], 
                   { 
                      seriesDefaults: {
                      // Make this a pie chart.
@@ -150,7 +189,49 @@ var Graphing = function() {
                                      }, 
                      legend: { show:true, location: 'e' }
                    }
-                                          );  
+                                          );
+                                         
+                  break;
+                  case 'int':
+               
+                  //for(i = 0; i < data.length; i++) data[i].sort();
+                  //alert(data);
+                  var output = $.jqplot('canvas', [data], {
+                    // Tell the plot to stack the bars.
+                    seriesDefaults:{
+                     renderer: jQuery.jqplot.BarRenderer,
+                     pointLabels: { show: true, location: 'e', edgeTolerance: -15 },
+                     rendererOptions: {
+                                       },
+
+                                   },
+                     axesDefaults: {
+                              tickOptions: {
+                                   showGridline: false,
+                                           },
+                                   },
+                     axes: {
+                        xaxis: {
+                                renderer: jQuery.jqplot.CategoryAxisRenderer,
+                                label:questionlabel,
+                                showTicks: false, 
+                                showTickMarks: false,
+                                rendererOptions:{sortMergedLabels:true},
+                               },
+                        yaxis: {
+                                renderer: jQuery.jqplot.CategoryAxisRenderer,
+                                label:'Total Answers',
+                                showTicks: false, 
+                                showTickMarks: false,
+                               }
+                           },
+     
+                   });
+                                         
+                  break;
+                  default:
+                            } //end of switch
+                
 
                if (!$.jqplot.use_excanvas) {
         $('div.jqplot-target').each(function(){

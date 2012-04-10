@@ -131,6 +131,7 @@ p
 		-webkit-box-shadow: 0px 0px 1px 2px #9cb4c9;
 		-moz-box-shadow: 0px 0px 1px 2px #9cb4c9;
 		box-shadow: 0px 0px 1px 2px #9cb4c9;
+                filter: progid:DXImageTransform.Microsoft.Shadow(color='#9cb4c9', Direction=135, Strength=2);
 }
 
 
@@ -329,6 +330,7 @@ table.register td {
 		-webkit-box-shadow: 0px 0px 2px 2px #9cb4c9;
 		-moz-box-shadow: 0px 0px 2px 2px #9cb4c9;
 		box-shadow: 0px 0px 2px 2px #9cb4c9;
+                filter: progid:DXImageTransform.Microsoft.Shadow(color='#9cb4c9', Direction=135, Strength=2);
 }
 
 /************************************************************************************************************************/

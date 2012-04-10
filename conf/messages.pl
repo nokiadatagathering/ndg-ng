@@ -20,7 +20,7 @@ views.login.badPasswordAlert = złe hasło i/lub nazwa użytkownika
 views.login.Login = Zaloguj
 views.login.Create = Create in Polish
 views.login.YourSurvey = Your Survey in Polish
-views.login.box01Text = Using our unique <b>Drag 'n' Drop</b> survey editor
+views.login.box01Text = Using our unique <b>Drag n' Drop</b> survey editor
 views.login.UseMobile = Use Your Mobile in Polish
 views.login.ToInterview = TO INTERVIEW in Polish
 views.login.box02Text = People in the field in Polish
@@ -31,4 +31,4 @@ views.login.GettingStarted = Getting Started Polish
 views.login.JustWatch = Read our friendly <a href="http://docs.nokiadatagathering.net/"> users guide</a> or watch the video to see how Nokia Data Gathering is being used to fight disease and save lives.
 views.login.MobileClients = MOBILE CLIENTS in Polish
 views.login.NeedAccount = You need an account on this server to use Nokia Data Gathering on your mobile device. Please register above.
-views.login.compatibility = This site needs either a webkit based browser or Internet Explorer 9 or greater. You can still use Nokia Data Gathering with an older browser by <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a> polish
+views.login.compatibility = <red>This site needs either a webkit (like Chrome) or mozilla (like Firefox) based browser or Internet Explorer 9 or above. You can however still use Nokia Data Gathering with an older browser by</red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a> polish

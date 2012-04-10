@@ -70,6 +70,8 @@ var LOC = (function() {
         LOC_RESULT_LIST: 'Rezultaty',
         LOC_MAP_VIEW: 'Mapa',
         LOC_GRAPH_VIEW: 'Wykres',
+        LOC_PIE_CHART: 'Pie Chart',
+        LOC_BAR_CHART: 'Bar Chart',
         LOC_EXPORT_TO: 'Eksportuj',
         LOC_SEND_SMS: 'Wy\u015blij wiadomo\u015b\u0107',
         LOC_TO: 'Do',

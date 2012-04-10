@@ -59,7 +59,10 @@ display:none;
 
 .defaultLabel
 {
-    visibility: hidden;
+    visibility: visible;
+   /*display: inline-block;
+   zoom:1;	
+   *display: inline;*/
 }
 
 

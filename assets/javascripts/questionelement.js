@@ -69,7 +69,7 @@ var QuestionUiElement = function( questionModel ){
     function createDescriptive(){
         var elem = $(
                 '<div>'
-            +   '<span class="detailLabel defaultLabel">DEFAULT:</span><input class="defaultAnswer descriptiveDefault detailInputText" type="text" name="descriptiveDefault" />'
+            +   '<span class="detailLabel defaultLabel">DEFAULT:</span><input class="defaultAnswer descriptiveDefault detailInputText" type="text" name="descriptiveDefault" placeholder="Default Answer.." />'
             +   '<span class="detailLabel">' + LOC.get( 'LOC_LENGTH' ) + '</span><input class="descriptiveLength detailInputText" type="text" name="length" />'
             +   '</div>'
             );//TODO length can be only numeric
@@ -79,7 +79,9 @@ var QuestionUiElement = function( questionModel ){
         $( '#'+ question.uiId + ' .descriptiveLength' ).keyup( function (){onQuestionLengthChanged()});
 
         $( '#'+ question.uiId + ' .descriptiveLength' ).numeric( {decimal: false, negative: false} );
+        
     }
+
 
     function onQuestionLengthChanged(){
         var val = $( '#'+ question.uiId + ' .descriptiveLength').val();
