@@ -105,7 +105,7 @@ var LOC = (function() {
         LOC_CHOOSE_CSV_FILE_UPLOAD: 'Choose CSV file to load',
         LOC_LOAD: 'Load',
         LOC_CLICK_TO_DISABLE_FILTER: 'Click here to clear filter',
-        LOC_CLICK_TO_DISABLE_SELECTED_GROUP: 'Click here to unselect group'
+        LOC_CLICK_TO_DISABLE_SELECTED_GROUP: 'Drag & Drop Users or Groups'
     };
 
     return {
