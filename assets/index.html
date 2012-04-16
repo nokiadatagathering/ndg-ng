@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<!--[if lt IE 9]> <script type="text/javascript">function bla(){alert("You will be redirected to our calm release. To use our dazzling release or greater you need to use Internet Explorer version 9 or above ");
-window.location.replace("http://calm.nokiadatagathering.net/ndgFlex/swf/main.html")}</script><![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
@@ -50,8 +48,7 @@ window.location.replace("http://calm.nokiadatagathering.net/ndgFlex/swf/main.htm
     <div id="container">
         <div id="header">
             <div id="headerLeft">
-             <div id="logo" class="logo"></div>
-                <!--<a href="/"><img src="images/brand.jpg" alt="NDG Logo"/></a>-->
+              <a href="/"><div id="logo" class="logo"></div></a>
                 <div id=pageSelect>
                     <H2 id="sectionTitle"> </H2><H3 id="userManagement"></H3>
                 </div>
@@ -129,6 +126,10 @@ window.location.replace("http://calm.nokiadatagathering.net/ndgFlex/swf/main.htm
         <div id="dialog-sendUserSMS" class="dialogs">
             <div id="sendSMSUsers"></div>
             <div><span id="buttonSendSMSDone" class="buttonSmall" ></span></div>
+        </div>
+        <div id="dialog-sendGroupSMS" class="dialogs">
+            <div id="sendSMSGroups"></div>
+            <div><span id="buttonSendGroupSMSDone" class="buttonSmall" ></span></div>
         </div>
 
         <!-- Mask to cover the whole screen -->
@@ -244,6 +245,14 @@ var confirmSaveSurveyDialog = $("#dialog-confirmSaveSurvey").dialog(
 });
 
 var sendUserSMSDialog = $("#dialog-sendUserSMS").dialog(
+{
+    autoOpen: false,
+    modal: true,
+    width: 400,
+    resizable: false
+});
+
+var sendGroupSMSDialog = $("#dialog-sendGroupSMS").dialog(
 {
     autoOpen: false,
     modal: true,

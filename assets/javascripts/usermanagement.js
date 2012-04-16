@@ -30,6 +30,7 @@ var UserManagement = function() {
         refresh: function() {refresh();},
         loadingFinished: function() {loadingFinished();},
         prepareLayout: function(tableHtml){prepareLayout(tableHtml);},
+        loadUsers: function() {loadUsers();},
         additionalAjaxParams: function() {return additionalAjaxParams();}
     };
 
@@ -54,7 +55,7 @@ var UserManagement = function() {
 
         loadGroups();
 
-        $('#plusButton').click( function(eventObject) {ContextComboBox.showUserManagementMenu(eventObject);});
+        //$('#plusButton').click( function(eventObject) {ContextComboBox.showUserManagementMenu(eventObject);});
 
         $('#userManagement').text( LOC.get('LOC_SURVEY_LIST') );
         $('#sectionTitle').text( LOC.get('LOC_USER_ADMIN') );
@@ -295,15 +296,37 @@ var UserManagement = function() {
 
 
     function fillGroupWithData(i,item) {
+         var total = 11; 
+         if (item.groupName.length > 12){
+                 var groupNameDisplay = item.groupName.substring(0,total) + '..';
+                                     }else{
+                 var groupNameDisplay = item.groupName;
+                                     }
+   
         $('#dynamicGroupListTable').append( '<tr groupName="' + item.groupName + '" id="dynamicGroupRow'+ i + '">'
-                                    + '<td id="' + item.groupName + '" class="clickableElem"><p class="tableEntryGroupName">'+ item.groupName + '</p>'
+                                    + '<td id="' + item.groupName + '" class="clickableElem"><p class="tableEntryGroupName">'+ groupNameDisplay + '</p>'
                                     + '<p class="tableEntryQuantity">('+ item.userCollection + ' ' + LOC.get('LOC_USERS') + ')</p>'
                                     + '</td>'
-                                    + '<td class="menubar" id="groupMenu' + i + '" >'
+                                    + '<td class="menubar" id="menuGroup' + i + '" >'
                                     + '<div class="groupDelete" ><span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span><div>'
+                                    + '<span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"></span>'
                                     + '</td>'
                                     + '</tr>' );
+
+        $('#menuGroup' + i +' #buttonPhone').click( {index: i,
+                                                  groupName: item.groupName,
+                                                  userCollection: item.userCollection},
+        function(i){onPhoneGroupClicked(i);} );
     }
+
+    function onPhoneGroupClicked(event) {
+        event.stopPropagation();
+        SendSMS.showSendGroupSMS(event.data);
+        sendGroupSMSDialog.dialog( {title: LOC.get('LOC_SEND_SMS')} );
+        $('#buttonSendGroupSMSDone').text( LOC.get('LOC_SEND') );
+        sendGroupSMSDialog.dialog("open");
+        
+     }
 
     function fillWithData(i, item) {
         var total = 10; 

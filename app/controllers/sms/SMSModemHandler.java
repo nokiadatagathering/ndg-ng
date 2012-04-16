@@ -37,6 +37,10 @@ import br.org.indt.smslib.SMSService;
 import controllers.exceptions.ModemNotRepondingException;
 import controllers.util.PropertiesUtil;
 
+
+
+
+
 public class SMSModemHandler {
 
     public static final int SMS_NDG_PORT = 50001;
@@ -180,7 +184,9 @@ public class SMSModemHandler {
             dest = "+55" + dest.substring(2);
         }
         OutboundMessage msg = new OutboundMessage(dest, textMsg);
-        msg.setEncoding(MessageEncodings.ENCUCS2);
+        //msg.setEncoding(MessageEncodings.ENCUCS2);
+                        
+        
         if (sendGatewayId != null) {
             srv.queueMessage(msg, sendGatewayId);
         } else {

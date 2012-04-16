@@ -31,21 +31,21 @@
 #leftColumn_layout2 {
     height: 545px;
     float: left;
-    width: 80px;
+    width: 70px;
 /*    background-color: #33ffff;*/
 }
 
 .plusButton_layout2 {
-    margin-left: 35px;
+    margin-left: 15px;
     margin-top: 35px;
 }
 
 #middleColumn_layout2 {
     height: auto;
     float: left;
-    width: 195px;
+    width: 220px;
     border-right: 1px solid #dadbe0;
-    padding-right: 14px;
+    padding-right: 0px;
 /*    background-color: #3388ff;*/
 }
 
@@ -61,7 +61,7 @@
 /* table styles */
 #minimalist_layout2 {
     float: left;
-    width: 199px;
+    width: 220px;
     margin-top: 10px;
 }
 

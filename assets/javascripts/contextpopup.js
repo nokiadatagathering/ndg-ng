@@ -16,8 +16,8 @@ var ContextComboBox = function() {
             return;
         }
 
-        $('#popup-context').append( '<a id="newUserAction" href="#">' + LOC.get( 'LOC_NEW_USER' ) + '</a>'
-                                  + '<a id="newGroupAction" href="#">' + LOC.get( 'LOC_NEW_GROUP' ) + '</a>' );
+        //$('#popup-context').append( '<a id="newUserAction" href="#">' + LOC.get( 'LOC_NEW_USER' ) + '</a>'
+          //                        + '<a id="newGroupAction" href="#">' + LOC.get( 'LOC_NEW_GROUP' ) + '</a>' );
 
         $('#popup-context').addClass("popup-context");
 
