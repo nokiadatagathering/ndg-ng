@@ -221,14 +221,17 @@ body {
 }
 
 #logo {
-	background-image:url(../images/brand.jpg);	
-	background-position:0px 0px;
-	background-repeat:no-repeat;
-	width:650px;
-	height:157px;	
-	display:inline-block;
-	vertical-align:top;	
+    background-image:url(../images/brand1.jpg);  
+    background-position:0px 0px;
+    background-repeat:no-repeat;
+    width:650px;
+    height:157px;   
+    display:inline-block;
+    vertical-align:top;
+    zoom:1;	
+    *display: inline
 }
+
 #flags {
     width: 100%;
     height: 16px;

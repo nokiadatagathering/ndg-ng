@@ -48,7 +48,7 @@ p
     display:inline-block;
     vertical-align:top;
     zoom:1;	
-    *display: inline;; 
+    *display: inline;
 }
 
 .container .header .header-content
@@ -174,9 +174,9 @@ p
 
 .content .home-view .box-text
 {
+
     font-size:14px;
     color:#949fa8;
-    background-color:#043a66;
     width:999px;
     margin-left:-14px;
     font-family: "Nokia Pure Text";
@@ -184,9 +184,9 @@ p
 
 .content .home-view .box-text .box01
 {
-    background-image:url(../images/box01.png);
+    background-image: url(../images/home.jpg);
     background-repeat:no-repeat;
-    background-position:26px 23px;  
+    background-position:0px 0px;  
     background-color:#b5bcd0;   
     display:inline-block;
     vertical-align:top; 
@@ -200,13 +200,14 @@ p
 {
     padding-left:26px;
     padding-right:15px;
+
 }
 
 .content .home-view .box-text .box02
 {
-    background-image:url(../images/box02.png);
+    background-image: url(../images/home1.jpg);
     background-repeat:no-repeat;    
-    background-position:16px 23px;
+    background-position:0px 0px;
     background-color:#b5bcd0;   
     display:inline-block;
     vertical-align:top; 
@@ -224,9 +225,9 @@ p
 
 .content .home-view .box-text .box03
 {
-    background-image:url(../images/box03.png);
+    background-image: url(../images/home2.jpg);
     background-repeat:no-repeat;
-    background-position:7px 23px;   
+    background-position:0px 0px;   
     background-color:#b5bcd0;   
     display:inline-block;
     vertical-align:top;
