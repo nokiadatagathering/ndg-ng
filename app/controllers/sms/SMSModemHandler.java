@@ -21,6 +21,7 @@ package controllers.sms;
 
 import controllers.exceptions.SMSSenderException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -183,9 +184,9 @@ public class SMSModemHandler {
         if (dest.substring(0, 2).equals("+0")) {
             dest = "+55" + dest.substring(2);
         }
+
         OutboundMessage msg = new OutboundMessage(dest, textMsg);
         //msg.setEncoding(MessageEncodings.ENCUCS2);
-                        
         
         if (sendGatewayId != null) {
             srv.queueMessage(msg, sendGatewayId);
