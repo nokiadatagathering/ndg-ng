@@ -1,8 +1,8 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
-languageId = pt_br
-views.main.localizationJSFile = localization_pt_br.js
+languageId = es
+views.main.localizationJSFile = localization_es.js
 views.main.searchPlaceHolder = Search...
 views.login.forgot = Forgot your username or password?
 views.login.recover = Recover
@@ -34,5 +34,4 @@ views.login.DeveloperText = Nokia Data Gathering on <a href="https://github.com/
 views.login.MobileClients = MOBILE APPS
 views.login.NeedAccount = You need an account on this server to use Nokia Data Gathering on your mobile device. Please register above and then download an app.
 views.login.compatibility = <red>This site needs either a webkit (like Chrome) or mozilla (like Firefox) based browser or Internet Explorer 9 or above. You can however still use Nokia Data Gathering with an older browser by</red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a>
-
 
