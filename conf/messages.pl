@@ -4,33 +4,34 @@
 languageId = pl
 views.main.localizationJSFile = localization_pl.js
 views.main.searchPlaceHolder = Szukaj...
-views.login.forgot = Forgot your username or password in Polish?
-views.login.recover = Recover in Polish
+views.login.forgot = Zapomniałe(a)ś hasła lub nazwy użytkownika?
+views.login.recover = Przywróć
 views.main.Logout = Wyloguj
 views.login.username = Nazwa
 views.login.usersname = Nazwa
 views.login.password = Hasło
-views.login.retypepassword = Retype Password Polish
-views.login.email = Email Polish
-views.login.firstname = First Name Polish
-views.login.lastname = Last Name Polish
-views.login.phone = Phone Number Polish
-views.login.company = Company Polish
+views.login.retypepassword = Powtórz hasło
+views.login.email = E-mail
+views.login.firstname = Imię
+views.login.lastname = Nazwisko
+views.login.phone = Numer telefonu
+views.login.company = Firma
 views.login.badPasswordAlert = złe hasło i/lub nazwa użytkownika
 views.login.Login = Zaloguj
-views.login.Create = 1) Create in Polish
-views.login.YourSurvey = Your Survey in Polish
-views.login.box01Text = Using our <b>Drag n' Drop</b> survey editor
-views.login.UseMobile = 2) Collect
-views.login.ToInterview = YOUR DATA
-views.login.box02Text = Using our Java or Windows Phone apps on your mobile device
-views.login.GetResults = 3) Review
-views.login.AsGraphics = YOUR RESULTS
-views.login.box03Text = Using our graphics generator or export your results to Excel
-views.login.GettingStarted = Getting Started Polish
-views.login.JustWatch = Read our friendly <a href="http://docs.nokiadatagathering.net/"> users guide</a> or watch the video to see how Nokia Data Gathering is being used to fight disease and save lives.
-views.login.Develop = Help Us Develop
-views.login.DeveloperText = Nokia Data Gathering on <a href="https://github.com/nokiadatagathering"> Git Hub</a>
-views.login.MobileClients = MOBILE APPS
-views.login.NeedAccount = You need an account on this server to use Nokia Data Gathering on your mobile device. Please register above and then download an app.
-views.login.compatibility = <red>This site needs either a webkit (like Chrome) or mozilla (like Firefox) based browser or Internet Explorer 9 or above. You can however still use Nokia Data Gathering with an older browser by</red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a> polish
+views.login.Create = Twórz
+views.login.YourSurvey = Swoje ankiety
+views.login.box01Text = Używając naszego edytora z funkcjonalnością <b>Przeciąg i Upuść</b>
+views.login.UseMobile = Używaj telefonu komórkowego
+views.login.ToInterview = Do przeprowadzania ankiet
+views.login.box02Text = W dowolnym miejscu i czasie
+views.login.GetResults = Wyniki otrzymasz
+views.login.AsGraphics = w formie graficznej
+views.login.box03Text = lub wyeksportujesz je do Excela
+views.login.GettingStarted = Pierwsze kroku
+views.login.JustWatch = Przeczytaj instrukcję<a href="http://docs.nokiadatagathering.net/"> użytkownika</a> albo obejrzyj film ukazujący w jaki sposób Nokia Data Gathering pomaga walczyć z chorobami i ratuje życie.
+views.login.Develop = Pomóż w rozwoju
+views.login.DeveloperText = Nokia Data Gathering jest dotępna na <a href="https://github.com/nokiadatagathering"> Git Hubie</a>
+views.login.MobileClients = APLIKACJA MOBILNA
+views.login.NeedAccount = Potrzebujesz konta w serwisie 'Nokia Data Gathering' aby móc używać aplikacji na swoim telefonie. Proszę, zarejestruj się.
+views.login.compatibility = <red>Strona nie może być prawidłowo wyświetlona na twojej przeglądarce. Strona działa poprawnie na przeglądarkach Chrome, Firefox oraz na Internet Explorer w wersji 9 lub późniejszej. Ciągle możesz korzystać ze starszej wersji serwisu, znajdziesz </red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html">tutaj.</a>
+
