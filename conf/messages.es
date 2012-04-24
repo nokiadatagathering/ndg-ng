@@ -29,8 +29,8 @@ views.login.AsGraphics = YOUR RESULTS
 views.login.box03Text = Using our graphics generator or export your results to Excel
 views.login.GettingStarted = Getting Started
 views.login.JustWatch = Read our friendly <a href="http://docs.nokiadatagathering.net/"> users guide</a> or watch the video to see how Nokia Data Gathering is being used to fight disease and save lives.
-views.login.Develop = Help Us Develop
-views.login.DeveloperText = Nokia Data Gathering on <a href="https://github.com/nokiadatagathering"> Git Hub</a>
+views.login.Develop = Help Us Develop or Translate
+views.login.DeveloperText = Nokia Data Gathering on <a href="https://github.com/nokiadatagathering"> Git Hub</a> or <a href="https://www.transifex.net/projects/p/ndg/">Transifex</a>
 views.login.MobileClients = MOBILE APPS
 views.login.NeedAccount = You need an account on this server to use Nokia Data Gathering on your mobile device. Please register above and then download an app.
 views.login.compatibility = <red>This site needs either a webkit (like Chrome) or mozilla (like Firefox) based browser or Internet Explorer 9 or above. You can however still use Nokia Data Gathering with an older browser by</red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clicking here.</a>
