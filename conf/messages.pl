@@ -29,8 +29,8 @@ views.login.AsGraphics = w formie graficznej
 views.login.box03Text = lub wyeksportujesz je do Excela
 views.login.GettingStarted = Pierwsze kroku
 views.login.JustWatch = Przeczytaj instrukcję<a href="http://docs.nokiadatagathering.net/"> użytkownika</a> albo obejrzyj film ukazujący w jaki sposób Nokia Data Gathering pomaga walczyć z chorobami i ratuje życie.
-views.login.Develop = Pomóż w rozwoju
-views.login.DeveloperText = Nokia Data Gathering jest dotępna na <a href="https://github.com/nokiadatagathering"> Git Hubie</a>
+views.login.Develop = Pomóż w rozwoju lub przygotuj nową wersję językową
+views.login.DeveloperText = Nokia Data Gathering jest dotępna na <a href="https://github.com/nokiadatagathering"> Git Hubie</a> oraz na <a href="https://www.transifex.net/projects/p/ndg/">Transifex</a>
 views.login.MobileClients = APLIKACJA MOBILNA
 views.login.NeedAccount = Potrzebujesz konta w serwisie 'Nokia Data Gathering' aby móc używać aplikacji na swoim telefonie. Proszę, zarejestruj się.
 views.login.compatibility = <red>Strona nie może być prawidłowo wyświetlona na twojej przeglądarce. Strona działa poprawnie na przeglądarkach Chrome, Firefox oraz na Internet Explorer w wersji 9 lub późniejszej. Ciągle możesz korzystać ze starszej wersji serwisu, znajdziesz </red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html">tutaj.</a>
