@@ -190,13 +190,17 @@ div.dateDefault
 }
 
 .typeSelect
-{
-    font-size: 14px;
-    color: #acacac;
+{ 
+    background: transparent;
+    color: #3a77ca;
+    border:none;
+    height: 25px;
+    font-size: 13px;
     font-family: "Nokia Pure Text";
-    text-align: left;
-    border: 1px solid #acacac;
+    background-color: #ebecf0;
+    outline: none
 }
+
 
 .amPmRadio
 {

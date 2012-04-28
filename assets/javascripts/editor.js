@@ -42,6 +42,7 @@ var Editor = function() {
         $('#container').height('715px');
         var getJSONQuery = $.getJSON( 'surveyManager/questionType', function( data ){
                                                    typeList = data.types;
+                                                   //optionsTypeListHtml = "<option value=''>-- SELECT --</option>";
                                                    optionsTypeListHtml = "";
                                                    $.each( typeList, function( idx, type ){
                                                        optionsTypeListHtml += '<option value="'+ type.id +'">' + LOC.get(type.typeName) + '</option>';
@@ -425,12 +426,11 @@ var Editor = function() {
     }
 
     function setQuestionUiOptions( question ){
-        fillTypeCombo( question.uiId );
-
+        var selected = question.questionType.typeName;
+        fillTypeCombo( question.uiId, selected);
 
         $( '#'+ question.uiId + ' .typeSelect' ).val( question.questionType.id );
         $( '#'+ question.uiId + ' .typeSelect' ).bind( 'change', question.uiId, function( i ){onQuestionTypeChanged( i );} );
-
 
         $( '#'+ question.uiId + ' .deleteQuestion' ).bind( 'click', question.uiId, function( i ){onDeleteQuestionClicked ( i );} );
         $( '#'+ question.uiId + ' .duplicateQuestion' ).bind( 'click', question.uiId, function( i ){onDuplicateQuestionClicked ( i );} );
@@ -472,9 +472,13 @@ var Editor = function() {
          updateContainerSize();
     }
 
-    function fillTypeCombo( qId ){
-        $( '#'+ qId + ' .typeSelect' ).append( optionsTypeListHtml ).selectbox();
-    }
+    function fillTypeCombo( qId, selected){
+        if(selected == 'binary#image'){
+           selected = 'image';
+            }
+        $( '#'+ qId + ' .typeSelect' ).append( optionsTypeListHtml ).selectbox({classSelector: selected});
+                                           }
+
 
     function onQuestionTypeChanged( event ){
         surveyModel.updateQuestionType( event.data , $( '#'+ event.data + ' .typeSelect' ).val() );

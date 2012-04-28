@@ -3,24 +3,25 @@
         background: url('../images/combobox.png') no-repeat;
 	font-family: "Nokia Pure Text";
 	font-size: 13px;
-	height: 33px;
+	height: 31px;
 	position: relative;
 	width: 122px;  
         background-position: 0 0; 
         text-color: #3a77ca;   
 }
-.sbSelector{
+.date, .int, .select, .select1, .string, .decimal, .image, .time{
 	display: block;
-	height: 30px;
+        line-height: 31px;
+	height: 25px;
 	left: 0;
-	line-height: 30px;
+	line-height: 31px;
 	outline: none;
 	overflow: hidden;
 	position: absolute;
-	text-indent: 10px;
-	top: 0;
-	width: 100px;
-        text-color: #3a77ca;
+	text-indent: 5px;
+	top: 10;
+	width: 122px;
+        color: #3a77ca;
 }
 .sbSelector:link, .sbSelector:visited, .sbSelector:hover{
 	outline: none;
@@ -28,7 +29,7 @@
 }
 .sbToggle{
 	display: block;
-	height: 30px;
+	height: 31px;
 	outline: none;
 	position: absolute;
 	right: 0;
@@ -48,13 +49,10 @@
 .sbOptions{
 	background-color: #efefef;
 	list-style: none;
-	left: -1px;
 	margin: 0;
 	padding: 0;
 	position: absolute;
-	top: 33px;
-	width: 123px;
-	z-index: 1;
+	width: 122px;
         text-color: #3a77ca;
 }
 .sbOptions li{

@@ -4,6 +4,7 @@ var QuestionUiElement = function( questionModel ){
     this.init = function(){
         $( '#'+ question.uiId + ' .typeSelect' ).val( question.questionType.id );
         $( '#'+ question.uiId + ' .typeSelect' ).live( 'change', function( ){onQuestionTypeChanged();} );
+       
        appendDetails();
     }
 
@@ -15,28 +16,36 @@ var QuestionUiElement = function( questionModel ){
 
         switch( +type ){
         case QuestionType.DESCRIPTIVE:
+            $('.string').text(LOC.get(question.questionType.typeName));
             createDescriptive();
             break;
         case QuestionType.INTEGER:
+            $('.int').text(LOC.get(question.questionType.typeName));
             createNumeric( false );
             break;
         case QuestionType.DECIMAL:
+            $('.decimal').text(LOC.get(question.questionType.typeName));
             createNumeric( true );
             break;
         case QuestionType.DATE:
+            $('.date').text(LOC.get(question.questionType.typeName));
             createDate();
             break;
         case QuestionType.IMAGE:
+            $('.image').text(LOC.get(question.questionType.typeName));
             createImage();
             break;
         case QuestionType.TIME:
+            $('.time').text(LOC.get(question.questionType.typeName));
             createTime();
             break;
         case QuestionType.EXCLUSIVE:
+            $('.select1').text(LOC.get(question.questionType.typeName));
             createSelect( true );
             break;
         case QuestionType.CHOICE:
-            createSelect( false );
+            $('.select').text(LOC.get(question.questionType.typeName));
+            createSelect( false );     
             break;
         default:
         }
@@ -114,6 +123,7 @@ var QuestionUiElement = function( questionModel ){
 
         $( '#' + question.uiId + ' .rangeInputMin').keyup( function (){onRangeInputMinChanged();} );
         $( '#' + question.uiId + ' .rangeInputMax').keyup( function (){onRangeInputMaxChanged();} );
+
 
 
 
