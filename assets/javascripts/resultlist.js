@@ -24,7 +24,8 @@ var ResultList = function() {
             prepareLayout: function(tableHtml){prepareLayout(tableHtml);},
             exportResults: function(){exportResults();},
             additionalAjaxParams: function() {return additionalAjaxParams();},
-            showGraphing: function(){showGraphing();}
+            showGraphing: function(){showGraphing();},
+            showMap: function(){showMap();}
     };
 
     function backToSurveyList() {
@@ -36,6 +37,16 @@ var ResultList = function() {
             Graphing.graphAllResults( currentSurveyId );
         } else if(selectedResults.length) {
             Graphing.graphResults( currentSurveyId, selectedResults );
+        } else {
+            alert("No results selected");
+        }
+    }
+
+    function showMap() {
+        if( allResultSelected ) {
+            Mapping.mapAllResults( currentSurveyId );
+        } else if(selectedResults.length) {
+            Mapping.mapResults( currentSurveyId, selectedResults );
         } else {
             alert("No results selected");
         }
@@ -111,7 +122,7 @@ var ResultList = function() {
         $('#leftColumn').append( columnContent );
         $('#backResults').click( function(){backToSurveyList()} );
         $('#graphView').click( function(){ showGraphing()} );
-        $('#mapView').click( function(){ alert("Not supported"); } );
+        $('#mapView').click( function(){ showMap() } );
         $('#exportContextMenu').click(function(event){ContextComboBox.showExportResultsMenu(event);});
     }
 
