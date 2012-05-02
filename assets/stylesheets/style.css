@@ -16,7 +16,7 @@
    ========================================================================== */
 
 article, aside, details, figcaption, figure, footer, header, hgroup, nav, section { display: block; }
-audio, canvas, video { display: inline-block; *display: inline; *zoom: 1; }
+audio, canvas, video { display: inline-block; *display: inline; }
 audio:not([controls]) { display: none; }
 [hidden] { display: none; }
 
@@ -219,6 +219,14 @@ body {
     width: 980px;
     margin: 45px auto;
 }
+
+#map{
+   display:inline-block;
+   vertical-align:top;
+   zoom:1;	
+   *display: inline;
+}
+
 
 #logo {
     background-image:url(../images/brand1.jpg);  

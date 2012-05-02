@@ -3,7 +3,8 @@ var Mapping = function() {
     var surveyId;
 
     return { mapAllResults : function(currentSurveyId) { mapAllResults(currentSurveyId); },
-             mapResults : function(currentSurveyId, selectedResults) { mapResults(currentSurveyId, selectedResults); } };
+             mapResults : function(currentSurveyId, selectedResults) { mapResults(currentSurveyId, selectedResults); } 
+           };
 
     function mapAllResults(currentSurveyId) {
         surveyId = currentSurveyId;
@@ -30,6 +31,23 @@ var Mapping = function() {
         getMapData();
     }
 
+      function setupLeftColumn() {
+        var columnContent = '<div class="resultCollectionQuantity clickableElem">';
+            columnContent +='<span id ="resultCollectionQuantityString' + surveyId + '" class="buttonBack"></span>';
+            columnContent +='</div>';
+
+        $('#leftColumn').append( columnContent );
+
+        $('#resultCollectionQuantityString' + surveyId ).click( surveyId, function() { 
+                               $('.resultListButton').hide(); 
+                               $('#map').replaceWith('<table id="minimalist" class="resultListTable"></table>');
+                               $('#searchComboBox').show();
+                               $('#searchTextField').show();
+                               ResultList.showResultList(surveyId)
+                                                                                    });
+    }
+
+
     function getMapData() {
           if( isAllResults ) {
               var contentUrl = 'service/getAllResults?surveyId=' + surveyId;
@@ -48,12 +66,17 @@ var Mapping = function() {
     }
 
     function createMap(data) {
-        $('#minimalist').height('500px');
-        $('#minimalist').width('810px');
 
-        var mapDiv = '<div id="map" style="width:100%; height:100%;"></div>';
-        $('#minimalist').append(mapDiv);
+        $('#datatable').height('500px');
+        $('#datatable').width('810px');
 
+        $('#datatable').empty();
+       
+        
+        var mapDiv = '<div id="map" style="z-index: -1; width: 100%; height: 100%;"></div>'
+        $('#datatable').append(mapDiv);
+ 
+        
         nokia.Settings.set( "appId", "7s7qhRnP7jg2SK34tw7Y");
         nokia.Settings.set( "authenticationToken", "x353yEXgA8JNbPs2tDtM7g");
 
@@ -61,23 +84,30 @@ var Mapping = function() {
 
         var infoBubbles = new nokia.maps.map.component.InfoBubbles();
 
+        var startLat = parseFloat(data.items[0].latitude);
+        var startLong = parseFloat(data.items[0].longitude);
+
+
         var map = new nokia.maps.map.Display(mapContainer, {
-	        center: [parseFloat(data.items[0].latitude), parseFloat(data.items[0].longitude)],
+	        center: [startLat, startLong],
         	zoomLevel: 4,
         	components: [
                 infoBubbles,
-		        new nokia.maps.map.component.ZoomBar(),
-		        new nokia.maps.map.component.Behavior(),
-		        new nokia.maps.map.component.TypeSelector(),
-		        new nokia.maps.map.component.Traffic(),
-		        new nokia.maps.map.component.PublicTransport(),
-		        new nokia.maps.map.component.Overview(),
-		        new nokia.maps.map.component.ScaleBar(),
-		        new nokia.maps.positioning.component.Positioning(),
-		        new nokia.maps.map.component.ContextMenu()
+		          new nokia.maps.map.component.ZoomBar(),
+		          new nokia.maps.map.component.Behavior(),
+		          new nokia.maps.map.component.TypeSelector(),
+		          new nokia.maps.map.component.Traffic(),
+		          new nokia.maps.map.component.PublicTransport(),
+		          new nokia.maps.map.component.Overview(),
+		          new nokia.maps.map.component.ScaleBar(),
+		          new nokia.maps.positioning.component.Positioning(),
+		          //new nokia.maps.map.component.ContextMenu()
             ]
-        });
-
+        });  
+        
+        map.removeComponent(map.getComponentById("zoom.MouseWheel"));
+       // console.log(nokia.maps.Features.getFeatureMap());
+      
         $.each(data.items,function(i,item) {
             var standardMarker = new nokia.maps.map.StandardMarker([parseFloat(item.latitude), parseFloat(item.longitude)], {
                 text: i + 1,
@@ -107,18 +137,6 @@ var Mapping = function() {
         });
     }
 
-    function setupLeftColumn() {
-        var columnContent = '<div class="resultListLeftMenu">';
-            columnContent += '<span id ="backResultsFromMap" class="buttonBack"></span>';
-            columnContent +='</div>';
-
-        $('#leftColumn').append( columnContent );
-
-        $('#backResultsFromMap').click( function() {
-                               $('#searchComboBox').show();
-                               $('#searchTextField').show();
-                               ResultList.showResultList(surveyId);
-        });
-    }
+ 
 
 }();

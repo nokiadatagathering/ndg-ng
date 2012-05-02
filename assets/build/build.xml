@@ -507,6 +507,7 @@
                 <include name="${dir.js.main}/editor.js"/>
                 <include name="${dir.js.main}/resultlist.js"/>
                 <include name="${dir.js.main}/graphing.js"/>
+                <include name="${dir.js.main}/mapping.js"/>
                 <include name="${dir.js.main}/sendsurvey.js"/>
                 <include name="${dir.js.main}/exportresults.js"/>
                 <include name="${dir.js.main}/usermanagement.js"/>
@@ -600,6 +601,7 @@
               <exclude name="${dir.js}/editor.js"/>
               <exclude name="${dir.js}/resultlist.js"/>
               <exclude name="${dir.js}/graphing.js"/>
+              <exclude name="${dir.js}/mapping.js"/>
               <exclude name="${dir.js}/sendsurvey.js"/>
               <exclude name="${dir.js}/exportresults.js"/>
               <exclude name="${dir.js}/usermanagement.js"/>
