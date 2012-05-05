@@ -29,6 +29,11 @@ GET     /LocalizationServing/text               Language.languageText
 GET     /LocalizationServing/font               Language.languageFont
 POST    /loader/LocalizationUploader.html       LanguageUploader.upload
 
+# SecureSocial
+GET     /signup                                 securesocial.UsernamePasswordController.signup
+POST    /signup                                 securesocial.UsernamePasswordController.createAccount
+GET     /activate/{uuid}                        securesocial.UsernamePasswordController.activate
+
 # Ignore favicon requests
 #GET     /favicon.ico                            404
 
