@@ -21,6 +21,7 @@ package controllers;
 
 import models.NdgUser;
 import play.i18n.Lang;
+import play.libs.Crypto;
 import play.mvc.Before;
 import play.mvc.Controller;
 
@@ -50,7 +51,7 @@ public class Application extends Controller {
             Lang.change( lang );
         }
 
-        NdgUser currentUser = NdgUser.find("byUsernameAndPassword", username, password ).first();
+        NdgUser currentUser = NdgUser.find("byUsernameAndPassword", username, Crypto.passwordHash(password) ).first();
 
         if(currentUser != null && checkPermission(currentUser) && currentUser.userValidated == 'Y') {
             session.put("ndgUser", username);

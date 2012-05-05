@@ -57,12 +57,11 @@
                                                
                                                  #{/field}
                                              </td>
-		                             <td id="login" class="login">
-                                                #{field 'content'}
-		                		<input id="passwordSubmit" style="display:none"  hidden="true" type="password" name="password"/>
-                                                #{/field}
-                                                <input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}"/>
-                                             </td>
+                                    <td id="login" class="login">
+                                        #{field 'content'}
+                                        <input id="passwordSubmit" class="password" type="password" name="password" placeholder="&{'views.login.password'}"/>
+                                        #{/field}
+                                    </td>
 		                             <td id="login" class="login"><input id="submitLoginButton" class="btn_login" type="button" /></td>
 	                                 </tr>
                                    </table>
@@ -161,13 +160,11 @@
           <!-- JavaScript at the bottom for fast page loading -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.6.4.min.js"><\/script>')</script>
-  <script src="javascripts/libs/jquery.md5.js"></script>
   <script src="javascripts/libs/jquery.placeholder.min.js"></script>
 
-        <script>
+    <script>
         $('input').placeholder();
         var sURL = window.location.pathname;
-
 
         $(document).ready(function() {
 
@@ -175,7 +172,7 @@
                 loginSubmit()
             });
 
-            $( "#passwordInput" ).bind( 'keypress', function( event ){  if( event.which == 13 ){ loginSubmit(); } } );
+            $( "#passwordSubmit" ).bind( 'keypress', function( event ){  if( event.which == 13 ){ loginSubmit(); } } );
             $( "#usernameSubmit" ).bind( 'keypress', function( event ){  if( event.which == 13 ){ loginSubmit(); } } );
 
             $('.langSelector').click(function() {
@@ -187,13 +184,8 @@
         });
 
         function loginSubmit() {
-            var username = document.getElementById("usernameSubmit").value;
-            var pass = document.getElementById("passwordInput").value;
-            var hash = $.md5( username + ":NDG:" +  pass );
-            document.getElementById("passwordSubmit").value = hash;
-            $('#loginForm').submit( );
+            $('#loginForm').submit();
         }
-
 
     </script>
 

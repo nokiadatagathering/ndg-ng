@@ -25,13 +25,15 @@ import models.NdgRole;
 import models.NdgUser;
 import models.UserRole;
 
+import play.libs.Crypto;
+
 public class UserManager extends NdgController {
 
     public static void addUser( String username, String password, String firstName,
                                 String lastName, String email, String role,
                                 String phoneNumber )
     {
-        NdgUser user = new NdgUser( password, username, email,
+        NdgUser user = new NdgUser( Crypto.passwordHash(password), username, email,
                                     firstName, lastName,
                                     phoneNumber,
                                     "Y", 'Y', 'Y', 'Y');

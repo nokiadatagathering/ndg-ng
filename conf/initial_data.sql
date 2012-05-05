@@ -37,7 +37,7 @@ INSERT INTO `ndg_group` (`group_name`) VALUES ('Demo');
 -- Dumping data for table `ndg_user`
 --
 
-INSERT INTO `ndg_user` (`area_code`, `country_code`, `email`, `email_preferences`, `first_name`,`has_full_permissions`,`last_name`, `password`, `phone_number`, `user_admin`, `user_validated`, `username`, `validation_key`, `company_id`, `ndg_group_id` ) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','3d7b6783e2b63d8f462823c41f4d029d','phoneNumber','Y','Y','admin',NULL,1,1);
+INSERT INTO `ndg_user` (`area_code`, `country_code`, `email`, `email_preferences`, `first_name`,`has_full_permissions`,`last_name`, `password`, `phone_number`, `user_admin`, `user_validated`, `username`, `validation_key`, `company_id`, `ndg_group_id` ) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','sjX9AdgTACbPzKhqGyBiCA==','phoneNumber','Y','Y','admin',NULL,1,1);
 
 --
 -- Dumping data for table `question`

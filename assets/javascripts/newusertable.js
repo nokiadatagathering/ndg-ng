@@ -130,7 +130,6 @@ var NewUserTable = (function() {
                     return false;
                 }
 
-                Utils.encryptCredentials(data);
                 $("#newUserForm input[name=passwordRetype]").val("");
                 var formData = $('#newUserForm').serialize();
                 $.ajax({
