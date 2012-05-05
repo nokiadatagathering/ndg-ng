@@ -52,7 +52,7 @@ public class Application extends Controller {
 
         NdgUser currentUser = NdgUser.find("byUsernameAndPassword", username, password ).first();
 
-        if(currentUser != null && checkPermission(currentUser)) {
+        if(currentUser != null && checkPermission(currentUser) && currentUser.userValidated == 'Y') {
             session.put("ndgUser", username);
             index();
         } else {
