@@ -34,9 +34,11 @@ GETTING STARTED
     cd conf
     vim application.conf - and change 
                                 http.address=<your_IP_address>
+                           and Mail configuration if you want to use the registration
     vim msm-settings.properties - and change
                                   client.ota=http\://<your_IP_address>/\:9000/ndg-ota/client/ndg.jad
                                   urlServer=http\://<your_IP_address>\:9000
+    play deps
     play run
     http://<your_IP_address>:9000/
 
