@@ -59,7 +59,7 @@
                                              </td>
                                     <td id="login" class="login">
                                         #{field 'content'}
-                                        <input id="passwordSubmit" class="password" type="password" name="password" placeholder="&{'views.login.password'}"/>
+                                        <input id="passwordSubmit" class="password" type="password" name="pass" placeholder="&{'views.login.password'}"/>
                                         #{/field}
                                     </td>
 		                             <td id="login" class="login"><input id="submitLoginButton" class="btn_login" type="button" /></td>
@@ -99,42 +99,45 @@
 		                    </div>                  
 		                </li>
 		                <li class="box04">
-                                        <div id="form">
-                                         <form autocomplete="off">
-                                      
-                                             <table class="register">
-                                              <tbody>
-                                                <tr>
-                                                 <td>              
-                         <input id="usernameReg" class="registrationForm" type="text" name="usernameReg" placeholder="&{'views.login.usersname'}" />
-		         <input id="emailReg" class="registrationForm" type="text" name="emailReg" placeholder="&{'views.login.email'}" /> 						         </td>
-                                                </tr>
-                                                <tr>
-                                                  <td>
-			<input id="passwordReg" type="text" class="registrationForm" name="passwordReg" placeholder="&{'views.login.password'}" />
-			<input id="retypePasswordReg" type="text" class="registrationForm" name="retypePassword" placeholder="&{'views.login.retypepassword'}" />  					
-                                                  </td>
-                                                <tr>
-                                                  <td>
-                        <input id="firstName" class="registrationForm" type="text" name="firstName" placeholder="&{'views.login.firstname'}" /> 
-		        <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" /> 				                          </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                        <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" /> 
-		        <input id="company" class="registrationForm" type="text" name="company" placeholder="&{'views.login.company'}" /> 
-					        </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                 <input id="createAccount" class="createAccountButton" type="button">
-                                                </td>
-                                            </tr>
-                                  
-                                         </form>
-                                           </tbody>
-                                           </table>       
-                                       </div>
+                <div id="form">
+                    #{form @securesocial.UsernamePasswordController.createAccount(), id:'signupForm'}
+                    <form autocomplete="off">
+                        <table class="register">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input id="usernameReg" class="registrationForm" type="text" name="userName" placeholder="&{'views.login.usersname'}" />
+                                        <input id="emailReg" class="registrationForm" type="text" name="email" placeholder="&{'views.login.email'}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+			                            <input id="passwordReg" type="password" class="registrationForm" name="password" placeholder="&{'views.login.password'}" />
+			                            <input id="retypePassword2" type="password" class="registrationForm" name="password2" placeholder="&{'views.login.retypepassword'}" />
+                                    </td>
+                                <tr>
+                                    <td>
+                                        <input id="firstName" class="registrationForm" type="text" name="displayName" placeholder="&{'views.login.firstname'}" />
+                        		        <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" />
+                        		        <input id="company" class="registrationForm" type="text" name="company" placeholder="&{'views.login.company'}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input id="createAccount" class="createAccountButton" type="button">
+                                    </td>
+                                </tr>
+                    
+                            </tbody>
+                        </table>
+                    </form>
+                    #{/form}
+                </div>
 		                </li>
 		            </ul>
 		            <ul class="box-video">
@@ -172,6 +175,10 @@
                 loginSubmit()
             });
 
+            $('#createAccount').click(function() {
+                signupSubmit()
+            });
+
             $( "#passwordSubmit" ).bind( 'keypress', function( event ){  if( event.which == 13 ){ loginSubmit(); } } );
             $( "#usernameSubmit" ).bind( 'keypress', function( event ){  if( event.which == 13 ){ loginSubmit(); } } );
 
@@ -185,6 +192,12 @@
 
         function loginSubmit() {
             $('#loginForm').submit();
+        }
+
+        function signupSubmit() {
+            var first =  document.getElementById("firstName").value;
+            document.getElementById("firstName").value = first + " " + document.getElementById("lastName").value;
+            $('#signupForm').submit();
         }
 
     </script>

@@ -46,12 +46,12 @@ public class Application extends Controller {
         render("Application/login.html");
     }
 
-    public static void authorize( String username, String password, String lang ) {
+    public static void authorize( String username, String pass, String lang ) {
         if( lang != null && !lang.isEmpty() ) {
             Lang.change( lang );
         }
 
-        NdgUser currentUser = NdgUser.find("byUsernameAndPassword", username, Crypto.passwordHash(password) ).first();
+        NdgUser currentUser = NdgUser.find("byUsernameAndPassword", username, Crypto.passwordHash(pass) ).first();
 
         if(currentUser != null && checkPermission(currentUser) && currentUser.userValidated == 'Y') {
             session.put("ndgUser", username);

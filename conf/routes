@@ -30,7 +30,8 @@ GET     /LocalizationServing/font               Language.languageFont
 POST    /loader/LocalizationUploader.html       LanguageUploader.upload
 
 # SecureSocial
-GET     /signup                                 securesocial.UsernamePasswordController.signup
+#GET     /signup                                 securesocial.UsernamePasswordController.signup
+GET     /signup                                 Application.login
 POST    /signup                                 securesocial.UsernamePasswordController.createAccount
 GET     /activate/{uuid}                        securesocial.UsernamePasswordController.activate
 
