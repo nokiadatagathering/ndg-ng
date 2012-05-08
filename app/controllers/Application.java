@@ -121,6 +121,10 @@ public class Application extends Controller {
                                      @Required @Equals(message = "securesocial.passwordsMustMatch", value = "password") String password2,
                                      @Required String phoneNumber,
                                      @Required String company) {
+        if ( validation.hasErrors() ) {
+            tryAgain(userName, firstName, email);
+        }
+        
         UserId id = new UserId();
         id.id = userName;
 
