@@ -274,7 +274,8 @@ p
 
 
 .createAccountButton {
-    background: url(../images/account.png);
+    background: url(../images/account.png) no-repeat;
+    background-position: 0 -56px;
     display: inline-block;
     min-width: 287px;
     max-width: 287px;
@@ -283,6 +284,14 @@ p
     margin-top: 10px;
     zoom:1;	
     *display: inline;
+}
+
+.createAccountButton:hover {
+    background-position: 0 0px;
+}
+
+.createAccountButton:active {
+    background-position: 0 -112px;
 }
 
 table.register{

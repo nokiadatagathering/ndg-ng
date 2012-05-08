@@ -68,7 +68,6 @@
                                        #{if flash.error}
                                           <p style="color:red">&{'views.login.badPasswordAlert'}<p>
                                        #{/if}
-                                       #{elseif flash.success}${flash.success.raw()}#{/elseif}
 		                </form>
                                 #{/form}
 		            </div>
@@ -108,6 +107,7 @@
                                 <tr>
                                     <td>
                                     #{ifError 'userName'} <p style="color:red"> #{error 'userName'/}<p> #{/ifError}
+                                    #{if flash.success}<p style="color:#E1E5EF">${flash.success.raw()}<p>#{/if}
                                         <input id="usernameReg" class="registrationForm #{ifError 'userName'} error #{/ifError}" type="text" name="userName" placeholder="&{'views.login.usersname'}" />
                                         <input id="emailReg" class="registrationForm #{ifError 'email'} error #{/ifError}" type="text" name="email" placeholder="&{'views.login.email'}" />
                                     </td>

@@ -156,7 +156,6 @@ public class Application extends Controller {
     }
 
     private static void tryAgain(String username, String displayName, String email) {
-        System.out.println("no try again");
         flash.put(USER_NAME, username);
         flash.put(DISPLAY_NAME, displayName);
         flash.put(EMAIL, email);
@@ -174,13 +173,14 @@ public class Application extends Controller {
                 flash.error( Messages.get(SECURESOCIAL_INVALID_LINK) );
             } else {
 //                flash.success(Messages.get(SECURESOCIAL_ACTIVATION_SUCCESS, Router.reverse(SECURESOCIAL_SECURE_SOCIAL_LOGIN)));
-                flash.success(Messages.get(SECURESOCIAL_ACTIVATION_SUCCESS, Router.reverse("Application.login")));
+                flash.success(Messages.get(SECURESOCIAL_ACTIVATION_SUCCESS));
             }
         } catch ( Throwable t) {
             Logger.error(t, "Error while activating account");
             flash.error(Messages.get(SECURESOCIAL_ERROR_CREATING_ACCOUNT));
         }
-        final String title = Messages.get(SECURESOCIAL_ACTIVATE_TITLE);
-        render(SECURESOCIAL_SECURE_SOCIAL_NOTICE_PAGE_HTML, title);
+        //final String title = Messages.get(SECURESOCIAL_ACTIVATE_TITLE);
+        //render(SECURESOCIAL_SECURE_SOCIAL_NOTICE_PAGE_HTML, title);
+        render("Application/login.html");
     }
 }

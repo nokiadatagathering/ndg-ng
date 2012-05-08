@@ -33,7 +33,7 @@ securesocial.cancel=Cancel
 securesocial.passwordsMustMatch=The passwords do not match
 securesocial.userNameTaken=This username is already taken
 securesocial.activationTitle=Welcome %s
-securesocial.activationSuccess=Thank you, your account has been activated. Click <a href="%s">here</a> to log in.
+securesocial.activationSuccess=Thank you, your account has been activated.
 securesocial.activateTitle=Account Activation
 securesocial.errorCreatingAccount=There was an error creating your account. Please try again.
 securesocial.accountNotActive=Your account is not active. If you think this is an error please contact the administrator.
