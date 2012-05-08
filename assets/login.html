@@ -100,7 +100,7 @@
 		                </li>
 		                <li class="box04">
                 <div id="form">
-                    #{form @securesocial.UsernamePasswordController.createAccount(), id:'signupForm'}
+                    #{form @Application.createAccount(), id:'signupForm'}
                     <form autocomplete="off">
                         <table class="register">
                             <tbody>
@@ -117,7 +117,7 @@
                                     </td>
                                 <tr>
                                     <td>
-                                        <input id="firstName" class="registrationForm" type="text" name="displayName" placeholder="&{'views.login.firstname'}" />
+                                        <input id="firstName" class="registrationForm" type="text" name="firstName" placeholder="&{'views.login.firstname'}" />
                         		        <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" />
                                     </td>
                                 </tr>
@@ -195,8 +195,6 @@
         }
 
         function signupSubmit() {
-            var first =  document.getElementById("firstName").value;
-            document.getElementById("firstName").value = first + " " + document.getElementById("lastName").value;
             $('#signupForm').submit();
         }
 

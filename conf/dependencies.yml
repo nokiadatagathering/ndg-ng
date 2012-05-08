@@ -2,7 +2,6 @@
 
 require:
     - play
-    - play -> securesocial 0.2.4
     - provided -> flexjson 2.1
     - provided -> kxml2 2.3.0
     - provided -> javarosa libraries

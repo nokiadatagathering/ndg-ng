@@ -26,14 +26,15 @@ import models.Company;
 import models.NdgRole;
 import models.UserRole;
 
-public class NDGUserService implements UserService.Service {
+public class NDGPersister {
 
-    public SocialUser find(UserId id) {
+    public static SocialUser find(UserId id) {
         NdgUser ndgUser = NdgUser.find("byUserName", id.id).first();
         SocialUser user = new SocialUser();
         user.id = id;
         try {
-            user.displayName = ndgUser.firstName + " " + ndgUser.lastName;
+            user.firstName = ndgUser.firstName;
+            user.lastName = ndgUser.lastName;
             user.email = ndgUser.email;
         } catch (Exception ex) {
             return null;
@@ -42,20 +43,10 @@ public class NDGUserService implements UserService.Service {
         return user;
     }
 
-    public void save(SocialUser user) {
-        String first = user.displayName;
-        String last = "";
-
-        if( user.displayName.contains(" ") ) {
-
-            String[] names = user.displayName.split("\\s+", 2);
-
-            first = names[0];
-            last = names[1];
-        }
-
-        NdgUser ndgUser = new NdgUser(user.password, user.id.id, user.email, first, last, "no phone", "Admin", 'N', 'Y', 'Y');
-        Company userCompany = Company.all().first();
+    public static void save(SocialUser user) {
+        NdgUser ndgUser = new NdgUser(user.password, user.id.id, user.email, user.firstName, user.lastName, user.phoneNumber, user.id.id, 'N', 'Y', 'Y');
+        Company userCompany = new Company(user.company, "type", "country", "industry", "size");
+        userCompany.save();
         ndgUser.company = userCompany;
         ndgUser.save();
         UserRole mapRole = new UserRole();
@@ -64,7 +55,7 @@ public class NDGUserService implements UserService.Service {
         mapRole.save();
     }
 
-    public String createActivation(SocialUser user) {
+    public static String createActivation(SocialUser user) {
         final String uuid = Codec.UUID();
         NdgUser ndgUser = NdgUser.find("byUserName", user.id.id).first();
         ndgUser.validationKey = uuid;
@@ -72,7 +63,7 @@ public class NDGUserService implements UserService.Service {
         return uuid;
     }
 
-    public boolean activate(String uuid) {
+    public static boolean activate(String uuid) {
         NdgUser ndgUser = NdgUser.find("byValidationKey", uuid).first();
         boolean result = false;
 
@@ -84,6 +75,6 @@ public class NDGUserService implements UserService.Service {
         return result;
     }
 
-    public void deletePendingActivations() {
+    public static void deletePendingActivations() {
     }
 }

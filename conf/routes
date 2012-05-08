@@ -32,8 +32,10 @@ POST    /loader/LocalizationUploader.html       LanguageUploader.upload
 # SecureSocial
 #GET     /signup                                 securesocial.UsernamePasswordController.signup
 GET     /signup                                 Application.login
-POST    /signup                                 securesocial.UsernamePasswordController.createAccount
-GET     /activate/{uuid}                        securesocial.UsernamePasswordController.activate
+#POST    /signup                                 securesocial.UsernamePasswordController.createAccount
+POST    /signup                                 Application.createAccount
+#GET     /activate/{uuid}                        securesocial.UsernamePasswordController.activate
+GET     /activate/{uuid}                        Application.activate
 
 # Ignore favicon requests
 #GET     /favicon.ico                            404
