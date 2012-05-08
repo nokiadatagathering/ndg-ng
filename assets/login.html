@@ -67,7 +67,8 @@
                                    </table>
                                        #{if flash.error}
                                           <p style="color:red">&{'views.login.badPasswordAlert'}<p>
-                                       #{/if}                        
+                                       #{/if}
+                                       #{elseif flash.success}${flash.success.raw()}#{/elseif}
 		                </form>
                                 #{/form}
 		            </div>
@@ -106,18 +107,19 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        <input id="usernameReg" class="registrationForm" type="text" name="userName" placeholder="&{'views.login.usersname'}" />
-                                        <input id="emailReg" class="registrationForm" type="text" name="email" placeholder="&{'views.login.email'}" />
+                                    #{ifError 'userName'} <p style="color:red"> #{error 'userName'/}<p> #{/ifError}
+                                        <input id="usernameReg" class="registrationForm #{ifError 'userName'} error #{/ifError}" type="text" name="userName" placeholder="&{'views.login.usersname'}" />
+                                        <input id="emailReg" class="registrationForm #{ifError 'email'} error #{/ifError}" type="text" name="email" placeholder="&{'views.login.email'}" />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-			                            <input id="passwordReg" type="password" class="registrationForm" name="password" placeholder="&{'views.login.password'}" />
-			                            <input id="retypePassword2" type="password" class="registrationForm" name="password2" placeholder="&{'views.login.retypepassword'}" />
+			                            <input id="passwordReg" type="password" class="registrationForm #{ifError 'password'} error #{/ifError}" name="password" placeholder="&{'views.login.password'}" />
+			                            <input id="retypePassword2" type="password" class="registrationForm #{ifError 'password2'} error #{/ifError}" name="password2" placeholder="&{'views.login.retypepassword'}" />
                                     </td>
                                 <tr>
                                     <td>
-                                        <input id="firstName" class="registrationForm" type="text" name="firstName" placeholder="&{'views.login.firstname'}" />
+                                        <input id="firstName" class="registrationForm #{ifError 'displayName'} error #{/ifError}" type="text" name="firstName" placeholder="&{'views.login.firstname'}" />
                         		        <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" />
                                     </td>
                                 </tr>

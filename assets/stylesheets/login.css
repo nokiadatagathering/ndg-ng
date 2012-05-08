@@ -325,6 +325,10 @@ table.register td {
  
 }
 
+.registrationForm.error
+{
+    background:#F51D1D;
+}
 
 .registrationForm:focus 
 {

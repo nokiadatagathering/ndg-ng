@@ -126,7 +126,7 @@ public class Application extends Controller {
 
         if ( NDGPersister.find(id) != null ) {
             validation.addError(USER_NAME, Messages.get(SECURESOCIAL_USER_NAME_TAKEN));
-            tryAgain(userName, firstName, email);
+            tryAgain(Messages.get(SECURESOCIAL_USER_NAME_TAKEN), firstName, email);
         }
         SocialUser user = new SocialUser();
         user.id = id;
@@ -152,14 +152,14 @@ public class Application extends Controller {
         Mails.sendActivationEmail(user, uuid);
         flash.success(Messages.get(SECURESOCIAL_ACCOUNT_CREATED));
         final String title = Messages.get(SECURESOCIAL_ACTIVATION_TITLE, user.firstName + " " + user.lastName);
-        render(SECURESOCIAL_SECURE_SOCIAL_NOTICE_PAGE_HTML, title);
+        render("Application/login.html");
     }
 
     private static void tryAgain(String username, String displayName, String email) {
+        System.out.println("no try again");
         flash.put(USER_NAME, username);
         flash.put(DISPLAY_NAME, displayName);
         flash.put(EMAIL, email);
-        validation.keep();
         render("Application/login.html");
     }
 
