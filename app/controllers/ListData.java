@@ -171,6 +171,8 @@ public class ListData extends NdgController {
     }
 
     public static void users(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String groupName, String searchText) {
+        NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
+
         List<NdgUser> users = null;
 
         String query = getQuery( "ndg_group.groupName", groupName != null && groupName.length() > 0
@@ -180,7 +182,7 @@ public class ListData extends NdgController {
         long totalItems = NdgUser.count( query );
 
         if (orderBy != null && orderBy.equals("userRoleCollection")) {
-            users = NdgUser.find(query).fetch();
+            users = NdgUser.find(query + " userAdmin = ?", currentUser.userAdmin).fetch();
 
             Collections.sort(users, new NdgUserUserRoleCollectionComapator(isAscending));
             int subListEndIndex = users.size() <= endIndex
@@ -189,7 +191,7 @@ public class ListData extends NdgController {
             users = users.subList(startIndex, subListEndIndex);
         } else {
             query = getQuery( "ndg_group.groupName", groupName, true, searchField, searchText, orderBy, isAscending );
-            users = NdgUser.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
+            users = NdgUser.find(query.toString() + " userAdmin = ?", currentUser.userAdmin).from(startIndex).fetch(endIndex - startIndex);
         }
         serializeUsers(users, startIndex, totalItems);
     }
