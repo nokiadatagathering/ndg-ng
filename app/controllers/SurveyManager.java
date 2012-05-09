@@ -40,6 +40,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.NdgUser;
 import models.QuestionType;
 import models.Survey;
 import models.TransactionLog;
@@ -61,7 +62,8 @@ public class SurveyManager extends NdgController {
 
     public static void saveSurvey(String surveyData) {
         String username = session.get( "ndgUser" );
-        renderText(SurveyJsonTransformer.saveSurvey( surveyData, username ) );
+        NdgUser currentUser = NdgUser.find("byUserName", username).first();
+        renderText(SurveyJsonTransformer.saveSurvey( surveyData, currentUser.userAdmin ) );
     }
 
     public static void getSurvey(long surveyId) {

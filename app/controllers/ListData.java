@@ -106,6 +106,9 @@ public class ListData extends NdgController {
 
 
     public static void surveys(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText, String filter) {
+        NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
+        NdgUser currentUserAdmin = NdgUser.find("byUserName", currentUser.userAdmin).first();
+
         List<Survey> surveys = null;
 
         String query = getQuery( "available" , (filter != null && filter.length() > 0)
@@ -118,7 +121,7 @@ public class ListData extends NdgController {
         totalItems = Survey.count( query );
 
         if ( orderBy != null && orderBy.equals( "resultCollection" ) ) {
-            surveys = Survey.find( query ).fetch();
+            surveys = Survey.find( query + " ndg_user_id = ?", currentUserAdmin.getId() ).fetch();
             Collections.sort( surveys, new SurveyNdgResultCollectionComapator() );
             if ( !isAscending ) {
                 Collections.reverse( surveys );
@@ -133,7 +136,7 @@ public class ListData extends NdgController {
                                            false,
                               searchField, searchText,
                               orderBy, isAscending );
-            surveys = Survey.find( query ).from( startIndex ).fetch( endIndex - startIndex );
+            surveys = Survey.find( query + " ndg_user_id = ?", currentUserAdmin.getId()).from( startIndex ).fetch( endIndex - startIndex );
         }
         serializeSurveys(surveys, startIndex, totalItems);
     }
