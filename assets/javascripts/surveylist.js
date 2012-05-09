@@ -295,6 +295,7 @@ var SurveyList = function() {
     }
 
     function onDuplicateSurveyClicked(e) {
+        $('#dynamicListTable').empty();
         $.ajax( {url: 'surveyManager/duplicate',
                   data: {formID: e.data},
                   error: function(data, textStatus, jqXHR) {

@@ -27,8 +27,8 @@ var DynamicTable = function() {
         $('#contentToolbar').empty();
         $('#contentToolbar').unbind('click');
         if(elementEndIndex < totalItems){
-            $('#contentToolbar').removeClass('backgroundHide');
-            $('#contentToolbar').append('<span class="toolbarText">' + LOC.get( 'LOC_EXPAND_ITEM_LIST' ) + '</span>');
+            //$('#contentToolbar').removeClass('backgroundHide');
+            //$('#contentToolbar').append('<span class="toolbarText">' + LOC.get( 'LOC_EXPAND_ITEM_LIST' ) + '</span>');
             $('#contentToolbar').click(function() {
                 $('#contentToolbar').unbind('click');
                 scrollDownList();
@@ -36,7 +36,8 @@ var DynamicTable = function() {
           } else {
               $('#contentToolbar').addClass('backgroundHide');
           }
-          $('#contentToolbar').animate({top: $('#dynamicListTable').position().top + $('#dynamicListTable').height()});
+         // $('#contentToolbar').animate({top: $('#dynamicListTable').position().top + $('#dynamicListTable').height()});
+          //$('#contentToolbar').show('slow');
     }
 
     function scrollDownList() {
@@ -81,7 +82,7 @@ var DynamicTable = function() {
         lastSortAscending = true;
     }
 
-    function addHandlers(remoteAction) {
+   function addHandlers(remoteAction) {
         $('.sortHeader' ).click( function(event){toggleSortByColumn(event);} );
 
         contentUrl = 'listData/' + remoteAction;
@@ -98,6 +99,7 @@ var DynamicTable = function() {
             }
         });
     }
+
 
     function createTableHtml() {
         var htmlContent = '';
@@ -170,6 +172,7 @@ var DynamicTable = function() {
     }
 
     function fillListData( ) {
+        myStaticVar = 0; 
         var getJSONQuery = $.getJSON( contentUrl, prepareGetContentQuery(), function(data){
             $('#dynamicListTable').empty();
             renderTableData(data);
@@ -198,11 +201,17 @@ var DynamicTable = function() {
 
         return params;
     }
+       
 
     function renderTableData(data) {
         totalItems = data.totalSize;
+        if (typeof myStaticVar === 'undefined') {  
+                      myStaticVar = 0;  
+                                               }
+        myStaticVar += 5;  
+        
         if($('#container').height() < elementEndIndex * CONST.get('TABLE_ROW_HEIGHT_TOTAL') + 280){
-            $('#container').height(elementEndIndex * CONST.get('TABLE_ROW_HEIGHT_TOTAL') + 280)
+            $('#container').height(elementEndIndex * CONST.get('TABLE_ROW_HEIGHT_TOTAL') + 280 + myStaticVar)
         }
         $.each(data.items,function(i,item) {
             var offset = elementStartIndex + i;

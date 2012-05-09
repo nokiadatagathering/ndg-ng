@@ -121,7 +121,7 @@ var UserManagement = function() {
     function refreshGroupTable(data) {
         totalItems = data.totalSize;
         if($('#container').height() < elementEndIndex * 45 + 280){
-            $('#container').height(elementEndIndex * 45 + 280)
+            $('#container').height(elementEndIndex * 45 + 295)
         }
         $('#dynamicGroupListTable').empty();
         $.each(data.items,function(i,item) {
@@ -143,15 +143,17 @@ var UserManagement = function() {
         $('#contentToolbar2').unbind('click');
         if(elementEndIndex < totalItems){
             $('#contentToolbar2').removeClass('backgroundHide');
-            $('#contentToolbar2').append('<span class="toolbarText">' + LOC.get( 'LOC_EXPAND_ITEM_LIST' ) + '</span>');
-            $('#contentToolbar2').click(function() {
-                $('#contentToolbar2').unbind('click');
-                    scrollDownList();
-                });
-        } else {
-            $('#contentToolbar2').addClass('backgroundHide');
+            scrollDownList();
+            
+            //$('#contentToolbar2').append('<span class="toolbarText">' + LOC.get( 'LOC_EXPAND_ITEM_LIST' ) + '</span>');
+            //$('#contentToolbar2').click(function() {
+            //$('#contentToolbar2').unbind('click');
+          //     scrollDownList();
+             //   }); 
+        //} else {
+         //   $('#contentToolbar2').addClass('backgroundHide');
         }
-        $('#contentToolbar2').animate({top: $('#dynamicGroupListTable').position().top + $('#dynamicGroupListTable').height()});
+        //$('#contentToolbar2').animate({top: $('#dynamicGroupListTable').position().top + $('#dynamicGroupListTable').height()});
         if(scrollReady) {
             loadUsers();
         }
