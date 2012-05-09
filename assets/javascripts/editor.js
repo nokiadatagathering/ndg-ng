@@ -42,7 +42,6 @@ var Editor = function() {
         $('#container').height('715px');
         var getJSONQuery = $.getJSON( 'surveyManager/questionType', function( data ){
                                                    typeList = data.types;
-                                                   //optionsTypeListHtml = "<option value=''>-- SELECT --</option>";
                                                    optionsTypeListHtml = "";
                                                    $.each( typeList, function( idx, type ){
                                                        optionsTypeListHtml += '<option value="'+ type.id +'">' + LOC.get(type.typeName) + '</option>';
