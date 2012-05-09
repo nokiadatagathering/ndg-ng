@@ -57,8 +57,11 @@ public class UserManager extends NdgController {
 
     public static void addGroup( String groupname )
     {
+        NdgUser user = NdgUser.find("byUserName", session.get("ndgUser")).first();
+        NdgUser currentUserAdmin = NdgUser.find("byUserName", user.userAdmin).first();
         NdgGroup group = new NdgGroup();
         group.groupName = groupname;
+        group.ndgUser = user;
         group.save();
     }
 

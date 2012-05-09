@@ -179,10 +179,11 @@ public class ListData extends NdgController {
                                                       ? groupName : null, true,
                                  searchField, searchText,
                                  null, isAscending );//sorting is not needed now
+
         long totalItems = NdgUser.count( query );
 
         if (orderBy != null && orderBy.equals("userRoleCollection")) {
-            users = NdgUser.find(query + " userAdmin = ?", currentUser.userAdmin).fetch();
+            users = NdgUser.find(query).fetch();
 
             Collections.sort(users, new NdgUserUserRoleCollectionComapator(isAscending));
             int subListEndIndex = users.size() <= endIndex
@@ -190,18 +191,24 @@ public class ListData extends NdgController {
 
             users = users.subList(startIndex, subListEndIndex);
         } else {
-            query = getQuery( "ndg_group.groupName", groupName, true, searchField, searchText, orderBy, isAscending );
-            users = NdgUser.find(query.toString() + " userAdmin = ?", currentUser.userAdmin).from(startIndex).fetch(endIndex - startIndex);
+            if(groupName != null && groupName.length() > 0) {
+                query = getQuery( "ndg_group.groupName", groupName, true, searchField, searchText, orderBy, isAscending );
+            } else {
+                query = getQuery( "userAdmin", currentUser.userAdmin, true, searchField, searchText, orderBy, isAscending );
+            }
+            users = NdgUser.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
         }
         serializeUsers(users, startIndex, totalItems);
     }
 
     public static void groups(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField, String searchText) {
+        NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
+        NdgUser currentUserAdmin = NdgUser.find("byUserName", currentUser.userAdmin).first();
 
         List<NdgGroup> groups = null;
         long totalItems = 0;
 
-        String query = getQuery( null, null, false, searchField, searchText, null, isAscending );//sorting is not needed now
+        String query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false, searchField, searchText, null, isAscending );//sorting is not needed now
 
         totalItems = NdgGroup.count( query );
 
@@ -212,7 +219,7 @@ public class ListData extends NdgController {
                                     ? groups.size() : endIndex;
             groups = groups.subList(startIndex, subListEndIndex);
         } else {
-            query = getQuery( null, null, false, searchField, searchText, orderBy, isAscending );
+            query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false, searchField, searchText, orderBy, isAscending );
             groups = NdgGroup.find(query.toString()).from(startIndex).fetch(endIndex);
         }
         serializeGroups(groups, startIndex, totalItems);

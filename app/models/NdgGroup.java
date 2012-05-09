@@ -24,6 +24,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import play.data.validation.Required;
 import play.db.jpa.Model;
@@ -38,6 +40,10 @@ public class NdgGroup extends Model {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ndg_group")
     public Collection<NdgUser> userCollection;
+
+    @ManyToOne( optional = false )
+    @JoinColumn(name = "ndg_user_id")
+    public NdgUser ndgUser;
 
     public NdgGroup() {
     }
