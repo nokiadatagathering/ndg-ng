@@ -33,10 +33,11 @@ public class UserManager extends NdgController {
                                 String lastName, String email, String role,
                                 String phoneNumber )
     {
+        NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
         NdgUser user = new NdgUser( Crypto.passwordHash(password), username, email,
                                     firstName, lastName,
                                     phoneNumber,
-                                    "Y", 'Y', 'Y', 'Y');
+                                    currentUser.userAdmin, 'Y', 'Y', 'Y');
         Company userCompany = Company.all().first();
         user.company = userCompany;
         user.save();
