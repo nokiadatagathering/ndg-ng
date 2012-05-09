@@ -108,10 +108,11 @@ var Graphing = function() {
 
                                      switch(items.questionType.typeName){
                                        case 'select1':
-
                                           if(!items.relevant){
-                                            var questionId = items.id;
-                                            var columnContent = '<span class="graphRows"><td id="graphDataPie" class="graphListButton">';
+                                            var selectQuestionId = items.id;
+                                            var selectType = items.questionType.typeName;
+                                            var selectLabel = items.label;
+                                            var columnContent = '<span class="graphRows"><td id="graphDataPie' + selectQuestionId +'" class="graphListButton">';
                                                  columnContent += LOC.get('LOC_PIE_CHART');
                                                  columnContent += '</td></span>';
                                             break;
@@ -120,10 +121,12 @@ var Graphing = function() {
                                             break;
                                                     }
                                         case 'int':
-                                          var questionId = items.id;
-                                          var columnContent = '<span class="graphRows"><td id="graphDataInt" class="graphListButton">';
+                                            var intQuestionId = items.id;
+                                            var intType = items.questionType.typeName;
+                                            var intLabel = items.label;
+                                            var columnContent = '<span class="graphRows"><td id="graphDataInt' + intQuestionId + '" class="graphListButton">';
                                                columnContent += LOC.get('LOC_BAR_CHART');
-                                               columnContent += '</td></span>';
+                                               columnContent += '</td></span>'; 
                                           break;
                                        default:
                                           var columnContent = '<span class="graphRows"><td></td></span>';
@@ -131,15 +134,13 @@ var Graphing = function() {
                                   
                                      $('#minimalist').append( '<tr class="itemTextColor graphData" id="dynamicRow' + j + '">'
                                                            + '<td>' + items.label + '</td>' + columnContent + '</tr>'); 
-
-
+ 
+                        
                                      if (items.questionType.typeName == 'select1'){
-                                             var type = 'select1';  
-                                             $('#graphDataPie').click( function(){ getGraphData(questionId, type, items.label); return false;} );  
+                                             $('#graphDataPie' + selectQuestionId + '').click( function(){ getGraphData(selectQuestionId, selectType, selectLabel); return false;} );  
                                                                                  }
                                      if (items.questionType.typeName == 'int'){ 
-                                             var type = 'int';   
-                                             $('#graphDataInt').click( function(){ getGraphData(questionId, type, items.label); return false;} ); 
+                                             $('#graphDataInt' + intQuestionId + '').click( function(){ getGraphData(intQuestionId, intType, intLabel); return false;} ); 
                                                                                  }
 
                                                                               }); 
@@ -147,8 +148,6 @@ var Graphing = function() {
               $('#minimalist').append('</tbody>') 
               updateContainerSize();              
                                   }
-
-  
 
 
 
