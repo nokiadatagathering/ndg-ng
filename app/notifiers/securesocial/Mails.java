@@ -20,7 +20,7 @@ package notifiers.securesocial;
 import play.Play;
 import play.mvc.Mailer;
 import play.mvc.Router;
-import securesocial.provider.SocialUser;
+import models.NdgUser;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class Mails extends Mailer {
     private static final String SECURESOCIAL_USERNAME_PASSWORD_CONTROLLER_ACTIVATE = "Application.activate";
     private static final String UUID = "uuid";
 
-    public static void sendActivationEmail(SocialUser user, String uuid) {
+    public static void sendActivationEmail(NdgUser user, String uuid) {
         setSubject( Play.configuration.getProperty(SECURESOCIAL_MAILER_SUBJECT));
         setFrom(Play.configuration.getProperty(SECURESOCIAL_MAILER_FROM));
         addRecipient(user.email);
