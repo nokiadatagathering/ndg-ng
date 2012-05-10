@@ -139,6 +139,7 @@ public class Application extends Controller {
 
         try {
             NDGPersister.save(user);
+            SurveyManager.addDemoSurveyToNewUser(user, "1263929563");
         } catch ( Throwable e ) {
             Logger.error(e, "Error while invoking NDGPersister.save()");
             flash.error(Messages.get(SECURESOCIAL_ERROR_CREATING_ACCOUNT));
