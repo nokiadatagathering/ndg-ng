@@ -44,5 +44,5 @@ views.login.accountCreated=Su cuenta fue creada. Usted recibirá una notificaci�
 views.login.invalidLink=El enlace de activación que usted siguió es inválido.
 views.login.activationSuccess=Gracias, su cuenta ha sido activada.
 
-views.email.greeting=Hello %s,
-views.email.emailText=Follow this <a href="%s">link</a> to activate your account.
+views.email.greeting=Hola %s,
+views.email.emailText=Siga este <a href="%s">enlace</a> para activar su cuenta.
