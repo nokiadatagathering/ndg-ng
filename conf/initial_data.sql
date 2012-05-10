@@ -31,7 +31,7 @@ INSERT INTO `ndg_role` (`role_name`) VALUES ('Admin'),('Operator'),('Field Worke
 -- Dumping data for table `ndg_group`
 --
 
-INSERT INTO `ndg_group` (`group_name`, `ndg_user_id`) VALUES ('Demo,1');
+INSERT INTO `ndg_group` (`group_name`, `ndg_user_id`) VALUES ('Demo',1);
 
 --
 -- Dumping data for table `ndg_user`
