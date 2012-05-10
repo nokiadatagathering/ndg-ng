@@ -22,7 +22,6 @@ package controllers;
 import models.Company;
 import models.NdgUser;
 import play.i18n.Lang;
-import play.libs.Crypto;
 import play.mvc.Before;
 import play.mvc.Controller;
 
@@ -73,7 +72,7 @@ public class Application extends Controller {
             Lang.change( lang );
         }
 
-        NdgUser currentUser = NdgUser.find("byUsernameAndPassword", username, Crypto.passwordHash(pass) ).first();
+        NdgUser currentUser = NdgUser.find("byUsernameAndPassword", username, pass ).first();
 
         if(currentUser != null && checkPermission(currentUser) && currentUser.userValidated == 'Y') {
             session.put("ndgUser", username);
@@ -121,6 +120,7 @@ public class Application extends Controller {
                                      @Required @Equals(message = "views.login.passwordsMustMatch", value = "password") String password2,
                                      @Required String phoneNumber,
                                      @Required String company) {
+        System.out.println("create account pass = " + password + " pass2 = " + password2);
         if ( validation.hasErrors() ) {
             tryAgain(userName, firstName, lastName, email, phoneNumber, company);
         }
@@ -129,7 +129,7 @@ public class Application extends Controller {
             validation.addError(USER_NAME, Messages.get(USER_NAME_TAKEN));
         }
 
-        NdgUser user = new NdgUser(Crypto.passwordHash(password), userName,
+        NdgUser user = new NdgUser(password, userName,
                                    email, firstName, lastName,
                                    phoneNumber, userName, 'N', 'Y', 'Y');
         Company userCompany = new Company(company, "type", "country", "industry", "size");
@@ -178,6 +178,12 @@ public class Application extends Controller {
             Logger.error(t, "Error while activating account");
             flash.error(Messages.get(ERROR_CREATING_ACCOUNT));
         }
+        flash.remove(USER_NAME);
+        flash.remove(FIRST_NAME);
+        flash.remove(LAST_NAME);
+        flash.remove(EMAIL);
+        flash.remove(PHONE_NUMBER);
+        flash.remove(COMPANY);
         render("Application/login.html");
     }
 }

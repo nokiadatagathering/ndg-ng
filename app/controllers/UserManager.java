@@ -25,8 +25,6 @@ import models.NdgRole;
 import models.NdgUser;
 import models.UserRole;
 
-import play.libs.Crypto;
-
 public class UserManager extends NdgController {
 
     public static void addUser( String username, String password, String firstName,
@@ -34,7 +32,7 @@ public class UserManager extends NdgController {
                                 String phoneNumber )
     {
         NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
-        NdgUser user = new NdgUser( Crypto.passwordHash(password), username, email,
+        NdgUser user = new NdgUser( password, username, email,
                                     firstName, lastName,
                                     phoneNumber,
                                     currentUser.userAdmin, 'Y', 'Y', 'Y');
