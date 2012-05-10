@@ -175,10 +175,17 @@ public class ListData extends NdgController {
 
         List<NdgUser> users = null;
 
-        String query = getQuery( "ndg_group.groupName", groupName != null && groupName.length() > 0
-                                                      ? groupName : null, true,
-                                 searchField, searchText,
-                                 null, isAscending );//sorting is not needed now
+        String query;
+        if(groupName != null && groupName.length() > 0) {
+            query = getQuery( "ndg_group.groupName", groupName, true,
+                                     searchField, searchText,
+                                     null, isAscending );//sorting is not needed now
+        }
+        else {
+            query = getQuery( "userAdmin", currentUser.userAdmin, true,
+                                         searchField, searchText,
+                                         null, isAscending );//sorting is not needed now
+        }
 
         long totalItems = NdgUser.count( query );
 
