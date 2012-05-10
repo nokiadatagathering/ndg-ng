@@ -111,17 +111,26 @@ public class ListData extends NdgController {
 
         List<Survey> surveys = null;
 
-        String query = getQuery( "available" , (filter != null && filter.length() > 0)
-                                               ? String.valueOf( SurveyStatusConsts.getStatusFlag( filter ) ) : null,
+        String query;
+
+        if (filter != null && filter.length() > 0) {
+            query = getQuery( "available" , String.valueOf( SurveyStatusConsts.getStatusFlag( filter ) ),
                                                false,
                                 searchField, searchText,
                                 null, isAscending );//sorting is not needed now
+        }
+        else {
+            query = getQuery( "ndg_user_id" , String.valueOf(currentUserAdmin.getId()),
+                                               false,
+                                searchField, searchText,
+                                null, isAscending );//sorting is not needed now
+        }
 
         long totalItems = 0;
         totalItems = Survey.count( query );
 
         if ( orderBy != null && orderBy.equals( "resultCollection" ) ) {
-            surveys = Survey.find( query + " ndg_user_id = ?", currentUserAdmin.getId() ).fetch();
+            surveys = Survey.find( query ).fetch();
             Collections.sort( surveys, new SurveyNdgResultCollectionComapator() );
             if ( !isAscending ) {
                 Collections.reverse( surveys );
@@ -131,12 +140,19 @@ public class ListData extends NdgController {
                                         ? surveys.size() : endIndex;
             surveys = surveys.subList( startIndex, subListEndIndex );
         } else {
-            query = getQuery( "available", ( filter != null && filter.length() > 0 )
-                                           ? String.valueOf( SurveyStatusConsts.getStatusFlag( filter ) ) : null,
+                if (filter != null && filter.length() > 0) {
+                    query = getQuery( "available", String.valueOf( SurveyStatusConsts.getStatusFlag( filter ) ),
                                            false,
                               searchField, searchText,
                               orderBy, isAscending );
-            surveys = Survey.find( query + " ndg_user_id = ?", currentUserAdmin.getId()).from( startIndex ).fetch( endIndex - startIndex );
+                }
+                else {
+                                        query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()),
+                                           false,
+                              searchField, searchText,
+                              orderBy, isAscending );
+                }
+            surveys = Survey.find( query ).from( startIndex ).fetch( endIndex - startIndex );
         }
         serializeSurveys(surveys, startIndex, totalItems);
     }
