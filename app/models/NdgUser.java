@@ -39,7 +39,7 @@ import play.db.jpa.Model;
 @Entity
 @Table( name = "ndg_user" )
 @NamedQuery (name = "findUserSendingSurvey",
-             query = "SELECT user FROM NdgUser user WHERE user.id " +
+             query = "SELECT user FROM NdgUser user WHERE user.userAdmin = :userAdmin AND user.id " +
                      "NOT IN ( SELECT log.ndgUser.id " +
                                 "FROM TransactionLog log " +
                                 "WHERE log.survey.surveyId = :surveyId " +

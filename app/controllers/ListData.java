@@ -264,7 +264,10 @@ public class ListData extends NdgController {
     }
 
     public static void sendSurveysUserList(String formID) {
-        List<NdgUser> users = JPA.em().createNamedQuery("findUserSendingSurvey").setParameter("surveyId", formID).getResultList();
+        NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
+        List<NdgUser> users = JPA.em().createNamedQuery("findUserSendingSurvey").setParameter("surveyId", formID)
+                                                                                .setParameter("userAdmin", currentUser.userAdmin)
+                                                                                .getResultList();
 
         JSONSerializer userListSerializer = new JSONSerializer();
         userListSerializer.include("id", "username", "phoneNumber").exclude("*").rootName("items");
