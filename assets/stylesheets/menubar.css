@@ -45,6 +45,9 @@
 
 #buttonDownload:hover, #buttonUpload:hover, #buttonPhone:hover, #buttonEdit:hover, #buttonDuplicate:hover, #buttonDelete:hover, .buttonDelete:hover  {
     background-position: 0 -44px;
+    -webkit-animation: wiggle .2s ease-in-out alternate;
+    -moz-animation: wiggle .2s ease-in-out alternate;
+    -ms-animation: wiggle .2s ease-in-out alternate
 }
 
 #buttonDownload:active, #buttonUpload:active, #buttonPhone:active, #buttonEdit:active, #buttonDuplicate:active, #buttonDelete:active, .buttonDelete:active  {
@@ -76,4 +79,38 @@
     display: block;
 }
 
+@-webkit-keyframes wiggle {
+  0% {
+    -webkit-transform: rotate3d(0,0,0,0deg)
+  }
 
+  25% {
+    -webkit-transform: rotate3d(0,0,0,5deg)
+  }
+
+  75% {
+    -webkit-transform: rotate3d(0,0,0,-5deg)
+  }
+
+  100% {
+    -webkit-transform: rotate3d(0,0,0,0deg)
+  }
+}
+
+@-moz-keyframes wiggle {
+  0% {
+    -moz-transform: rotate(0deg)
+  }
+
+  25% {
+    -moz-transform: rotate(5deg)
+  }
+
+  75% {
+    -moz-transform: rotate(-5deg)
+  }
+
+  100% {
+    -moz-transform: rotate(0deg)
+  }
+}
