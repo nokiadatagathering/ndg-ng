@@ -31,13 +31,13 @@ INSERT INTO `ndg_role` (`role_name`) VALUES ('Admin'),('Operator'),('Field Worke
 -- Dumping data for table `ndg_group`
 --
 
-INSERT INTO `ndg_group` (`group_name`) VALUES ('Demo');
+INSERT INTO `ndg_group` (`group_name`, `ndg_user_id`) VALUES ('Demo,1');
 
 --
 -- Dumping data for table `ndg_user`
 --
 
-INSERT INTO `ndg_user` (`area_code`, `country_code`, `email`, `email_preferences`, `first_name`,`has_full_permissions`,`last_name`, `password`, `phone_number`, `user_admin`, `user_validated`, `username`, `validation_key`, `company_id`, `ndg_group_id` ) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','sjX9AdgTACbPzKhqGyBiCA==','phoneNumber','Y','Y','admin',NULL,1,1);
+INSERT INTO `ndg_user` (`area_code`, `country_code`, `email`, `email_preferences`, `first_name`,`has_full_permissions`,`last_name`, `password`, `phone_number`, `user_admin`, `user_validated`, `username`, `validation_key`, `company_id`, `ndg_group_id` ) VALUES ('areaCode','countryCode','admin@admin.com','Y','firstName','Y','lastName','sjX9AdgTACbPzKhqGyBiCA==','phoneNumber','admin','Y','admin',NULL,1,1);
 
 --
 -- Dumping data for table `question`
