@@ -35,3 +35,14 @@ views.login.MobileClients = APLIKACJA MOBILNA
 views.login.NeedAccount = Potrzebujesz konta w serwisie 'Nokia Data Gathering' aby móc używać aplikacji na swoim telefonie. Proszę, zarejestruj się.
 views.login.compatibility = <red>Strona nie może być prawidłowo wyświetlona na twojej przeglądarce. Strona działa poprawnie na przeglądarkach Chrome, Firefox oraz na Internet Explorer w wersji 9 lub późniejszej. Ciągle możesz korzystać ze starszej wersji serwisu, znajdziesz </red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html">tutaj.</a>
 
+views.login.required=Required
+views.login.invalidEmail=Enter a valid email address
+views.login.passwordsMustMatch=The passwords do not match
+views.login.userNameTaken=This username is already taken
+views.login.errorCreatingAccount=There was an error creating your account. Please try again.
+views.login.accountCreated=Your account has been created.  You should receive an activation email shortly.
+views.login.invalidLink=The activation link you followed is invalid.
+views.login.activationSuccess=Thank you, your account has been activated.
+
+views.email.greeting=Hola %s,
+views.email.emailText=Siga este <a href="%s">enlace</a> para activar su cuenta.

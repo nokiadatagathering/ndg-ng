@@ -106,27 +106,34 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                    #{ifError 'userName'} <p style="color:red"> #{error 'userName'/}<p> #{/ifError}
+                                    #{ifError 'userName'} 
+                                        <p style="color:red"> #{error 'userName'/}<p> 
+                                    #{/ifError}
+                                    #{else}
+                                        #{ifError 'password2'} <p style="color:red"> #{error 'password2'/}<p> #{/ifError}
+                                    #{/else}
+                                    #{ifError 'email'} <p style="color:red"> #{error 'email'/}<p> #{/ifError}
+                                    #{ifErrors} <p style="color:red"> &{'views.login.required'}<p> #{/ifErrors}
                                     #{if flash.success}<p style="color:#E1E5EF">${flash.success.raw()}<p>#{/if}
-                                        <input id="usernameReg" class="registrationForm #{ifError 'userName'} error #{/ifError}" type="text" name="userName" placeholder="&{'views.login.usersname'}" />
-                                        <input id="emailReg" class="registrationForm #{ifError 'email'} error #{/ifError}" type="text" name="email" placeholder="&{'views.login.email'}" />
+                                        <input id="usernameReg" class="registrationForm #{ifError 'userName'} error #{/ifError}" type="text" name="userName" placeholder="&{'views.login.usersname'}" value="${flash.userName}" />
+                                        <input id="emailReg" class="registrationForm #{ifError 'email'} error #{/ifError}" type="text" name="email" placeholder="&{'views.login.email'}" value="${flash.email}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-			                            <input id="passwordReg" type="password" class="registrationForm #{ifError 'password'} error #{/ifError}" name="password" placeholder="&{'views.login.password'}" />
+			                            <input id="passwordReg" type="password" class="registrationForm #{ifError 'password2'} error #{/ifError}" name="password" placeholder="&{'views.login.password'}" />
 			                            <input id="retypePassword2" type="password" class="registrationForm #{ifError 'password2'} error #{/ifError}" name="password2" placeholder="&{'views.login.retypepassword'}" />
                                     </td>
                                 <tr>
                                     <td>
-                                        <input id="firstName" class="registrationForm #{ifError 'displayName'} error #{/ifError}" type="text" name="firstName" placeholder="&{'views.login.firstname'}" />
-                        		        <input id="lastName" class="registrationForm" type="text" name="lastName" placeholder="&{'views.login.lastname'}" />
+                                        <input id="firstName" class="registrationForm #{ifError 'firstName'} error #{/ifError}" type="text" name="firstName" placeholder="&{'views.login.firstname'}" value="${flash.firstName}"/>
+                        		        <input id="lastName" class="registrationForm #{ifError 'lastName'} error #{/ifError}" type="text" name="lastName" placeholder="&{'views.login.lastname'}" value="${flash.lastName}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input id="phoneNumber" class="registrationForm" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" />
-                        		        <input id="company" class="registrationForm" type="text" name="company" placeholder="&{'views.login.company'}" />
+                                        <input id="phoneNumber" class="registrationForm #{ifError 'phoneNumber'} error #{/ifError}" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" value="${flash.phoneNumber}"/>
+                        		        <input id="company" class="registrationForm #{ifError 'company'} error #{/ifError}" type="text" name="company" placeholder="&{'views.login.company'}" value="${flash.company}"/>
                                     </td>
                                 </tr>
                                 <tr>

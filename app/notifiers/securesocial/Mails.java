@@ -33,18 +33,18 @@ import java.util.Map;
  * @see controllers.securesocial.UsernamePasswordController 
  */
 public class Mails extends Mailer {
-    private static final String SECURESOCIAL_MAILER_SUBJECT = "securesocial.mailer.subject";
-    private static final String SECURESOCIAL_MAILER_FROM = "securesocial.mailer.from";
-    private static final String SECURESOCIAL_USERNAME_PASSWORD_CONTROLLER_ACTIVATE = "Application.activate";
+    private static final String MAILER_SUBJECT = "views.email.mailer.subject";
+    private static final String MAILER_FROM = "views.email.mailer.from";
+    private static final String USERNAME_PASSWORD_CONTROLLER_ACTIVATE = "Application.activate";
     private static final String UUID = "uuid";
 
     public static void sendActivationEmail(NdgUser user, String uuid) {
-        setSubject( Play.configuration.getProperty(SECURESOCIAL_MAILER_SUBJECT));
-        setFrom(Play.configuration.getProperty(SECURESOCIAL_MAILER_FROM));
+        setSubject( Play.configuration.getProperty(MAILER_SUBJECT));
+        setFrom(Play.configuration.getProperty(MAILER_FROM));
         addRecipient(user.email);
         Map<String, Object> args = new HashMap<String, Object>();
         args.put(UUID, uuid);
-        String activationUrl = Router.getFullUrl(SECURESOCIAL_USERNAME_PASSWORD_CONTROLLER_ACTIVATE, args);
+        String activationUrl = Router.getFullUrl(USERNAME_PASSWORD_CONTROLLER_ACTIVATE, args);
         send(user, activationUrl);
     }
 }

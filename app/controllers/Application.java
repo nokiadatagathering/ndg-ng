@@ -38,17 +38,16 @@ import securesocial.provider.*;
 public class Application extends Controller {
 
     private static final String USER_NAME = "userName";
-    private static final String SECURESOCIAL_USER_NAME_TAKEN = "securesocial.userNameTaken";
-    private static final String SECURESOCIAL_ERROR_CREATING_ACCOUNT = "securesocial.errorCreatingAccount";
-    private static final String SECURESOCIAL_ACCOUNT_CREATED = "securesocial.accountCreated";
-    private static final String SECURESOCIAL_ACTIVATION_TITLE = "securesocial.activationTitle";
-    private static final String SECURESOCIAL_SECURE_SOCIAL_NOTICE_PAGE_HTML = "securesocial/SecureSocial/noticePage.html";
-    private static final String DISPLAY_NAME = "displayName";
+    private static final String FIRST_NAME = "firstName";
+    private static final String LAST_NAME = "lastName";
+    private static final String COMPANY = "company";
+    private static final String PHONE_NUMBER = "phoneNumber";
     private static final String EMAIL = "email";
-    private static final String SECURESOCIAL_INVALID_LINK = "securesocial.invalidLink";
-    private static final String SECURESOCIAL_ACTIVATION_SUCCESS = "securesocial.activationSuccess";
-    private static final String SECURESOCIAL_SECURE_SOCIAL_LOGIN = "securesocial.SecureSocial.login";
-    private static final String SECURESOCIAL_ACTIVATE_TITLE = "securesocial.activateTitle";
+    private static final String USER_NAME_TAKEN = "views.login.userNameTaken";
+    private static final String ERROR_CREATING_ACCOUNT = "views.login.errorCreatingAccount";
+    private static final String ACCOUNT_CREATED = "views.login.accountCreated";
+    private static final String INVALID_LINK = "views.login.invalidLink";
+    private static final String ACTIVATION_SUCCESS = "views.login.activationSuccess";
 
     @Before(unless={"login", "authorize", "logout", "SurveyManager.upload", "createAccount", "activate"})
     public static void checkAccess() throws Throwable {
@@ -114,21 +113,20 @@ public class Application extends Controller {
      * @param password      The password
      * @param password2     The password verification
      */
-    public static void createAccount(@Required(message = "securesocial.required") String userName,
+    public static void createAccount(@Required(message = "views.login.required") String userName,
                                      @Required String firstName,
                                      @Required String lastName,
-                                     @Required @Email(message = "securesocial.invalidEmail") String email,
+                                     @Required @Email(message = "views.login.invalidEmail") String email,
                                      @Required String password,
-                                     @Required @Equals(message = "securesocial.passwordsMustMatch", value = "password") String password2,
+                                     @Required @Equals(message = "views.login.passwordsMustMatch", value = "password") String password2,
                                      @Required String phoneNumber,
                                      @Required String company) {
         if ( validation.hasErrors() ) {
-            tryAgain(userName, firstName, email);
+            tryAgain(userName, firstName, lastName, email, phoneNumber, company);
         }
 
         if ( NDGPersister.find(userName) != null ) {
-            validation.addError(USER_NAME, Messages.get(SECURESOCIAL_USER_NAME_TAKEN));
-            tryAgain(Messages.get(SECURESOCIAL_USER_NAME_TAKEN), firstName, email);
+            validation.addError(USER_NAME, Messages.get(USER_NAME_TAKEN));
         }
 
         NdgUser user = new NdgUser(Crypto.passwordHash(password), userName,
@@ -142,22 +140,25 @@ public class Application extends Controller {
             SurveyManager.addDemoSurveyToNewUser(user, "1263929563");
         } catch ( Throwable e ) {
             Logger.error(e, "Error while invoking NDGPersister.save()");
-            flash.error(Messages.get(SECURESOCIAL_ERROR_CREATING_ACCOUNT));
-            tryAgain(userName, firstName, email);
+            flash.error(Messages.get(ERROR_CREATING_ACCOUNT));
+            tryAgain(userName, firstName, lastName, email, phoneNumber, company);
         }
 
-        // create an activation id
+        // creates an activation id
         final String uuid = NDGPersister.createActivation(user);
         Mails.sendActivationEmail(user, uuid);
-        flash.success(Messages.get(SECURESOCIAL_ACCOUNT_CREATED));
-        final String title = Messages.get(SECURESOCIAL_ACTIVATION_TITLE, user.firstName + " " + user.lastName);
+        flash.success(Messages.get(ACCOUNT_CREATED));
         render("Application/login.html");
     }
 
-    private static void tryAgain(String username, String displayName, String email) {
+    private static void tryAgain(String username, String firstName, String lastName, String email, String phoneNumber, String company) {
+        flash.clear();
         flash.put(USER_NAME, username);
-        flash.put(DISPLAY_NAME, displayName);
+        flash.put(FIRST_NAME, firstName);
+        flash.put(LAST_NAME, lastName);
         flash.put(EMAIL, email);
+        flash.put(PHONE_NUMBER, phoneNumber);
+        flash.put(COMPANY, company);
         render("Application/login.html");
     }
 
@@ -169,17 +170,14 @@ public class Application extends Controller {
     public static void activate(String uuid) {
         try {
             if ( NDGPersister.activate(uuid) == false ) {
-                flash.error( Messages.get(SECURESOCIAL_INVALID_LINK) );
+                flash.error( Messages.get(INVALID_LINK) );
             } else {
-//                flash.success(Messages.get(SECURESOCIAL_ACTIVATION_SUCCESS, Router.reverse(SECURESOCIAL_SECURE_SOCIAL_LOGIN)));
-                flash.success(Messages.get(SECURESOCIAL_ACTIVATION_SUCCESS));
+                flash.success(Messages.get(ACTIVATION_SUCCESS));
             }
         } catch ( Throwable t) {
             Logger.error(t, "Error while activating account");
-            flash.error(Messages.get(SECURESOCIAL_ERROR_CREATING_ACCOUNT));
+            flash.error(Messages.get(ERROR_CREATING_ACCOUNT));
         }
-        //final String title = Messages.get(SECURESOCIAL_ACTIVATE_TITLE);
-        //render(SECURESOCIAL_SECURE_SOCIAL_NOTICE_PAGE_HTML, title);
         render("Application/login.html");
     }
 }

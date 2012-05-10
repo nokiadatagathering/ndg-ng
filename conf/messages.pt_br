@@ -35,4 +35,14 @@ views.login.MobileClients = APLICAÇÕES MÓVEIS
 views.login.NeedAccount = Você precisa de uma conta neste servidor para usar o Nokia Data Gathering em seu celular. Crie uma conta acima e baixe a aplicação.
 views.login.compatibility = <red>Esta página necessita de um navegador baseado em webkit (ex: Chrome), mozilla (ex: Firefox) ou Internet Explorer 9 ou mais recente. Você pode utilizar o Nokia Data Gathering em um navegador antigo</red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> clickando aqui.</a>
 
+views.login.required=Campos mandatórios
+views.login.invalidEmail=Digite um endereço de email válido
+views.login.passwordsMustMatch=As senhas não conferem
+views.login.userNameTaken=Este usuário já está em uso
+views.login.errorCreatingAccount=Occorreu um erro durante a criação da conta. Tente de novo.
+views.login.accountCreated=Sua conta foi criada. Você receberá um email de ativação em breve.
+views.login.invalidLink=O link para ativação é inválido.
+views.login.activationSuccess=Obrigado, sua conta foi ativada.
 
+views.email.greeting=Olá %s,
+views.email.emailText=Siga este <a href="%s">link</a> para ativar sua conta.
