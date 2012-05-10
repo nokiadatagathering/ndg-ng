@@ -120,7 +120,6 @@ public class Application extends Controller {
                                      @Required @Equals(message = "views.login.passwordsMustMatch", value = "password") String password2,
                                      @Required String phoneNumber,
                                      @Required String company) {
-        System.out.println("create account pass = " + password + " pass2 = " + password2);
         if ( validation.hasErrors() ) {
             tryAgain(userName, firstName, lastName, email, phoneNumber, company);
         }
