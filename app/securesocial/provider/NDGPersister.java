@@ -28,14 +28,10 @@ import models.UserRole;
 
 public class NDGPersister {
 
-    public static SocialUser find(UserId id) {
-        NdgUser ndgUser = NdgUser.find("byUserName", id.id).first();
-        SocialUser user = new SocialUser();
-        user.id = id;
+    public static NdgUser find(String username) {
+        NdgUser user;
         try {
-            user.firstName = ndgUser.firstName;
-            user.lastName = ndgUser.lastName;
-            user.email = ndgUser.email;
+            user = NdgUser.find("byUserName", username).first();
         } catch (Exception ex) {
             return null;
         }
@@ -43,23 +39,20 @@ public class NDGPersister {
         return user;
     }
 
-    public static void save(SocialUser user) {
-        NdgUser ndgUser = new NdgUser(user.password, user.id.id, user.email, user.firstName, user.lastName, user.phoneNumber, user.id.id, 'N', 'Y', 'Y');
-        Company userCompany = new Company(user.company, "type", "country", "industry", "size");
-        userCompany.save();
-        ndgUser.company = userCompany;
-        ndgUser.save();
+    public static void save(NdgUser user) {
+        user.company.save();
+        user.save();
         UserRole mapRole = new UserRole();
-        mapRole.ndgUser = ndgUser;
+        mapRole.ndgUser = user;
         mapRole.ndgRole = NdgRole.find("byRoleName", "Admin").first();
         mapRole.save();
     }
 
-    public static String createActivation(SocialUser user) {
+    public static String createActivation(NdgUser user) {
         final String uuid = Codec.UUID();
-        NdgUser ndgUser = NdgUser.find("byUserName", user.id.id).first();
-        ndgUser.validationKey = uuid;
-        ndgUser.save();
+
+        user.validationKey = uuid;
+        user.save();
         return uuid;
     }
 

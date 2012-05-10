@@ -48,6 +48,7 @@ import models.constants.TransactionlogConsts;
 import models.utils.NdgQuery;
 import models.utils.SurveyDuplicator;
 import play.data.validation.Required;
+import play.mvc.Before;
 import play.mvc.Http.StatusCode;
 
 public class SurveyManager extends NdgController {
@@ -117,6 +118,18 @@ public class SurveyManager extends NdgController {
         String newId = new BigInteger(40, random).toString(32);
 
         Survey copy = SurveyDuplicator.plainCopy(origin, newId);
+
+        copy.save();
+    }
+
+    @Before(unless={"questionType", "saveSurvey", "getSurvey", "upload", "get", "delete", "duplicate", "sendSurveys"})
+    public static void addDemoSurveyToNewUser(NdgUser user, String formID) {
+        Survey origin = Survey.find("bySurveyId", formID).first();
+
+        SecureRandom random = new SecureRandom();
+        String newId = new BigInteger(40, random).toString(32);
+
+        Survey copy = SurveyDuplicator.addDemoSurveyToNewUser(origin, newId, user);
 
         copy.save();
     }

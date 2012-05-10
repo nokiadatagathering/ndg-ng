@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 import models.Category;
 import models.DefaultAnswer;
+import models.NdgUser;
 import models.Question;
 import models.QuestionOption;
 import models.Survey;
@@ -37,6 +38,20 @@ public class SurveyDuplicator {
         copy.available = Constants.SURVEY_BUILDING;
         copy.lang = origin.lang;
         copy.ndgUser = origin.ndgUser;
+        copy.surveyId = newId;
+        copy.title = origin.title;
+        copy.uploadDate = new Date();
+
+        copy.categoryCollection = copyCategories(origin.categoryCollection, copy);
+
+        return copy;
+    }
+
+    public static Survey addDemoSurveyToNewUser(Survey origin, String newId, NdgUser user) {
+        Survey copy = new Survey();
+        copy.available = Constants.SURVEY_BUILDING;
+        copy.lang = origin.lang;
+        copy.ndgUser = user;
         copy.surveyId = newId;
         copy.title = origin.title;
         copy.uploadDate = new Date();

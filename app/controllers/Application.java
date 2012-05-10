@@ -19,6 +19,7 @@
 
 package controllers;
 
+import models.Company;
 import models.NdgUser;
 import play.i18n.Lang;
 import play.libs.Crypto;
@@ -124,27 +125,21 @@ public class Application extends Controller {
         if ( validation.hasErrors() ) {
             tryAgain(userName, firstName, email);
         }
-        
-        UserId id = new UserId();
-        id.id = userName;
 
-        if ( NDGPersister.find(id) != null ) {
+        if ( NDGPersister.find(userName) != null ) {
             validation.addError(USER_NAME, Messages.get(SECURESOCIAL_USER_NAME_TAKEN));
             tryAgain(Messages.get(SECURESOCIAL_USER_NAME_TAKEN), firstName, email);
         }
-        SocialUser user = new SocialUser();
-        user.id = id;
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.company = company;
-        user.password = Crypto.passwordHash(password);
-        // the user will remain inactive until the email verification is done.
-        user.isEmailVerified = false;
+
+        NdgUser user = new NdgUser(Crypto.passwordHash(password), userName,
+                                   email, firstName, lastName,
+                                   phoneNumber, userName, 'N', 'Y', 'Y');
+        Company userCompany = new Company(company, "type", "country", "industry", "size");
+        user.company = userCompany;
 
         try {
             NDGPersister.save(user);
+            SurveyManager.addDemoSurveyToNewUser(user, "1263929563");
         } catch ( Throwable e ) {
             Logger.error(e, "Error while invoking NDGPersister.save()");
             flash.error(Messages.get(SECURESOCIAL_ERROR_CREATING_ACCOUNT));
