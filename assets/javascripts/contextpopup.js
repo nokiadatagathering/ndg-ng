@@ -85,7 +85,7 @@ var ContextComboBox = function() {
         var pos = $('#exportContextMenu').offset();
 
         $('#exportExcel').click(ResultList.exportResults);
-        $('#exportKml').click(function(){alert('not supported')});
+        $('#exportKml').click(ResultList.exportToKML);
         $('#exportExternal').click(function(){alert('not supported')});
 
         showMenu(pos.left, pos.top, 0, $('#exportContextMenu').height() );

@@ -23,10 +23,12 @@ import controllers.transformer.CSVTransformer;
 import controllers.transformer.ExcelTransformer;
 import flexjson.JSONSerializer;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,6 +42,14 @@ import models.constants.QuestionTypesConsts;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
+import de.micromata.opengis.kml.v_2_2_0.Document;
+import de.micromata.opengis.kml.v_2_2_0.Feature;
+import de.micromata.opengis.kml.v_2_2_0.Folder;
+import de.micromata.opengis.kml.v_2_2_0.Kml;
+import de.micromata.opengis.kml.v_2_2_0.LatLonBox;
+import de.micromata.opengis.kml.v_2_2_0.LookAt;
+import de.micromata.opengis.kml.v_2_2_0.Placemark;
+
 public class Service extends NdgController {
 
     private static final String CSV = ".csv";
@@ -48,8 +58,81 @@ public class Service extends NdgController {
     private static final String SURVEY = "survey";
     private static Log log = LogFactory.getLog( Service.class );
 
-    public static void getAllResults( String surveyId ) {
+    public static void allToKML( String surveyId ) {
+        Survey survey = Survey.findById( Long.decode( surveyId ) );
+        Collection<NdgResult> results = new ArrayList<NdgResult>();
+        Collection<NdgResult> removalResults = new ArrayList<NdgResult>();
+        results = survey.resultCollection;
 
+        for (NdgResult current : results) {
+            if(current.latitude == null || current.longitude == null) {
+                removalResults.add(current);
+            }
+        }
+        results.removeAll(removalResults);
+
+        ByteArrayOutputStream arqExport = new ByteArrayOutputStream();
+        String fileName = surveyId + ".kml";
+
+        try {
+            final Kml kml = new Kml();
+
+            for (NdgResult current : results) {
+                    kml.createAndSetPlacemark()
+                        .withName(current.title).withOpen(Boolean.TRUE)
+//                        .withDescription("<![CDATA[<b>Trail Head Name</b>]]>")
+                        .createAndSetPoint().addToCoordinates(current.latitude + ", " + current.longitude);
+            }
+
+            kml.marshal(arqExport);
+            send(fileName, arqExport.toByteArray());
+        } catch (FileNotFoundException ex) {
+        }
+    }
+
+    public static void selectedToKML( String surveyId, String resultIDs ) {
+        String[] resultsIds = resultIDs.split( "," );
+
+        Collection<NdgResult> results = new ArrayList<NdgResult>();
+        Collection<NdgResult> removalResults = new ArrayList<NdgResult>();
+        NdgResult result = null;
+
+        if ( resultsIds.length > 0 ) {
+            for ( int i = 0; i < resultsIds.length; i++ ) {
+                result = NdgResult.find( "byId", Long.parseLong(resultsIds[i]) ).first();
+                if ( result != null ) {
+                    results.add( result );
+                }
+            }
+        }
+
+        for (NdgResult current : results) {
+            if(current.latitude == null || current.longitude == null) {
+                removalResults.add(current);
+            }
+        }
+        results.removeAll(removalResults);
+
+        ByteArrayOutputStream arqExport = new ByteArrayOutputStream();
+        String fileName = surveyId + ".kml";
+
+        try {
+            final Kml kml = new Kml();
+
+            for (NdgResult current : results) {
+                kml.createAndSetPlacemark()
+                    .withName(current.title).withOpen(Boolean.TRUE)
+//                    .withDescription("Some Descriptive text.")
+                    .createAndSetPoint().addToCoordinates(current.latitude + ", " + current.longitude);
+            }
+
+            kml.marshal(arqExport);
+            send(fileName, arqExport.toByteArray());
+        } catch (FileNotFoundException ex) {
+        }
+    }
+
+    public static void getAllResults( String surveyId ) {
         Survey survey = Survey.findById( Long.decode( surveyId ) );
         Collection<NdgResult> results = new ArrayList<NdgResult>();
         Collection<NdgResult> removalResults = new ArrayList<NdgResult>();
@@ -66,7 +149,7 @@ public class Service extends NdgController {
         surveyListSerializer.include("id", "resultId", "title", "startTime", "endTime", "ndgUser", "latitude", "longitude")
                                     .exclude("*").rootName("items");
 
-        renderJSON( surveyListSerializer.serialize(results) );        
+        renderJSON( surveyListSerializer.serialize(results) );
     }
 
     public static void getResults( String surveyId, String resultIDs ) {
@@ -96,7 +179,7 @@ public class Service extends NdgController {
         surveyListSerializer.include("id", "resultId", "title", "startTime", "endTime", "ndgUser", "latitude", "longitude")
                                     .exclude("*").rootName("items");
 
-        renderJSON( surveyListSerializer.serialize(results) );        
+        renderJSON( surveyListSerializer.serialize(results) );
     }
 
     public static void surveyHasImages( String surveyId ) {

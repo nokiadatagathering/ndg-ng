@@ -23,6 +23,7 @@ var ResultList = function() {
             getSearchBy: function() {return searchBy;},
             prepareLayout: function(tableHtml){prepareLayout(tableHtml);},
             exportResults: function(){exportResults();},
+            exportToKML: function(){exportToKML();},
             additionalAjaxParams: function() {return additionalAjaxParams();},
             showGraphing: function(){showGraphing();},
             showMap: function(){showMap();}
@@ -213,6 +214,15 @@ var ResultList = function() {
         }
     }
 
+    function exportToKML() {
+        if( allResultSelected ) {
+            ExportResults.exportAllToKML( currentSurveyId );
+        } else if(selectedResults.length) {
+            ExportResults.exportToKML( currentSurveyId, selectedResults );
+        } else {
+            alert("no results selected");
+        }
+    }
 
     function onButtonMouseDownHandler(source) {
         source.addClass('pushed');

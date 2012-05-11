@@ -23,6 +23,39 @@ var ExportResults = function() {
         drawDialog();
     }
 
+    function exportAllToKML(currentSurveyId) {
+        surveyId = currentSurveyId;
+
+        exportDialog.dialog( "open" );
+        $('#exportResults-step_1').empty();
+        $('#exportResults-step_2').empty();
+        $('#exportResults-step_3').empty();
+
+        $('#exportResults-step_2').empty();
+        $('#exportResults-step_3').append( '<img src="images/POPUP_ICON_LOADING.gif" />');
+        $('#exportResults-step_3').append( '<b>Exporting survey results to' + ' KML' + ' file...</>' );
+
+        window.location.href = "service/allToKML?surveyId=" + surveyId;
+        exportDialog.dialog("close");
+    }
+
+    function exportToKML(currentSurveyId, selectedResults) {
+        surveyId = currentSurveyId;
+        resultList = selectedResults;
+
+        exportDialog.dialog( "open" );
+        $('#exportResults-step_1').empty();
+        $('#exportResults-step_2').empty();
+        $('#exportResults-step_3').empty();
+
+        $('#exportResults-step_2').empty();
+        $('#exportResults-step_3').append( '<img src="images/POPUP_ICON_LOADING.gif" />');
+        $('#exportResults-step_3').append( '<b>Exporting survey results to' + ' KML' + ' file...</>' );
+
+        window.location.href = 'service/selectedToKML?surveyId=' + surveyId + '&resultIDs=' + resultList.join(',');
+        exportDialog.dialog("close");
+    }
+
     function drawDialog() {
         exportDialog.dialog({title: LOC.get('LOC_EXPORT_RESULTS'),
                               open: function(){
@@ -89,7 +122,9 @@ var ExportResults = function() {
         exportDialog.dialog("close");
     }
 
-    return { exportResults : function( surveyId, selectedResults) {exportResults(surveyId,selectedResults);},
-             exportAllResults : function(surveyId) {exportAllResults(surveyId);}
+    return { exportAllResults : function(surveyId) {exportAllResults(surveyId);},
+             exportResults : function( surveyId, selectedResults) {exportResults(surveyId,selectedResults);},
+             exportToKML : function(surveyId, selectedResults) {exportToKML(surveyId,selectedResults);},
+             exportAllToKML : function(surveyId) {exportAllToKML(surveyId);}
     };
 }();
