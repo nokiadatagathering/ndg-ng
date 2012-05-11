@@ -56,19 +56,20 @@ public class Service extends NdgController {
         results = survey.resultCollection;
 
         for (NdgResult current : results) {
-            if(current.latitude == null || current.longitude == null)
+            if(current.latitude == null || current.longitude == null) {
                 removalResults.add(current);
+            }
         }
         results.removeAll(removalResults);
 
         JSONSerializer surveyListSerializer = new JSONSerializer();
-        surveyListSerializer.include("id", "resultId", "title", "startTime", "endTime", "ndgUser", "latitude", "longitude").exclude("*").rootName("items");
+        surveyListSerializer.include("id", "resultId", "title", "startTime", "endTime", "ndgUser", "latitude", "longitude")
+                                    .exclude("*").rootName("items");
 
         renderJSON( surveyListSerializer.serialize(results) );        
     }
 
     public static void getResults( String surveyId, String resultIDs ) {
-        System.out.println(resultIDs);
         String[] resultsIds = resultIDs.split( "," );
 
         Collection<NdgResult> results = new ArrayList<NdgResult>();
@@ -78,19 +79,22 @@ public class Service extends NdgController {
         if ( resultsIds.length > 0 ) {
             for ( int i = 0; i < resultsIds.length; i++ ) {
                 result = NdgResult.find( "byId", Long.parseLong(resultsIds[i]) ).first();
-                if ( result != null )
+                if ( result != null ) {
                     results.add( result );
+                }
             }
         }
 
         for (NdgResult current : results) {
-            if(current.latitude == null || current.longitude == null)
+            if(current.latitude == null || current.longitude == null) {
                 removalResults.add(current);
+            }
         }
         results.removeAll(removalResults);
 
         JSONSerializer surveyListSerializer = new JSONSerializer();
-        surveyListSerializer.include("id", "resultId", "title", "startTime", "endTime", "ndgUser", "latitude", "longitude").exclude("*").rootName("items");
+        surveyListSerializer.include("id", "resultId", "title", "startTime", "endTime", "ndgUser", "latitude", "longitude")
+                                    .exclude("*").rootName("items");
 
         renderJSON( surveyListSerializer.serialize(results) );        
     }
