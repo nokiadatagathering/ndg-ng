@@ -310,8 +310,8 @@ var UserManagement = function() {
                                     + '<p class="tableEntryQuantity">('+ item.userCollection + ' ' + LOC.get('LOC_USERS') + ')</p>'
                                     + '</td>'
                                     + '<td class="menubar" id="menuGroup' + i + '" >'
-                                    + '<div class="groupDelete" ><span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span><div>'
-                                    + '<span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"></span>'
+                                    + '<div class="groupDelete" ><span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"></span><div>'
+                                    + '<span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
                                     + '</td>'
                                     + '</tr>' );
 
