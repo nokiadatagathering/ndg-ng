@@ -273,7 +273,7 @@ var UserManagement = function() {
 
         var layout = "";
         layout += "<div id='leftColumn_layout2' title='" + LOC.get('LOC_CLICK_TO_DISABLE_SELECTED_GROUP') + "'>"
-                + "<div class='plusButton_layout2 clickableElem' id='plusButton'><div id ='plusButtonImage'></div></div>"
+                + "<div class='plusButton_layout2 clickableElem' id='plusButton'><div id ='plusButtonImageDrag'></div></div>"
                 + "</div>"
         layout += "<div id='middleColumn_layout2'>"
                 +   "<table id='minimalist_layout2'></table>"

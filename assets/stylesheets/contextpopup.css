@@ -205,6 +205,33 @@
 #plusButtonImage
 {
     height: 33px;
-    width: 32px;
-    background: url(../images/plus.png);
+    width: 30px;
+    background: url(../images/add.png);
+}
+
+#plusButtonImage:hover
+{
+    background-position: 0 -33px;
+}
+
+#plusButtonImage:active
+{
+    background-position: 0 -66px;
+}
+
+#plusButtonImageDrag
+{
+    height: 31px;
+    width: 30px;
+    background: url(../images/add-dragndrop-31px.png);
+}
+
+#plusButtonImageDrag:hover
+{
+    background-position: 0 -31px;
+}
+
+#plusButtonImageDrag:active
+{
+    background-position: 0 -62px;
 }
