@@ -79,7 +79,7 @@ var ContextComboBox = function() {
         $('#popup-context').addClass("popup-export-results");
 
         $('#popup-context').append( '<div id="exportExcel"><span>' + 'Excel' + '</span></div>');
-        $('#popup-context').append( '<div id="exportKml"><span>' + 'KML' + '</span></div>');
+        //$('#popup-context').append( '<div id="exportKml"><span>' + 'KML' + '</span></div>');
         //$('#popup-context').append( '<div id="exportExternal"><span>' + LOC.get('LOC_EXTERNAL_SERVICE') + '</span></div>');
 
         var pos = $('#exportContextMenu').offset();
