@@ -35,14 +35,15 @@ views.login.MobileClients = APLIKACJA MOBILNA
 views.login.NeedAccount = Potrzebujesz konta w serwisie 'Nokia Data Gathering' aby móc używać aplikacji na swoim telefonie. Proszę, zarejestruj się.
 views.login.compatibility = <red>Strona nie może być prawidłowo wyświetlona na twojej przeglądarce. Strona działa poprawnie na przeglądarkach Chrome, Firefox oraz na Internet Explorer w wersji 9 lub późniejszej. Ciągle możesz korzystać ze starszej wersji serwisu, znajdziesz </red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html">tutaj.</a>
 
-views.login.required=Required
-views.login.invalidEmail=Enter a valid email address
-views.login.passwordsMustMatch=The passwords do not match
-views.login.userNameTaken=This username is already taken
-views.login.errorCreatingAccount=There was an error creating your account. Please try again.
-views.login.accountCreated=Your account has been created.  You should receive an activation email shortly.
-views.login.invalidLink=The activation link you followed is invalid.
-views.login.activationSuccess=Thank you, your account has been activated.
+views.login.required=Wymagane.
+views.login.invalidEmail=Podaj swój adres e-mail.
+views.login.passwordsMustMatch=Podane hasła nie pasują do siebie
+views.login.userNameTaken=Wybrana nazwa użytkonika jest juz zajęta
+views.login.errorCreatingAccount=Wystąpił problem przy próbie utworzenia konta. Proszę, spróbuj ponownie.
+views.login.accountCreated=Konto zostało utworzone. Wkrótce otrzymasz wiadomość aktywującą.
+views.login.invalidLink=Link, którego użyłeś do aktywacji, jest nieprawidłowy.
+views.login.activationSuccess=Twoje konto zost4ało aktywowane.
 
-views.email.greeting=Hello %s,
-views.email.emailText=Follow this <a href="%s">link</a> to activate your account.
+views.email.greeting=Cześć %s,
+views.email.emailText=<a href="%s">Kliknij</a> aby aktywować
+
