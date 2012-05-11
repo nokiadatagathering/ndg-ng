@@ -155,7 +155,11 @@ var Graphing = function() {
           if( isAllResults ) { 
                var contentUrl = 'listData/graphall?questionId='+questionId;
                var getJSONQuery = $.getJSON( contentUrl, function(item){
-                            renderGraphData(item.data, type, questionlabel);
+                         if (jQuery.isEmptyObject(item.data)){
+                              renderDataError();                    
+                            }else{
+                              renderGraphData(item.data, type, questionlabel);
+                                                            }
                                  });
                getJSONQuery.error(Utils.redirectIfUnauthorized) ;
                               }
@@ -163,14 +167,24 @@ var Graphing = function() {
                // get the selected results        
                var contentUrl = 'listData/graphselected?questionId='+questionId+'&ids=' + resultList.join(',');
                var getJSONQuery = $.getJSON( contentUrl, function(item){
-                            renderGraphData(item.data, type, questionlabel);
+                          if (jQuery.isEmptyObject(item.data)){
+                                  renderDataError(); 
+                            }else{
+                              renderGraphData(item.data, type, questionlabel);
+                                                               }
                               });
                getJSONQuery.error(Utils.redirectIfUnauthorized) ;
                               }
                             }
+
+      function renderDataError(){
+                        $('#minimalist').empty();
+                        $('#minimalist').replaceWith('<div id="canvas"><font color="blue">There were no answers to the question in any of the returned survey responses. Or something went horribly wrong ;)</font></div>');
+                            }
       
               
       function renderGraphData(data, type, questionlabel){
+               
                $('#minimalist').empty();
                $('#minimalist').replaceWith('<div id="canvas"></div>');
                switch (type){
@@ -233,16 +247,16 @@ var Graphing = function() {
                 
 
                if (!$.jqplot.use_excanvas) {
-        $('div.jqplot-target').each(function(){
+                     $('div.jqplot-target').each(function(){
 
-            // Add a view image button
-            var btn = $(document.createElement('button'));
-            btn.text('View as PNG');
-            btn.addClass('resultListButton');
-            btn.bind('click', {chart: $(this)}, function(evt) {
-               //evt.data.chart.jqplotViewImage();
-               var elem = evt.data.chart.jqplotToImageElem();
-               var content = '<p style="display: none"><b>Right/Control Click the Image to Download.<b><br><img src="'+elem.src+'" width="820"/></div>';
+                      // Add a view image button
+                     var btn = $(document.createElement('button'));
+                     btn.text('View as PNG');
+                     btn.addClass('resultListButton');
+                     btn.bind('click', {chart: $(this)}, function(evt) {
+                     //evt.data.chart.jqplotViewImage();
+                     var elem = evt.data.chart.jqplotToImageElem();
+                     var content = '<p style="display: none"><b>Right/Control Click the Image to Download.<b><br><img src="'+elem.src+'" width="820"/></div>';
                              $('#canvas').empty();
                              $('.div.jqplot-target').empty();
                              $('.resultListButton').remove();
@@ -250,18 +264,18 @@ var Graphing = function() {
                              $("p").show("slow");
                                                               });
 
-            $(this).after(btn);   
+                           $(this).after(btn);   
          
             // add a save image button unless its IE
-            if (isIE == false){                                           
-            btn = $(document.createElement('button'));
-            btn.text('Save as PNG');
-            btn.addClass('resultListButton');
-            btn.bind('click', {chart: $(this)}, function(evt) {
-            evt.data.chart.jqplotSaveImage();
+                        if (isIE == false){                                           
+                                btn = $(document.createElement('button'));
+                                btn.text('Save as PNG');
+                                btn.addClass('resultListButton');
+                                btn.bind('click', {chart: $(this)}, function(evt) {
+                                                                evt.data.chart.jqplotSaveImage();
                                                               });
-            $(this).after(btn);
-            btn = null;
+                            $(this).after(btn);
+                            btn = null;
                                 }
                                              });
                                         }
