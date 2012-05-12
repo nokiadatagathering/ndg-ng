@@ -31,14 +31,18 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Collection;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import models.Answer;
 import models.Category;
 import models.NdgResult;
 import models.Question;
 import models.Survey;
 import models.constants.QuestionTypesConsts;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.logging.Log;
 
@@ -76,12 +80,60 @@ public class Service extends NdgController {
 
         try {
             final Kml kml = new Kml();
+            final Document document = kml.createAndSetDocument();
 
             for (NdgResult current : results) {
-                    kml.createAndSetPlacemark()
-                        .withName(current.title).withOpen(Boolean.TRUE)
-//                        .withDescription("<![CDATA[<b>Trail Head Name</b>]]>")
-                        .createAndSetPoint().addToCoordinates(current.latitude + ", " + current.longitude);
+//                String description = "<![CDATA[ ";
+                String description = "";
+                int i = 0;
+
+                List<Question> questions = new ArrayList<Question>();
+                questions = survey.getQuestions();
+
+                if(questions.isEmpty()) {
+                    description += "<b> NO QUESTION </b> <br><br>";
+                }
+
+                for(Question question : questions) {
+                    i++;
+                    description += "<h3><b>" + i + " - " + question.label + "</b></h3><br>";
+
+                    Collection<Answer> answers = CollectionUtils.intersection(question.answerCollection, current.answerCollection );
+                    if ( answers.isEmpty() ) {
+                        description += "<b> NO ANSWER</b> <br><br>";
+                    } else if ( answers.size() == 1 ) {
+                        Answer answer = answers.iterator().next();
+
+                        if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {
+/*                            ByteArrayOutputStream baos = new ByteArrayOutputStream(); //TODO Include image, right
+                            byte[] buf = new byte[1024];                                //now it adds base64 to the img
+                            InputStream in = answer.binaryData.get();                   //tag but it doesn't show on
+                            int n = 0;                                                  //the map
+                            try {
+                                while( (n = in.read(buf) ) >= 0) {
+                                    baos.write(buf, 0, n);
+                                }
+                                in.close();
+                            } catch(IOException ex) {
+                                System.out.println("IO");
+                            }
+
+                            byte[] bytes = baos.toByteArray();
+                            System.out.println("image = " + Base64.encodeBase64String(bytes));
+                            description += "<img src='data:image/jpeg;base64," + Base64.encodeBase64String(bytes)
+                                        + "'/> <br><br>"; */
+                            description += "<b> #image</b> <br><br>";
+                        } else {
+                            description += "<h4 style='color:#3a77ca'><b>" + answer.textData + "</b></h4><br>";
+                        }
+                    }
+                }
+//                description += " ]]>";
+
+                document.createAndAddPlacemark()
+                    .withName(current.title).withOpen(Boolean.TRUE)
+                    .withDescription(description)
+                    .createAndSetPoint().addToCoordinates(current.latitude + ", " + current.longitude);
             }
 
             kml.marshal(arqExport);
@@ -91,6 +143,7 @@ public class Service extends NdgController {
     }
 
     public static void selectedToKML( String surveyId, String resultIDs ) {
+        Survey survey = Survey.findById( Long.decode( surveyId ) );
         String[] resultsIds = resultIDs.split( "," );
 
         Collection<NdgResult> results = new ArrayList<NdgResult>();
@@ -118,11 +171,59 @@ public class Service extends NdgController {
 
         try {
             final Kml kml = new Kml();
+            final Document document = kml.createAndSetDocument();
 
             for (NdgResult current : results) {
-                kml.createAndSetPlacemark()
+//                String description = "<![CDATA[ ";
+                String description = "";
+                int i = 0;
+
+                List<Question> questions = new ArrayList<Question>();
+                questions = survey.getQuestions();
+
+                if(questions.isEmpty()) {
+                    description += "<b> NO QUESTION </b> <br><br>";
+                }
+
+                for(Question question : questions) {
+                    i++;
+                    description += "<h3><b>" + i + " - " + question.label + "</b></h3><br>";
+
+                    Collection<Answer> answers = CollectionUtils.intersection(question.answerCollection, current.answerCollection );
+                    if ( answers.isEmpty() ) {
+                        description += "<b> NO ANSWER</b> <br><br>";
+                    } else if ( answers.size() == 1 ) {
+                        Answer answer = answers.iterator().next();
+
+                        if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {
+/*                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            byte[] buf = new byte[1024];
+                            InputStream in = answer.binaryData.get();
+                            int n = 0;
+                            try {
+                                while( (n = in.read(buf) ) >= 0) {                                                            
+                                    baos.write(buf, 0, n);
+                                }
+                                in.close();
+                            } catch(IOException ex) {
+                                System.out.println("IO");
+                            }
+
+                            byte[] bytes = baos.toByteArray();
+                            System.out.println("image = " + Base64.encodeBase64String(bytes));
+                            description += "<img src='data:image/jpeg;base64," + Base64.encodeBase64String(bytes)
+                                        + "'/> <br><br>"; */
+                            description += "<b> #image</b> <br><br>";
+                        } else {
+                            description += "<h4 style='color:#3a77ca'><b>" + answer.textData + "</b></h4><br>";
+                        }
+                    }
+                }
+//                description += " ]]>";
+
+                document.createAndAddPlacemark()
                     .withName(current.title).withOpen(Boolean.TRUE)
-//                    .withDescription("Some Descriptive text.")
+                    .withDescription(description)
                     .createAndSetPoint().addToCoordinates(current.latitude + ", " + current.longitude);
             }
 
