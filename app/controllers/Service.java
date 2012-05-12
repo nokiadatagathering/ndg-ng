@@ -100,7 +100,7 @@ public class Service extends NdgController {
 
                     Collection<Answer> answers = CollectionUtils.intersection(question.answerCollection, current.answerCollection );
                     if ( answers.isEmpty() ) {
-                        description += "<b> NO ANSWER</b> <br><br>";
+                        description += "<br><br>";
                     } else if ( answers.size() == 1 ) {
                         Answer answer = answers.iterator().next();
 
@@ -191,7 +191,7 @@ public class Service extends NdgController {
 
                     Collection<Answer> answers = CollectionUtils.intersection(question.answerCollection, current.answerCollection );
                     if ( answers.isEmpty() ) {
-                        description += "<b> NO ANSWER</b> <br><br>";
+                        description += "<br><br>";
                     } else if ( answers.size() == 1 ) {
                         Answer answer = answers.iterator().next();
 
