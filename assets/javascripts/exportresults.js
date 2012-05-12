@@ -92,8 +92,8 @@ var ExportResults = function() {
                                              + '</span>'
                                              + '</div>' );
             $('#exportResults-step_2').append( '<div class=".exportResultsButtons">'
-                                             + '<span id="buttonYES" class="buttonSmall"></span>'
-                                             + '<span id="buttonNO" class="buttonSmall"></span>'
+                                             + '<span id="buttonYES" class="large button blue"></span>'
+                                             + '<span id="buttonNO" class="large button blue"></span>'
                                              + '</div>' );
 
             $('#buttonYES').text( LOC.get('LOC_YES') );
