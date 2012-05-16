@@ -133,7 +133,7 @@ public class Service extends NdgController {
                 document.createAndAddPlacemark()
                     .withName(current.title).withOpen(Boolean.TRUE)
                     .withDescription(description)
-                    .createAndSetPoint().addToCoordinates(current.latitude + ", " + current.longitude);
+                    .createAndSetPoint().addToCoordinates(current.longitude + ", " + current.latitude);
             }
 
             kml.marshal(arqExport);
@@ -224,7 +224,7 @@ public class Service extends NdgController {
                 document.createAndAddPlacemark()
                     .withName(current.title).withOpen(Boolean.TRUE)
                     .withDescription(description)
-                    .createAndSetPoint().addToCoordinates(current.latitude + ", " + current.longitude);
+                    .createAndSetPoint().addToCoordinates(current.longitude + ", " + current.latitude);
             }
 
             kml.marshal(arqExport);
