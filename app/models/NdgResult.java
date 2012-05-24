@@ -34,6 +34,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import models.constants.QuestionTypesConsts;
 
 /**
  *
@@ -82,6 +83,18 @@ public class NdgResult extends Model {
         this.resultId = resultId;
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    @Override
+    public void _delete() {
+        super._delete();
+        Collection<Answer> answers = answerCollection;
+
+        for(Answer answer : answers) {
+            if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {
+                answer.binaryData.getFile().delete();
+            }
+        }
     }
 
     @Override

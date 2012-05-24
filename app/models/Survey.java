@@ -36,6 +36,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import models.constants.QuestionTypesConsts;
 
 @Entity
 @Table(name = "survey")
@@ -94,6 +95,19 @@ public class Survey extends Model {
             }
         }
         return questions;
+    }
+
+    @Override
+    public void _delete() {
+        super._delete();
+        for (NdgResult current : resultCollection) {
+            Collection<Answer> answers = current.answerCollection;
+            Answer answer = answers.iterator().next();
+
+            if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {
+                answer.binaryData.getFile().delete();
+            }
+        }
     }
 
     @Override

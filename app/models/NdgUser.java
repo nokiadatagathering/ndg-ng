@@ -32,6 +32,8 @@ import javax.persistence.Table;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
+import models.constants.QuestionTypesConsts;
+
 /**
  *
  * @author dominik.frankowski
@@ -150,6 +152,19 @@ public class NdgUser extends Model {
         this.userValidated = userValidated;
         this.emailPreferences = emailPreferences;
         this.hasFullPermissions = hasFullPermissions;
+    }
+
+    @Override
+    public void _delete() {
+        super._delete();
+        for (NdgResult current : resultsCollection) {
+            Collection<Answer> answers = current.answerCollection;
+            Answer answer = answers.iterator().next();
+
+            if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {
+                answer.binaryData.getFile().delete();
+            }
+        }
     }
 
     @Override
