@@ -467,7 +467,7 @@ var QuestionUiElement = function( questionModel ){
 
     function onOptionLabelChanged( optionId, newLabel ){
         var option = getOption( optionId );
-        var optionVal = newLabel.toLowerCase().split(' ').join('');
+        var optionVal = newLabel.replace(/[^a-z0-9]/ig,"").toLowerCase().split(' ').join('');
 
         $( '#'+ optionId + ' input' ).attr('value', optionVal );
 
