@@ -36,7 +36,7 @@ public class UserManager extends NdgController {
                                     firstName, lastName,
                                     phoneNumber,
                                     currentUser.userAdmin, 'Y', 'Y', 'Y');
-        Company userCompany = Company.all().first();
+        Company userCompany = currentUser.company;
         user.company = userCompany;
         user.save();
         UserRole mapRole = new UserRole();
