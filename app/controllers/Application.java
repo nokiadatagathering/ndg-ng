@@ -21,6 +21,7 @@ package controllers;
 
 import models.Company;
 import models.NdgUser;
+import models.constants.TransactionlogConsts;
 import play.i18n.Lang;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -150,6 +151,12 @@ public class Application extends Controller {
         // creates an activation id
         final String uuid = NDGPersister.createActivation(user);
         Mails.sendActivationEmail(user, uuid);
+
+        NDGPersister.logTransaction(TransactionlogConsts.TransactionType.NEW_USER_ADMIN,
+                                    TransactionlogConsts.TransactionStatus.STATUS_PENDING,
+                                    request.remoteAddress,
+                                    user);
+
         flash.success(Messages.get(ACCOUNT_CREATED));
         render("Application/login.html");
     }

@@ -24,7 +24,11 @@ import play.libs.Codec;
 import models.NdgUser;
 import models.Company;
 import models.NdgRole;
+import models.TransactionLog;
+import models.constants.TransactionlogConsts;
 import models.UserRole;
+
+import java.util.Date;
 
 public class NDGPersister {
 
@@ -61,11 +65,27 @@ public class NDGPersister {
         boolean result = false;
 
         if( ndgUser != null ) {
+            TransactionLog transaction = TransactionLog.find("byTransactionTypeAndNdg_user_idAndTransactionStatus",
+                                                            TransactionlogConsts.TransactionType.NEW_USER_ADMIN, ndgUser.id,
+                                                            TransactionlogConsts.TransactionStatus.STATUS_PENDING).first();
+            transaction.transactionStatus = TransactionlogConsts.TransactionStatus.STATUS_SUCCESS;
+            transaction.save();
             ndgUser.userValidated =  'Y';
             ndgUser.save();
             result = true;
         }
         return result;
+    }
+
+    public static void logTransaction(String type, String status, String address, NdgUser user) {
+        TransactionLog transaction = new TransactionLog();
+        transaction.transactionDate = new Date();
+        transaction.transactionType = type;
+        transaction.transactionStatus = status;
+
+        transaction.address = address;
+        transaction.ndgUser = user;
+        transaction.save();
     }
 
     public static void deletePendingActivations() {
