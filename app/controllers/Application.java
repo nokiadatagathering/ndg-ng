@@ -42,6 +42,8 @@ public class Application extends Controller {
     private static final String COMPANY = "company";
     private static final String PHONE_NUMBER = "phoneNumber";
     private static final String EMAIL = "email";
+    private static final String COUNTRY = "country";
+    private static final String INDUSTRY = "industry";
     private static final String USER_NAME_TAKEN = "views.login.userNameTaken";
     private static final String ERROR_CREATING_ACCOUNT = "views.login.errorCreatingAccount";
     private static final String ACCOUNT_CREATED = "views.login.accountCreated";
@@ -119,9 +121,11 @@ public class Application extends Controller {
                                      @Required String password,
                                      @Required @Equals(message = "views.login.passwordsMustMatch", value = "password") String password2,
                                      @Required String phoneNumber,
-                                     @Required String company) {
+                                     @Required String company,
+                                     @Required String country,
+                                     @Required String industry) {
         if ( validation.hasErrors() ) {
-            tryAgain(userName, firstName, lastName, email, phoneNumber, company);
+            tryAgain(userName, firstName, lastName, email, phoneNumber, company, country, industry);
         }
 
         if ( NDGPersister.find(userName) != null ) {
@@ -131,7 +135,7 @@ public class Application extends Controller {
         NdgUser user = new NdgUser(password, userName,
                                    email, firstName, lastName,
                                    phoneNumber, userName, 'N', 'Y', 'Y');
-        Company userCompany = new Company(company, "type", "country", "industry", "size");
+        Company userCompany = new Company(company, "type", country, industry, "size");
         user.company = userCompany;
 
         try {
@@ -140,7 +144,7 @@ public class Application extends Controller {
         } catch ( Throwable e ) {
             Logger.error(e, "Error while invoking NDGPersister.save()");
             flash.error(Messages.get(ERROR_CREATING_ACCOUNT));
-            tryAgain(userName, firstName, lastName, email, phoneNumber, company);
+            tryAgain(userName, firstName, lastName, email, phoneNumber, company, country, industry);
         }
 
         // creates an activation id
@@ -150,7 +154,8 @@ public class Application extends Controller {
         render("Application/login.html");
     }
 
-    private static void tryAgain(String username, String firstName, String lastName, String email, String phoneNumber, String company) {
+    private static void tryAgain(String username, String firstName, String lastName, String email, String phoneNumber,
+                                    String company, String country, String industry) {
         flash.clear();
         flash.put(USER_NAME, username);
         flash.put(FIRST_NAME, firstName);
@@ -158,6 +163,8 @@ public class Application extends Controller {
         flash.put(EMAIL, email);
         flash.put(PHONE_NUMBER, phoneNumber);
         flash.put(COMPANY, company);
+        flash.put(COUNTRY, country);
+        flash.put(INDUSTRY, industry);
         render("Application/login.html");
     }
 
@@ -183,6 +190,8 @@ public class Application extends Controller {
         flash.remove(EMAIL);
         flash.remove(PHONE_NUMBER);
         flash.remove(COMPANY);
+        flash.remove(COUNTRY);
+        flash.remove(INDUSTRY);
         render("Application/login.html");
     }
 }
