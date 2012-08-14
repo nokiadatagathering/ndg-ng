@@ -66,7 +66,12 @@ public class UserManager extends NdgController {
     public static void deleteUser(String userId)
     {
         NdgUser deleted = NdgUser.find("byId", Long.parseLong(userId)).first();
+        String username = deleted.username;
         deleted.delete();
+        if(username.equals(deleted.userAdmin)) {
+            Company userCompany = deleted.company;
+            userCompany.delete();
+        }
     }
 
     public static void deleteGroup( String groupname ){
