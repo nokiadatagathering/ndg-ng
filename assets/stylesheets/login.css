@@ -294,23 +294,20 @@ p
     background-position: 0 -112px;
 }
 
-table.register{
-    padding:5px;
+table.register {
+    padding:0px;
     width: 300px;
     border-spacing: 10px;
 }
 
-
-table.register tr{
+table.register tr {
 	padding: 10px;
 	text-align: center;
 }
 
-
-table.register td { 
-	padding:7px;
-	}
-
+table.register td {
+	padding: 4px;
+}
 
 .registrationForm
 {

@@ -143,6 +143,12 @@
                                 </tr>
                                 <tr>
                                     <td>
+                                        <input id="country" class="registrationForm #{ifError 'country'} error #{/ifError}" type="text" name="country" placeholder="&{'views.login.country'}" value="${flash.country}"/>
+                        		        <input id="industry" class="registrationForm #{ifError 'industry'} error #{/ifError}" type="text" name="industry" placeholder="&{'views.login.industry'}" value="${flash.industry}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
                                         <input id="createAccount" class="createAccountButton" type="button">
                                     </td>
                                 </tr>
