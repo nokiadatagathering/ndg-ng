@@ -47,5 +47,5 @@ views.login.invalidLink=Link, którego użyłeś do aktywacji, jest nieprawidło
 views.login.activationSuccess=Twoje konto zost4ało aktywowane.
 
 views.email.greeting=Cześć %s,
-views.email.emailText=<a href="%s">Kliknij</a> aby aktywować
+views.email.emailText=<a href="%s">Kliknij</a> aby aktywować. <br> NDG is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.<br> NDG is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more details.
 
