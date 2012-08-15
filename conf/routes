@@ -48,6 +48,8 @@ GET     /images/                                staticDir:public/images
 GET     /ndg-ota/client/                        staticDir:public/ndg-ota/client
 GET     /other/                                 staticDir:public/other
 GET     /loader/                                staticDir:public/loader
+# default location for attachments in application.conf
+GET     /data/attachments/                      staticDir:data/attachments
 
 # Catch all
 *       /{controller}/{action}                  {controller}.{action}

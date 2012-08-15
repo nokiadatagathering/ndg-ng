@@ -22,6 +22,7 @@ var LOC = (function() {
         LOC_DUPLICATE: 'Duplikuj',
         LOC_DELETE: 'Skasuj',
         LOC_SEND: 'Wy\u015blij',
+        LOC_PREVIEW: 'Preview',
         LOC_SURVEY_NAME: 'Nazwa ankiety',
         LOC_DATE_PUBLISHED: 'Data',
         LOC_PUBLISHER: 'Autor',

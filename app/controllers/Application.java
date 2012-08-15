@@ -26,6 +26,8 @@ import play.i18n.Lang;
 import play.mvc.Before;
 import play.mvc.Controller;
 
+import play.Play;
+
 import notifiers.securesocial.Mails;
 import play.Logger;
 import play.data.validation.Email;
@@ -59,6 +61,7 @@ public class Application extends Controller {
     }
 
     public static void index() {
+        renderArgs.put("attachPath",Play.configuration.getProperty("attachments.path"));
         render("Application/index.html");
     }
 

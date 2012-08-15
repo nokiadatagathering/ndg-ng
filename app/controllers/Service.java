@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
@@ -61,6 +62,60 @@ public class Service extends NdgController {
     private static final String ZIP = ".zip";
     private static final String SURVEY = "survey";
     private static Log log = LogFactory.getLog( Service.class );
+    
+    public static void toPreview(String surveyId , String resultIDs ) {
+    // Find the survey
+    Survey survey = Survey.findById( Long.decode( surveyId )  ); 
+
+    // make an array of results
+    Collection<NdgResult> results = new ArrayList<NdgResult>();
+    NdgResult result = null;
+
+    // Get the result 
+    result = NdgResult.find( "byId", Long.parseLong(resultIDs) ).first();
+    if ( result != null ) {
+		results.add( result );
+		              }
+	 
+    // loop the result
+    for(NdgResult current : results) {
+		List<Question> questions = new ArrayList<Question>();
+		questions = survey.getQuestions();
+		LinkedList preview = new LinkedList();
+
+
+		if(questions.isEmpty()) {
+		    preview.add("No question");
+		}
+
+		// loop the questions in the result
+		for(Question question : questions) {
+		     preview.add(question.label);
+		 
+		     // get answers which correspond with questions
+		     Collection<Answer> answers = CollectionUtils.intersection(question.answerCollection, current.answerCollection );
+		     if ( answers.isEmpty() ) {
+		             preview.add("No answer");
+		                              }                            
+		     else if ( answers.size() == 1 ) {
+		        Answer answer = answers.iterator().next();
+		        //System.out.println("Answer " + answer.textData);
+		          if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {
+		            preview.add(answer.binaryData);
+		                                                                                                       } 
+		          else {
+		            preview.add(answer.textData);
+		               }
+		        
+		                                     }
+		                                   }
+
+		    JSONSerializer previewSerializer = new JSONSerializer();
+		    previewSerializer.rootName("preview");
+		    renderJSON(previewSerializer.serialize(preview));
+		                         }
+
+		                                             }
 
     public static void allToKML( String surveyId ) {
         Survey survey = Survey.findById( Long.decode( surveyId ) );

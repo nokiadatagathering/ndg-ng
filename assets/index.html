@@ -123,6 +123,11 @@
             <div id="sendSurveyUsers"></div>
             <div><span id="buttonSendSurveyDone" class="large button blue" ></span></div>
         </div>
+        
+        <div id="dialog-preview" class="dialogs">
+            <div id="previewLayout" data-url="${attachPath}"></div>
+            <div><span id="buttonPreviewDone" class="large button blue" ></span></div>
+        </div>
 
         <div id="dialog-sendUserSMS" class="dialogs">
             <div id="sendSMSUsers"></div>
@@ -230,6 +235,14 @@ var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
 });
 
 var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
+{
+    autoOpen: false,
+    zIndex: 9999,
+    resizable: false,
+    width: 350
+});
+
+var previewDialog = $("#dialog-preview").dialog(
 {
     autoOpen: false,
     zIndex: 9999,
