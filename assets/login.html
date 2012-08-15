@@ -114,7 +114,6 @@
                                         #{ifError 'password2'} <p style="color:red"> #{error 'password2'/}<p> #{/ifError}
                                     #{/else}
                                     #{ifError 'email'} <p style="color:red"> #{error 'email'/}<p> #{/ifError}
-                                    #{ifErrors} <p style="color:red"> &{'views.login.required'}<p> #{/ifErrors}
                                     #{if flash.success}<p style="color:#E1E5EF">${flash.success.raw()}<p>#{/if}
                                         <input id="usernameReg" class="registrationForm #{ifError 'userName'} error #{/ifError}" type="text" name="userName" placeholder="&{'views.login.usersname'}" value="${flash.userName}" />
                                         <input id="emailReg" class="registrationForm #{ifError 'email'} error #{/ifError}" type="text" name="email" placeholder="&{'views.login.email'}" value="${flash.email}"/>
