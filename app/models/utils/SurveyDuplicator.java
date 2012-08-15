@@ -87,6 +87,7 @@ public class SurveyDuplicator {
             copiedQuestion.hint = question.hint;
             copiedQuestion.label = question.label;
             copiedQuestion.objectName = question.objectName;
+            copiedQuestion.questionIndex = question.questionIndex;
             copiedQuestion.questionType = question.questionType;
             copiedQuestion.readonly = question.readonly;
             copiedQuestion.required = question.required;
