@@ -15,6 +15,11 @@ var Editor = function() {
         getSkipLogicController: function(){return getSkipLogicController()},
         showCategory: function(categoryId){showCategory(categoryId)}
     };
+    
+    if (Modernizr.touch){
+    // convert drag and drop events into Touch events
+       initTouch();
+                        }
 
     function getSkipLogicController() {
         if(surveyModel) {
