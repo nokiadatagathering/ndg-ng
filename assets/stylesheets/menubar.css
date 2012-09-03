@@ -12,9 +12,9 @@
  }
 
  .menubar.resultListTable {
-     max-width: 50px;
-     width: 48px;
-     min-width: 48px;
+     max-width: 100px;
+     width: 96px;
+     min-width: 96px;
  }
 
 .hoverRow {
@@ -43,14 +43,14 @@
     background: url(../images/download-44px.png) no-repeat;
 }
 
-#buttonDownload:hover, #buttonUpload:hover, #buttonPhone:hover, #buttonEdit:hover, #buttonDuplicate:hover, #buttonDelete:hover, .buttonDelete:hover  {
+#buttonDownload:hover, #buttonUpload:hover, #buttonPreview:hover, #buttonPhone:hover, #buttonEdit:hover, #buttonDuplicate:hover, #buttonDelete:hover, .buttonDelete:hover, .buttonPreview:hover  {
     background-position: 0 -44px;
     -webkit-animation: wiggle .2s ease-in-out alternate;
     -moz-animation: wiggle .2s ease-in-out alternate;
     -ms-animation: wiggle .2s ease-in-out alternate
 }
 
-#buttonDownload:active, #buttonUpload:active, #buttonPhone:active, #buttonEdit:active, #buttonDuplicate:active, #buttonDelete:active, .buttonDelete:active  {
+#buttonDownload:active, #buttonUpload:active, #buttonPreview:active, #buttonPhone:active, #buttonEdit:active, #buttonDuplicate:active, #buttonDelete:active, .buttonDelete:active, .buttonPreview:active   {
     background-position: 0 -88px;
 }
 
@@ -72,6 +72,10 @@
 
 #buttonDelete, .buttonDelete {
     background: url(../images/delete-44px.png);
+}
+
+#buttonpreview, .buttonPreview {
+    background: url(../images/preview-44px.png);
 }
 
 .groupDelete

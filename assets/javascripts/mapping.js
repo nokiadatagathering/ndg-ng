@@ -54,13 +54,42 @@ var Mapping = function() {
 
               getJSONQuery.error(Utils.redirectIfUnauthorized);
           }
-          else {
-               var contentUrl = 'service/getResults?surveyId=' + surveyId + '&resultIDs=' + resultList.join(',');
-               var getJSONQuery = $.getJSON( contentUrl, function(data) { createMap(data); });
-
+          else {  
+               var contentUrl = 'service/getResults?surveyId=' + surveyId + '&resultIDs=' + resultList.join(',');                           
+               var getJSONQuery = $.getJSON( contentUrl, function(data) { createMap(data); });        
                getJSONQuery.error(Utils.redirectIfUnauthorized);
           }
     }
+    
+    function showPreview(data){
+          previewDialog.dialog( {title: LOC.get('LOC_PREVIEW')} );
+          $('#buttonPreviewDone').text( LOC.get('LOC_DONE') );
+          previewDialog.dialog({close: function(){$.unblockUI();$('#previewLayout').empty();}} )
+          previewDialog.dialog("open");
+          $.blockUI( {message: null} );
+
+          for (i = 0; i < data.preview.length; ++i) { 
+			var item = data.preview[i];
+   
+			if (typeof item == 'object') {
+                                $('#previewLayout').append('<img src="'+ $('#previewLayout').data('url') + '/' + item.file.name +'" width="300" height="200">');
+			} else {
+                                $('#previewLayout').append('' + item + '<br>');
+			}
+                                                    }
+
+
+          $('#previewLayout').show();
+          $('#buttonPreviewDone').click( function(){previewFinished();} );
+                          }
+
+    function previewFinished() {
+          $('#previewLayout').empty();
+          $('#previewLayout').hide();
+          $('#buttonPreviewDone').unbind('click'); 
+
+          previewDialog.dialog("close");
+                              }
 
     function createMap(data) {
 
@@ -112,16 +141,12 @@ var Mapping = function() {
 
             var endTime = new Date(parseInt(item.endTime));
 
-            var html = "<div>" +
-                    "<h2>Result information</h2>" +
-                    "<br/><h3 style=\"color:white;\">Title: " + item.title      + "</h3>" +
-                    "<br/><h3 style=\"color:white;\">Created: "   + endTime.toDateString() + " " + endTime.toTimeString()+ "</h3>" +
-                    "<br/><h3 style=\"color:white;\">Coord: " + item.latitude   + " " + item.longitude + "</h3></div>";
-
             standardMarker.addListener(
                                       CLICK,
                                       function (evt) {
-                                          infoBubbles.addBubble(html, standardMarker.coordinate);
+                                          var contentUrl = 'service/toPreview?surveyId=' + surveyId + '&resultIDs=' + item.id;
+                                          var getJSONQuery = $.getJSON( contentUrl, function(data) { showPreview(data); });
+                                          getJSONQuery.error(Utils.redirectIfUnauthorized);
             });
 
             map.objects.add(standardMarker);

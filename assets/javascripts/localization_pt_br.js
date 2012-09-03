@@ -22,6 +22,7 @@ var LOC = (function() {
         LOC_DUPLICATE: 'Duplicar',
         LOC_DELETE: 'Excluir',
         LOC_SEND: 'Enviar',
+        LOC_PREVIEW: 'Preview',
         LOC_SURVEY_NAME: 'Nome da Pesquisa',
         LOC_DATE_PUBLISHED: 'Data',
         LOC_PUBLISHER: 'Perm',

@@ -22,6 +22,7 @@ var LOC = (function() {
         LOC_DUPLICATE: 'Duplicado',
         LOC_DELETE: 'Borrar',
         LOC_SEND: 'enviar',
+        LOC_PREVIEW: 'Preview',
         LOC_SURVEY_NAME: 'Nombre',
         LOC_DATE_PUBLISHED: 'Fecha',
         LOC_PUBLISHER: 'Editor',

@@ -22,6 +22,7 @@ var LOC = (function() {
         LOC_DUPLICATE: 'Kopioi',
         LOC_DELETE: 'Poista',
         LOC_SEND: 'Lähetä',
+        LOC_PREVIEW: 'Preview',
         LOC_SURVEY_NAME: 'Lomakkeen nimi',
         LOC_DATE_PUBLISHED: 'PVM.',
         LOC_PUBLISHER: 'Lupa',

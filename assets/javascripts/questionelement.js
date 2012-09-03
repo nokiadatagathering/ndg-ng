@@ -78,17 +78,21 @@ var QuestionUiElement = function( questionModel ){
     function createDescriptive(){
         var elem = $(
                 '<div>'
-            +   '<span class="detailLabel defaultLabel">DEFAULT:</span><input class="detailInputText descriptiveDefault defaultAnswer" type="text" name="descriptiveDefault" placeholder="Default Answer.." />'
+            +   '<table><tr><td>'
+            +   '<label class="detailLabel defaultLabel" for="descriptiveDefault">DEFAULT:</label><input class="detailInputText descriptiveDefault defaultAnswer" type="text" id="descriptiveDefault" name="descriptiveDefault" placeholder="Default Answer.." />'
             +   '<span class="detailLabel">' + LOC.get( 'LOC_LENGTH' ) + '</span><input class="descriptiveLength detailInputText" type="text" name="length" />'
+            +   '</tr></td></table>'
             +   '</div>'
             );//TODO length can be only numeric
 
-        $( '#'+ question.uiId + ' div.questionDetails' ).append( elem );
-        $( '#'+ question.uiId + ' .descriptiveLength' ).val( question.constraintMax );
-        $( '#'+ question.uiId + ' .descriptiveLength' ).keyup( function (){onQuestionLengthChanged()});
-
-        $( '#'+ question.uiId + ' .descriptiveLength' ).numeric( {decimal: false, negative: false} );
-        
+          $( '#'+ question.uiId + ' div.questionDetails' ).append( elem );
+          $( '#'+ question.uiId + ' .descriptiveDefault' ).bind('click',false);
+               
+          $( '#'+ question.uiId + ' .descriptiveLength' ).val( question.constraintMax );
+          $( '#'+ question.uiId + ' .descriptiveLength' ).bind('click',false);
+          $( '#'+ question.uiId + ' .descriptiveLength' ).keyup( function (){onQuestionLengthChanged()});
+          $( '#'+ question.uiId + ' .descriptiveLength' ).numeric( {decimal: false, negative: false} );
+      
     }
 
 
@@ -105,7 +109,7 @@ var QuestionUiElement = function( questionModel ){
     function createNumeric( allowDecimal ){
         var elem = $(
                 '<div>'
-            +   '<span class="detailLabel defaultLabel">DEFAULT:</span><input class="defaultAnswer numericDefault detailInputText" type="text" name="numericDefault" />'
+            +   '<span class="detailLabel defaultLabel">DEFAULT:</span><input class="detailInputText numericDefault defaultAnswer" type="text" name="numericDefault" placeholder="" />'
             +   '<input class="rangeCheckMin" type="checkbox" name="minRangeCheckBox" />'
             +   '<span class="detailLabel">' + LOC.get( 'LOC_MIN_RANGE' ) + '</span>'
             +   '<input class="rangeInputMin detailInputText" type="text" name="minRangeInput" />'
@@ -117,6 +121,10 @@ var QuestionUiElement = function( questionModel ){
             );
 
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
+        
+        $( '#'+ question.uiId + ' .numericDefault' ).bind('click',false);
+        $( '#'+ question.uiId + ' .minRangeInput' ).bind('click',false);
+        $( '#'+ question.uiId + ' .maxRange' ).bind('click',false);
 
         $( '#' + question.uiId + ' input.rangeCheckMin').change( function (){onCheckBoxMinChange();} );
         $( '#' + question.uiId + ' input.rangeCheckMax').change( function (){onCheckBoxMaxChange();} );
@@ -253,11 +261,12 @@ var QuestionUiElement = function( questionModel ){
          var elem = $(
                '<div class="timeDefault">'
             +   '<span class="detailLabel defaultLabel">DEFAULT:</span>'
-            +   '<input class="defaultAnswer detailInputText timeInput" type="text" name="numericDefault" />'
+            +   '<input class="defaultAnswer detailInputText timeInput" type="text" name="numericDefault" placeholder="0:0:0" />'
             +   '</div>'
             );
 
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
+        $( '#'+ question.uiId + ' .timeInput' ).bind('click',false);
         $( '#' + question.uiId + ' .timeInput' ).timeEntry({
                                                 spinnerImage: '',
                                                 showSeconds: true,

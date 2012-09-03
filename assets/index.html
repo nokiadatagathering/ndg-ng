@@ -43,6 +43,7 @@
   <link rel="stylesheet" href="stylesheets/graphing.css">
   <!-- end CSS-->
   <script src="https://api.maps.nokia.com/2.2.0/jsl.js" type="text/javascript" charset="utf-8"></script>
+  <script src="javascripts/libs/modernizr-2.5.3_custom.min.js"></script>
 </head>
 
 <body>
@@ -123,6 +124,11 @@
             <div id="sendSurveyUsers"></div>
             <div><span id="buttonSendSurveyDone" class="large button blue" ></span></div>
         </div>
+        
+        <div id="dialog-preview" class="dialogs">
+            <div id="previewLayout" data-url="${attachPath}"></div>
+            <div><span id="buttonPreviewDone" class="large button blue" ></span></div>
+        </div>
 
         <div id="dialog-sendUserSMS" class="dialogs">
             <div id="sendSMSUsers"></div>
@@ -141,7 +147,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
   <script>window.jQuery || document.write('<script src="javascripts/libs/jquery-1.6.4.min.js"><\/script>')</script>
   <script src="javascripts/libs/jquery-ui-1.8.16.custom.min.js"></script>
-  <script src="javascripts/libs/jquery.selectbox-0.1.3.min.js"></script>
+  <script src="javascripts/libs/jquery.selectbox-0.2.min.js"></script>
   <script src="javascripts/libs/jquery.checkbox.min.js"></script>
   <script src="javascripts/libs/jquery.blockUI.js"></script>
   <script src="javascripts/libs/classList.min.js"></script>
@@ -158,6 +164,7 @@
   <script src="javascripts/libs/jqplot.categoryAxisRenderer.min.js"></script>
   <script src="javascripts/libs/jqplot.toImage.js"></script>
   <script src="javascripts/libs/jquery.ba-resize.min.js"></script>
+  <script src="javascripts/libs/touch.js"></script>
   <script type="text/javascript" src="javascripts/&{'views.main.localizationJSFile'}"></script>
   <!-- scripts concatenated and minified via ant build script-->
   <script type="text/javascript" src="javascripts/constants.js"></script>
@@ -230,6 +237,14 @@ var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
 });
 
 var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
+{
+    autoOpen: false,
+    zIndex: 9999,
+    resizable: false,
+    width: 350
+});
+
+var previewDialog = $("#dialog-preview").dialog(
 {
     autoOpen: false,
     zIndex: 9999,

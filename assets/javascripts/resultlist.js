@@ -26,7 +26,8 @@ var ResultList = function() {
             exportToKML: function(){exportToKML();},
             additionalAjaxParams: function() {return additionalAjaxParams();},
             showGraphing: function(){showGraphing();},
-            showMap: function(){showMap();}
+            showMap: function(){showMap();},
+            showPreview: function(){showPreview();}
     };
 
     function backToSurveyList() {
@@ -142,12 +143,50 @@ var ResultList = function() {
                                     + '<td>' + ( item.latitude!= null ? 'OK': 'NO GPS' ) + '</td>'
                                     + '<td class="resultListTable menubar" id="menu' + i + '" >'
                                     + '<span title="' + LOC.get('LOC_DELETE') + '"class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
+                                    + '<span title="' + LOC.get('LOC_PREVIEW') + '"class="buttonPreview" id="buttonPreview" unselectable="on"></span>'
                                     + '</td>'
                                     + '</tr>' );
 
         $( '#resultCheckbox' + item.id ).bind( 'check uncheck', item.id, function(i){resultCheckboxClicked(i);} )
         $( '#menu' + i +' #buttonDelete' ).click( item.id, function(i){onDeleteResultClicked(i);} );
+        $( '#menu' + i +' #buttonPreview' ).click( item.id, function(i){getPreview(item.id);i.preventDefault();} );
     }
+    
+    function getPreview(id) {
+          var contentUrl = 'service/toPreview?surveyId=' + currentSurveyId + '&resultIDs=' + id;
+          var getJSONQuery = $.getJSON( contentUrl, function(data) { showPreview(data); });
+          getJSONQuery.error(Utils.redirectIfUnauthorized);  
+               }
+
+    function showPreview(data){
+          previewDialog.dialog( {title: LOC.get('LOC_PREVIEW')} );
+          $('#buttonPreviewDone').text( LOC.get('LOC_DONE') );
+          previewDialog.dialog({close: function(){$.unblockUI();$('#previewLayout').empty();}} )
+          previewDialog.dialog("open");
+          $.blockUI( {message: null} );
+
+          for (i = 0; i < data.preview.length; ++i) { 
+			var item = data.preview[i];
+   
+			if (typeof item == 'object') {
+                                $('#previewLayout').append('<img src="'+ $('#previewLayout').data('url') + '/' + item.file.name +'" width="300" height="200">');
+			} else {
+                                $('#previewLayout').append('' + item + '<br>');
+			}
+                                                    }
+
+
+          $('#previewLayout').show();
+          $('#buttonPreviewDone').click( function(){previewFinished();} );
+                          }
+
+    function previewFinished() {
+          $('#previewLayout').empty();
+          $('#previewLayout').hide();
+          $('#buttonPreviewDone').unbind('click'); 
+
+          previewDialog.dialog("close");
+                              }
 
     function onDeleteResultClicked(event) {
         confirmDeleteDialog.dialog( {title: LOC.get('LOC_DELETE')} );
