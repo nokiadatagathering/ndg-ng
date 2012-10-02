@@ -81,18 +81,28 @@ var QuestionUiElement = function( questionModel ){
             +   '<table><tr><td>'
             +   '<label class="detailLabel defaultLabel" for="descriptiveDefault">DEFAULT:</label><input class="detailInputText descriptiveDefault defaultAnswer" type="text" id="descriptiveDefault" name="descriptiveDefault" placeholder="Default Answer.." />'
             +   '<span class="detailLabel">' + LOC.get( 'LOC_LENGTH' ) + '</span><input class="descriptiveLength detailInputText" type="text" name="length" />'
+            +   '<input class="requiredCheck" type="checkbox" name="required" />'
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_REQUIRED' ) + '</span>'
             +   '</tr></td></table>'
             +   '</div>'
             );//TODO length can be only numeric
 
-          $( '#'+ question.uiId + ' div.questionDetails' ).append( elem );
-          $( '#'+ question.uiId + ' .descriptiveDefault' ).bind('click',false);
+        $( '#'+ question.uiId + ' div.questionDetails' ).append( elem );
+        $( '#'+ question.uiId + ' .descriptiveDefault' ).bind('click',false);
                
-          $( '#'+ question.uiId + ' .descriptiveLength' ).val( question.constraintMax );
-          $( '#'+ question.uiId + ' .descriptiveLength' ).bind('click',false);
-          $( '#'+ question.uiId + ' .descriptiveLength' ).keyup( function (){onQuestionLengthChanged()});
-          $( '#'+ question.uiId + ' .descriptiveLength' ).numeric( {decimal: false, negative: false} );
-      
+        $( '#'+ question.uiId + ' .descriptiveLength' ).val( question.constraintMax );
+        $( '#'+ question.uiId + ' .descriptiveLength' ).bind('click',false);
+        $( '#'+ question.uiId + ' .descriptiveLength' ).keyup( function (){onQuestionLengthChanged()});
+        $( '#'+ question.uiId + ' .descriptiveLength' ).numeric( {decimal: false, negative: false} );
+
+        $( '#' + question.uiId + ' input.requiredCheck').change( function (){onCheckBoxRequiredChange();} );
+
+        if( question.required != undefined &&  question.required != null && question.required != "" ){
+            $( '#' + question.uiId + ' input.requiredCheck' ).attr( 'checked', true);
+        }
+
+        onCheckBoxRequiredChange();
+
     }
 
 
@@ -117,6 +127,8 @@ var QuestionUiElement = function( questionModel ){
             +   '<input class="rangeCheckMax" type="checkbox" name="maxRangeCheckBox" />'
             +   '<span class="detailLabel">' + LOC.get( 'LOC_MAX_RANGE' ) + '</span>'
             +   '<input class="rangeInputMax detailInputText" type="text" name="maxRange" />'
+            +   '<input class="requiredCheck" type="checkbox" name="required" />'
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_REQUIRED' ) + '</span>'
             +   '</div>'
             );
 
@@ -132,7 +144,7 @@ var QuestionUiElement = function( questionModel ){
         $( '#' + question.uiId + ' .rangeInputMin').keyup( function (){onRangeInputMinChanged();} );
         $( '#' + question.uiId + ' .rangeInputMax').keyup( function (){onRangeInputMaxChanged();} );
 
-
+        $( '#' + question.uiId + ' input.requiredCheck').change( function (){onCheckBoxRequiredChange();} );
 
 
 
@@ -145,16 +157,20 @@ var QuestionUiElement = function( questionModel ){
             $( '#'+ question.uiId + ' .rangeInputMin' ).val( question.constraintMin );
             $( '#' + question.uiId + ' input.rangeCheckMin' ).attr( 'checked', true);
         }
-        onCheckBoxMinChange();
-        onCheckBoxMaxChange();
 
-        if( allowDecimal ){
-            $( '#' + question.uiId + ' .rangeInputMin, .rangeInputMax, .defaultAnswer').numeric();
-        }else{
-            $( '#' + question.uiId + ' .rangeInputMin, .rangeInputMax, .defaultAnswer').numeric( false );
+        if( question.required != undefined &&  question.required != null && question.required != "" ){
+            $( '#' + question.uiId + ' input.requiredCheck' ).attr( 'checked', true);
         }
 
+        onCheckBoxMinChange();
+        onCheckBoxMaxChange();
+        onCheckBoxRequiredChange();
 
+        if( allowDecimal ) {
+            $( '#' + question.uiId + ' .rangeInputMin, .rangeInputMax, .defaultAnswer').numeric();
+        } else {
+            $( '#' + question.uiId + ' .rangeInputMin, .rangeInputMax, .defaultAnswer').numeric( false );
+        }
     }
 
     function onRangeInputMaxChanged(){
@@ -187,6 +203,14 @@ var QuestionUiElement = function( questionModel ){
         }
     }
 
+    function onCheckBoxRequiredChange() {
+        if( $( '#' + question.uiId + ' input.requiredCheck' ).is( ':checked' ) ){
+            question.required = 1;
+        } else {
+            question.required = 0;
+        }
+    }
+
     function createDate(){
          var elem = $(
                 '<div class="dateDefault">'
@@ -199,6 +223,8 @@ var QuestionUiElement = function( questionModel ){
             +   '<input class="rangeCheckMax" type="checkbox" name="maxRangeCheckBox" />'
             +   '<span class="detailLabel">' + LOC.get( 'LOC_MAX_RANGE' ) + '</span>'
             +   '<input class="dateInput rangeInputMax detailInputText" type="text" name="maxRange" />'
+            +   '<input class="requiredCheck" type="checkbox" name="required" />'
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_REQUIRED' ) + '</span>'
             +   '</div>'
             );
 
@@ -235,6 +261,7 @@ var QuestionUiElement = function( questionModel ){
 
         $( '#' + question.uiId + ' input.rangeCheckMin').change( function (){onCheckBoxMinChange();} );
         $( '#' + question.uiId + ' input.rangeCheckMax').change( function (){onCheckBoxMaxChange();} );
+        $( '#' + question.uiId + ' input.requiredCheck').change( function (){onCheckBoxRequiredChange();} );
 
         if( question.constraintMax != undefined &&  question.constraintMax != null && question.constraintMax != "" ){
             $( '#'+ question.uiId + ' .rangeInputMax' ).val( question.constraintMax );
@@ -246,15 +273,36 @@ var QuestionUiElement = function( questionModel ){
             $( '#' + question.uiId + ' input.rangeCheckMin' ).attr( 'checked', true);
         }
 
+        if( question.required != undefined &&  question.required != null && question.required != "" ){
+            $( '#' + question.uiId + ' input.requiredCheck' ).attr( 'checked', true);
+        }
+
         onCheckBoxMinChange();
         onCheckBoxMaxChange();
+        onCheckBoxRequiredChange();
 
         $( '#' + question.uiId + ' .rangeInputMin').keyup( function (){onRangeInputMinChanged();} );
         $( '#' + question.uiId + ' .rangeInputMax').keyup( function (){onRangeInputMaxChanged();} );
     }
 
     function createImage(){
-        return $( '<span>Image element<span>' );
+//        return $( '<span>Image element<span>' );
+        var elem = $(
+               '<div class="imageRequired">'
+            +   '<input class="requiredCheck" type="checkbox" name="required" />'
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_REQUIRED' ) + '</span>'
+            +   '</div>'
+            );
+
+        $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
+
+        $( '#' + question.uiId + ' input.requiredCheck').change( function (){onCheckBoxRequiredChange();} );
+
+        if( question.required != undefined &&  question.required != null && question.required != "" ){
+            $( '#' + question.uiId + ' input.requiredCheck' ).attr( 'checked', true);
+        }
+
+        onCheckBoxRequiredChange();
     }
 
     function createTime(){
@@ -262,6 +310,8 @@ var QuestionUiElement = function( questionModel ){
                '<div class="timeDefault">'
             +   '<span class="detailLabel defaultLabel">DEFAULT:</span>'
             +   '<input class="defaultAnswer detailInputText timeInput" type="text" name="numericDefault" placeholder="0:0:0" />'
+            +   '<input class="requiredCheck" type="checkbox" name="required" />'
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_REQUIRED' ) + '</span>'
             +   '</div>'
             );
 
@@ -276,6 +326,14 @@ var QuestionUiElement = function( questionModel ){
 
 
         $( '#' + question.uiId + ' .timeInput' ).val( );
+
+        $( '#' + question.uiId + ' input.requiredCheck').change( function (){onCheckBoxRequiredChange();} );
+
+        if( question.required != undefined &&  question.required != null && question.required != "" ){
+            $( '#' + question.uiId + ' input.requiredCheck' ).attr( 'checked', true);
+        }
+
+        onCheckBoxRequiredChange();
     }
 
     function createSelect( isExclusive ){
@@ -283,6 +341,10 @@ var QuestionUiElement = function( questionModel ){
         $( '#'+ question.uiId + ' div.additionalButtons' ).append(
                     '<div class="importOption"></div>'
                 +   '<div class="addOption" ></div>'
+                +   '<div style="float:right; margin-top: 10px;">'
+                +   '<input class="requiredCheck" type="checkbox" name="required" />'
+                +   '<span class="detailLabel">' + LOC.get( 'LOC_REQUIRED' ) + '</span>'
+                +   '</div>'
         );
 
         var elem = $(
@@ -293,6 +355,14 @@ var QuestionUiElement = function( questionModel ){
         $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
         $( '#' + question.uiId + ' div.addOption').bind('click', +isExclusive, function( event ) {onAddOptionClicked( event );} );
         $( '#' + question.uiId + ' div.importOption').bind('click',  function( event ) {loadOptionsFromFile();} );
+
+        $( '#' + question.uiId + ' input.requiredCheck').change( function (){onCheckBoxRequiredChange();} );
+
+        if( question.required != undefined &&  question.required != null && question.required != "" ){
+            $( '#' + question.uiId + ' input.requiredCheck' ).attr( 'checked', true);
+        }
+
+        onCheckBoxRequiredChange();
 
         if( question.questionOptionCollection.length == 0 ){
             var option = new QuestionOption();

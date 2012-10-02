@@ -74,6 +74,7 @@ div.addOption
     height: 32px;
     width: 29px;
     background-position: 0px 0px;
+    margin-right: 15px;
 }
 
 div.addOption:hover

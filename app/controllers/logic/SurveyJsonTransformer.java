@@ -43,6 +43,7 @@ public class SurveyJsonTransformer {
 
     public static final String CONSTRAINT_MAX = "constraintMax";
     public static final String CONSTRAINT_MIN = "constraintMin";
+    public static final String REQUIRED = "required";
     public static final String STRING_LENGTH_CONSTRAINT = "string-length( . ) <=";
 
 

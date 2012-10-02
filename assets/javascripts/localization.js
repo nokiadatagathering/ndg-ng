@@ -88,6 +88,7 @@ var LOC = (function() {
         LOC_LENGTH : 'MAX LENGTH',
         LOC_MIN_RANGE: 'MIN.RANGE',
         LOC_MAX_RANGE: 'MAX.RANGE',
+        LOC_REQUIRED: 'REQUIRED',
         LOC_DRAG_NEW_CATEGORY: 'Drag to add new category',
         LOC_DRAG_NEW_QUESTION : 'Drag to add new question',
         LOC_DROP_CATEGORY: 'DROP HERE TO ADD A NEW CATEGORY',
