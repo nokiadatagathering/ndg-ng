@@ -88,6 +88,7 @@ var LOC = (function() {
         LOC_LENGTH : 'Maksimipituus',
         LOC_MIN_RANGE: 'Maksimivaihteluväli ',
         LOC_MAX_RANGE: 'Minimivaihteluväli',
+        LOC_REQUIRED: 'REQUIRED',
         LOC_DRAG_NEW_CATEGORY: 'Vedä lisätäksesi uuden kategorian',
         LOC_DRAG_NEW_QUESTION : 'Vedä lisätäksesi uuden kysymyksen',
         LOC_DROP_CATEGORY: 'Pudota tähän lisätäksesi uuden kategorian',

@@ -88,6 +88,7 @@ var LOC = (function() {
         LOC_LENGTH : 'Longitud',
         LOC_MIN_RANGE: 'Rango mínimo ',
         LOC_MAX_RANGE: 'Rango máximo ',
+        LOC_REQUIRED: 'OBLIGATORIO',
         LOC_DRAG_NEW_CATEGORY: 'Arrastrar para añadir nueva categoría',
         LOC_DRAG_NEW_QUESTION : 'Arrastrar para añadir nueva pregunta',
         LOC_DROP_CATEGORY: 'Colocar aqui para añadir nueva categoría',
