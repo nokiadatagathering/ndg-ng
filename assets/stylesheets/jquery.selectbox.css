@@ -9,7 +9,7 @@
         background-position: 0 0; 
         text-color: #3a77ca;   
 }
-.date, .int, .select, .select1, .string, .decimal, .image, .time{
+.date, .int, .select, .select1, .string, .decimal, .image, .time, .geopoint{
 	display: block;
         line-height: 31px;
 	height: 25px;

@@ -55,7 +55,7 @@ INSERT INTO `question_option` (`label`, `option_index`, `option_value`, `questio
 -- Dumping data for table `question_type`
 --
 
-INSERT INTO `question_type` ( `supported`, `type_name`) VALUES (1,'string'),(1,'int'),(1,'decimal'),(1,'date'),(0,'geopoint'),(1,'binary#image'),(0,'binary#audio'),(0,'binary#video'),(0,'barcode'),(1,'select1'),(1,'select'),(1,'time');
+INSERT INTO `question_type` ( `supported`, `type_name`) VALUES (1,'string'),(1,'int'),(1,'decimal'),(1,'date'),(1,'geopoint'),(1,'binary#image'),(0,'binary#audio'),(0,'binary#video'),(0,'barcode'),(1,'select1'),(1,'select'),(1,'time');
 
 --
 -- Dumping data for table `survey`

@@ -39,6 +39,10 @@ var QuestionUiElement = function( questionModel ){
             $('.time').text(LOC.get(question.questionType.typeName));
             createTime();
             break;
+        case QuestionType.GEOPOINT:
+            $('.geopoint').text(LOC.get(question.questionType.typeName));
+            createGeopoint();
+            break;
         case QuestionType.EXCLUSIVE:
             $('.select1').text(LOC.get(question.questionType.typeName));
             createSelect( true );
@@ -326,6 +330,26 @@ var QuestionUiElement = function( questionModel ){
 
 
         $( '#' + question.uiId + ' .timeInput' ).val( );
+
+        $( '#' + question.uiId + ' input.requiredCheck').change( function (){onCheckBoxRequiredChange();} );
+
+        if( question.required != undefined &&  question.required != null && question.required != "" ){
+            $( '#' + question.uiId + ' input.requiredCheck' ).attr( 'checked', true);
+        }
+
+        onCheckBoxRequiredChange();
+    }
+
+    function createGeopoint(){
+//        return $( '<span>Image element<span>' );
+        var elem = $(
+               '<div class="geopointRequired">'
+            +   '<input class="requiredCheck" type="checkbox" name="required" />'
+            +   '<span class="detailLabel">' + LOC.get( 'LOC_REQUIRED' ) + '</span>'
+            +   '</div>'
+            );
+
+        $( '#' + question.uiId + ' div.questionDetails' ).append( elem );
 
         $( '#' + question.uiId + ' input.requiredCheck').change( function (){onCheckBoxRequiredChange();} );
 
