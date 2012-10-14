@@ -66,6 +66,7 @@ var LOC = (function() {
         select: 'Multipla Escolha',
         select1: 'Escolha Única',
         time: 'Hora',
+        geopoint: 'Localização',
         LOC_SAVESURVEY:'Salvar pesquisa',
         LOC_CANCEL: 'Cancelar',
         LOC_RESULT_LIST: 'Lista de Resultados',

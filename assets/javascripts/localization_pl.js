@@ -66,6 +66,7 @@ var LOC = (function() {
         select: 'Wielokrotny wybów',
         select1: 'Jedna opcja',
         time: 'Czas',
+        geopoint: 'Location',
         LOC_SAVESURVEY:'Zapisz ankiet\u0119',
         LOC_CANCEL: 'Anuluj',
         LOC_RESULT_LIST: 'Rezultaty',

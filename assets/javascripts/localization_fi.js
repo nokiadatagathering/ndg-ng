@@ -66,6 +66,7 @@ var LOC = (function() {
         select: 'Monivalinnainen',
         select1: 'Yksinomainen',
         time: 'Aika',
+        geopoint: 'Location',
         LOC_SAVESURVEY:'Tallenna lomake',
         LOC_CANCEL: 'Peruuta',
         LOC_RESULT_LIST: 'Vastauslista',
