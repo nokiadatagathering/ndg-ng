@@ -74,6 +74,7 @@ var LOC = (function() {
         LOC_PIE_CHART: 'Ympyräkaavio',
         LOC_BAR_CHART: 'Pylväsdiagrammi',
         LOC_EXPORT_TO: 'Vie',
+        LOC_SCHEDULE_EXPORT: 'Schedule',
         LOC_SEND_SMS: 'Lähetä SMS',
         LOC_TO: 'Mihin',
         LOC_PHONE_NUMBER: 'Puhelinnumero',
