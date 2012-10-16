@@ -125,6 +125,12 @@
             <div><span id="buttonSendSurveyDone" class="large button blue" ></span></div>
         </div>
         
+        <div id="dialog-scheduler" class="dialogs">
+            <div id="schedulerLayout">
+            </div>
+            <div><span id="buttonschedulerDone" class="large button blue" ></span></div>
+        </div>
+        
         <div id="dialog-preview" class="dialogs">
             <div id="previewLayout" data-url="${attachPath}"></div>
             <div><span id="buttonPreviewDone" class="large button blue" ></span></div>
@@ -244,12 +250,29 @@ var sendSurveyDialog = $("#dialog-sendSurvey").dialog(
     width: 350
 });
 
+var schedulerDialog = $("#dialog-scheduler").dialog(
+{
+    modal: true,
+    autoOpen: false,
+    resizable: false,
+    width: 450
+});
+
+
 var previewDialog = $("#dialog-preview").dialog(
 {
     autoOpen: false,
     zIndex: 9999,
     resizable: false,
-    width: 350
+    width: 800
+});
+
+var previewDialog = $("#dialog-preview").dialog(
+{
+    autoOpen: false,
+    zIndex: 9999,
+    resizable: false,
+    width: 800
 });
 
 var confirmSaveSurveyDialog = $("#dialog-confirmSaveSurvey").dialog(
@@ -281,7 +304,7 @@ var sendGroupSMSDialog = $("#dialog-sendGroupSMS").dialog(
 
   <!-- mathiasbynens.be/notes/async-analytics-snippet Change UA-XXXXX-X to be your site's ID -->
   <script>
-    var _gaq=[['_setAccount','UA-XXXXXX'],['_trackPageview'],['_trackPageLoadTime']];
+    var _gaq=[['_setAccount','UA-30650504-1'],['_trackPageview'],['_trackPageLoadTime']];
     (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
     g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
     s.parentNode.insertBefore(g,s)}(document,'script'));

@@ -75,6 +75,7 @@ var LOC = (function() {
         LOC_PIE_CHART: 'Gráfico de torta',
         LOC_BAR_CHART: 'Gráfico de barras',
         LOC_EXPORT_TO: 'Exportar A',
+        LOC_SCHEDULE_EXPORT: 'Schedule',
         LOC_SEND_SMS: 'Enviar SMS',
         LOC_TO: 'A',
         LOC_PHONE_NUMBER: 'Número de teléfono',

@@ -1,5 +1,5 @@
 /*
- * File encapsulates action related to Result List view
+* File encapsulates action related to Result List view
  *
  **/
 
@@ -116,6 +116,9 @@ var ResultList = function() {
         columnContent += '<span id="graphView" class="buttonGraphView resultListButton">';
         columnContent += LOC.get('LOC_GRAPH_VIEW');
         columnContent +=  '</span>';
+        columnContent += '<span id="scheduledExport" class="buttonGraphView resultListButton">';
+        columnContent += LOC.get('LOC_SCHEDULE_EXPORT');
+        columnContent +=  '</span>';
         columnContent += '<div id="exportContextMenu" class="buttonExport resultListButton"><span>';
         columnContent += LOC.get('LOC_EXPORT_TO');
         columnContent +=  '</span></div>';
@@ -125,6 +128,7 @@ var ResultList = function() {
         $('#backResults').click( function(){backToSurveyList()} );
         $('#graphView').click( function(){ showGraphing()} );
         $('#mapView').click( function(){ showMap() } );
+        $('#scheduledExport').click(function(){scheduleExport()});
         $('#exportContextMenu').click(function(event){ContextComboBox.showExportResultsMenu(event);});
     }
 
@@ -157,6 +161,19 @@ var ResultList = function() {
           var getJSONQuery = $.getJSON( contentUrl, function(data) { showPreview(data); });
           getJSONQuery.error(Utils.redirectIfUnauthorized);  
                }
+               
+               
+    function rowBuilder(question, answer) {
+      return '<tr>'
+            + '<td style="overflow:hidden; width:400px;">'
+                  + question
+            + '</td>'
+            + '<td style="overflow:hidden; width:400px;">'
+                  + answer
+            + '</td>'
+            + '</tr>';
+                           }
+                           
 
     function showPreview(data){
           previewDialog.dialog( {title: LOC.get('LOC_PREVIEW')} );
@@ -164,17 +181,19 @@ var ResultList = function() {
           previewDialog.dialog({close: function(){$.unblockUI();$('#previewLayout').empty();}} )
           previewDialog.dialog("open");
           $.blockUI( {message: null} );
-
-          for (i = 0; i < data.preview.length; ++i) { 
-			var item = data.preview[i];
-   
-			if (typeof item == 'object') {
-                                $('#previewLayout').append('<img src="'+ $('#previewLayout').data('url') + '/' + item.file.name +'" width="300" height="200">');
-			} else {
-                                $('#previewLayout').append('' + item + '<br>');
-			}
-                                                    }
-
+          $('#previewLayout').append('<table style="table-layout:fixed; width:800px"><tr><th>Question</th><th>Answer</th></tr>');
+                                               
+          
+          for (i = 0; i < data.preview.length; i += 2) {  
+            var question = data.preview[i]; 
+            var answer = data.preview[i+1];
+            if (typeof answer == 'object') {
+                      answer = '<img src="'+ $('#previewLayout').data('url') + '/' + answer.file.name +'" width="300" height="200">';
+		                           }	
+            $('#previewLayout').append(rowBuilder( question, answer));  
+                                                       }                                     
+                                                                                                                                   
+          $('#previewLayout').append('</table>');
 
           $('#previewLayout').show();
           $('#buttonPreviewDone').click( function(){previewFinished();} );
@@ -184,7 +203,6 @@ var ResultList = function() {
           $('#previewLayout').empty();
           $('#previewLayout').hide();
           $('#buttonPreviewDone').unbind('click'); 
-
           previewDialog.dialog("close");
                               }
 
@@ -242,6 +260,83 @@ var ResultList = function() {
             unselectAllResults();
         }
     }
+    
+     function scheduleExport() {
+        if(hasAdminPermission == true){
+          schedulerDialog.dialog( {title: LOC.get('LOC_SCHEDULE_EXPORT')} );
+          $('#buttonschedulerDone').text( LOC.get('LOC_DONE') );
+          schedulerDialog.dialog({close: function(){$.unblockUI();$('#schedulerLayout').empty();} })
+          schedulerDialog.dialog("open");
+          var elem = $('<div>All results between the two dates will be exported from the server. They will then be emailed to the address entered on the form below'
+                                       + '<table><tbody><tr><td>Date From</td>'
+                                       + '<td><input class="schedulerFrom" type="text" name="schedulerFrom" required />'
+                                       + '</td></tr>'
+                                       + '<tr><td>Date To</td>'
+                                       + '<td><input class="schedulerTo" type="text" name="schedulerTo" required />'
+                                       + '</td></tr></tbody></table>'
+                                       + '<table><tbody><tr><td>Email To</td>'
+                                       + '<td>&nbsp;&nbsp;&nbsp;&nbsp;<input class="email" type="text" name="email" placeholder="your@email.com" required />'
+                                       + '</td></tr></tbody></table>'
+                                       + '</div>'
+                                       );
+          $( '#schedulerLayout' ).append( elem );
+          
+          
+          $('.schedulerFrom').datepicker({
+                        showOn: "button",
+                        buttonImage: "images/Calendar-icon.png",
+                        buttonImageOnly: true,
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd',
+                        onClose: function(dateText, inst) {}
+                                        }).dateEntry( {dateFormat: 'ymd-', spinnerImage: ''} );
+                                        
+          $('.schedulerTo').datepicker({
+                        showOn: "button",
+                        buttonImage: "images/Calendar-icon.png",
+                        buttonImageOnly: true,
+                        changeMonth: true,
+                        changeYear: true,
+                        dateFormat: 'yy-mm-dd',
+                        onClose: function(dateText, inst) {}
+                                        }).dateEntry( {dateFormat: 'ymd-', spinnerImage: ''} );
+
+
+        
+          $('#schedulerLayout').show();
+          
+          
+          $('#buttonschedulerDone').click( function(){      
+                   var dateFrom = $('.schedulerFrom').val( );
+                   var dateTo = $('.schedulerTo').val( );
+                   var email = $('.email').val( );  
+                   filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                   if (filter.test(email)) {
+                        scheduleExporter(email, dateFrom, dateTo);
+                        schedulerFinished();
+                    }else{
+                        return false;
+                                           }
+
+                                                     } );
+        }else{
+          alert("Admin permissions are needed to access this functionality")
+        }
+    }
+    
+    function schedulerFinished() {
+          $('#schedulerLayout').empty();
+          $('#schedulerLayout').hide();
+          $('#buttonschedulerDone').unbind('click'); 
+          schedulerDialog.dialog("close");
+                              }
+                              
+    function scheduleExporter(email, dateFrom, dateTo){
+               var contentUrl = 'service/toSchedule?surveyId=' + currentSurveyId +'&email=' + email + '&dateFrom=' + dateFrom + '&dateTo=' + dateTo + '&complete=false';
+               var getJSONQuery = $.getJSON( contentUrl, function() {} );
+               getJSONQuery.error(Utils.redirectIfUnauthorized);
+                             }
 
     function exportResults() {
         if( allResultSelected ) {

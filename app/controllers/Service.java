@@ -19,6 +19,7 @@
 
 package controllers;
 
+
 import controllers.transformer.CSVTransformer;
 import controllers.transformer.ExcelTransformer;
 import flexjson.JSONSerializer;
@@ -41,6 +42,7 @@ import models.Category;
 import models.NdgResult;
 import models.Question;
 import models.Survey;
+import models.Jobs;
 import models.constants.QuestionTypesConsts;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
@@ -62,6 +64,19 @@ public class Service extends NdgController {
     private static final String ZIP = ".zip";
     private static final String SURVEY = "survey";
     private static Log log = LogFactory.getLog( Service.class );
+    
+    
+    public static void toSchedule(String surveyId, String dateTo, String dateFrom, String email , Boolean complete){
+       Jobs aJob = new Jobs (surveyId, dateTo, dateFrom, email, complete);
+       aJob.save();
+
+       Jobs job = null;
+       job = Jobs.find( "byId", aJob.id ).first();
+
+       JSONSerializer jobsSerializer = new JSONSerializer();
+       jobsSerializer.rootName("job");
+       renderJSON(jobsSerializer.serialize(job));
+    }
     
     public static void toPreview(String surveyId , String resultIDs ) {
     // Find the survey
@@ -448,6 +463,7 @@ public class Service extends NdgController {
         String fileName = SURVEY + survey.surveyId + fileType;
         send( fileName, fileContent );
     }
+
 
     private static byte[] getBytesFromFile( File file ) throws IOException {
         InputStream is = new FileInputStream( file );

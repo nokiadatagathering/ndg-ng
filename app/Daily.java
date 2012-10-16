@@ -18,8 +18,6 @@
 */
 
 import jobs.Scheduler;
-import controllers.sms.SmsHandlerFactory;
-import models.NdgRole;
 
 import java.util.*;
 import java.text.*;
@@ -30,38 +28,14 @@ import java.text.SimpleDateFormat;
 import play.*;
 import play.jobs.*;
 import play.test.*;
-import play.vfs.VirtualFile;
 
-//import models.*;
-@OnApplicationStart
-public class Bootstrap extends Job {
 
-    final static String INITIAL_DATA_FILENAME = "initial_data.sql";
 
+@On("0 0 5 * * ?")
+public class Daily extends Job {
+    
     @Override
     public void doJob() {
-        // Check if the database is empty
-        if (NdgRole.count() == 0) {
-
-            VirtualFile sqlFile = null;
-            for (VirtualFile vf : Play.javaPath) {
-                sqlFile = vf.child(INITIAL_DATA_FILENAME);
-                if (sqlFile != null && sqlFile.exists()) {
-                    break;
-                }
-            }
-            if (sqlFile == null) {
-                throw new RuntimeException("Cannot load sql file " + INITIAL_DATA_FILENAME + ", the file was not found");
-            }
-            Fixtures.executeSQL(sqlFile.contentAsString());
-        }
-
-        //Initialize SMS modem/gateway
-        if( SmsHandlerFactory.hasSmsSupport() ) {
-            SmsHandlerFactory.getInstance().getSmsHandler();
-        } else {
-            System.out.println( "SMS support disabled" );
-        }
 
         // Check if there are any uncompleted jobs 
         String query = "complete = false";
@@ -73,17 +47,20 @@ public class Bootstrap extends Job {
 
         Date now = new Date();
         String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(now);
+        
+        //System.out.println(todaysDate);
 
         for (int k = 0; k < jobs.size(); k++) {
                 Jobs jobz = jobs.get(k);
                 // compare the scheduled date in the database to todays
                 if(jobz.dateTo.equals(todaysDate)){
                     // execute the export
+                    //System.out.println("Date1 is equal Date2");
+                    //System.out.println("The job id is " +  jobz.id );
                     new Scheduler(jobz.id, jobz.surveyId, jobz.dateTo, jobz.dateFrom, jobz.email );  
                                                   } 
 
-                                              }
-                       }
+                                              }  
+    }
+    
 }
-
-
