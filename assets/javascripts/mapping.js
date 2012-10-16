@@ -61,6 +61,17 @@ var Mapping = function() {
           }
     }
     
+    function rowBuilder(question, answer) {
+      return '<tr>'
+            + '<td style="overflow:hidden; width:400px;">'
+                  + question
+            + '</td>'
+            + '<td style="overflow:hidden; width:400px;">'
+                  + answer
+            + '</td>'
+            + '</tr>';
+                           }
+    
     function showPreview(data){
           previewDialog.dialog( {title: LOC.get('LOC_PREVIEW')} );
           $('#buttonPreviewDone').text( LOC.get('LOC_DONE') );
@@ -68,17 +79,20 @@ var Mapping = function() {
           previewDialog.dialog("open");
           $.blockUI( {message: null} );
 
-          for (i = 0; i < data.preview.length; ++i) { 
-			var item = data.preview[i];
-   
-			if (typeof item == 'object') {
-                                $('#previewLayout').append('<img src="'+ $('#previewLayout').data('url') + '/' + item.file.name +'" width="300" height="200">');
-			} else {
-                                $('#previewLayout').append('' + item + '<br>');
-			}
-                                                    }
-
-
+           $('#previewLayout').append('<table style="table-layout:fixed; width:800px"><tr><th>Question</th><th>Answer</th></tr>');
+                                               
+          
+          for (i = 0; i < data.preview.length; i += 2) {  
+            var question = data.preview[i]; 
+            var answer = data.preview[i+1];
+            if (typeof answer == 'object') {
+                      answer = '<img src="'+ $('#previewLayout').data('url') + '/' + answer.file.name +'" width="300" height="200">';
+		                           }	
+            $('#previewLayout').append(rowBuilder( question, answer));  
+                                                       }                                     
+                                                                                    
+                                                    
+          $('#previewLayout').append('</table>');
           $('#previewLayout').show();
           $('#buttonPreviewDone').click( function(){previewFinished();} );
                           }
