@@ -23,6 +23,7 @@ var ResultList = function() {
             getSearchBy: function() {return searchBy;},
             prepareLayout: function(tableHtml){prepareLayout(tableHtml);},
             exportResults: function(){exportResults();},
+            exportToCSV: function(){exportToCSV();},
             exportToKML: function(){exportToKML();},
             additionalAjaxParams: function() {return additionalAjaxParams();},
             showGraphing: function(){showGraphing();},
@@ -339,10 +340,22 @@ var ResultList = function() {
                              }
 
     function exportResults() {
+        var fileType = "xls"
         if( allResultSelected ) {
-            ExportResults.exportAllResults( currentSurveyId );
+            ExportResults.exportAllResults( currentSurveyId, fileType );
         } else if(selectedResults.length) {
-            ExportResults.exportResults( currentSurveyId, selectedResults );
+            ExportResults.exportResults( currentSurveyId, selectedResults, fileType );
+        } else {
+            alert("no results selected");
+        }
+    }
+
+    function exportToCSV() {
+        var fileType = "csv"
+        if( allResultSelected ) {
+            ExportResults.exportAllResults( currentSurveyId, fileType );
+        } else if(selectedResults.length) {
+            ExportResults.exportResults( currentSurveyId, selectedResults, fileType );
         } else {
             alert("no results selected");
         }

@@ -9,18 +9,19 @@ var ExportResults = function() {
     var isAllResults;
     var surveyId;
     var resultList;
+    var fileType;
 
-    function exportAllResults(currentSurveyId) {
+    function exportAllResults(currentSurveyId, fileType) {
         isAllResults = true;
         surveyId = currentSurveyId;
-        drawDialog();
+        drawDialog(fileType);
     }
 
-    function exportResults(currentSurveyId, selectedResults) {
+    function exportResults(currentSurveyId, selectedResults, fileType) {
         surveyId = currentSurveyId
         resultList = selectedResults;
         isAllResults = false;
-        drawDialog();
+        drawDialog(fileType);
     }
 
     function exportAllToKML(currentSurveyId) {
@@ -56,7 +57,7 @@ var ExportResults = function() {
         exportDialog.dialog("close");
     }
 
-    function drawDialog() {
+    function drawDialog(fileType) {
         exportDialog.dialog({title: LOC.get('LOC_EXPORT_RESULTS'),
                               open: function(){
                               $('.ui-widget-overlay').hide().fadeIn();},
@@ -67,14 +68,23 @@ var ExportResults = function() {
         $('#exportResults-step_2').empty();
         $('#exportResults-step_3').empty();
 
-        exportXLSResults();
-    }
+        if (fileType == "xls"){
+                    exportXLSResults();
+                              }
+        else if (fileType == "csv"){
+                    exportCSVResults();  
+                                  }
+        else{
+                                alert("file type not supported");
+            }
+                   
+                            }
 
-//    function exportCSVResults() {
-//        $.getJSON( 'service/surveyHasImages',
-//                   { 'surveyId': surveyId },
-//                   function(result) { proceedExportResults( ".CSV", result.hasImages ); } );
-//    }
+    function exportCSVResults() {
+        $.getJSON( 'service/surveyHasImages',
+                   { 'surveyId': surveyId },
+                   function(result) { proceedExportResults( ".CSV", result.hasImages ); } );
+    }
 
     function exportXLSResults() {
         var getJSONQuery = $.getJSON( 'service/surveyHasImages',
@@ -122,8 +132,8 @@ var ExportResults = function() {
         exportDialog.dialog("close");
     }
 
-    return { exportAllResults : function(surveyId) {exportAllResults(surveyId);},
-             exportResults : function( surveyId, selectedResults) {exportResults(surveyId,selectedResults);},
+    return { exportAllResults : function(surveyId, fileType) {exportAllResults(surveyId, fileType);},
+             exportResults : function( surveyId, selectedResults, fileType) {exportResults(surveyId,selectedResults,fileType);},
              exportToKML : function(surveyId, selectedResults) {exportToKML(surveyId,selectedResults);},
              exportAllToKML : function(surveyId) {exportAllToKML(surveyId);}
     };
