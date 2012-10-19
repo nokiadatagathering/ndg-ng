@@ -88,7 +88,13 @@ public class Scheduler extends Job {
         this.dateTo = dateTo;
         this.dateFrom = dateFrom;
         this.email = email;
-        doJob();
+        boolean exists = (new File(Play.configuration.getProperty("attachments.path"))).exists();
+        if (exists) {
+         doJob();
+        } else {
+         new File(Play.configuration.getProperty("attachments.path")).mkdirs();
+         doJob();
+               }
     }
     
     public void doJob() {
