@@ -153,8 +153,8 @@ var ResultList = function() {
                                     + '<td>' + item.ndgUser.username + '</td>'
                                     + '<td>' + ( item.latitude!= null ? 'OK': 'NO GPS' ) + '</td>'
                                     + '<td class="resultListTable menubar" id="menu' + i + '" >'
-                                    + '<span title="' + LOC.get('LOC_DELETE') + '"class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
                                     + '<span title="' + LOC.get('LOC_PREVIEW') + '"class="buttonPreview" id="buttonPreview" unselectable="on"></span>'
+                                    + '<span title="' + LOC.get('LOC_DELETE') + '"class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
                                     + '</td>'
                                     + '</tr>' );
 
