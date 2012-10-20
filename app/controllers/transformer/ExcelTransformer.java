@@ -77,21 +77,23 @@ public class ExcelTransformer extends ResultsTransformer {
         int countrow = 0;
         row = sheet.createRow( (short) ++countrow );
 
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss Z");
+
         for ( NdgResult result :results ) {
             fieldcounter = 0;
             row.createCell( (short) fieldcounter++ ).setCellValue( result.resultId );
             row.createCell( (short) fieldcounter++ ).setCellValue( result.survey.surveyId );
             row.createCell( (short) fieldcounter++ ).setCellValue( result.title );
-            row.createCell( (short) fieldcounter++ ).setCellValue( result.startTime );
-            row.createCell( (short) fieldcounter++ ).setCellValue( result.endTime );
+            row.createCell( (short) fieldcounter++ ).setCellValue( dateFormat.format(result.startTime) );
+            row.createCell( (short) fieldcounter++ ).setCellValue( dateFormat.format(result.endTime) );
 
             if(result.dateSent != null) {
-                //SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss Z");
                 row.createCell( (short) fieldcounter++ ).setCellValue( dateFormat.format(result.dateSent) );
             }
-            else
+            else {
                 row.createCell( (short) fieldcounter++ ).setCellValue( "" );
+            }
 
             row.createCell( (short) fieldcounter++ ).setCellValue( result.ndgUser.username );
             row.createCell( (short) fieldcounter++ ).setCellValue( result.latitude );

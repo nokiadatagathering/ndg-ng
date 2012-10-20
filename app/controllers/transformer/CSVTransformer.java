@@ -64,18 +64,20 @@ public class CSVTransformer extends ResultsTransformer {
         }
         buffer.append( "\n" );
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss Z");
+
         /** Content **/
         for ( NdgResult result :results ) {
             buffer.append( result.resultId ).append( sep ).append( result.survey.surveyId ).append( sep )
-                  .append( result.title ).append( sep ).append( result.startTime ).append( sep )
-                  .append( result.endTime ).append( sep );
+                  .append( result.title ).append( sep ).append( dateFormat.format(result.startTime) ).append( sep )
+                  .append( dateFormat.format(result.endTime) ).append( sep );
 
             if(result.dateSent != null) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss Z");
                 buffer.append( dateFormat.format(result.dateSent) ).append( sep );
             }
-            else
+            else {
                 buffer.append( "" ).append( sep );
+            }
 
             buffer.append( result.ndgUser.username ).append( sep ).append( result.latitude ).append( sep )
                   .append( result.longitude ).append( sep );
