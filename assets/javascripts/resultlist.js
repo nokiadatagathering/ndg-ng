@@ -10,7 +10,7 @@ var ResultList = function() {
     var selectedResults = new Array();
     var searchLabels;
     var searchIds;
-    var searchDbFields = ["title", "latitude", "startTime", "ndgUser.username"];
+    var searchDbFields = ["title", "latitude", "dateSent", "ndgUser.username"];
     var searchBy = "title";
 
     return {showResultList : function(i) {showResultList(i);},
@@ -74,7 +74,7 @@ var ResultList = function() {
 
         var columnIds = ["checkboxColumnId", "executeSortByResultTitle", "executeSortByDateSent", "executeSortByUser", "executeSortByLocation", null];
         var columnTexts = [null, "LOC_RESULTTITLE", "LOC_DATESENT", "LOC_USER", "LOC_LOCATION"];
-        var columnDbFields = [null, "title", "startTime", "ndgUser.username", "latitude"];
+        var columnDbFields = [null, "title", "dateSent", "ndgUser.username", "latitude"];
 
         $('#container').height('715px');
         setupLeftColumn();      
@@ -140,10 +140,16 @@ var ResultList = function() {
     }
 
     function fillWithData(i, item) {
+        var date = new Date(item.dateSent).toString("dd/MM/yy");
+
+        if(item.dateSent == null) {
+            date = "-";
+        }
+
         $('#dynamicListTable').append( '<tr class="itemTextColor" id="dynamicRow' + i + '">'
                                     + '<td class="resultCheckboxPaddingClass"><input type="checkbox" class="resultCheckboxClass" id="resultCheckbox' + item.id + '"/></td>'
                                     + '<td>' + item.title + '</td>'
-                                    + '<td>' + new Date( item.startTime ).toString("dd/MM/yy") + '</td>'
+                                    + '<td>' + date + '</td>'
                                     + '<td>' + item.ndgUser.username + '</td>'
                                     + '<td>' + ( item.latitude!= null ? 'OK': 'NO GPS' ) + '</td>'
                                     + '<td class="resultListTable menubar" id="menu' + i + '" >'

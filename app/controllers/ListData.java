@@ -65,7 +65,7 @@ public class ListData extends NdgController {
 
             List<NdgResult> results = NdgResult.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
             JSONSerializer surveyListSerializer = new JSONSerializer();
-            surveyListSerializer.include("id", "resultId", "title", "startTime", "ndgUser.username", "latitude")
+            surveyListSerializer.include("id", "resultId", "title", "dateSent", "ndgUser.username", "latitude")
                                         .exclude("*").rootName("items");
 
             renderJSON(addRangeToJson(surveyListSerializer.serialize(results), startIndex, totalItems));
