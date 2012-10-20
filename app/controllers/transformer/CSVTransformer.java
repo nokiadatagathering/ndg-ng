@@ -20,7 +20,6 @@
 package controllers.transformer;
 
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -31,7 +30,6 @@ import models.NdgResult;
 import models.Question;
 import models.Survey;
 import models.constants.QuestionTypesConsts;
-
 
 public class CSVTransformer extends ResultsTransformer {
 
@@ -55,8 +53,9 @@ public class CSVTransformer extends ResultsTransformer {
         /** Header **/
         buffer.append( "ResultId" ).append( sep ).append( "SurveyId" ).append( sep )
               .append( "Title" ).append( sep ).append( "Start time" ).append( sep )
-              .append( "End time" ).append( sep ).append( "User" ).append( sep )
-              .append( "Lat" ).append( sep ).append( "Lon" ).append( sep );
+              .append( "End time" ).append( sep ).append( "Date Sent" ).append( sep )
+              .append( "User" ).append( sep ).append( "Lat" ).append( sep )
+              .append( "Lon" ).append( sep );
 
         /** Header Fields**/
         for ( Question question :survey.getQuestions() ) {
@@ -68,9 +67,18 @@ public class CSVTransformer extends ResultsTransformer {
         /** Content **/
         for ( NdgResult result :results ) {
             buffer.append( result.resultId ).append( sep ).append( result.survey.surveyId ).append( sep )
-                    .append( result.title ).append( sep ).append( result.startTime ).append( sep )
-                    .append( result.endTime ).append( sep ).append( result.ndgUser.username ).append( sep )
-                    .append( result.latitude ).append( sep ).append( result.longitude ).append( sep );
+                  .append( result.title ).append( sep ).append( result.startTime ).append( sep )
+                  .append( result.endTime ).append( sep );
+
+            if(result.dateSent != null) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss Z");
+                buffer.append( dateFormat.format(result.dateSent) ).append( sep );
+            }
+            else
+                buffer.append( "" ).append( sep );
+
+            buffer.append( result.ndgUser.username ).append( sep ).append( result.latitude ).append( sep )
+                  .append( result.longitude ).append( sep );
 
             for ( Question question :survey.getQuestions() ) {//to ensure right answer order
                 question.answerCollection.retainAll( result.answerCollection );//only one should left, hope that it does not modify results

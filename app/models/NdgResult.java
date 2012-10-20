@@ -57,6 +57,10 @@ public class NdgResult extends Model {
     @Column( nullable = false, name = "end_time" )
     @Temporal( TemporalType.TIMESTAMP )
     public Date endTime;
+
+    @Column( name = "date_sent" )
+    @Temporal( TemporalType.TIMESTAMP )
+    public Date dateSent;
     
     public String title;
     

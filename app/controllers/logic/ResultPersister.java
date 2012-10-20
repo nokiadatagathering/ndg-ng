@@ -34,11 +34,11 @@ import models.Survey;
 public class ResultPersister {
 
     public void postResult(Reader reader, String surveyId, NdgUser user) throws MSMApplicationException {
-
-
         NdgResult ndgResult = createResult(surveyId);
 
         ndgResult.ndgUser = user;
+        ndgResult.dateSent = new Date();
+
         ResultParser parser = new ResultParser(reader, ndgResult, surveyId);
         parser.parse();
 

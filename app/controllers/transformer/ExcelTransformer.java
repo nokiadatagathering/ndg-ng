@@ -21,6 +21,7 @@ package controllers.transformer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +63,7 @@ public class ExcelTransformer extends ResultsTransformer {
         row.createCell( (short) fieldcounter++ ).setCellValue( "Title" );
         row.createCell( (short) fieldcounter++ ).setCellValue( "Start time" );
         row.createCell( (short) fieldcounter++ ).setCellValue( "End time" );
+        row.createCell( (short) fieldcounter++ ).setCellValue( "Date Sent" );
         row.createCell( (short) fieldcounter++ ).setCellValue( "User" );
         row.createCell( (short) fieldcounter++ ).setCellValue( "Lat" );
         row.createCell( (short) fieldcounter++ ).setCellValue( "Lon" );
@@ -82,6 +84,15 @@ public class ExcelTransformer extends ResultsTransformer {
             row.createCell( (short) fieldcounter++ ).setCellValue( result.title );
             row.createCell( (short) fieldcounter++ ).setCellValue( result.startTime );
             row.createCell( (short) fieldcounter++ ).setCellValue( result.endTime );
+
+            if(result.dateSent != null) {
+                //SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss Z");
+                row.createCell( (short) fieldcounter++ ).setCellValue( dateFormat.format(result.dateSent) );
+            }
+            else
+                row.createCell( (short) fieldcounter++ ).setCellValue( "" );
+
             row.createCell( (short) fieldcounter++ ).setCellValue( result.ndgUser.username );
             row.createCell( (short) fieldcounter++ ).setCellValue( result.latitude );
             row.createCell( (short) fieldcounter++ ).setCellValue( result.longitude );
