@@ -5,7 +5,7 @@ require:
     - provided -> flexjson 2.1
     - provided -> kxml2 2.3.0
     - provided -> javarosa libraries
-    - provided -> poi 3.1-FINAL-20080629
+    - provided -> poi 3.8-20120326
     - provided -> indt smslib
     - provided -> smslib 3.3.0
     - provided -> jaxb-impl 2.2.4

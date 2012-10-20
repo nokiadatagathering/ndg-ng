@@ -56,68 +56,68 @@ public class ExcelTransformer extends ResultsTransformer {
         }
 
         /** Header **/
-        HSSFRow row = sheet.createRow( (short) 0 );
+        HSSFRow row = sheet.createRow( 0 );
         int fieldcounter = 0;
-        row.createCell( (short) fieldcounter++ ).setCellValue( "ResultId" );
-        row.createCell( (short) fieldcounter++ ).setCellValue( "SurveyId" );
-        row.createCell( (short) fieldcounter++ ).setCellValue( "Title" );
-        row.createCell( (short) fieldcounter++ ).setCellValue( "Start time" );
-        row.createCell( (short) fieldcounter++ ).setCellValue( "End time" );
-        row.createCell( (short) fieldcounter++ ).setCellValue( "Date Sent" );
-        row.createCell( (short) fieldcounter++ ).setCellValue( "User" );
-        row.createCell( (short) fieldcounter++ ).setCellValue( "Lat" );
-        row.createCell( (short) fieldcounter++ ).setCellValue( "Lon" );
+        row.createCell( fieldcounter++ ).setCellValue( "ResultId" );
+        row.createCell( fieldcounter++ ).setCellValue( "SurveyId" );
+        row.createCell( fieldcounter++ ).setCellValue( "Title" );
+        row.createCell( fieldcounter++ ).setCellValue( "Start time" );
+        row.createCell( fieldcounter++ ).setCellValue( "End time" );
+        row.createCell( fieldcounter++ ).setCellValue( "Date Sent" );
+        row.createCell( fieldcounter++ ).setCellValue( "User" );
+        row.createCell( fieldcounter++ ).setCellValue( "Lat" );
+        row.createCell( fieldcounter++ ).setCellValue( "Lon" );
 
 
         /** Header Fields**/
         for ( Question question :survey.getQuestions() ) {
-            row.createCell( (short) fieldcounter++ ).setCellValue( question.label );
+            row.createCell( fieldcounter++ ).setCellValue( question.label );
         }
 
         int countrow = 0;
-        row = sheet.createRow( (short) ++countrow );
+        row = sheet.createRow( ++countrow );
 
         //SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss Z");
 
         for ( NdgResult result :results ) {
             fieldcounter = 0;
-            row.createCell( (short) fieldcounter++ ).setCellValue( result.resultId );
-            row.createCell( (short) fieldcounter++ ).setCellValue( result.survey.surveyId );
-            row.createCell( (short) fieldcounter++ ).setCellValue( result.title );
-            row.createCell( (short) fieldcounter++ ).setCellValue( dateFormat.format(result.startTime) );
-            row.createCell( (short) fieldcounter++ ).setCellValue( dateFormat.format(result.endTime) );
+            row.createCell( fieldcounter++ ).setCellValue( result.resultId );
+            row.createCell( fieldcounter++ ).setCellValue( result.survey.surveyId );
+            row.createCell( fieldcounter++ ).setCellValue( result.title );
+            row.createCell( fieldcounter++ ).setCellValue( dateFormat.format(result.startTime) );
+            row.createCell( fieldcounter++ ).setCellValue( dateFormat.format(result.endTime) );
 
             if(result.dateSent != null) {
-                row.createCell( (short) fieldcounter++ ).setCellValue( dateFormat.format(result.dateSent) );
+                row.createCell( fieldcounter++ ).setCellValue( dateFormat.format(result.dateSent) );
             }
             else {
-                row.createCell( (short) fieldcounter++ ).setCellValue( "" );
+                row.createCell( fieldcounter++ ).setCellValue( "" );
             }
 
-            row.createCell( (short) fieldcounter++ ).setCellValue( result.ndgUser.username );
-            row.createCell( (short) fieldcounter++ ).setCellValue( result.latitude );
-            row.createCell( (short) fieldcounter++ ).setCellValue( result.longitude );
+            row.createCell( fieldcounter++ ).setCellValue( result.ndgUser.username );
+            row.createCell( fieldcounter++ ).setCellValue( result.latitude );
+            row.createCell( fieldcounter++ ).setCellValue( result.longitude );
 
             for ( Question question :survey.getQuestions() ) {//to ensure right answer order
                 Collection<Answer> answers = CollectionUtils.intersection(question.answerCollection, result.answerCollection );//only one should left, hope that it does not modify results
                 if ( answers.isEmpty() ) {
-                    row.createCell( (short) fieldcounter++ ).setCellValue( "NULL - No answer" );
+                    row.createCell( fieldcounter++ ).setCellValue( "NULL - No answer" );
                 } else if ( answers.size() == 1 ) {
                     Answer answer = answers.iterator().next();
                     if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {//TODO handle other binary data
-                        row.createCell( (short) fieldcounter++ ).setCellValue( storeImagesAndGetValueToExport( survey.surveyId, result.resultId, answer.id, answer.binaryData ) );
+                        row.createCell( fieldcounter++ ).setCellValue( storeImagesAndGetValueToExport( survey.surveyId, result.resultId, answer.id, answer.binaryData ) );
                     } else {
                         String value = answer.textData;
                         value = value.trim().replaceAll( "\n", "" );
-                        row.createCell( (short) fieldcounter++ ).setCellValue( value );
+                        row.createCell( fieldcounter++ ).setCellValue( value );
                     }
                 } else {
                     Logger.getAnonymousLogger().log( Level.WARNING, "to many answers. ResID={0}questioId={1}answerCount={2}", new Object[]{ result.resultId, question.id, question.answerCollection.size() } );
                     break;
                 }
             }
-            row = sheet.createRow( (short) ++countrow );
+            row = sheet.createRow( ++countrow );
         }
         try {
             wb.write( out );
