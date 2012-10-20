@@ -8,6 +8,9 @@ require:
     - provided -> poi 3.1-FINAL-20080629
     - provided -> indt smslib
     - provided -> smslib 3.3.0
+    - provided -> jaxb-impl 2.2.4
+    - provided -> jaxb-xjc 2.2.4-sources
+    - provided -> JavaAPIforKml 2.2.0
 
 
 repositories:
