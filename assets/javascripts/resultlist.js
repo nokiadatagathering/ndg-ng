@@ -140,7 +140,7 @@ var ResultList = function() {
     }
 
     function fillWithData(i, item) {
-        var date = new Date(item.dateSent).toString("dd/MM/yy");
+        var date = new Date(item.dateSent).toString("dd/MM/yyyy");
 
         if(item.dateSent == null) {
             date = "-";

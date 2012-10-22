@@ -158,7 +158,12 @@ public class ListData extends NdgController {
         }
 
         if ( searchField != null && searchText != null && searchText.length() > 0 ) {
-            searchQuery = searchField + " like '%" + searchText + "%'";
+            if(searchField.equals("dateSent")) {
+                searchQuery = "DATE_FORMAT(" + searchField + ", '%d/%m/%Y')" + " like '%" + searchText + "%'";
+            }
+            else {
+                searchQuery = searchField + " like '%" + searchText + "%'";
+            }
         }
 
         if ( orderBy != null && orderBy.length()> 0 ) {
