@@ -65,6 +65,7 @@ public class ExcelTransformer extends ResultsTransformer {
         row.createCell( fieldcounter++ ).setCellValue( "End time" );
         row.createCell( fieldcounter++ ).setCellValue( "Date Sent" );
         row.createCell( fieldcounter++ ).setCellValue( "User" );
+        row.createCell( fieldcounter++ ).setCellValue( "Phone Number" );
         row.createCell( fieldcounter++ ).setCellValue( "Lat" );
         row.createCell( fieldcounter++ ).setCellValue( "Lon" );
 
@@ -96,13 +97,14 @@ public class ExcelTransformer extends ResultsTransformer {
             }
 
             row.createCell( fieldcounter++ ).setCellValue( result.ndgUser.username );
+            row.createCell( fieldcounter++ ).setCellValue( result.ndgUser.phoneNumber );
             row.createCell( fieldcounter++ ).setCellValue( result.latitude );
             row.createCell( fieldcounter++ ).setCellValue( result.longitude );
 
             for ( Question question :survey.getQuestions() ) {//to ensure right answer order
                 Collection<Answer> answers = CollectionUtils.intersection(question.answerCollection, result.answerCollection );//only one should left, hope that it does not modify results
                 if ( answers.isEmpty() ) {
-                    row.createCell( fieldcounter++ ).setCellValue( "NULL - No answer" );
+                    row.createCell( fieldcounter++ ).setCellValue( "" );
                 } else if ( answers.size() == 1 ) {
                     Answer answer = answers.iterator().next();
                     if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {//TODO handle other binary data

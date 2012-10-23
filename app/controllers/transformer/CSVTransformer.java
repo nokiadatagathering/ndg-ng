@@ -55,7 +55,7 @@ public class CSVTransformer extends ResultsTransformer {
               .append( "Title" ).append( sep ).append( "Start time" ).append( sep )
               .append( "End time" ).append( sep ).append( "Date Sent" ).append( sep )
               .append( "User" ).append( sep ).append( "Lat" ).append( sep )
-              .append( "Lon" ).append( sep );
+              .append( "Phone Number" ).append( sep ).append( "Lon" ).append( sep );
 
         /** Header Fields**/
         for ( Question question :survey.getQuestions() ) {
@@ -79,13 +79,13 @@ public class CSVTransformer extends ResultsTransformer {
                 buffer.append( "" ).append( sep );
             }
 
-            buffer.append( result.ndgUser.username ).append( sep ).append( result.latitude ).append( sep )
-                  .append( result.longitude ).append( sep );
+            buffer.append( result.ndgUser.username ).append( sep ).append( result.ndgUser.phoneNumber ).append( sep )
+            .append( result.latitude ).append( sep ).append( result.longitude ).append( sep );
 
             for ( Question question :survey.getQuestions() ) {//to ensure right answer order
                 question.answerCollection.retainAll( result.answerCollection );//only one should left, hope that it does not modify results
                 if ( question.answerCollection.isEmpty() ) {
-                    buffer.append( "NULL - No answer" );
+                    buffer.append( "" );
                     buffer.append( sep );
                 } else if ( question.answerCollection.size() == 1 ) {
                     Answer answer = question.answerCollection.iterator().next();
