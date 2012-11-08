@@ -17,22 +17,24 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/
 */
 
-import jobs.Scheduler;
-import controllers.sms.SmsHandlerFactory;
-import models.NdgRole;
-
-import java.util.*;
-import java.text.*;
-import models.Jobs;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-
-import play.*;
-import play.jobs.*;
-import play.test.*;
+import play.Play;
+import play.jobs.Job;
+import play.jobs.OnApplicationStart;
+import play.test.Fixtures;
 import play.vfs.VirtualFile;
 
-//import models.*;
+import controllers.sms.SmsHandlerFactory;
+
+import jobs.Scheduler;
+
+import models.Jobs;
+import models.NdgRole;
+
+import java.text.SimpleDateFormat;
+
+import java.util.List;
+import java.util.Date;
+
 @OnApplicationStart
 public class Bootstrap extends Job {
 
@@ -57,13 +59,13 @@ public class Bootstrap extends Job {
         }
 
         //Initialize SMS modem/gateway
-        if( SmsHandlerFactory.hasSmsSupport() ) {
+        if (SmsHandlerFactory.hasSmsSupport()) {
             SmsHandlerFactory.getInstance().getSmsHandler();
         } else {
             System.out.println( "SMS support disabled" );
         }
 
-        // Check if there are any uncompleted jobs 
+        // Check if there are any uncompleted jobs
         String query = "complete = false";
         List<Jobs> jobs = Jobs.find(query).fetch();
 
@@ -75,15 +77,13 @@ public class Bootstrap extends Job {
         String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(now);
 
         for (int k = 0; k < jobs.size(); k++) {
-                Jobs jobz = jobs.get(k);
-                // compare the scheduled date in the database to todays
-                if(jobz.dateTo.equals(todaysDate)){
-                    // execute the export
-                    new Scheduler(jobz.id, jobz.surveyId, jobz.dateTo, jobz.dateFrom, jobz.email );  
-                                                  } 
+            Jobs jobz = jobs.get(k);
+            // compare the scheduled date in the database to todays
+            if (jobz.dateTo.equals(todaysDate)) {
+                // execute the export
+                new Scheduler(jobz.id, jobz.surveyId, jobz.dateTo, jobz.dateFrom, jobz.email);
+            }
+        }
+    }
 
-                                              }
-                       }
 }
-
-
