@@ -17,27 +17,25 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/
 */
 
+import play.jobs.Job;
+import play.jobs.On;
+
 import jobs.Scheduler;
 
-import java.util.*;
-import java.text.*;
 import models.Jobs;
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 
-import play.*;
-import play.jobs.*;
-import play.test.*;
-
-
+import java.util.List;
+import java.util.Date;
 
 @On("0 0 5 * * ?")
 public class Daily extends Job {
-    
+
     @Override
     public void doJob() {
 
-        // Check if there are any uncompleted jobs 
+        // Check if there are any uncompleted jobs
         String query = "complete = false";
         List<Jobs> jobs = Jobs.find(query).fetch();
 
@@ -47,20 +45,19 @@ public class Daily extends Job {
 
         Date now = new Date();
         String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(now);
-        
+
         //System.out.println(todaysDate);
 
         for (int k = 0; k < jobs.size(); k++) {
-                Jobs jobz = jobs.get(k);
-                // compare the scheduled date in the database to todays
-                if(jobz.dateTo.equals(todaysDate)){
-                    // execute the export
-                    //System.out.println("Date1 is equal Date2");
-                    //System.out.println("The job id is " +  jobz.id );
-                    new Scheduler(jobz.id, jobz.surveyId, jobz.dateTo, jobz.dateFrom, jobz.email );  
-                                                  } 
-
-                                              }  
+            Jobs jobz = jobs.get(k);
+            // compare the scheduled date in the database to todays
+            if (jobz.dateTo.equals(todaysDate)) {
+                // execute the export
+                //System.out.println("Date1 is equal Date2");
+                //System.out.println("The job id is " +  jobz.id );
+                new Scheduler(jobz.id, jobz.surveyId, jobz.dateTo, jobz.dateFrom, jobz.email);
+            }
+        }
     }
-    
+
 }
