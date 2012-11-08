@@ -15,7 +15,7 @@
  *
  *
  */
-package notifiers.securesocial;
+package notifiers;
 
 import play.Play;
 import play.mvc.Mailer;

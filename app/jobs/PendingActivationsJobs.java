@@ -15,11 +15,11 @@
  *
  *
  */
-package securesocial.jobs;
+package jobs;
 
 import play.jobs.Every;
 import play.jobs.Job;
-import securesocial.provider.NDGPersister;
+import provider.NDGPersister;
 
 /**
  * A Job that deletes pending activations every 24 hours

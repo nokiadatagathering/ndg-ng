@@ -17,7 +17,7 @@
 *  along with this program.  If not, see <http://www.gnu.org/licenses/
 */
 
-package securesocial.provider;
+package provider;
 
 import play.libs.Codec;
 

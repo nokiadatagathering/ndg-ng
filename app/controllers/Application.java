@@ -28,14 +28,15 @@ import play.mvc.Controller;
 
 import play.Play;
 
-import notifiers.securesocial.Mails;
+import notifiers.Mails;
 import play.Logger;
 import play.data.validation.Email;
 import play.data.validation.Equals;
 import play.data.validation.Required;
 import play.i18n.Messages;
 import play.mvc.Router;
-import securesocial.provider.*;
+
+import provider.NDGPersister;
 
 public class Application extends Controller {
 

@@ -60,7 +60,7 @@ import models.Question;
 import models.Jobs;
 import models.constants.QuestionTypesConsts;
 
-import notifiers.securesocial.Mails;
+import notifiers.Mails;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
