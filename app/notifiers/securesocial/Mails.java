@@ -25,6 +25,8 @@ import models.NdgUser;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.mail.EmailAttachment;
+
 /**
  * A helper class to send welcome emails to users that signed up using the
  * Username Password controller
@@ -35,6 +37,9 @@ import java.util.Map;
 public class Mails extends Mailer {
     private static final String MAILER_SUBJECT = "views.email.mailer.subject";
     private static final String MAILER_FROM = "views.email.mailer.from";
+    private static final String SCHEDULER_SUBJECT = "views.email.mailer.scheduler.subject";
+    private static final String SCHEDULER_FROM = "views.email.mailer.scheduler.from";
+    private static final String ATTACHMENT_DESCRIPTION = "views.email.mailer.attachment.description";
     private static final String USERNAME_PASSWORD_CONTROLLER_ACTIVATE = "Application.activate";
     private static final String UUID = "uuid";
 
@@ -46,5 +51,16 @@ public class Mails extends Mailer {
         args.put(UUID, uuid);
         String activationUrl = Router.getFullUrl(USERNAME_PASSWORD_CONTROLLER_ACTIVATE, args);
         send(user, activationUrl);
+    }
+
+    public static void sendScheduledResults(String email, String path) {
+        setSubject(Play.configuration.getProperty(SCHEDULER_SUBJECT));
+        addRecipient(email);
+        setFrom(Play.configuration.getProperty(SCHEDULER_FROM));
+        EmailAttachment attachment = new EmailAttachment();
+        attachment.setDescription(Play.configuration.getProperty(ATTACHMENT_DESCRIPTION));
+        attachment.setPath(path);
+        addAttachment(attachment);
+        send();
     }
 }

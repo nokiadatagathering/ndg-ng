@@ -59,6 +59,9 @@ import models.NdgResult;
 import models.Question;
 import models.Jobs;
 import models.constants.QuestionTypesConsts;
+
+import notifiers.securesocial.Mails;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.LogFactory;
@@ -108,32 +111,27 @@ public class Scheduler extends Job {
         jobber = Jobs.find( "byId", id ).first();
         //System.out.println("The job id is " +  id);
 
-
-
         Collection<NdgResult> results = new ArrayList<NdgResult>();
         NdgResult result = null;
         List resultsIds0 = null;
 
         String query = "SELECT ndg_result.id FROM ndg_result, transaction_log WHERE transaction_log.transaction_date BETWEEN '" + dateFrom +  "' and '"  + dateTo +  "' AND transaction_log.survey_id =" + Long.decode(surveyId) + " AND ndg_result.ndg_result_id = transaction_log.id_result";
-        
-       
+
         resultsIds0 = JPA.em().createNativeQuery(query).getResultList();
 
-
-        if(resultsIds0.size()!=0){
+        if( resultsIds0.size() != 0 ) {
             for (int i = 0; i < resultsIds0.size(); i++) {
-
-            String o = resultsIds0.get(i).toString();
+                String o = resultsIds0.get(i).toString();
  
-            result = NdgResult.find( "byId", Long.parseLong(o)).first();
-               if ( result != null ) {
+                result = NdgResult.find( "byId", Long.parseLong(o)).first();
+                if ( result != null ) {
                     results.add( result );
-                                     }      
-                                                         }
+                }
+            }
+
             ExcelTransformer transformer = new ExcelTransformer( result.survey, results, exportWithImages );
             fileContent = transformer.getBytes();
-                                   
-            
+
             if ( exportWithImages == true ) {
                 new File(result.survey.surveyId ).mkdir();
                 new File(result.survey.surveyId + File.separator + "photos" ).mkdir();
@@ -148,66 +146,47 @@ public class Scheduler extends Job {
                     fop1.flush();
                     fop1.close();
                     //System.out.println("Done with images");
-                            } catch ( IOException e ) {
-                                    e.printStackTrace();
-                                                      }
+                } catch ( IOException e ) {
+                    e.printStackTrace();
+                }
                 zipFile.delete();
                 deleteDir( zipDir );
-                                              }
+            }
 
             if ( exportWithImages == false ) {
-                try{
-                   File file = new File(Play.configuration.getProperty("attachments.path") + "/" + SURVEY + result.survey.surveyId + XLS );
-                   FileOutputStream fop = new FileOutputStream(file);
-                   if (!file.exists()) {
-                       file.createNewFile();
-                                        }
-                   byte[] contentInBytes =  transformer.getBytes();
-                   fop.write(contentInBytes);
-                   fop.flush();
-                   fop.close();
-                   //System.out.println("Done no images");
-                     } catch ( IOException e ) {
-                                    e.printStackTrace();
-                                               }
-                    
-                                               } 
+                try {
+                    File file = new File(Play.configuration.getProperty("attachments.path") + "/" + SURVEY + result.survey.surveyId + XLS );
+                    FileOutputStream fop = new FileOutputStream(file);
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                    byte[] contentInBytes =  transformer.getBytes();
+                    fop.write(contentInBytes);
+                    fop.flush();
+                    fop.close();
+                    //System.out.println("Done no images");
+                } catch ( IOException e ) {
+                    e.printStackTrace();
+                }
+            }
+            
+            String path = null;
 
+            if ( exportWithImages == true ) {                      
+                path = Play.getFile(Play.configuration.getProperty("attachments.path") + "/" + SURVEY + result.survey.surveyId + ZIP ).getPath();
+            } else {
+                path = Play.getFile(Play.configuration.getProperty("attachments.path") + "/" + SURVEY + result.survey.surveyId + XLS ).getPath();
+            }
 
-                MultiPartEmail emailTo = new MultiPartEmail();
-                try{
-                   emailTo.setFrom("scheduler@nokiadatagathering.net");
-                   emailTo.addTo(email);
-                   emailTo.setSubject("NDG Scheduled Results");
-                   emailTo.setMsg("Attached are your scheduled results");
-                   } catch (EmailException e) {
-                      e.printStackTrace();
-                   }
+            Mails.sendScheduledResults(email, path);
 
-                EmailAttachment attachment = new EmailAttachment();
-                try{
-                   attachment.setDescription("Results");
-                   attachment.setDisposition(EmailAttachment.ATTACHMENT);
-                   if ( exportWithImages == true ) {                      
-                      attachment.setPath(Play.getFile(Play.configuration.getProperty("attachments.path") + "/" + SURVEY + result.survey.surveyId + ZIP ).getPath());
-                   }else{
-                      attachment.setPath(Play.getFile(Play.configuration.getProperty("attachments.path") + "/" + SURVEY + result.survey.surveyId + XLS ).getPath());
-                   }
-                   emailTo.attach(attachment);
-                   } catch (EmailException e) {
-                      e.printStackTrace();
-                   }
+            jobber.setComplete(true);
+            jobber.save();
 
-                Mail.send(emailTo);
-                jobber.setComplete(true);
-                jobber.save(); 
-
-                        }else{
-                       System.out.println("The job failed");
-                        }          
-      
-                           }
-                   
+        } else {
+            System.out.println("The job failed");
+        }
+    }
 
     private static void zipSurvey( String surveyId, byte[] fileContent, String fileType ) {
         FileOutputStream arqExport;
