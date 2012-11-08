@@ -20,56 +20,28 @@
 package jobs;
 
 import play.Play;
+import play.db.jpa.JPA;
+import play.jobs.Job;
 
-import play.jobs.*;
-import play.Logger;
-
-import play.*;
-import play.mvc.*;
-import java.util.*;
-
-import org.apache.commons.mail.*;
-import play.libs.*;
-import org.apache.commons.mail.EmailException; 
-
-
-import javax.persistence.*;
-import play.db.jpa.*;
-
-import models.Survey;
-import models.NdgUser;
-import controllers.transformer.CSVTransformer;
 import controllers.transformer.ExcelTransformer;
-import controllers.Service;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Collection;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-import models.Answer;
+import controllers.util.FileUtilities;
+
 import models.Category;
+import models.constants.QuestionTypesConsts;
+import models.Jobs;
 import models.NdgResult;
 import models.Question;
-import models.Jobs;
-import models.constants.QuestionTypesConsts;
+import models.Survey;
 
 import notifiers.Mails;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.logging.Log;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-import java.util.Iterator;
-
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collection;
 
 public class Scheduler extends Job {
 
@@ -78,13 +50,7 @@ public class Scheduler extends Job {
     public String dateTo;
     public String dateFrom;
     public String email;
-    private static final String CSV = ".csv";
-    private static final String XLS = ".xls";
-    private static final String ZIP = ".zip";
-    private static final String SURVEY = "survey";
 
-    
-    
     public Scheduler(Long id, String surveyId, String dateTo, String dateFrom, String email) {
         this.id = id;
         this.surveyId = surveyId;
@@ -92,12 +58,13 @@ public class Scheduler extends Job {
         this.dateFrom = dateFrom;
         this.email = email;
         boolean exists = (new File(Play.configuration.getProperty("attachments.path"))).exists();
+
         if (exists) {
-         doJob();
+            doJob();
         } else {
-         new File(Play.configuration.getProperty("attachments.path")).mkdirs();
-         doJob();
-               }
+            new File(Play.configuration.getProperty("attachments.path")).mkdirs();
+            doJob();
+        }
     }
     
     public void doJob() {
@@ -119,13 +86,13 @@ public class Scheduler extends Job {
 
         resultsIds0 = JPA.em().createNativeQuery(query).getResultList();
 
-        if( resultsIds0.size() != 0 ) {
+        if (resultsIds0.size() != 0) {
             for (int i = 0; i < resultsIds0.size(); i++) {
                 String o = resultsIds0.get(i).toString();
- 
+
                 result = NdgResult.find( "byId", Long.parseLong(o)).first();
-                if ( result != null ) {
-                    results.add( result );
+                if (result != null) {
+                    results.add(result);
                 }
             }
 
@@ -135,27 +102,27 @@ public class Scheduler extends Job {
             if ( exportWithImages == true ) {
                 new File(result.survey.surveyId ).mkdir();
                 new File(result.survey.surveyId + File.separator + "photos" ).mkdir();
-                fileType = XLS;
-                zipSurvey( result.survey.surveyId, fileContent, fileType );
-                File zipFile = new File(SURVEY + result.survey.surveyId + ZIP );
+                fileType = FileUtilities.XLS;
+                FileUtilities.zipSurvey(result.survey.surveyId, fileContent, fileType, Play.configuration.getProperty("attachments.path") + "/" + FileUtilities.SURVEY + surveyId + FileUtilities.ZIP);
+                File zipFile = new File(FileUtilities.SURVEY + result.survey.surveyId + FileUtilities.ZIP);
                 File zipDir = new File(result.survey.surveyId );
                 try {
                     FileOutputStream fop1 = new FileOutputStream(zipFile);
-                    fileContent = getBytesFromFile( zipFile );
+                    fileContent = FileUtilities.getBytesFromFile( zipFile );
                     fop1.write(fileContent);
                     fop1.flush();
                     fop1.close();
                     //System.out.println("Done with images");
-                } catch ( IOException e ) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 zipFile.delete();
-                deleteDir( zipDir );
+                FileUtilities.deleteDir(zipDir);
             }
 
-            if ( exportWithImages == false ) {
+            if (exportWithImages == false) {
                 try {
-                    File file = new File(Play.configuration.getProperty("attachments.path") + "/" + SURVEY + result.survey.surveyId + XLS );
+                    File file = new File(Play.configuration.getProperty("attachments.path") + "/" + FileUtilities.SURVEY + result.survey.surveyId + FileUtilities.XLS);
                     FileOutputStream fop = new FileOutputStream(file);
                     if (!file.exists()) {
                         file.createNewFile();
@@ -165,17 +132,17 @@ public class Scheduler extends Job {
                     fop.flush();
                     fop.close();
                     //System.out.println("Done no images");
-                } catch ( IOException e ) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            
+
             String path = null;
 
-            if ( exportWithImages == true ) {                      
-                path = Play.getFile(Play.configuration.getProperty("attachments.path") + "/" + SURVEY + result.survey.surveyId + ZIP ).getPath();
+            if (exportWithImages == true) {
+                path = Play.getFile(Play.configuration.getProperty("attachments.path") + "/" + FileUtilities.SURVEY + result.survey.surveyId + FileUtilities.ZIP ).getPath();
             } else {
-                path = Play.getFile(Play.configuration.getProperty("attachments.path") + "/" + SURVEY + result.survey.surveyId + XLS ).getPath();
+                path = Play.getFile(Play.configuration.getProperty("attachments.path") + "/" + FileUtilities.SURVEY + result.survey.surveyId + FileUtilities.XLS ).getPath();
             }
 
             Mails.sendScheduledResults(email, path);
@@ -188,114 +155,20 @@ public class Scheduler extends Job {
         }
     }
 
-    private static void zipSurvey( String surveyId, byte[] fileContent, String fileType ) {
-        FileOutputStream arqExport;
-        try {
-            if ( fileType.equals( XLS ) ) {
-                arqExport = new FileOutputStream( surveyId + File.separator + SURVEY + surveyId + XLS );
-                arqExport.write( fileContent );
-                arqExport.close();
-            } else if ( fileType.equals( CSV ) ) {
-                arqExport = new FileOutputStream( surveyId + File.separator + SURVEY + surveyId + CSV );
-                arqExport.write( fileContent );
-                arqExport.close();
-            }
-
-            ZipOutputStream zos = new ZipOutputStream( new FileOutputStream( Play.configuration.getProperty("attachments.path") + "/" + SURVEY + surveyId + ZIP ) );
-
-            zipDir( surveyId, zos );
-
-            zos.close();
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-    }
-
-    private static byte[] getBytesFromFile( File file ) throws IOException {
-        InputStream is = new FileInputStream( file );
-
-        long length = file.length();
-
-        byte[] bytes = new byte[(int) length];
-
-        int offset = 0;
-        int numRead = 0;
-
-        while ( offset < bytes.length && (numRead = is.read( bytes, offset, bytes.length - offset )) >= 0 ) {
-            offset += numRead;
-        }
-
-        if ( offset < bytes.length ) {
-            throw new IOException( "Could not completely read file " + file.getName() );
-        }
-
-        is.close();
-
-        return bytes;
-    }
-
-    private static boolean deleteDir( File dir ) {
-        if ( dir.isDirectory() ) {
-            String[] children = dir.list();
-            for ( int i = 0; i < children.length; i++ ) {
-                boolean success = deleteDir( new File( dir, children[i] ) );
-
-                if ( !success ) {
-                    return false;
-                }
-            }
-        }
-        return dir.delete();
-    }
-
-    private static void zipDir( String dir2zip, ZipOutputStream zos ) {
-        try {
-
-            File zipDir = new File( dir2zip );
-
-            String[] dirList = zipDir.list();
-            byte[] readBuffer = new byte[2156];
-            int bytesIn = 0;
-
-            for ( int i = 0; i < dirList.length; i++ ) {
-                File f = new File( zipDir, dirList[i] );
-                if ( f.isDirectory() ) {
-                    String filePath = f.getPath();
-                    zipDir( filePath, zos );
-                    continue;
-                }
-
-                FileInputStream fis = new FileInputStream( f );
-
-                ZipEntry anEntry = new ZipEntry( f.getPath() );
-
-                zos.putNextEntry( anEntry );
-
-                while ( (bytesIn = fis.read( readBuffer )) != -1 ) {
-                    zos.write( readBuffer, 0, bytesIn );
-                }
-
-                fis.close();
-            }
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-    }
-
     public static Boolean surveyHasImages( String surveyId ) {
         Survey survey = Survey.findById( Long.decode( surveyId ) );
 
         boolean hasImages = false;
 
-        for (Category category : survey.categoryCollection){
-            for ( Question question :category.questionCollection ) {
-                if ( question.questionType.typeName.equals( QuestionTypesConsts.IMAGE ) ) {
-                         hasImages = true;          
-                                                                                          }
+        for (Category category : survey.categoryCollection) {
+            for (Question question :category.questionCollection) {
+                if (question.questionType.typeName.equals( QuestionTypesConsts.IMAGE)) {
+                    hasImages = true;
+                }
 
-                                                                    }
-                                                            }
+            }
+        }
         return hasImages;
-                                                           }
-    
+    }
+
 }
