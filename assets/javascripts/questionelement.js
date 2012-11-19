@@ -420,6 +420,7 @@ var QuestionUiElement = function( questionModel ){
 
                     var option = new QuestionOption();
                     option.label = szChoice;
+                    option.optionValue = szChoice.replace(/[^a-z0-9]/ig,"").toLowerCase().split(' ').join('');
                     question.questionOptionCollection.push( option );
                     appendOption( option, question.questionType.id == QuestionType.EXCLUSIVE );
                 });
