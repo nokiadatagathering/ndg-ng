@@ -34,6 +34,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 import models.constants.QuestionTypesConsts;
@@ -61,6 +63,7 @@ public class Survey extends Model {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     @OnDelete(action=OnDeleteAction.CASCADE)
+    @LazyCollection(LazyCollectionOption.FALSE)
     public List<Category> categoryCollection;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
