@@ -274,18 +274,18 @@ var ResultList = function() {
           $('#buttonschedulerDone').text( LOC.get('LOC_DONE') );
           schedulerDialog.dialog({close: function(){$.unblockUI();$('#schedulerLayout').empty();} })
           schedulerDialog.dialog("open");
-          var elem = $('<div>All results between the two dates will be exported from the server. They will then be emailed to the address entered on the form below'
-                                       + '<table><tbody><tr><td>Date From</td>'
-                                       + '<td><input class="schedulerFrom" type="text" name="schedulerFrom" required />'
-                                       + '</td></tr>'
-                                       + '<tr><td>Date To</td>'
-                                       + '<td><input class="schedulerTo" type="text" name="schedulerTo" required />'
-                                       + '</td></tr></tbody></table>'
-                                       + '<table><tbody><tr><td>Email To</td>'
-                                       + '<td>&nbsp;&nbsp;&nbsp;&nbsp;<input class="email" type="text" name="email" placeholder="your@email.com" required />'
-                                       + '</td></tr></tbody></table>'
-                                       + '</div>'
-                                       );
+          var elem = $('<div>' + LOC.get('LOC_SCHEDULE_DESC')
+                        + '<table><tbody><tr><td>' + LOC.get('LOC_SCHEDULE_DATEFROM') + '</td>'
+                        + '<td><input class="schedulerFrom" type="text" name="schedulerFrom" required />'
+                        + '</td></tr>'
+                        + '<tr><td>' + LOC.get('LOC_SCHEDULE_DATETO') + '</td>'
+                        + '<td><input class="schedulerTo" type="text" name="schedulerTo" required />'
+                        + '</td></tr></tbody></table>'
+                        + '<table><tbody><tr><td>' + LOC.get('LOC_SCHEDULE_EMAILTO') + '</td>'
+                        + '<td>&nbsp;&nbsp;&nbsp;&nbsp;<input class="email" type="text" name="email" placeholder="your@email.com" required />'
+                        + '</td></tr></tbody></table>'
+                        + '</div>'
+                        );
           $( '#schedulerLayout' ).append( elem );
           
           
