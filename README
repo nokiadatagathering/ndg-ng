@@ -22,7 +22,7 @@ GETTING STARTED
     mysql> create user 'ndg'@'localhost' identified by 'ndg';
     mysql> create database ndg2;
     mysql> grant all privileges on ndg2.* to ndg@localhost;
-    git clone git@github.com:nokiadatagathering/ndg-ng.git
+    git clone https://github.com/nokiadatagathering/ndg-ng.git
     cd assets/build/
     (install necessary tools (sudo apt-get install optipng libjpeg-progs) to optimize assets.This is not needed on Windows machines. ant needs to be version 1.8.2 so you may need to do
                   sudo add-apt-repository ppa:eclipse-team/debian-package
