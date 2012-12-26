@@ -161,6 +161,10 @@ var Editor = function() {
     }
 
     function onSaveClicked(){
+        $( '#dialog-confirmSaveSurvey' ).block({
+                message: '<h3>Saving</h3>',
+                css: { border: '2px solid #3a77ca' }
+        });
         updateSurveyIndexes();
         $.ajax(
         {
@@ -168,12 +172,14 @@ var Editor = function() {
             url: "surveyManager/saveSurvey",
             data: {surveyData : surveyModel.getSurveyString()},
             success: function( msg ){
+                $( '#dialog-confirmSaveSurvey' ).unblock();
                 backToSurveyList();
             },
             error: function( request, status, errorThrown ) {
                 if(!Utils.redirectIfUnauthorized(request, status, errorThrown))
                     {
                     alert("Problem with saving survey. Original error: " + status);
+                    $( '#dialog-confirmSaveSurvey' ).unblock();
                     backToSurveyList();
                     }
             }
