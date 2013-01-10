@@ -87,6 +87,10 @@ var Editor = function() {
             onBackClicked();
         } );
 
+        $( "#editorSaveButton" ).click( function(){
+            onSaveButtonClicked();
+        } );
+
         $( "#categories" ).sortable( {
                 start: function(event, ui) {
                     if( ui.item.hasClass( 'drag' ) ){
@@ -134,6 +138,8 @@ var Editor = function() {
         $('#plusButton').unbind( 'click' );
         $('#content').empty();
         $('#plusButton').before( '<div class="editorButton" id="editorBackButton"/>');
+        $('#plusButton').before( '<div class="editorButton" id="editorSaveButton"/>');
+        $('#editorSaveButton').attr( 'title', LOC.get( 'LOC_SAVESURVEY' ) );
         $('#plusButton').after( '<div class="editorButton addQuestionButton clickableElem" id="addQuestion"/>');
         $('#addQuestion').attr( 'title', LOC.get( 'LOC_DRAG_NEW_QUESTION' ) );
         $('#leftColumnContent' ).empty();
@@ -225,6 +231,29 @@ var Editor = function() {
         confirmSaveSurveyDialog.dialog("open");
     }
 
+    function onSaveButtonClicked(){
+        $.blockUI({
+                message: '<h3>Saving</h3>',
+                css: { border: '2px solid #3a77ca' }
+        });
+        updateSurveyIndexes();
+        $.ajax(
+        {
+            type: "POST",
+            url: "surveyManager/saveSurvey",
+            data: {surveyData : surveyModel.getSurveyString()},
+            success: function( msg ){
+                $.unblockUI();
+            },
+            error: function( request, status, errorThrown ) {
+                if(!Utils.redirectIfUnauthorized(request, status, errorThrown)) {
+                    alert("Problem with saving survey. Original error: " + status);
+                    $.unblockUI();
+                }
+            }
+        });
+    }
+
     function restoreLayout() {
         $('#content').empty();
         $('#content').width( 820 );
@@ -233,6 +262,7 @@ var Editor = function() {
         $('#plusButton').removeClass('drag');
         $('#plusButton').addClass('plusButton');
         $('#editorBackButton').detach();
+        $('#editorSaveButton').detach();
         $('#addQuestion').detach();
         scroll(0,0);
     }

@@ -279,6 +279,22 @@ span.edit
     background-position: 0px 44px;
 }
 
+#editorSaveButton
+{
+    height: 33px;
+    width: 30px;
+    background: url(../images/save.png);
+    background-position: 0px 0px;
+}
+
+#editorSaveButton:hover {
+    background-position: 0px -33px;
+}
+
+#editorSaveButton:active {
+    background-position: 0px -66px;
+}
+
 .addQuestionButton
 {
     background: url(../images/add-dragndrop-31px.png);
