@@ -95,6 +95,7 @@ var LOC = (function() {
         LOC_MIN_RANGE: 'MIN. ZAKRES',
         LOC_MAX_RANGE: 'MAX. ZAKRES',
         LOC_REQUIRED: 'REQUIRED',
+        LOC_BACK_TO_SURVEY_LIST: 'Go back to survey list',
         LOC_DRAG_NEW_CATEGORY: 'Przeci\u0105gnij element aby doda\u0107 now\u0105 kategori\u0119',
         LOC_DRAG_NEW_QUESTION : 'Przeci\u0105gnij element aby doda\u0107 nowe pytanie',
         LOC_DROP_CATEGORY: 'UPU\u015a\u0106 TUTAJ ABY DODA\u0106 NOW\u0104 KATEGORI\u0118',

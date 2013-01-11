@@ -138,6 +138,7 @@ var Editor = function() {
         $('#plusButton').unbind( 'click' );
         $('#content').empty();
         $('#plusButton').before( '<div class="editorButton" id="editorBackButton"/>');
+        $('#editorBackButton').attr( 'title', LOC.get( 'LOC_BACK_TO_SURVEY_LIST' ) );
         $('#plusButton').before( '<div class="editorButton" id="editorSaveButton"/>');
         $('#editorSaveButton').attr( 'title', LOC.get( 'LOC_SAVESURVEY' ) );
         $('#plusButton').after( '<div class="editorButton addQuestionButton clickableElem" id="addQuestion"/>');
