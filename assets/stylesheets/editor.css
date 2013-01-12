@@ -297,7 +297,8 @@ span.edit
 
 .addQuestionButton
 {
-    background: url(../images/add-dragndrop-31px.png);
+/*    background: url(../images/add-dragndrop-31px.png); */
+    background: url(../images/addQuestion.png);
     background-position: 0px 0px;
     height: 31px;
 }

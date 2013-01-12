@@ -133,6 +133,7 @@ var Editor = function() {
         $('#content').width( 865 );
         $('#leftColumn').width( 80 );
         $('#plusButton').removeClass('plusButton');
+        $('#plusButtonImage').attr( 'id', 'plusButtonCategory' );
         $('#plusButton').attr( 'title', LOC.get( 'LOC_DRAG_NEW_CATEGORY' ) );
         $('#plusButton').addClass('plusButton_layout3');
         $('#plusButton').unbind( 'click' );

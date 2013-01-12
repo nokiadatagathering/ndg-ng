@@ -235,3 +235,20 @@
 {
     background-position: 0 -62px;
 }
+
+#plusButtonCategory
+{
+    height: 31px;
+    width: 30px;
+    background: url(../images/addCategory.png);
+}
+
+#plusButtonCategory:hover
+{
+    background-position: 0 -31px;
+}
+
+#plusButtonCategory:active
+{
+    background-position: 0 -62px;
+}
