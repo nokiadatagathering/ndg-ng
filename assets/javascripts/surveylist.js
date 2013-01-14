@@ -8,8 +8,8 @@ var SurveyList = function() {
 
     var searchLabels;
     var searchIds;
-    var searchDbFields = ["surveyId", "title", "ndgUser.username"];
-    var searchBy = "surveyId";
+    var searchDbFields = ["title", "surveyId", "ndgUser.username"];
+    var searchBy = "title";
     var selectedFilterName = "";
 
     var columnIds = ["executeSortBySurveyName", "executeSortByDatePublished", "executeSortByPublisher", "executeSortByResults",null];//null is for item toolbar
@@ -52,7 +52,7 @@ var SurveyList = function() {
         $('#buttonSendFile').unbind( 'click' );
         $('#buttonSendFile').click( function() {$('#uploadForm').submit( )});
 
-        $('#searchComboText').text("ID");
+        $('#searchComboText').text(LOC.get("LOC_SURVEY_NAME"));
         $('#searchComboBox').click( function(event) {createSearchList(event);});
 
         $( '#sectionTitle' ).text( LOC.get('LOC_SURVEY_LIST') );
@@ -177,8 +177,8 @@ var SurveyList = function() {
     }
 
     function createSearchList(event) {
-       searchLabels = ["ID", LOC.get("LOC_SURVEY_NAME"), LOC.get("LOC_PUBLISHER")];
-       searchIds = ["searchById", "searchBySurveyName", "searchByPublisher"];
+       searchLabels = [LOC.get("LOC_SURVEY_NAME"), "ID", LOC.get("LOC_PUBLISHER")];
+       searchIds = ["searchBySurveyName", "searchById", "searchByPublisher"];
        ContextComboBox.showSearchMenu(event, searchLabels, searchIds, SurveyList);
     }
 
