@@ -352,10 +352,13 @@ var UserManagement = function() {
                                     + '<td>' + item.userRoleCollection[0].ndgRole.roleName + '</td>'
                                     + '<td class="menubar" id="menu' + i + '" >'
                                     + '<span title="' + LOC.get('LOC_SEND') + '"class="buttonPhone" id="buttonPhone" unselectable="on"></span>'
+                                    + '<span title="' + LOC.get('LOC_EDIT') + '" class="buttonEdit" id="buttonEdit" unselectable="on"></span>'
                                     + '<span title="' + LOC.get('LOC_DELETE') + '" class="buttonDelete" id="buttonDelete" unselectable="on"></span>'
                                     + '</td>'
                                     + '</tr>' );
+
          $('#menu' + i +' #buttonDelete').click( {index: i, id: item.id}, function(event){onDeleteUserClicked(event);} );
+         $('#menu' + i +' #buttonEdit').click( {index: i, id: item.id}, function(event){onEditUserClicked(event, item);} );
          $('#menu' + i +' #buttonPhone').click( {index: i,
                                                   fullName: item.firstName + " " + item.lastName,
                                                   phoneNumber: item.phoneNumber},
@@ -387,6 +390,20 @@ var UserManagement = function() {
          rect.width = currentRow.width() - $('#buttonDelete').width();
          rect.height = currentRow.height();
          ConfirmCover.show(rect, event.data.id);
+     }
+
+    function onEditUserClicked(event, item) {
+        var groupItem = $('#minimalist_layout2_2');
+        var rectGroup = new Object();
+
+        rectGroup.top = groupItem.position().top;
+        rectGroup.left = groupItem.position().left + 14;
+        rectGroup.width = groupItem.width();
+        rectGroup.height = 49;
+
+        if(!EditUserTable.isShown()) {
+           EditUserTable.show(rectGroup, item);
+        }
      }
 
      function onPhoneUserClicked(event) {

@@ -515,6 +515,7 @@
                 <include name="${dir.js.main}/confirmcover.js"/>
                 <include name="${dir.js.main}/newusertable.js"/>
                 <include name="${dir.js.main}/newgrouptable.js"/>
+                <include name="${dir.js.main}/editusertable.js"/>
                 <include name="${dir.js.main}/utils.js"/>
                 <include name="${dir.js.main}/sendsms.js"/>
             </fileset>      
