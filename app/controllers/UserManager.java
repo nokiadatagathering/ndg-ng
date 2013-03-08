@@ -84,4 +84,23 @@ public class UserManager extends NdgController {
         group.userCollection.clear();
         group.delete();
     }
+
+    public static void editUser( String username, String password, String firstName,
+                                String lastName, String email, String role,
+                                String phoneNumber )
+    {
+        NdgUser user = NdgUser.find("byUserName", username).first();
+        if(!password.equals("")) {
+            user.password = password;
+        }
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        user.phoneNumber = phoneNumber;
+        user.save();
+
+        UserRole mapRole = UserRole.find("byUserName", user.username).first();
+        mapRole.ndgRole = NdgRole.find("byRoleName", role).first();
+        mapRole.save();
+    }
 }
