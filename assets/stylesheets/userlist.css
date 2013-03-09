@@ -143,9 +143,8 @@
     line-height: 11px;
 }
 
-.selectedGroup p.tableEntryGroupName, .selectedGroup p.tableEntryQuantity
-{
-    color: red;
+.selectedGroup {
+    background-color: #bdd5eb;
 }
 
 .tableEntryQuantity {
