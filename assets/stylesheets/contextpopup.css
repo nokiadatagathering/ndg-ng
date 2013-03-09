@@ -55,70 +55,101 @@
     vertical-align: middle;
 }
 
+/* New User and Edit User Table */
+
 .newUserTable {
     position: absolute;
     z-index: 2;
-    background: #edeff0;
-    border-color: #dadbe0;
-    border-style: solid;
-    border-width: 1px;
-    width: 630px;
+    top:50%;
+    left:50%;
+    height: 50%;
+    width: 20%;
+    margin: -10% 0 0 0;
 }
 
-.newUserTable form{
-    width: 100%;
-    height: 88px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
+.newUserTable form {
+    margin: 0;
+    text-align: center;
 }
 
 .newUserTableClass {
-    height: 88px !important;
+	font-size: 13px;
+	text-shadow: 1px 1px 0px #fff;
+	background: #eeeff4;
+	margin: 20px;
+	border: #ccc 1px solid;
+
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+
+	-moz-box-shadow: 0 1px 2px #d1d1d1;
+	-webkit-box-shadow: 0 1px 2px #d1d1d1;
+	box-shadow: 0 1px 2px #d1d1d1;
 }
 
 .newUserTrClass {
-    height: 44px !important;
-    margin: 0;
-    padding: 0;
+	text-align: center;
 }
 
 .newUserTdClass {
-    margin-bottom: 8px;
-    margin-top: 7px;
-    width: 140px;
+    color: #7691A9;
+    font-weight: bold;
+	border-top: 1px solid #ffffff;
+	border-bottom:1px solid #e0e0e0;
+	border-left: 1px solid #e0e0e0;
+
+	background: #fafafa;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fbfbfb), to(#fafafa));
+	background: -moz-linear-gradient(top,  #fbfbfb,  #fafafa);
 }
 
-.extraMargin {
-    margin-left: 10px;
-    padding: 0;
+.newUserTdClass:first-child {
+	text-align: left;
+    vertical-align: middle;
+	padding-right: 8px;
+	padding-left: 8px;
+	border-left: 0;
 }
 
 .newUserInput {
-    width: 130px;
-    height: 29px;
-    font-size: 12px;
-    line-height: 29px;
+    background-color: #FFFFFF;
+    font-size: 13px;
+    font-family: "Nokia Pure Text";
+    color: #3a77ca;
+    border: none;
+    width: 122px;
+    height: 22px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+.newUserInput::-webkit-input-placeholder {
+    color: #3a77ca;
+}
+.newUserInput:-moz-placeholder {
+    color: #3a77ca;
+}
+
+.newUserSelectInput {
+    width: 122px;
+    height: 22px;
+    font-size: 13px;
     vertical-align: middle;
-    margin-top: 5px;
-    border-left-color: #d0d1d5;
-    border-top-color: #d0d1d5;
-    border-top-style: solid;
-    border-top-width: 1px;
-    border-left-width: 1px;
-    border-radius: 2px;
-    text-transform: uppercase;
+    text-align: left;
+    border: none;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 8px;
+    margin-left: 8px;
+    float: left;
 }
 
 .submitNewUserButton {
-    height: 34px;
-    width: 34px;
-    margin-top: 5px;
-    cursor:pointer;
-    border-style: none;
-    border-style-inner: none;
-    background: url('../images/check1.png') no-repeat left center;
+    margin-top: 6px;
+    margin-bottom: 6px;
 }
 
 .grayed
@@ -136,20 +167,21 @@
 
 .newUserPassword
 {
-    width: 130px;
-    height: 29px;
-    font-size: 12px;
-    line-height: 29px;
-    vertical-align: middle;
-    margin-top: 5px;
-    border-left-color: #d0d1d5;
-    border-top-color: #d0d1d5;
-    border-top-style: solid;
-    border-top-width: 1px;
-    border-left-width: 1px;
-    border-radius: 2px;
-    display: none;
+    background-color: #FFFFFF;
+    font-size: 13px;
+    font-family: "Nokia Pure Text";
+    color: #acacac;
+    border:none;
+    width: 122px;
+    height: 22px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    margin-right: 8px;
+    margin-left: 8px;
+    display:none;
 }
+
+/*****************************************************/
 
 .dimmedBackground {
     height: 100%;
