@@ -55,13 +55,13 @@ var NewUserTable = (function() {
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">Role</td>'
-                  +     '<td class="newUserTdClass"><select name="role" class="newUserSelectInput">'
+                  +     '<td class="newUserTdClass"><select id="selectRole" name="role" class="newUserSelectInput">'
                   +         '<option value="Admin">' + LOC.get( 'LOC_ADMIN' ) + '</option>'
                   +         '<option value="Field Worker">' + LOC.get( 'LOC_FIELD_WORKER' ) + '</option>'
                   +         '<option value="Operator">' + LOC.get( 'LOC_OPERATOR' ) + '</option></select>'
                   +     '</td>'
                   + '</tr>'
-                  + '<tr class="newUserTrClass">'
+                  + '<tr id="emailTr" class="newUserTrClass">'
                   +     '<td class="newUserTdClass">E-mail</td>'
                   +     '<td class="newUserTdClass">'
                   +         '<input class="newUserInput" type="email" name="email" maxlength="30" placeholder="johnsmith06@email.com" />'
@@ -146,6 +146,18 @@ var NewUserTable = (function() {
                     $("#newUserFakePwdConfirm").show();
                 }
             });
+
+            var select = document.getElementById("selectRole");
+            select.onchange = function() {
+                if(select.value == 'Field Worker') {
+                    $('#emailTr').hide();
+                }
+                else {
+                    $('#emailTr').show();
+                }
+//                var selIndex = select.selectedIndex;
+//                var selValue = select.options(selIndex).innerHTML;
+            }
 
          $('#newUserForm').submit(function(data){
                 //todo more validation

@@ -55,13 +55,13 @@ var EditUserTable = (function() {
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">Role</td>'
-                  +     '<td class="newUserTdClass"><select name="role" class="newUserSelectInput">'
+                  +     '<td class="newUserTdClass"><select id="selectRole" name="role" class="newUserSelectInput">'
                   +         '<option value="Admin">' + LOC.get( 'LOC_ADMIN' ) + '</option>'
                   +         '<option value="Field Worker">' + LOC.get( 'LOC_FIELD_WORKER' ) + '</option>'
                   +         '<option value="Operator">' + LOC.get( 'LOC_OPERATOR' ) + '</option></select>'
                   +     '</td>'
                   + '</tr>'
-                  + '<tr class="newUserTrClass">'
+                  + '<tr id="emailTr" class="newUserTrClass">'
                   +     '<td class="newUserTdClass">E-mail</td>'
                   +     '<td class="newUserTdClass">'
                   +         '<input class="newUserInput" type="email" name="email" maxlength="30" value="' + user.email + '" />'
@@ -146,6 +146,25 @@ var EditUserTable = (function() {
                     $("#newUserFakePwdConfirm").show();
                 }
             });
+
+            $('#selectRole').val(user.userRoleCollection[0].ndgRole.roleName);
+
+            var select = document.getElementById("selectRole");
+
+            if(select.value == 'Field Worker') {
+                $('#emailTr').hide();
+            }
+            else {
+                $('#emailTr').show();
+            }
+            select.onchange = function() {
+                if(select.value == 'Field Worker') {
+                    $('#emailTr').hide();
+                }
+                else {
+                    $('#emailTr').show();
+                }
+            }
 
          $('#editUserForm').submit(function(data){
                 //todo more validation
