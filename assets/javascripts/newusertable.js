@@ -27,30 +27,30 @@ var NewUserTable = (function() {
         tableHtml = '<form id="newUserForm" method="post" action="userManager/addUser"><table class="newUserTableClass">'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">' + LOC.get( 'LOC_USERNAME' ) + '</td>'
-                  +     '<td class="newUserTdClass"><input class="newUserInput" type="text" name="username" maxlength="15" title="johnsmith06" /></td>'
+                  +     '<td class="newUserTdClass"><input class="newUserInput" type="text" name="username" maxlength="15" placeholder="johnsmith06" /></td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">' + LOC.get( 'LOC_FIRST_NAME' ) + '</td>'
-                  +     '<td class="newUserTdClass"><input class="newUserInput" type="text" name="firstName" maxlength="20" title="John" /></td>'
+                  +     '<td class="newUserTdClass"><input class="newUserInput" type="text" name="firstName" maxlength="20" placeholder="John" /></td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">' + LOC.get( 'LOC_LAST_NAME' ) + '</td>'
                   +     '<td class="newUserTdClass">'
-                  +         '<input class="newUserInput" type="text" name="lastName" maxlength="20" title="Smith" />'
+                  +         '<input class="newUserInput" type="text" name="lastName" maxlength="20" placeholder="Smith" />'
                   +     '</td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">' + LOC.get( 'LOC_PASSWORD' ) + '</td>'
                   +     '<td class="newUserTdClass">'
-                  +         '<input id="newUserFakePwd" class="grayed newUserInput" type="text" maxlength="10" name="fakepwd" value="' + LOC.get( 'LOC_PASSWORD' ) + '" />'
-                  +         '<input id="newUserPassword" class="newUserPassword" type="password" maxlength="10" name="password" title="' + LOC.get( 'LOC_PASSWORD' ) + '" />'
+                  +         '<input id="newUserFakePwd" class="grayed newUserInput" type="text" maxlength="10" name="fakepwd" placeholder="' + LOC.get( 'LOC_PASSWORD' ) + '" />'
+                  +         '<input id="newUserPassword" class="newUserInput" type="password" maxlength="10" name="password" placeholder="' + LOC.get( 'LOC_PASSWORD' ) + '" />'
                   +     '</td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">' + LOC.get( 'LOC_RETYPE_PASSWORD' ) + '</td>'
                   +     '<td class="newUserTdClass">'
-                  +         '<input id="newUserFakePwdConfirm" class="grayed newUserInput" type="text" name="fakepwdconfirm" value="' + LOC.get( 'LOC_RETYPE_PASSWORD' ) + '" />'
-                  +         '<input id="newUserPasswordConfirm" class="newUserPassword" type="password" name="passwordRetype" title="' + LOC.get( 'LOC_RETYPE_PASSWORD' ) + '" />'
+                  +         '<input id="newUserFakePwdConfirm" class="grayed newUserInput" type="text" name="fakepwdconfirm" placeholder="' + LOC.get( 'LOC_RETYPE_PASSWORD' ) + '" />'
+                  +         '<input id="newUserPasswordConfirm" class="newUserInput" type="password" name="passwordRetype" placeholder="' + LOC.get( 'LOC_RETYPE_PASSWORD' ) + '" />'
                   +     '</td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
@@ -64,12 +64,12 @@ var NewUserTable = (function() {
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">E-mail</td>'
                   +     '<td class="newUserTdClass">'
-                  +         '<input class="newUserInput" type="email" name="email" maxlength="30" title="johnsmith06@email.com" />'
+                  +         '<input class="newUserInput" type="email" name="email" maxlength="30" placeholder="johnsmith06@email.com" />'
                   +     '</td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">' + LOC.get( 'LOC_PHONE_NUMBER_LONG' ) + '</td>'
-                  +     '<td class="newUserTdClass"><input id="newUserPhoneNumber" class="newUserInput" maxlength="14" type="text" name="phoneNumber" title="+1234567890" /></td>'
+                  +     '<td class="newUserTdClass"><input id="newUserPhoneNumber" class="newUserInput" maxlength="14" type="text" name="phoneNumber" placeholder="+1234567890" /></td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td colspan="2">'
@@ -183,11 +183,17 @@ var NewUserTable = (function() {
         dimmedBackground.click(function(){hide();});
     }
 
-    function userInputValidation(){
-        if( $("#newUserForm input[name=password]").val() != $("#newUserForm input[name=passwordRetype]").val()) {
+    function userInputValidation() {
+        if( $("#newUserForm input[name=username]").val() == '') {
+            alert( 'Username cannot be empty' );//todo ui spec for form validation
+            return false;
+        } else if( $("#newUserForm input[name=password]").val() == '' && $("#newUserForm input[name=passwordRetype]").val() == '' ) {
+            alert( 'Password cannot be empty' );//todo ui spec for form validation
+            return false;
+        } else if( $("#newUserForm input[name=password]").val() != $("#newUserForm input[name=passwordRetype]").val()) {
             alert( LOC.get( 'LOC_MSG_PASSWORD_NOT_MATCH' ) );//todo ui spec for form validation
             return false;
-        }else if( $( "#newUserPhoneNumber" ).val().length < 5 ||
+        } else if( $( "#newUserPhoneNumber" ).val().length < 5 ||
                     $( "#newUserPhoneNumber" ).val() == 'Phone Number'){
             alert( LOC.get( 'LOC_MSG_SHORT_NUMBER' ) );
             return false;
