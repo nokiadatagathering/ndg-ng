@@ -73,7 +73,7 @@ var NewUserTable = (function() {
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td colspan="2">'
-                  +         '<input type="submit" class="submitNewUserButton large button blue" value="Save" />'
+                  +         '<input type="submit" class="submitNewUserButton large button blue" value="' + LOC.get( 'LOC_SAVE' ) + '" />'
                   +     '</td>'
                   + '</tr>'
                   + '</table></form>'
