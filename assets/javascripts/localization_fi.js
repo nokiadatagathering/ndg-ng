@@ -58,6 +58,7 @@ var LOC = (function() {
         LOC_ADMIN: 'Järjestelmänvalvoja',
         LOC_FIELD_WORKER: 'Kenttätyöntekijä',
         LOC_OPERATOR: 'Operaattori',
+        LOC_SAVE: 'Tallenna',
         string: 'Kuvaileva',
         'int': 'Kokonaisluku',
         decimal: 'Desimaali',

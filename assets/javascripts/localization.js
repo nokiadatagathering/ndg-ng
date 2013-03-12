@@ -58,6 +58,7 @@ var LOC = (function() {
         LOC_ADMIN: 'Admin',
         LOC_FIELD_WORKER: 'Field Worker',
         LOC_OPERATOR: 'Operator',
+        LOC_SAVE: 'Save',
         string: 'Descriptive',
         'int': 'Integer',
         decimal: 'Decimal',

@@ -58,6 +58,7 @@ var LOC = (function() {
         LOC_ADMIN: 'Administrator',
         LOC_FIELD_WORKER: 'Ankieter',
         LOC_OPERATOR: 'Koordynator',
+        LOC_SAVE: 'Zapisz',
         string: 'Tekstowe',
         'int': 'Liczba ca\u0142kowita',
         decimal: 'Liczba u\u0142amkowa',
