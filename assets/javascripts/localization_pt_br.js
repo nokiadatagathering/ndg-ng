@@ -105,6 +105,8 @@ var LOC = (function() {
         LOC_RESULT_DELETE_CONFIRM: 'Deseja deletar resultado?',
         LOC_MSG_PASSWORD_NOT_MATCH: 'Senha não confere',
         LOC_MSG_SHORT_NUMBER: 'Número de telefone muito pequeno',
+        LOC_USERNAME_EMPTY: 'Usuário não pode estar em branco',
+        LOC_PASSWORD_EMPTY: 'Senha não pode estar em branco',
         LOC_EXPAND_ITEM_LIST:'Clique aqui para carregar mais itens',
         LOC_LOADING: 'Carregando...',
         LOC_BUILDING: 'Construindo',

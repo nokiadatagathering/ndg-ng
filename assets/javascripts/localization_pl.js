@@ -105,6 +105,8 @@ var LOC = (function() {
         LOC_RESULT_DELETE_CONFIRM: 'Czy napewno chcesz usun\u0105\u0107 rezultat?',
         LOC_MSG_PASSWORD_NOT_MATCH: 'Podane has\u0142a nie pasuj\u0105 do siebie',
         LOC_MSG_SHORT_NUMBER: 'Numer telefonu jest zbyt krótki',
+        LOC_USERNAME_EMPTY: 'Username cannot be empty',
+        LOC_PASSWORD_EMPTY: 'Password cannot be empty',
         LOC_EXPAND_ITEM_LIST: 'Kliknij aby rozwin\u0105\u0107 list\u0119',
         LOC_LOADING: '\u0141adowanie...',
         LOC_BUILDING: 'Budowana',

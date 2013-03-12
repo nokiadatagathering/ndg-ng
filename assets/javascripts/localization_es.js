@@ -105,6 +105,8 @@ var LOC = (function() {
         LOC_RESULT_DELETE_CONFIRM: '¿Está seguro de que quiere eliminar el resultado?',
         LOC_MSG_PASSWORD_NOT_MATCH: 'Contraseña no válida',
         LOC_MSG_SHORT_NUMBER: 'Número de teléfono demasiado corto',
+        LOC_USERNAME_EMPTY: 'Username cannot be empty',
+        LOC_PASSWORD_EMPTY: 'Password cannot be empty',
         LOC_EXPAND_ITEM_LIST:'Haga clic aquí para más items',
         LOC_LOADING: 'Cargando...',
         LOC_BUILDING: 'Construyendo',

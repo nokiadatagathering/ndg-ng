@@ -105,6 +105,8 @@ var LOC = (function() {
         LOC_RESULT_DELETE_CONFIRM: 'Haluatko varmasti poistaa vastauksen?',
         LOC_MSG_PASSWORD_NOT_MATCH: 'Virheellinen salasana',
         LOC_MSG_SHORT_NUMBER: 'Liian lyhyt puhelinnumero',
+        LOC_USERNAME_EMPTY: 'Username cannot be empty',
+        LOC_PASSWORD_EMPTY: 'Password cannot be empty',
         LOC_EXPAND_ITEM_LIST:'Klikkaa tästä nähdäksesi lisää kohtia',
         LOC_LOADING: 'Ladataan',
         LOC_BUILDING: 'Rakennetaan',
