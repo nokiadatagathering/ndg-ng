@@ -57,14 +57,14 @@ public class SurveyPersister {
 
     public void saveSurvey() throws SurveySavingException
     {
-        saveSurvey(null);
+        saveSurvey(null, null);
     }
 
-    public void saveSurvey(String surveyId) throws SurveySavingException {
+    public void saveSurvey(String surveyId, String username) throws SurveySavingException {
         XFormParser parser = new XFormParser(is);
         FormDef formDefinition = parser.parse();
         Survey newSurvey = findOrCreateSurvey(surveyId, formDefinition);
-        persistSurvey(formDefinition, newSurvey);
+        persistSurvey(formDefinition, newSurvey, username);
         persistChildSet(formDefinition, formDefinition, defCategory);
         persistTriggerables( formDefinition );
         if ( defCategory.questionCollection == null || defCategory.questionCollection.size() == 0 ) {
@@ -72,9 +72,9 @@ public class SurveyPersister {
         }
     }
 
-    private void persistSurvey(FormDef formDefinition, Survey newSurvey) throws SurveySavingException {
-        NdgUser owner = getOwner(new Long(1));//todo other owners than admin
-        newSurvey.ndgUser = owner;
+    private void persistSurvey(FormDef formDefinition, Survey newSurvey, String username) throws SurveySavingException {
+        NdgUser user = getUser(username);
+        newSurvey.ndgUser = user;
         newSurvey.uploadDate = new Date();
         newSurvey.available = 0;
 
@@ -242,10 +242,10 @@ public class SurveyPersister {
         persistChildSet(formDefinition, groupDef, newCategory);
     }
 
-    private NdgUser getOwner(Long userId) {
-        NdgUser retval = null;
-        retval = NdgUser.find("byId", userId).first();
-        return retval;
+    private NdgUser getUser(String username) {
+        NdgUser user = null;
+        user = NdgUser.find("byUserName", username).first();
+        return user;
     }
 
     private void persistQuestionOptions(QuestionDef questionDef, Question newQuestion, Localizer localizer)

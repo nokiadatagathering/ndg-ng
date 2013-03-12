@@ -73,14 +73,16 @@ public class SurveyManager extends NdgController {
 
     public static void upload(@Required File filename, String uploadSurveyId) throws IOException, SurveySavingException {
         InputStreamReader is = null;
+        String username = null;
         String result = "failure";
         if (!session.contains("ndgUser")) {
             response.status = StatusCode.UNAUTHORIZED;
         } else {
             try {
+                username = session.get( "ndgUser" );
                 is = new InputStreamReader(new FileInputStream(filename), "UTF-8");
                 SurveyPersister persister = new SurveyPersister(is);
-                persister.saveSurvey(uploadSurveyId);
+                persister.saveSurvey(uploadSurveyId, username);
                 result = "success";
 
             } finally {
