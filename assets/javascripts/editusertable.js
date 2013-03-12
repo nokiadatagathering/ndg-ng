@@ -54,7 +54,7 @@ var EditUserTable = (function() {
                   +     '</td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
-                  +     '<td class="newUserTdClass">Role</td>'
+                  +     '<td class="newUserTdClass">' + LOC.get( 'LOC_PERMISSION' ) + '</td>'
                   +     '<td class="newUserTdClass"><select id="selectRole" name="role" class="newUserSelectInput">'
                   +         '<option value="Admin">' + LOC.get( 'LOC_ADMIN' ) + '</option>'
                   +         '<option value="Field Worker">' + LOC.get( 'LOC_FIELD_WORKER' ) + '</option>'
