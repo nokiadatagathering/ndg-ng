@@ -197,13 +197,13 @@ var NewUserTable = (function() {
 
     function userInputValidation() {
         if( $("#newUserForm input[name=username]").val() == '') {
-            alert( 'Username cannot be empty' );//todo ui spec for form validation
+            alert( LOC.get( 'LOC_USERNAME_EMPTY' ) );
             return false;
         } else if( $("#newUserForm input[name=password]").val() == '' && $("#newUserForm input[name=passwordRetype]").val() == '' ) {
-            alert( 'Password cannot be empty' );//todo ui spec for form validation
+            alert( LOC.get( 'LOC_PASSWORD_EMPTY' ) );
             return false;
         } else if( $("#newUserForm input[name=password]").val() != $("#newUserForm input[name=passwordRetype]").val()) {
-            alert( LOC.get( 'LOC_MSG_PASSWORD_NOT_MATCH' ) );//todo ui spec for form validation
+            alert( LOC.get( 'LOC_MSG_PASSWORD_NOT_MATCH' ) );
             return false;
         } else if( $( "#newUserPhoneNumber" ).val().length < 5 ||
                     $( "#newUserPhoneNumber" ).val() == 'Phone Number'){
