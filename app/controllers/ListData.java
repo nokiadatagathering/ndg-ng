@@ -301,7 +301,7 @@ public class ListData extends NdgController {
     private static void serializeGroups(List<NdgGroup> subList, int startIndex, long totalSize) {
         JSONSerializer surveyListSerializer = new JSONSerializer();
         surveyListSerializer.transform(new NdgUserCollectionTransformer(), "userCollection");
-        surveyListSerializer.include("groupName", "userCollection").exclude("*").rootName("items");
+        surveyListSerializer.include("id", "groupName", "userCollection").exclude("*").rootName("items");
 
         renderJSON(addRangeToJson(surveyListSerializer.serialize(subList), startIndex, totalSize));
     }
