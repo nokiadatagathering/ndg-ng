@@ -30,7 +30,7 @@ var EditedLabel = function( elem, callbackFun ){
         $( "#" + editBoxId ).bind( 'keypress', function( e ){onEditBoxSave( e );} );
         $( "#" + editBoxId ).bind( 'click', function( e ){e.stopPropagation();} );
         $( "#" + editBoxId ).focusout( function(event) {onFocusLost(event)} );
-        //event.stopPropagation();
+        event.stopPropagation();
         editingStart = true;
         document.onclick = finishEditOnDocumentClick;
     }
