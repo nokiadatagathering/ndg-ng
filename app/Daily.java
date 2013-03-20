@@ -37,7 +37,7 @@ public class Daily extends Job {
 
         // Check if there are any uncompleted jobs
         String query = "complete = false";
-        List<Jobs> jobs = Jobs.find(query).fetch();
+
 
         // See if there are any jobs scheduled for today
         // Make a new Date object. It will be initialized to the
@@ -46,18 +46,14 @@ public class Daily extends Job {
         Date now = new Date();
         String todaysDate = new SimpleDateFormat("yyyy-MM-dd").format(now);
 
-        //System.out.println(todaysDate);
 
-        for (int k = 0; k < jobs.size(); k++) {
-            Jobs jobz = jobs.get(k);
-            // compare the scheduled date in the database to todays
-            if (jobz.dateTo.equals(todaysDate)) {
+        for(Object jobz : Jobs.find(query).fetch()) {
+            if (((Jobs)jobz).dateTo.equals(todaysDate)){
                 // execute the export
-                //System.out.println("Date1 is equal Date2");
-                //System.out.println("The job id is " +  jobz.id );
-                new Scheduler(jobz.id, jobz.surveyId, jobz.dateTo, jobz.dateFrom, jobz.email);
-            }
-        }
+                new Scheduler(((Jobs)jobz).id, ((Jobs)jobz).surveyId, ((Jobs)jobz).dateTo, ((Jobs)jobz).dateFrom, ((Jobs)jobz).email);
+                                                }
+            
+                                                     } 
     }
 
 }

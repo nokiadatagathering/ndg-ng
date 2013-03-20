@@ -61,6 +61,6 @@ public class Mails extends Mailer {
         attachment.setDescription(Play.configuration.getProperty(ATTACHMENT_DESCRIPTION));
         attachment.setPath(path);
         addAttachment(attachment);
-        send();
+        send(email, attachment);
     }
 }

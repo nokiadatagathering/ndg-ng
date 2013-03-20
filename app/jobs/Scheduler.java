@@ -76,24 +76,27 @@ public class Scheduler extends Job {
         //System.out.println("The survey has images is " + exportWithImages);
         Jobs jobber = null;
         jobber = Jobs.find( "byId", id ).first();
-        //System.out.println("The job id is " +  id);
+
 
         Collection<NdgResult> results = new ArrayList<NdgResult>();
         NdgResult result = null;
         List resultsIds0 = null;
 
-        String query = "SELECT ndg_result.id FROM ndg_result, transaction_log WHERE transaction_log.transaction_date BETWEEN '" + dateFrom +  "' and '"  + dateTo +  "' AND transaction_log.survey_id =" + Long.decode(surveyId) + " AND ndg_result.ndg_result_id = transaction_log.id_result";
+        String query = "SELECT ndg_result.id FROM ndg_result, transaction_log WHERE ndg_result.date_sent BETWEEN '" + dateFrom +  "' and '"  + dateTo +  "' AND transaction_log.survey_id =" + Long.decode(surveyId) + " AND ndg_result.ndg_result_id = transaction_log.id_result";
 
         resultsIds0 = JPA.em().createNativeQuery(query).getResultList();
+
 
         if (resultsIds0.size() != 0) {
             for (int i = 0; i < resultsIds0.size(); i++) {
                 String o = resultsIds0.get(i).toString();
-
+ 
                 result = NdgResult.find( "byId", Long.parseLong(o)).first();
+
                 if (result != null) {
                     results.add(result);
                 }
+             
             }
 
             ExcelTransformer transformer = new ExcelTransformer( result.survey, results, exportWithImages );
