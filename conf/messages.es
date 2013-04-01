@@ -31,11 +31,10 @@ views.login.AsGraphics = SUS RESULTADOS
 views.login.box03Text = Con nuestro generador de gráficos o exporte sus resultados a Excel
 views.login.GettingStarted = Cómo empezar
 views.login.JustWatch = Lea nuestra amable <a href="http://docs.nokiadatagathering.net/">guía del usuario</a> o vea el video para saber cómo Nokia Data Gathering se está usando para luchar contra el dengue y salvar vidas.
-views.login.Develop = Ayúdenos a desarrollar la aplicación
-views.login.DeveloperText = Nokia Data Gathering en <a href="https://github.com/nokiadatagathering"> Git Hub</a>
 views.login.MobileClients = APLICACIONES MÓVILES
 views.login.NeedAccount = Se necesita una cuenta de usuario en este servidor para usar el sistema Nokia Data Gathering. Por favor, primero regístrese (véase arriba) y en seguida descargue la aplicación que quisiera.
 views.login.compatibility = <red>Este sitio requiere el uso de un navegador basado en WebKit (por ejemplo Chrome) o Mozilla (por ejemplo Firefox) o la versión 9 (o superior) de Internet Explorer. Sin embargo, puede usar Nokia Data Gathering con un navegador más antiguo haciendo</red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html">clic aquí.</a>
+
 
 views.login.required=Obligatorio
 views.login.invalidEmail=Proporcione un correo electrónico válido

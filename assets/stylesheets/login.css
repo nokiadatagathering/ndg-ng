@@ -411,5 +411,17 @@ table.register td {
     font-family: "Nokia Pure Text";
 }
 
+ul.footer li {
+            display: inline;
+            list-style-type: none;
+            margin: 2px;
+        }
+ul.footer li a {
+    color:#e1e5ef;
+    font-size:14px;
+    margin-top:10px;
+    font-family: "Nokia Pure Text";
+        }
+
 /************************************************************************************************************************/
 

@@ -31,11 +31,10 @@ views.login.AsGraphics = TULOKSESI
 views.login.box03Text = Meidän grafiikkapalvelun avulla, tai vie tuloksesi Exceliin 
 views.login.GettingStarted = Aloittaminen
 views.login.JustWatch = Lue ystävällinen <a href="http://docs.nokiadatagathering.net/"> käyttäjämanuaalimme</a> tai katso video, josta näet miten Nokia Data Gatheringin avulla taistellaan dengue-kuumetta vastaan ja pelastetaan ihmishenkiä.
-views.login.Develop = Auta meitä kehittämään tai kääntämään sovellusta
-views.login.DeveloperText = Nokia Data Gathering <a href="https://github.com/nokiadatagathering"> Git Hubissa</a> tai <a href="https://www.transifex.net/projects/p/ndg/">Transifexissa</a>
 views.login.MobileClients = MOBIILISOVELLUKSET
 views.login.NeedAccount = Sinulla on oltava käyttäjätili palvelimellamme käyttääksesi Nokia Data Gatheringia kännykälläsi. Ole hyvä rekisteröidy (ks. ylhäällä) ja lataa haluamasi sovellus.
 views.login.compatibility = <red>Näiden svujen selaamiseksi tarvitaan joko WebKit (esim. Chrome) tai Mozilla (esim. Firefox) -pohjainen selain tai vähintään Internet Explorer 9. Voit silti käyttää Nokia Data Gatheringia vanhemmalla selaimella </red> <a href="http://calm.nokiadatagathering.net/ndgFlex/swf/main.html"> klikkaamalla tästä.</a>
+
 
 views.login.required=Required
 views.login.invalidEmail=Enter a valid email address
