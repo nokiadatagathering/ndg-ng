@@ -81,7 +81,7 @@ var ResultList = function() {
         DynamicTable.showList(columnIds, columnTexts, columnDbFields, "results", ResultList);
 
                      
-        var selectAllCheckbox = '<input type="checkbox" class="resultCheckboxClass" id="selectAllResults" "/>';
+        var selectAllCheckbox = '<input type="checkbox" class="resultCheckboxClass" id="selectAllResults" />';
         $('#checkboxColumnId').append(selectAllCheckbox);
         $('#selectAllResults').bind( 'check uncheck', $(this), function(data){selectAllResultsClicked(data);} )
 
