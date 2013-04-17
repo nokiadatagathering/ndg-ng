@@ -109,7 +109,13 @@ public class ExcelTransformer extends ResultsTransformer {
                     Answer answer = answers.iterator().next();
                     if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {//TODO handle other binary data
                         row.createCell( fieldcounter++ ).setCellValue( storeImagesAndGetValueToExport( survey.surveyId, result.resultId, answer.id, answer.binaryData ) );
-                    } else {
+                    } else if (answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.INT) ){
+                        Integer value = Integer.valueOf(answer.textData);
+                        row.createCell( fieldcounter++ ).setCellValue( value );
+                    } else if (answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.DECIMAL)){
+                        Float value = Float.valueOf(answer.textData);
+                        row.createCell( fieldcounter++ ).setCellValue( value );
+                    }else {
                         String value = answer.textData;
                         value = value.trim().replaceAll( "\n", "" );
                         row.createCell( fieldcounter++ ).setCellValue( value );
