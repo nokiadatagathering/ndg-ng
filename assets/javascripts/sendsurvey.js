@@ -7,8 +7,8 @@ var SendSurvey = function() {
     var selectedUsers = new Array();
     var selectedGroups = new Array();
     var allUsersSelected = false;
-    var allGroupsSelected = false;
-    var selectedGroupsUsers = new Array();
+    //var allGroupsSelected = false;
+    //var selectedGroupsUsers = new Array();
 
     // shows the interface 
     function showUserList(i) {
@@ -18,8 +18,8 @@ var SendSurvey = function() {
         var params = {'isAscending': true
                      };
 
-        var selectAllCheckbox = '<input type="checkbox" class="userCheckboxClass" id="userCheckboxAll"/>';
-        var selectAllGroupCheckbox = '<input type="checkbox" class="groupCheckboxClass" id="groupCheckboxAll"/>';
+        var selectAllCheckbox = '<input type="checkbox" class="userCheckboxClass" id="userCheckboxAll" />';
+        //var selectAllGroupCheckbox = '<input type="checkbox" class="groupCheckboxClass" id="groupCheckboxAll"/>';
         $('#sendSurveyUsers').append( '<div id="tableContainer" style="height:400px; overflow:auto;"><table align="left"><thead>'
                                + '<tr >'
                                + '<th scope="col" class="tableSendSurvey-header" id="sendSurvey-check">'+ selectAllCheckbox + '</th>'
@@ -32,7 +32,7 @@ var SendSurvey = function() {
                                + '</table>'
                                + '<table><thead>'
                                + '<tr>'
-                               + '<th scope="col" class="tableSendSurvey-header" id="sendSurvey-groupcheck">'+ selectAllGroupCheckbox + '</th>'
+                               + '<th scope="col" class="tableSendSurvey-header-check" id="sendSurvey-groupcheck"></th>'
                                + '<th scope="col" class="tableSendSurvey-header" id="sendSurvey-group">' + "Group" + '</th>'     
                                + '</tr>'
                                + '</thead>'
@@ -46,7 +46,7 @@ var SendSurvey = function() {
         var getJSONQuery1 = $.getJSON( 'listData/groups', params, function(i){fillGroupTable(i);} );
         getJSONQuery1.error(Utils.redirectIfUnauthorized);
         $('#userCheckboxAll').bind( 'check uncheck', $(this), function(data){selectAllUsersClicked(data);} )
-        $('#groupCheckboxAll').bind( 'check uncheck', $(this), function(data){selectAllGroupsClicked(data);} )
+        //$('#groupCheckboxAll').bind( 'check uncheck', $(this), function(data){selectAllGroupsClicked(data);} )
         sendSurveyDialog.dialog({beforeClose: function(){$('#buttonSendSurveyDone').unbind('click');$("#dialog-sendSurvey").parent().find("span.ui-dialog-title").css("text-decoration", "none");}} )
         $('#buttonSendSurveyDone').click( function(){onStartSendingClicked();} );
     }
@@ -59,34 +59,34 @@ var SendSurvey = function() {
         }
     }
 
-    function selectAllGroupsClicked (data) {
+    /*function selectAllGroupsClicked (data) {
        if(data.currentTarget.checked) {
             selectAllGroups();
         } else if(selectedUsers) {
             unselectAllGroups();
         }
     
-    }
+    }*/
 
       function selectAllUsers() {
         selectAllVisibleUsers();
         allUsersSelected  = true;
     }
 
-    function selectAllGroups() {
+    /*function selectAllGroups() {
         selectAllVisibleGroups();
         allGroupsSelected  = true;
-    }
+    }*/
 
     function selectAllVisibleUsers() {
         doSelectAllVisibleResults();
         allUsersSelected = false;
                                      }
 
-    function selectAllVisibleGroups() {
+    /*function selectAllVisibleGroups() {
         doSelectAllVisibleGroupResults();
         allGroupsSelected = false;
-                                     }
+                                     }*/
 
 
     function unselectAllUsers() {
@@ -98,14 +98,14 @@ var SendSurvey = function() {
         allUsersSelected = false;
     }
 
-    function unselectAllGroups() {
+    /*function unselectAllGroups() {
         var checkboxes = $(".groupCheckboxClass");
 
         $.each( checkboxes ,function( i, item ) {
             item.checked = false;
         });
         allGroupsSelected = false;
-    }
+    }*/
 
   
     function fillUserTableAll(data) {
@@ -154,18 +154,37 @@ var SendSurvey = function() {
         });
     }  
     
-     function doSelectAllVisibleGroupResults() {
+     /*function doSelectAllVisibleGroupResults() {
         var checkboxes = $(".groupCheckboxClass");   
         
 
         $.each( checkboxes ,function( i, item ) {
             item.checked = true;
         });
-    }
+    }*/
 
     $.fn.isNearTheEnd = function() {
+        console.log(this[0].scrollTop);
         return this[0].scrollTop + this.height() >= this[0].scrollHeight;
                                       };
+
+    $.fn.scrollTo = function( target, options, callback ){
+  if(typeof options == 'function' && arguments.length == 2){ callback = options; options = target; }
+  var settings = $.extend({
+    scrollTarget  : target,
+    offsetTop     : 50,
+    duration      : 500,
+    easing        : 'swing'
+  }, options);
+  return this.each(function(){
+    var scrollPane = $(this);
+    var scrollTarget = (typeof settings.scrollTarget == "number") ? settings.scrollTarget : $(settings.scrollTarget);
+    var scrollY = (typeof scrollTarget == "number") ? scrollTarget : scrollTarget.offset().top + scrollPane.scrollTop() - parseInt(settings.offsetTop);
+    scrollPane.animate({scrollTop : scrollY }, parseInt(settings.duration), settings.easing, function(){
+      if (typeof callback == 'function') { callback.call(this); }
+    });
+  });
+}
 
 
     function fillUserTable(data) {
@@ -187,6 +206,8 @@ var SendSurvey = function() {
 
        $("#tableContainer").bind("scroll", function() {
                if ($(this).isNearTheEnd() ) {
+               var tempScrollTop = $("#tableContainer")[0].scrollTop;
+
                var diff = totalItems - elementEndIndex;
                if( diff > 0 ) {
                    elementStartIndex = elementEndIndex;
@@ -203,11 +224,15 @@ var SendSurvey = function() {
                                    {
                                    break;
                                    }
+                        
                         fillWithResults(i, data.items[i]);
+                        
                                                                    }
+               $('#tableContainer').scrollTo(tempScrollTop);
 
                                                   }
-                  
+              
+             
                                                       });
                                            
                         }
@@ -233,7 +258,13 @@ var SendSurvey = function() {
                                         + '<td class="tableSendSurvey-cell" ><input type="checkbox" class="groupCheckboxClass" id="groupCheckbox' + item.id + '"/></td>'
                                         + '<td class="tableSendSurvey-cell" >'+ item.groupName + '</td>'
                                         + '<tr>');
-        $( '#groupCheckbox' + item.id ).bind( 'check uncheck', {index: i,groupName: item.groupName,userCollection: item.userCollection}, function(i) {groupCheckboxClicked(i);} )
+        $( '#groupCheckbox' + item.id ).bind( 'check uncheck', {index: i,groupName: item.groupName,userCollection: item.userCollection}, function(i) {
+                            if( $(this).is(':checked' ) ){ 
+                            groupCheckboxClicked(i);
+                                                        }else{                            
+                            fillUserTableAll($.data(document, "allData"));                      
+                                                        }
+                                                                                                                                                      } );
         $('input:checkbox:not([safari])').checkbox({cls:'sendSurvey-customCheckbox', empty:'images/empty.png'});
         $('#buttonSendSurveyDone').show();
     }
@@ -263,7 +294,7 @@ var SendSurvey = function() {
                 }
             });
        }
-        else if (selectedGroups.length > 0) {
+        /*else if (selectedGroups.length > 0) {
 
            for(i=0; i < selectedGroups.length; i++){
             var contentUrl = 'listData/users?groupName='+ selectedGroups[i];
@@ -296,9 +327,9 @@ var SendSurvey = function() {
 
                                                     }
                   
-        } else
+        } */else
         {
-            doneIt("No users or groups selected");
+            doneIt("No users selected");
         }
     }
 
@@ -314,7 +345,7 @@ var SendSurvey = function() {
         });
     }
 
-    function sendToAllUsers(selectedGroupsUsers){
+    /*function sendToAllUsers(selectedGroupsUsers){
       if (typeof selectedGroupsUsers[0] !== 'undefined' && selectedGroupsUsers[0] !== null) {
         $.ajax(
             {
@@ -333,7 +364,7 @@ var SendSurvey = function() {
               });
                                                                                               }
 
-                                                   }
+                                                   }*/
 
     function userCheckboxClicked(i) {
 
@@ -350,7 +381,11 @@ var SendSurvey = function() {
 
     function groupCheckboxClicked(event) {
         currentGroup = event.data;
-        selectedGroups.push( currentGroup.groupName);
+        //selectedGroups.push( currentGroup.groupName);
+        $('#userListTable').empty();
+        var getJSONQueryUsersPerGroup = $.getJSON('listData/users', {'groupName': currentGroup.groupName}, function(i) {fillUserTable(i);} );
+        getJSONQueryUsersPerGroup.error(Utils.redirectIfUnauthorized);
+
     }
 
         return {showUserList : function(i) {showUserList(i);}

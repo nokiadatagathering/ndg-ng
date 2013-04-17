@@ -10,6 +10,18 @@
     border-right: #edf0f6 solid 2px;
 }
 
+.tableSendSurvey-header-check {
+    background: #edf0f7;
+    height: 34px !important;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 18px;
+    font-family: "Nokia Pure Text";
+    color: #3a77ca;
+    border-right: #edf0f6 solid 2px;
+}
+
 .tableSendSurvey-row {
     background: #f8f9fc;
 /*    height: 12px;*/
