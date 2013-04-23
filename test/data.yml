@@ -1,7 +1,247 @@
-# you describe your data using the YAML notation here
-# and then load them using Fixtures.load("data.yml")
-
-# User(bob):
-#   email: bob@gmail.com
-#   password: secret
-#   fullname: Bob
+%YAML 1.1
+---
+# ndg2.category
+-
+  id: 1
+  category_index: 1
+  label: "Default"
+  object_name: "category1"
+  survey_id: 1
+-
+  id: 2
+  category_index: 2
+  label: "Other"
+  object_name: "category2"
+  survey_id: 1
+# ndg2.company
+-
+  id: 1
+  company_country: "CompanyName"
+  company_industry: ""
+  company_name: "CompanyCountry"
+  company_size: "CompanyIndustry"
+  company_type: "CompanySize"
+# ndg2.ndg_group
+-
+  id: 1
+  group_name: "Demo"
+  ndg_user_id: 1
+# ndg2.ndg_role
+-
+  id: 1
+  role_name: "Admin"
+-
+  id: 3
+  role_name: "Field Worker"
+-
+  id: 2
+  role_name: "Operator"
+# ndg2.ndg_user
+-
+  id: 1
+  area_code: "areaCode"
+  country_code: "countryCode"
+  email: "admin@admin.com"
+  email_preferences: "Y"
+  first_name: "firstName"
+  has_full_permissions: "Y"
+  last_name: "lastName"
+  password: "3d7b6783e2b63d8f462823c41f4d029d"
+  phone_number: "phoneNumber"
+  user_admin: "admin"
+  user_validated: "Y"
+  username: "admin"
+  company_id: 1
+  ndg_group_id: 1
+# ndg2.play_evolutions
+-
+  id: 1
+  hash: "ed42cc112ecd6268e3308feecba7c7d7651a0a75"
+  applied_at: "2012-11-30 14:04:47"
+  apply_script: "UPDATE question_type\nSET supported=1\nWHERE type_name='geopoint';\nCREATE TABLE jobs (\n    id bigint(20) NOT NULL AUTO_INCREMENT,\n    surveyId varchar(255) NOT NULL,\n    dateTo varchar(255) NOT NULL,\n    dateFrom varchar(255) NOT NULL,\n    email varchar(255) NOT NULL,\n    complete boolean NOT NULL,\n    PRIMARY KEY (id)\n);\n"
+  revert_script: "UPDATE question_type\nSET supported=0\nWHERE type_name='geopoint';\nDROP TABLE jobs;\n"
+  state: "applied"
+  last_problem: "Table 'jobs' already exists [ERROR:1050, SQLSTATE:42S01]"
+-
+  id: 1
+  hash: "ed42cc112ecd6268e3308feecba7c7d7651a0a75"
+  applied_at: "2013-01-10 16:23:58"
+  apply_script: "UPDATE question_type\nSET supported=1\nWHERE type_name='geopoint';\nCREATE TABLE jobs (\n    id bigint(20) NOT NULL AUTO_INCREMENT,\n    surveyId varchar(255) NOT NULL,\n    dateTo varchar(255) NOT NULL,\n    dateFrom varchar(255) NOT NULL,\n    email varchar(255) NOT NULL,\n    complete boolean NOT NULL,\n    PRIMARY KEY (id)\n);\n"
+  revert_script: "UPDATE question_type\nSET supported=0\nWHERE type_name='geopoint';\nDROP TABLE jobs;\n"
+  state: "applied"
+  last_problem: "Table 'jobs' already exists [ERROR:1050, SQLSTATE:42S01]"
+  module_key: "Nokia Data Gathering"
+# ndg2.question
+-
+  id: 1
+  label: "What is your name ?"
+  object_name: "TextQuestion"
+  readonly: 0
+  required: 0
+  category_id: 1
+  question_type_id: 1
+-
+  id: 2
+  label: "On average, how often do you laugh per day ?"
+  object_name: "IntegerQuestion"
+  readonly: 0
+  required: 0
+  category_id: 1
+  question_type_id: 2
+-
+  id: 3
+  label: "Are you a thinker, a talker or a doer ?"
+  object_name: "ExclusiveQuestion"
+  readonly: 0
+  required: 0
+  category_id: 1
+  question_type_id: 10
+-
+  id: 4
+  label: "Which continents have you visited ?"
+  object_name: "MultipleQuestion"
+  readonly: 0
+  required: 0
+  category_id: 2
+  question_type_id: 11
+-
+  id: 5
+  label: "What do you like most about Finland?"
+  object_name: "TextQuestion2"
+  readonly: 0
+  required: 0
+  category_id: 2
+  question_type_id: 1
+-
+  id: 6
+  label: "Date"
+  object_name: "DateQuestion"
+  readonly: 0
+  required: 0
+  category_id: 2
+  question_type_id: 4
+# ndg2.question_option
+-
+  id: 1
+  label: "Doer"
+  option_index: 1
+  option_value: "doer"
+  question_id: 3
+-
+  id: 2
+  label: "Thinker"
+  option_index: 2
+  option_value: "thinker"
+  question_id: 3
+-
+  id: 3
+  label: "Talker"
+  option_index: 3
+  option_value: "talker"
+  question_id: 3
+-
+  id: 4
+  label: "Asia"
+  option_index: 1
+  option_value: "asia"
+  question_id: 4
+-
+  id: 5
+  label: "Africe"
+  option_index: 2
+  option_value: "africa"
+  question_id: 4
+-
+  id: 6
+  label: "Australia"
+  option_index: 3
+  option_value: "australia"
+  question_id: 4
+-
+  id: 7
+  label: "Europe"
+  option_index: 4
+  option_value: "europe"
+  question_id: 4
+-
+  id: 8
+  label: "Antarctica"
+  option_index: 5
+  option_value: "antarctica"
+  question_id: 4
+-
+  id: 9
+  label: "North America"
+  option_index: 6
+  option_value: "north"
+  question_id: 4
+-
+  id: 10
+  label: "Latin America"
+  option_index: 7
+  option_value: "latin"
+  question_id: 4
+# ndg2.question_type
+-
+  id: 1
+  supported: 1
+  type_name: "string"
+-
+  id: 2
+  supported: 1
+  type_name: "int"
+-
+  id: 3
+  supported: 1
+  type_name: "decimal"
+-
+  id: 4
+  supported: 1
+  type_name: "date"
+-
+  id: 5
+  supported: 1
+  type_name: "geopoint"
+-
+  id: 6
+  supported: 1
+  type_name: "binary#image"
+-
+  id: 7
+  supported: 0
+  type_name: "binary#audio"
+-
+  id: 8
+  supported: 0
+  type_name: "binary#video"
+-
+  id: 9
+  supported: 0
+  type_name: "barcode"
+-
+  id: 10
+  supported: 1
+  type_name: "select1"
+-
+  id: 11
+  supported: 1
+  type_name: "select"
+-
+  id: 12
+  supported: 1
+  type_name: "time"
+# ndg2.survey
+-
+  id: 1
+  available: 1
+  lang: "eng"
+  survey_id: 1263929563
+  title: "Demo Survey"
+  upload_date: "2011-07-25 10:10:00"
+  ndg_user_id: 1
+# ndg2.user_role
+-
+  id: 1
+  ndg_role_role_name: "Admin"
+  username: "admin"
+...
