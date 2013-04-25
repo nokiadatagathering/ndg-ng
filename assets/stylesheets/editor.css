@@ -118,7 +118,7 @@ li.highlightRelevant {
 div.questionText
 {
     float:left;
-    max-width: 450px;
+    max-width: 350px;
     width: auto;
     min-height: 35px;
     padding-top:7px;
@@ -127,11 +127,12 @@ div.questionText
 div.questionText span
 {
     width: auto;
-    max-width: 450px;
+    max-width: 350px;
     display: inline-block;
     font-size: 12pt;
     white-space: pre-line;
     word-wrap: break-word;
+
 }
 
 .additionalButtons
