@@ -227,7 +227,8 @@
 
             $('.langSelector').click(function() {
                $('#selectedLanguage').val( this.id );
-               sURL += "?lang=" + this.id;
+               var sCountry = "ww";
+               sURL += "?lang=" + this.id + "&sCountry=" + sCountry + "&sLang=" + this.id;
                window.location.replace( sURL );
             });
 
