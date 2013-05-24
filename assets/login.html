@@ -227,10 +227,10 @@
 
             $('.langSelector').click(function() {
                $('#selectedLanguage').val( this.id );
-               var sCountry = "ww";
-               sURL += "?lang=" + this.id + "&sCountry=" + sCountry + "&sLang=" + this.id;
+               sURL += "?lang=" + this.id;
                window.location.replace( sURL );
             });
+
 
         });
 
@@ -262,11 +262,21 @@
 
   <!-- nokia analytics-->
   <script type="text/javascript">
-     var nkT = {
-     pName : "login", 
-     sCountry : "ww", 
-     sLang : "en" 
+  if ($('#selectedLanguage').val() == null) 
+     {
+      var nkT = {
+      pName : "login", 
+      sCountry : "ww",
+      sLang : "en"
                }
+      }else{
+      var nkT = {
+      pName : "login", 
+      sCountry : "ww",
+      sLang : $('#selectedLanguage').val()
+                }
+
+      }
   </script>
   <script src="//tags.tiqcdn.com/utag/nokia/datagathering/dev/utag.js"></script>
 	</body>
