@@ -265,21 +265,18 @@
   var brasil = "pt_br";
   if ($('#selectedLanguage').val() == null) 
      {
-      console.log("default");
       var nkT = {
       pName : "login", 
       sCountry : "ww",
       sLang : "en"
                }
       }else if ($('#selectedLanguage').val() == brasil){
-      console.log("pt");
       var nkT = {
       pName : "login", 
       sCountry : "pt",
       sLang : "pt"
                }    
       }else{
-      console.log("rest");
       var nkT = {
       pName : "login", 
       sCountry : $('#selectedLanguage').val(),
