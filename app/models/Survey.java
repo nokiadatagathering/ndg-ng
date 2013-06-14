@@ -32,7 +32,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.FetchType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import play.data.validation.Required;
@@ -60,7 +59,7 @@ public class Survey extends Model {
     public Date uploadDate;
 
 
-    @OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL, mappedBy = "survey")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "survey")
     @OnDelete(action=OnDeleteAction.CASCADE)
     public List<Category> categoryCollection;
 
