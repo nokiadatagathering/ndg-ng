@@ -12,8 +12,9 @@ var Editor = function() {
         updateContainerSize: function() {updateContainerSize();},
         setHoverConfig : function() {setHoverConfig();},
         removeHoverConfig : function() {removeHoverConfig();},
+        onSaveButtonClicked: function(id){onSaveButtonClicked(id);},
         getSkipLogicController: function(){return getSkipLogicController()},
-        showCategory: function(categoryId){showCategory(categoryId)}
+        showCategory: function(categoryId){showCategory(categoryId);}
     };
     
     if (Modernizr.touch){
@@ -33,16 +34,15 @@ var Editor = function() {
         createEditor();
         surveyModel = new SurveyModel();
         surveyModel.createNewSurvey();
-
         fillCategoryList();
     }
 
     function openSurvey( id ){
-        createEditor();
+        createEditor(id);
         fillEditor( id );
     }
 
-    function createEditor(){
+    function createEditor(id){
         $(window).unbind('scroll');
         $('#container').height('715px');
         var getJSONQuery = $.getJSON( 'surveyManager/questionType', function( data ){
@@ -88,7 +88,7 @@ var Editor = function() {
         } );
 
         $( "#editorSaveButton" ).click( function(){
-            onSaveButtonClicked();
+            onSaveButtonClicked(id);
         } );
 
         $( "#categories" ).sortable( {
@@ -233,7 +233,8 @@ var Editor = function() {
         confirmSaveSurveyDialog.dialog("open");
     }
 
-    function onSaveButtonClicked(){
+
+    function onSaveButtonClicked(id){
         $.blockUI({
                 message: '<h3>Saving</h3>',
                 css: { border: '2px solid #3a77ca' }
@@ -245,7 +246,9 @@ var Editor = function() {
             url: "surveyManager/saveSurvey",
             data: {surveyData : surveyModel.getSurveyString()},
             success: function( msg ){
+                refresh(id);
                 $.unblockUI();
+                
             },
             error: function( request, status, errorThrown ) {
                 if(!Utils.redirectIfUnauthorized(request, status, errorThrown)) {
