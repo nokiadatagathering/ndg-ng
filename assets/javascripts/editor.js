@@ -246,9 +246,12 @@ var Editor = function() {
             url: "surveyManager/saveSurvey",
             data: {surveyData : surveyModel.getSurveyString()},
             success: function( msg ){
-                refresh(id);
-                $.unblockUI();
-                
+                if (id != null){
+                   openSurvey(id);
+                } else{
+                   openSurvey(msg);
+                }
+                $.unblockUI();               
             },
             error: function( request, status, errorThrown ) {
                 if(!Utils.redirectIfUnauthorized(request, status, errorThrown)) {
@@ -285,6 +288,7 @@ var Editor = function() {
                                                             } );
        getJSONQuery.error(Utils.redirectIfUnauthorized);
     }
+
 
     function fillCategoryList(){
         $( '#sectionTitle' ).text( surveyModel.getSurvey().title );
