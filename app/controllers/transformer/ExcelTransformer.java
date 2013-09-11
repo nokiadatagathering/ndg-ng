@@ -89,7 +89,7 @@ public class ExcelTransformer extends ResultsTransformer {
             row.createCell( fieldcounter++ ).setCellValue( dateFormat.format(result.startTime) );
             row.createCell( fieldcounter++ ).setCellValue( dateFormat.format(result.endTime) );
 
-            if(result.dateSent != null) {
+            if( result.dateSent != null ) {
                 row.createCell( fieldcounter++ ).setCellValue( dateFormat.format(result.dateSent) );
             }
             else {
@@ -109,16 +109,25 @@ public class ExcelTransformer extends ResultsTransformer {
                     Answer answer = answers.iterator().next();
                     if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.IMAGE ) ) {//TODO handle other binary data
                         row.createCell( fieldcounter++ ).setCellValue( storeImagesAndGetValueToExport( survey.surveyId, result.resultId, answer.id, answer.binaryData ) );
-                    } else if (answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.INT) ){
-                        Integer value = Integer.valueOf(answer.textData);
-                        row.createCell( fieldcounter++ ).setCellValue( value );
-                    } else if (answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.DECIMAL)){
-                        Float value = Float.valueOf(answer.textData);
-                        row.createCell( fieldcounter++ ).setCellValue( value );
-                    }else {
-                        String value = answer.textData;
-                        value = value.trim().replaceAll( "\n", "" );
-                        row.createCell( fieldcounter++ ).setCellValue( value );
+                    } else if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.INT ) ) {
+                        try {
+                            Integer value = Integer.valueOf(answer.textData);
+                            row.createCell( fieldcounter++ ).setCellValue( value );
+                        } catch ( NumberFormatException nx ) {
+                        }
+                    } else if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.DECIMAL ) ) {
+                        try {
+                            Float value = Float.valueOf(answer.textData);
+                            row.createCell( fieldcounter++ ).setCellValue( value );
+                        } catch ( NumberFormatException nx ) {
+                        }
+                    } else {
+                        try {
+                            String value = answer.textData;
+                            value = value.trim().replaceAll( "\n", "" );
+                            row.createCell( fieldcounter++ ).setCellValue( value );
+                        } catch ( NullPointerException npe ) {
+                        }
                     }
                 } else {
                     Logger.getAnonymousLogger().log( Level.WARNING, "to many answers. ResID={0}questioId={1}answerCount={2}", new Object[]{ result.resultId, question.id, question.answerCollection.size() } );
