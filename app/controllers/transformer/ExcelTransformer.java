@@ -111,13 +111,13 @@ public class ExcelTransformer extends ResultsTransformer {
                         row.createCell( fieldcounter++ ).setCellValue( storeImagesAndGetValueToExport( survey.surveyId, result.resultId, answer.id, answer.binaryData ) );
                     } else if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.INT ) ) {
                         try {
-                            Integer value = Integer.valueOf(answer.textData);
+                            Long value = Long.valueOf(answer.textData);
                             row.createCell( fieldcounter++ ).setCellValue( value );
                         } catch ( NumberFormatException nx ) {
                         }
                     } else if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.DECIMAL ) ) {
                         try {
-                            Float value = Float.valueOf(answer.textData);
+                            Double value = Double.valueOf(answer.textData);
                             row.createCell( fieldcounter++ ).setCellValue( value );
                         } catch ( NumberFormatException nx ) {
                         }
