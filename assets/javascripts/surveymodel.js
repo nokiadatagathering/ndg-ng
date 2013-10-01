@@ -78,7 +78,7 @@ var SurveyModel = function(s){
     this.getSurveyString = function (){
         //TODO reorginize question, set indexes
         var toEscape = JSON.stringify( survey );
-        var cleanedSurvey = escapeHTML( toEscape )
+        var cleanedSurvey = escapeHTML( toEscape );
         return cleanedSurvey;
     }
 
