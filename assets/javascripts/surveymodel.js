@@ -71,15 +71,9 @@ var SurveyModel = function(s){
         return newQuestion;
     }
 
-    function escapeHTML(text) {
-         return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-          }
-
     this.getSurveyString = function (){
         //TODO reorginize question, set indexes
-        var toEscape = JSON.stringify( survey );
-        var cleanedSurvey = escapeHTML( toEscape );
-        return cleanedSurvey;
+     return JSON.stringify( survey );
     }
 
     this.deleteCategory = function ( catId ){
