@@ -21,12 +21,22 @@ package controllers;
 
 import controllers.sms.SmsHandlerFactory;
 
+
+
 public class SMSMessage extends NdgController {
 
-    public static void sendSMS( String phoneNumber, String message )
-    {
+	private static final int CONFLICT = 404;
+
+    public static void sendSMS( String phoneNumber, String message ){
+
+    if (request.isAjax()) {
         if ( SmsHandlerFactory.getInstance().getSmsHandler() != null) {
             SmsHandlerFactory.getInstance().getSmsHandler().sendTextSMS( phoneNumber, message, 0 );
         }
     }
+    else {
+       error( CONFLICT , "This request does not originate from NDG" );
+       return;
+    }
+                                                                     }
 }
