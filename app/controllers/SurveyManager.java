@@ -169,22 +169,31 @@ public class SurveyManager extends NdgController {
     }
 
     public static void sendSurveys(String formID, String users[]) {
-        for (int i = 0; i < users.length; i++) {
-            TransactionLog transaction = new TransactionLog();
-            transaction.transactionDate = new Date();
-            transaction.transactionType = TransactionlogConsts.TransactionType.TYPE_SEND_SURVEY;
-            transaction.transactionStatus = TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE;
-            transaction.transmissionMode = TransactionlogConsts.TransactionMode.MODE_HTTP;
+        try {
+            for (int i = 0; i < users.length; i++) {
+                Survey surveyTemp = NdgQuery.getSurveyById(formID);
+                if (AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")).equals(surveyTemp.ndgUser.userAdmin)) {
+                    surveyTemp.available = Constants.SURVEY_AVAILABLE;
+                    surveyTemp.save();
 
-            transaction.address = request.remoteAddress;
-            transaction.ndgUser = NdgQuery.getUsersbyId(Long.parseLong(users[i]));
+                    TransactionLog transaction = new TransactionLog();
+                    transaction.survey = surveyTemp;
 
-            Survey surveyTemp = NdgQuery.getSurveyById(formID);
-            surveyTemp.available = Constants.SURVEY_AVAILABLE;
-            surveyTemp.save();
-            transaction.survey = surveyTemp;
+                    transaction.transactionDate = new Date();
+                    transaction.transactionType = TransactionlogConsts.TransactionType.TYPE_SEND_SURVEY;
+                    transaction.transactionStatus = TransactionlogConsts.TransactionStatus.STATUS_AVAILABLE;
+                    transaction.transmissionMode = TransactionlogConsts.TransactionMode.MODE_HTTP;
 
-            transaction.save();
+                    transaction.address = request.remoteAddress;
+                    transaction.ndgUser = NdgQuery.getUsersbyId(Long.parseLong(users[i]));
+
+                    transaction.save();
+                } else {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                }
+            }
+        } catch (NullPointerException np3) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
         }
-    }
+   }
 }
