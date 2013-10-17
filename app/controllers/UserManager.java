@@ -19,6 +19,10 @@
 
 package controllers;
 
+import play.mvc.Http.StatusCode;
+
+import controllers.logic.AuthorizationUtils;
+
 import models.Company;
 import models.NdgGroup;
 import models.NdgRole;
@@ -63,9 +67,19 @@ public class UserManager extends NdgController {
         group.save();
     }
 
-    public static void deleteUser(String userId)
-    {
-        NdgUser deleted = NdgUser.find("byId", Long.parseLong(userId)).first();
+    public static void deleteUser(String userId) {
+        NdgUser deleted = null;
+
+        try {
+            deleted = NdgUser.find("byId", Long.parseLong(userId)).first();
+
+            if (!deleted.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+        }
+
         String username = deleted.username;
         deleted.delete();
         if(username.equals(deleted.userAdmin)) {
