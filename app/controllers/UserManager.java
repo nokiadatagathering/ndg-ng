@@ -124,7 +124,18 @@ public class UserManager extends NdgController {
                                 String lastName, String email, String role,
                                 String phoneNumber )
     {
-        NdgUser user = NdgUser.find("byUserName", username).first();
+        NdgUser user = null;
+
+        try {
+            user = NdgUser.find("byUserName", username).first();
+
+            if (!user.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+        }
+
         if(!password.equals("")) {
             user.password = password;
         }
