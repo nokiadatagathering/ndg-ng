@@ -72,14 +72,24 @@ public class ListData extends NdgController {
 
     public static void results(int surveyId, int startIndex, int endIndex, boolean isAscending, String orderBy,
                                String searchField, String searchText) {
-       try {
-            String query = getQuery( "survey_id", String.valueOf( surveyId ), false,
-                                     searchField, searchText, null, isAscending );//sorting is not needed now
+        try {
+            Survey survey = Survey.findById(Long.valueOf(surveyId));
 
-            long totalItems =  NdgResult.count( query );
+            if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
+            }
+        } catch (NullPointerException npe) {
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
+        }
 
-            query = getQuery( "survey_id" , String.valueOf( surveyId ), false,
-                              searchField, searchText, orderBy, isAscending );
+        try {
+            String query = getQuery("survey_id", String.valueOf( surveyId ), false,
+                                     searchField, searchText, null, isAscending);//sorting is not needed now
+
+            long totalItems =  NdgResult.count(query);
+
+            query = getQuery("survey_id", String.valueOf(surveyId), false,
+                              searchField, searchText, orderBy, isAscending);
 
             List<NdgResult> results = NdgResult.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
             JSONSerializer surveyListSerializer = new JSONSerializer();
@@ -88,7 +98,7 @@ public class ListData extends NdgController {
 
             renderJSON(addRangeToJson(surveyListSerializer.serialize(results), startIndex, totalItems));
 	    }
-	    catch(Exception ex) {
+	    catch (Exception ex) {
            ex.printStackTrace();
 	    }
     }
