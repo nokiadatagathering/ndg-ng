@@ -355,6 +355,17 @@ public class ListData extends NdgController {
 
     public static void sendSurveysUserList(String formID) {
         NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
+
+        try {
+            Survey survey = Survey.find("bySurveyId", formID).first();
+
+            if (!survey.ndgUser.userAdmin.equals(currentUser.userAdmin)) {
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
+            }
+        } catch (NullPointerException npe) {
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
+        }
+
         List<NdgUser> users = JPA.em().createNamedQuery("findUserSendingSurvey")
                                                                       .setParameter("surveyId", formID)
                                                                       .setParameter("userAdmin", currentUser.userAdmin)
