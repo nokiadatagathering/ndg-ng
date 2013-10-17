@@ -434,7 +434,17 @@ public class Service extends NdgController {
         String fileType = "";
         byte[] fileContent = null;
 
-        Survey survey = Survey.findById(Long.decode(surveyId));
+        Survey survey = null;
+
+        try {
+            survey = Survey.findById(Long.decode(surveyId));
+
+            if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+        }
 
         if (exportWithImages == true) {
             new File(survey.surveyId).mkdir();
