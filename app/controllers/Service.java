@@ -296,7 +296,18 @@ public class Service extends NdgController {
     }
 
     public static void getAllResults(String surveyId) {
-        Survey survey = Survey.findById(Long.decode(surveyId));
+        Survey survey = null;
+
+        try {
+            survey = Survey.findById(Long.decode(surveyId));
+
+            if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+        }
+
         Collection<NdgResult> results = new ArrayList<NdgResult>();
         Collection<NdgResult> removalResults = new ArrayList<NdgResult>();
         results = survey.resultCollection;
