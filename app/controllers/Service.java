@@ -19,6 +19,9 @@
 
 package controllers;
 
+import play.mvc.Http.StatusCode;
+
+import controllers.logic.AuthorizationUtils;
 import controllers.transformer.CSVTransformer;
 import controllers.transformer.ExcelTransformer;
 import controllers.util.FileUtilities;
@@ -28,6 +31,7 @@ import models.Category;
 import models.constants.QuestionTypesConsts;
 import models.Jobs;
 import models.NdgResult;
+import models.NdgUser;
 import models.Question;
 import models.Survey;
 
@@ -371,7 +375,15 @@ public class Service extends NdgController {
 
         if (resultsIds.length > 0) {
             for (int i = 0; i < resultsIds.length; i++) {
-                result = NdgResult.find("byId", Long.parseLong(resultsIds[i])).first();
+                try {
+                    result = NdgResult.find("byId", Long.parseLong(resultsIds[i])).first();
+                    if (!result.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                        error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    }
+                }
+                catch (NullPointerException npe) {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                }
                 if (result != null) {
                     results.add(result);
                 }
@@ -388,9 +400,12 @@ public class Service extends NdgController {
             fileContent = transformer.getBytes();
             fileType = FileUtilities.CSV;
         } else if (FileUtilities.XLS.equalsIgnoreCase(fileFormat)) {
-            ExcelTransformer transformer = new ExcelTransformer(result.survey, results, exportWithImages);
-            fileContent = transformer.getBytes();
-            fileType = FileUtilities.XLS;
+            try {
+                ExcelTransformer transformer = new ExcelTransformer(result.survey, results, exportWithImages);
+                fileContent = transformer.getBytes();
+                fileType = FileUtilities.XLS;
+            } catch (NullPointerException npe) {
+            }
         }
 
         if (exportWithImages == true) {
@@ -407,8 +422,11 @@ public class Service extends NdgController {
             zipFile.delete();
             FileUtilities.deleteDir(zipDir);
         }
-
-        String fileName = FileUtilities.SURVEY + result.survey.surveyId + fileType;
+        String fileName = null;
+        try {
+            fileName = FileUtilities.SURVEY + result.survey.surveyId + fileType;
+        } catch (NullPointerException npe) {
+        }
         send( fileName, fileContent );
     }
 
@@ -457,6 +475,7 @@ public class Service extends NdgController {
         try {
             in = new ByteArrayInputStream(fileContent);
             renderBinary(in, fileName);
+        } catch (NullPointerException npe) {
         } finally {
             if (in != null) {
                 try {
