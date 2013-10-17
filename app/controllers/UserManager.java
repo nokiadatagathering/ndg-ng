@@ -51,7 +51,18 @@ public class UserManager extends NdgController {
 
     public static void addUserToGroup( long username, String groupname )
     {
-        NdgUser user = NdgUser.findById( username );
+        NdgUser user = null;
+
+        try {
+            user = NdgUser.findById( username );
+
+            if (!user.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+        }
+
         NdgGroup group = NdgGroup.find( "byGroupName", groupname ).first();
         user.ndg_group = group;
         user.save();
