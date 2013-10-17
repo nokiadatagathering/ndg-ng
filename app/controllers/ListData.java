@@ -19,16 +19,11 @@
 
 package controllers;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import flexjson.JSONSerializer;
-import flexjson.transformer.AbstractTransformer;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ArrayList;
+import play.db.jpa.JPA;
+import play.mvc.Http.StatusCode;
+
+import controllers.logic.AuthorizationUtils;
+
 import models.Category;
 import models.Answer;
 import models.NdgGroup;
@@ -37,12 +32,35 @@ import models.NdgUser;
 import models.Survey;
 import models.UserRole;
 import models.constants.SurveyStatusConsts;
-import play.db.jpa.JPA;	
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import flexjson.JSONSerializer;
+import flexjson.transformer.AbstractTransformer;
+
 import java.lang.Exception;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ListData extends NdgController {
 
     public static void categories(int surveyId) {
+        try {
+            Survey survey = Survey.findById(Long.valueOf(surveyId));
+
+            if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
+            }
+        } catch (NullPointerException npe) {
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
+        }
+
         String query = "survey_id = " + String.valueOf(surveyId) + " order by categoryIndex";
         List<Category> categories = Category.find(query).fetch();
 
