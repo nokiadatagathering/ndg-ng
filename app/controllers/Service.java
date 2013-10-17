@@ -67,10 +67,10 @@ public class Service extends NdgController {
             survey = Survey.findById(Long.decode(surveyId));
 
             if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
         Jobs aJob = new Jobs (surveyId, dateTo, dateFrom, email, complete);
@@ -97,27 +97,27 @@ public class Service extends NdgController {
             result = NdgResult.find("byId", Long.parseLong(resultIDs)).first();
 
             if (!result.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
             if (result != null) {
             	results.add(result);
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
         // loop the result
-        for(NdgResult current : results) {
+        for (NdgResult current : results) {
             List<Question> questions = new ArrayList<Question>();
             questions = survey.getQuestions();
             LinkedList preview = new LinkedList();
 
-            if(questions.isEmpty()) {
+            if (questions.isEmpty()) {
                 preview.add("No question");
             }
 
             // loop the questions in the result
-            for(Question question : questions) {
+            for (Question question : questions) {
                 preview.add(question.label);
 
                 // get answers which correspond with questions
@@ -150,10 +150,10 @@ public class Service extends NdgController {
             survey = Survey.findById(Long.decode(surveyId));
 
             if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
         Collection<NdgResult> results = new ArrayList<NdgResult>();
@@ -161,7 +161,7 @@ public class Service extends NdgController {
         results = survey.resultCollection;
 
         for (NdgResult current : results) {
-            if(current.latitude == null || current.longitude == null) {
+            if (current.latitude == null || current.longitude == null) {
                 removalResults.add(current);
             }
         }
@@ -182,11 +182,11 @@ public class Service extends NdgController {
                 List<Question> questions = new ArrayList<Question>();
                 questions = survey.getQuestions();
 
-                if(questions.isEmpty()) {
+                if (questions.isEmpty()) {
                     description += "<b> NO QUESTION </b> <br><br>";
                 }
 
-                for(Question question : questions) {
+                for (Question question : questions) {
                     i++;
                     description += "<h3><b>" + i + " - " + question.label + "</b></h3><br>";
 
@@ -248,10 +248,10 @@ public class Service extends NdgController {
                     result = NdgResult.find("byId", Long.parseLong(resultsIds[i])).first();
 
                     if (!result.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                        error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                        error(StatusCode.UNAUTHORIZED, "Unauthorized");
                     }
                 } catch (NullPointerException npe) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
                 }
                 if (result != null) {
                     results.add(result);
@@ -260,7 +260,7 @@ public class Service extends NdgController {
         }
 
         for (NdgResult current : results) {
-            if(current.latitude == null || current.longitude == null) {
+            if (current.latitude == null || current.longitude == null) {
                 removalResults.add(current);
             }
         }
@@ -281,11 +281,11 @@ public class Service extends NdgController {
                 List<Question> questions = new ArrayList<Question>();
                 questions = survey.getQuestions();
 
-                if(questions.isEmpty()) {
+                if (questions.isEmpty()) {
                     description += "<b> NO QUESTION </b> <br><br>";
                 }
 
-                for(Question question : questions) {
+                for (Question question : questions) {
                     i++;
                     description += "<h3><b>" + i + " - " + question.label + "</b></h3><br>";
 
@@ -340,10 +340,10 @@ public class Service extends NdgController {
             survey = Survey.findById(Long.decode(surveyId));
 
             if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
         Collection<NdgResult> results = new ArrayList<NdgResult>();
@@ -365,7 +365,7 @@ public class Service extends NdgController {
     }
 
     public static void getResults(String surveyId, String resultIDs) {
-        String[] resultsIds = resultIDs.split( "," );
+        String[] resultsIds = resultIDs.split(",");
 
         Collection<NdgResult> results = new ArrayList<NdgResult>();
         Collection<NdgResult> removalResults = new ArrayList<NdgResult>();
@@ -376,10 +376,10 @@ public class Service extends NdgController {
                 try {
                     result = NdgResult.find("byId", Long.parseLong(resultsIds[i])).first();
                     if (!result.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                        error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                        error(StatusCode.UNAUTHORIZED, "Unauthorized");
                     }
                 } catch (NullPointerException npe) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
                 }
                 if (result != null) {
                     results.add(result);
@@ -408,10 +408,10 @@ public class Service extends NdgController {
             survey = Survey.findById(Long.decode(surveyId));
 
             if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
         boolean hasImages = false;
@@ -444,11 +444,11 @@ public class Service extends NdgController {
                 try {
                     result = NdgResult.find("byId", Long.parseLong(resultsIds[i])).first();
                     if (!result.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                        error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                        error(StatusCode.UNAUTHORIZED, "Unauthorized");
                     }
                 }
                 catch (NullPointerException npe) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
                 }
                 if (result != null) {
                     results.add(result);
@@ -493,7 +493,7 @@ public class Service extends NdgController {
             fileName = FileUtilities.SURVEY + result.survey.surveyId + fileType;
         } catch (NullPointerException npe) {
         }
-        send( fileName, fileContent );
+        send(fileName, fileContent);
     }
 
     public static void prepare(String surveyId, String fileFormat, Boolean exportWithImages) {
@@ -506,10 +506,10 @@ public class Service extends NdgController {
             survey = Survey.findById(Long.decode(surveyId));
 
             if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
         if (exportWithImages == true) {
@@ -518,7 +518,7 @@ public class Service extends NdgController {
         }
 
         if (FileUtilities.CSV.equalsIgnoreCase(fileFormat)) {
-            CSVTransformer transformer = new CSVTransformer( survey, exportWithImages );
+            CSVTransformer transformer = new CSVTransformer(survey, exportWithImages);
             fileContent = transformer.getBytes();//this is export all functionality
             fileType = FileUtilities.CSV;
         } else if (FileUtilities.XLS.equalsIgnoreCase(fileFormat)) {
@@ -556,7 +556,7 @@ public class Service extends NdgController {
             if (in != null) {
                 try {
                     in.close();
-                } catch ( IOException ex ) {
+                } catch (IOException ex) {
                 }
             }
         }

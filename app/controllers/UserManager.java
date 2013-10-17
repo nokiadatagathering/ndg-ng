@@ -31,15 +31,14 @@ import models.UserRole;
 
 public class UserManager extends NdgController {
 
-    public static void addUser( String username, String password, String firstName,
-                                String lastName, String email, String role,
-                                String phoneNumber )
-    {
+    public static void addUser(String username, String password, String firstName,
+                               String lastName, String email, String role,
+                               String phoneNumber) {
         NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
-        NdgUser user = new NdgUser( password, username, email,
-                                    firstName, lastName,
-                                    phoneNumber,
-                                    currentUser.userAdmin, 'Y', 'Y', 'Y');
+        NdgUser user = new NdgUser(password, username, email,
+                                   firstName, lastName,
+                                   phoneNumber,
+                                   currentUser.userAdmin, 'Y', 'Y', 'Y');
         Company userCompany = currentUser.company;
         user.company = userCompany;
         user.save();
@@ -49,29 +48,28 @@ public class UserManager extends NdgController {
         mapRole.save();
     }
 
-    public static void addUserToGroup( long username, String groupname )
-    {
+    public static void addUserToGroup(long username, String groupname) {
         NdgUser user = null;
 
         try {
-            user = NdgUser.findById( username );
+            user = NdgUser.findById(username);
 
             if (!user.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
-        NdgGroup group = NdgGroup.find( "byGroupName", groupname ).first();
+        NdgGroup group = NdgGroup.find("byGroupName", groupname).first();
         user.ndg_group = group;
         user.save();
     }
 
-    public static void addGroup( String groupname )
-    {
+    public static void addGroup(String groupname) {
         NdgUser user = NdgUser.find("byUserName", session.get("ndgUser")).first();
         NdgUser currentUserAdmin = NdgUser.find("byUserName", user.userAdmin).first();
+
         NdgGroup group = new NdgGroup();
         group.groupName = groupname;
         group.ndgUser = user;
@@ -85,34 +83,34 @@ public class UserManager extends NdgController {
             deleted = NdgUser.find("byId", Long.parseLong(userId)).first();
 
             if (!deleted.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
         String username = deleted.username;
         deleted.delete();
-        if(username.equals(deleted.userAdmin)) {
+        if (username.equals(deleted.userAdmin)) {
             Company userCompany = deleted.company;
             userCompany.delete();
         }
     }
 
-    public static void deleteGroup( String groupname ){
+    public static void deleteGroup(String groupname) {
         NdgGroup group = null;
 
         try {
-            group = NdgGroup.find( "byGroupName", groupname ).first();
+            group = NdgGroup.find("byGroupName", groupname).first();
 
             if (!group.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
-        for( NdgUser user : group.userCollection ){
+        for (NdgUser user : group.userCollection) {
             user.ndg_group = null;
             user.save();
         }
@@ -120,23 +118,22 @@ public class UserManager extends NdgController {
         group.delete();
     }
 
-    public static void editUser( String username, String password, String firstName,
+    public static void editUser(String username, String password, String firstName,
                                 String lastName, String email, String role,
-                                String phoneNumber )
-    {
+                                String phoneNumber) {
         NdgUser user = null;
 
         try {
             user = NdgUser.find("byUserName", username).first();
 
             if (!user.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
-        if(!password.equals("")) {
+        if (!password.equals("")) {
             user.password = password;
         }
         user.firstName = firstName;

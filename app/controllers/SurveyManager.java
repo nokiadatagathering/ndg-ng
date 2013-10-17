@@ -19,13 +19,27 @@
 
 package controllers;
 
+import play.data.validation.Required;
+import play.mvc.Before;
+import play.mvc.Http.StatusCode;
+
 import controllers.logic.SurveyJsonTransformer;
 import controllers.exceptions.SurveySavingException;
 import controllers.logic.AuthorizationUtils;
 import controllers.logic.SurveyPersister;
 import controllers.logic.SurveyXmlBuilder;
 import controllers.util.Constants;
+
+import models.NdgUser;
+import models.QuestionType;
+import models.Survey;
+import models.TransactionLog;
+import models.constants.TransactionlogConsts;
+import models.utils.NdgQuery;
+import models.utils.SurveyDuplicator;
+
 import flexjson.JSONSerializer;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,16 +55,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import models.NdgUser;
-import models.QuestionType;
-import models.Survey;
-import models.TransactionLog;
-import models.constants.TransactionlogConsts;
-import models.utils.NdgQuery;
-import models.utils.SurveyDuplicator;
-import play.data.validation.Required;
-import play.mvc.Before;
-import play.mvc.Http.StatusCode;
 
 public class SurveyManager extends NdgController {
 
@@ -63,9 +67,9 @@ public class SurveyManager extends NdgController {
     }
 
     public static void saveSurvey(String surveyData) {
-        String username = session.get( "ndgUser" );
+        String username = session.get("ndgUser");
         NdgUser currentUser = NdgUser.find("byUserName", username).first();
-        renderText(SurveyJsonTransformer.saveSurvey( surveyData, currentUser.userAdmin ) );
+        renderText(SurveyJsonTransformer.saveSurvey(surveyData, currentUser.userAdmin));
     }
 
     public static void getSurvey(long surveyId) {
@@ -80,7 +84,7 @@ public class SurveyManager extends NdgController {
             response.status = StatusCode.UNAUTHORIZED;
         } else {
             try {
-                username = session.get( "ndgUser" );
+                username = session.get("ndgUser");
                 is = new InputStreamReader(new FileInputStream(filename), "UTF-8");
                 SurveyPersister persister = new SurveyPersister(is);
                 persister.saveSurvey(uploadSurveyId, username);
@@ -111,10 +115,10 @@ public class SurveyManager extends NdgController {
                     renderBinary(inputStream, "survey_" + id + ".xml");
                 }
                 else {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
                 }
             } catch (NullPointerException npe) {
-                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                error (StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (Exception ex) {
             Logger.getLogger(SurveyManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -124,15 +128,15 @@ public class SurveyManager extends NdgController {
     public static void delete(String formID) {
         try {
             Survey deleted = Survey.find("bySurveyId", formID).first();
-            if(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")).equals(deleted.ndgUser.userAdmin)) {
+            if (AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")).equals(deleted.ndgUser.userAdmin)) {
                 deleted.delete();
             }
             else {
-                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
 
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
     }
 
@@ -149,10 +153,10 @@ public class SurveyManager extends NdgController {
                 copy.save();
             }
             else {
-                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         } catch (NullPointerException npe) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
     }
 
@@ -189,11 +193,11 @@ public class SurveyManager extends NdgController {
 
                     transaction.save();
                 } else {
-                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
                 }
             }
         } catch (NullPointerException np3) {
-            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
    }
 }
