@@ -101,9 +101,21 @@ public class SurveyManager extends NdgController {
             final PrintWriter printWriter = new PrintWriter(result);
 
             SurveyXmlBuilder builder = new SurveyXmlBuilder();
-            builder.printSurveyXml(id, printWriter);
-            InputStream inputStream = new ByteArrayInputStream(result.toString().getBytes("UTF-8"));
-            renderBinary(inputStream, "survey_" + id + ".xml");
+
+            try {
+                Survey survey = Survey.find("bySurveyId", id).first();
+
+                if (AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")).equals(survey.ndgUser.userAdmin)) {
+                    builder.printSurveyXml(id, printWriter);
+                    InputStream inputStream = new ByteArrayInputStream(result.toString().getBytes("UTF-8"));
+                    renderBinary(inputStream, "survey_" + id + ".xml");
+                }
+                else {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                }
+            } catch (NullPointerException npe) {
+                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
         } catch (Exception ex) {
             Logger.getLogger(SurveyManager.class.getName()).log(Level.SEVERE, null, ex);
         }
