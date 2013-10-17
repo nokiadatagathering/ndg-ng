@@ -61,6 +61,18 @@ public class Service extends NdgController {
     private static Log log = LogFactory.getLog(Service.class);
     
     public static void toSchedule(String surveyId, String dateTo, String dateFrom, String email , Boolean complete) {
+        Survey survey = null;
+
+        try {
+            survey = Survey.findById(Long.decode(surveyId));
+
+            if (!survey.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+        }
+
         Jobs aJob = new Jobs (surveyId, dateTo, dateFrom, email, complete);
         aJob.save();
 
