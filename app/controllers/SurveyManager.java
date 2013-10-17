@@ -125,14 +125,23 @@ public class SurveyManager extends NdgController {
     }
 
     public static void duplicate(String formID) {
-        Survey origin = Survey.find("bySurveyId", formID).first();
+        try {
+            Survey origin = Survey.find("bySurveyId", formID).first();
+            if (AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")).equals(origin.ndgUser.userAdmin)) {
 
-        SecureRandom random = new SecureRandom();
-        String newId = new BigInteger(40, random).toString(32);
+                SecureRandom random = new SecureRandom();
+                String newId = new BigInteger(40, random).toString(32);
 
-        Survey copy = SurveyDuplicator.plainCopy(origin, newId);
+                Survey copy = SurveyDuplicator.plainCopy(origin, newId);
 
-        copy.save();
+                copy.save();
+            }
+            else {
+                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+        }
     }
 
     @Before(unless={"questionType", "saveSurvey", "getSurvey", "upload", "get", "delete", "duplicate", "sendSurveys"})
