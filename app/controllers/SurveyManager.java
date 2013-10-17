@@ -21,6 +21,7 @@ package controllers;
 
 import controllers.logic.SurveyJsonTransformer;
 import controllers.exceptions.SurveySavingException;
+import controllers.logic.AuthorizationUtils;
 import controllers.logic.SurveyPersister;
 import controllers.logic.SurveyXmlBuilder;
 import controllers.util.Constants;
@@ -109,8 +110,18 @@ public class SurveyManager extends NdgController {
     }
 
     public static void delete(String formID) {
-        Survey deleted = Survey.find("bySurveyId", formID).first();
-        deleted.delete();
+        try {
+            Survey deleted = Survey.find("bySurveyId", formID).first();
+            if(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")).equals(deleted.ndgUser.userAdmin)) {
+                deleted.delete();
+            }
+            else {
+                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+        }
     }
 
     public static void duplicate(String formID) {
