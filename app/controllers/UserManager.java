@@ -100,7 +100,17 @@ public class UserManager extends NdgController {
     }
 
     public static void deleteGroup( String groupname ){
-        NdgGroup group = NdgGroup.find( "byGroupName", groupname ).first();
+        NdgGroup group = null;
+
+        try {
+            group = NdgGroup.find( "byGroupName", groupname ).first();
+
+            if (!group.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+        }
 
         for( NdgUser user : group.userCollection ){
             user.ndg_group = null;
