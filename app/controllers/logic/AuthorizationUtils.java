@@ -118,4 +118,11 @@ public class AuthorizationUtils {
     private static boolean sessionHasAdmin(Session session) {
         return session.contains("admin") && session.get("admin").equals("true");
     }
+
+    public static String getSessionUserAdmin(String username) {
+        NdgUser user = NdgUser.find("byUserName", username).first();
+        NdgUser currentUserAdmin = NdgUser.find("byUserName", user.userAdmin).first();
+
+        return currentUserAdmin.userAdmin;
+    }
 }
