@@ -72,7 +72,7 @@ public class Service extends NdgController {
         renderJSON(jobsSerializer.serialize(job));
     }
 
-    public static void toPreview(String surveyId , String resultIDs) {
+    public static void toPreview(String surveyId, String resultIDs) {
         // Find the survey
         Survey survey = Survey.findById(Long.decode(surveyId));
 
@@ -81,9 +81,17 @@ public class Service extends NdgController {
         NdgResult result = null;
 
         // Get the result
-        result = NdgResult.find("byId", Long.parseLong(resultIDs)).first();
-        if (result != null) {
-        	results.add(result);
+        try {
+            result = NdgResult.find("byId", Long.parseLong(resultIDs)).first();
+
+            if (!result.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+            }
+            if (result != null) {
+            	results.add(result);
+            }
+        } catch (NullPointerException npe) {
+            error( StatusCode.UNAUTHORIZED, "Unauthorized" );
         }
 
         // loop the result
@@ -121,7 +129,6 @@ public class Service extends NdgController {
             previewSerializer.rootName("preview");
             renderJSON(previewSerializer.serialize(preview));
         }
-
     }
 
     public static void allToKML(String surveyId) {
