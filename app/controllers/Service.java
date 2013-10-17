@@ -324,7 +324,14 @@ public class Service extends NdgController {
 
         if (resultsIds.length > 0) {
             for (int i = 0; i < resultsIds.length; i++) {
-                result = NdgResult.find("byId", Long.parseLong(resultsIds[i])).first();
+                try {
+                    result = NdgResult.find("byId", Long.parseLong(resultsIds[i])).first();
+                    if (!result.ndgUser.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                        error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                    }
+                } catch (NullPointerException npe) {
+                    error( StatusCode.UNAUTHORIZED, "Unauthorized" );
+                }
                 if (result != null) {
                     results.add(result);
                 }
