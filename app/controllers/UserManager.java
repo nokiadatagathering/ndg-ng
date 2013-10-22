@@ -28,15 +28,20 @@ import models.NdgGroup;
 import models.NdgRole;
 import models.NdgUser;
 import models.UserRole;
+import java.net.URLEncoder;
 
 public class UserManager extends NdgController {
 
     public static void addUser(String username, String password, String firstName,
                                String lastName, String email, String role,
                                String phoneNumber) {
+
+        String cleanedFirstName = URLEncoder.encode(username);
+        String cleanedLastName = URLEncoder.encode(lastName);
+
         NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
         NdgUser user = new NdgUser(password, username, email,
-                                   firstName, lastName,
+                                   cleanedFirstName, cleanedLastName,
                                    phoneNumber,
                                    currentUser.userAdmin, 'Y', 'Y', 'Y');
         Company userCompany = currentUser.company;
@@ -71,7 +76,8 @@ public class UserManager extends NdgController {
         NdgUser currentUserAdmin = NdgUser.find("byUserName", user.userAdmin).first();
 
         NdgGroup group = new NdgGroup();
-        group.groupName = groupname;
+        group.groupName = URLEncoder.encode(groupname);
+ 
         group.ndgUser = user;
         group.save();
     }
