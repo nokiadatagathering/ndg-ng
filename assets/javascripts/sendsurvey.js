@@ -15,7 +15,7 @@ var SendSurvey = function() {
         currentSurveyId = i.data;
         $('#sendSurveyUsers').empty();
         
-        var params = {'isAscending': true
+        var params = {'isAscending': true, 'endIndex': 200, 'startIndex': 0
                      };
 
         var selectAllCheckbox = '<input type="checkbox" class="userCheckboxClass" id="userCheckboxAll" />';
@@ -383,7 +383,7 @@ var SendSurvey = function() {
         currentGroup = event.data;
         //selectedGroups.push( currentGroup.groupName);
         $('#userListTable').empty();
-        var getJSONQueryUsersPerGroup = $.getJSON('listData/users', {'groupName': currentGroup.groupName}, function(i) {fillUserTable(i);} );
+        var getJSONQueryUsersPerGroup = $.getJSON('listData/users', {'groupName': currentGroup.groupName, 'endIndex': 200, 'startIndex': 0}, function(i) {fillUserTable(i);} );
         getJSONQueryUsersPerGroup.error(Utils.redirectIfUnauthorized);
 
     }
