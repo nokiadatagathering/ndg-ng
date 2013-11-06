@@ -114,12 +114,14 @@ public class ExcelTransformer extends ResultsTransformer {
                             Long value = Long.valueOf(answer.textData);
                             row.createCell( fieldcounter++ ).setCellValue( value );
                         } catch ( NumberFormatException nx ) {
+                            row.createCell(fieldcounter++).setCellValue("");
                         }
                     } else if ( answer.question.questionType.typeName.equalsIgnoreCase( QuestionTypesConsts.DECIMAL ) ) {
                         try {
                             Double value = Double.valueOf(answer.textData);
                             row.createCell( fieldcounter++ ).setCellValue( value );
                         } catch ( NumberFormatException nx ) {
+                            row.createCell(fieldcounter++).setCellValue("");
                         }
                     } else {
                         try {
@@ -127,6 +129,7 @@ public class ExcelTransformer extends ResultsTransformer {
                             value = value.trim().replaceAll( "\n", "" );
                             row.createCell( fieldcounter++ ).setCellValue( value );
                         } catch ( NullPointerException npe ) {
+                            row.createCell(fieldcounter++).setCellValue("");
                         }
                     }
                 } else {
