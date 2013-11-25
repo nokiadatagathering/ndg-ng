@@ -73,7 +73,18 @@ public class SurveyManager extends NdgController {
     }
 
     public static void getSurvey(long surveyId) {
-        renderJSON(SurveyJsonTransformer.getJsonSurvey(surveyId));
+        try {
+            Survey survey = Survey.find("byId", surveyId).first();
+            System.out.println(survey.ndgUser.userAdmin);
+            if (AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")).equals(survey.ndgUser.userAdmin)) {
+                renderJSON(SurveyJsonTransformer.getJsonSurvey(surveyId));
+            }
+            else {
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
+            }
+        } catch (NullPointerException npe) {
+                error (StatusCode.UNAUTHORIZED, "Unauthorized");
+        }
     }
 
     public static void upload(@Required File filename, String uploadSurveyId) throws IOException, SurveySavingException {
