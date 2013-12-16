@@ -207,8 +207,17 @@
                         $("#phoneNumber").addClass("error");
                     return false;
                 }
+                var nameReg = /^[A-Za-z]+$/;
+                if(!nameReg.test($('#usernameReg').val())){
+                       $("#usernameReg").addClass("error");
+                    return false;
+                }
+           
+                $("#usernameReg").removeClass("error");
                 $("#phoneNumber").removeClass("error");
+                
                 return true;
+
             }
 
             $('#submitLoginButton').click(function() {
@@ -241,6 +250,10 @@
             document.getElementById("passwordSubmit").value = hash;
             $('#loginForm').submit();
         }
+
+       /* function htmlEntities(str) {
+                   return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+                                   }*/
 
         function signupSubmit() {
             var user = document.getElementById("usernameReg").value;
