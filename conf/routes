@@ -27,7 +27,7 @@ GET     /checkAuthorization                     PostResults.checkAuthorization
 GET     /LanguageList                           Language.list
 GET     /LocalizationServing/text               Language.languageText
 GET     /LocalizationServing/font               Language.languageFont
-POST    /loader/LocalizationUploader.html       LanguageUploader.upload
+#POST    /loader/LocalizationUploader.html       LanguageUploader.upload
 
 # SecureSocial
 #GET     /signup                                 securesocial.UsernamePasswordController.signup
