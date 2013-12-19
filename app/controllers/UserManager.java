@@ -129,27 +129,32 @@ public class UserManager extends NdgController {
                                 String phoneNumber) {
         NdgUser user = null;
 
-        try {
-            user = NdgUser.find("byUserName", username).first();
+        if (AuthorizationUtils.sessionHasAdmin(session)) {
 
-            if (!user.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
-                    error(StatusCode.UNAUTHORIZED, "Unauthorized");
+            try {
+                user = NdgUser.find("byUserName", username).first();
+
+                if (!user.userAdmin.equals(AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")))) {
+                        error(StatusCode.UNAUTHORIZED, "Unauthorized");
+                }
+            } catch (NullPointerException npe) {
+                error(StatusCode.UNAUTHORIZED, "Unauthorized");
             }
-        } catch (NullPointerException npe) {
+
+            if (!password.equals("")) {
+                user.password = password;
+            }
+            user.firstName = firstName;
+            user.lastName = lastName;
+            user.email = email;
+            user.phoneNumber = phoneNumber;
+            user.save();
+
+            UserRole mapRole = UserRole.find("byUserName", user.username).first();
+            mapRole.ndgRole = NdgRole.find("byRoleName", role).first();
+            mapRole.save();
+        } else {
             error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
-
-        if (!password.equals("")) {
-            user.password = password;
-        }
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.email = email;
-        user.phoneNumber = phoneNumber;
-        user.save();
-
-        UserRole mapRole = UserRole.find("byUserName", user.username).first();
-        mapRole.ndgRole = NdgRole.find("byRoleName", role).first();
-        mapRole.save();
-    }
+    }       
 }

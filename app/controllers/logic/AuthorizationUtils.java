@@ -115,7 +115,7 @@ public class AuthorizationUtils {
         return retval;
     }
 
-    private static boolean sessionHasAdmin(Session session) {
+    public static boolean sessionHasAdmin(Session session) {
         return session.contains("admin") && session.get("admin").equals("true");
     }
 
