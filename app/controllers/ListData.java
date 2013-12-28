@@ -82,21 +82,29 @@ public class ListData extends NdgController {
             error(StatusCode.UNAUTHORIZED, "Unauthorized");
         }
 
+        List<NdgResult> results = null;
+
         try {
             String query = getQuery("survey_id", String.valueOf( surveyId ), false,
                                      searchField, searchText, null, isAscending);//sorting is not needed now
 
-            long totalItems =  NdgResult.count(query);
+//            long totalItems =  NdgResult.count(query);
 
             query = getQuery("survey_id", String.valueOf(surveyId), false,
                               searchField, searchText, orderBy, isAscending);
 
-            List<NdgResult> results = NdgResult.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
+            if (searchField == null || searchText.equals("")) {
+                 results = NdgResult.find("Select r from NdgResult r where " + query.toString()).from(startIndex).fetch(endIndex - startIndex);
+            }
+            else {
+                 results = NdgResult.find("Select r from NdgResult r where " + query.toString(), "%" + searchText + "%").from(startIndex).fetch(endIndex - startIndex);
+            }
+
             JSONSerializer surveyListSerializer = new JSONSerializer();
             surveyListSerializer.include("id", "resultId", "title", "dateSent", "ndgUser.username", "latitude")
                                         .exclude("*").rootName("items");
 
-            renderJSON(addRangeToJson(surveyListSerializer.serialize(results), startIndex, totalItems));
+            renderJSON(addRangeToJson(surveyListSerializer.serialize(results), startIndex, results.size()));
 	    }
 	    catch (Exception ex) {
            ex.printStackTrace();
@@ -144,11 +152,16 @@ public class ListData extends NdgController {
                               searchField, searchText, null, isAscending );//sorting is not needed now
         }
 
-        long totalItems = 0;
-        totalItems = Survey.count( query );
+//        long totalItems = 0;
+//        totalItems = Survey.count( query );
 
         if ( orderBy != null && orderBy.equals( "resultCollection" ) ) {
-            surveys = Survey.find( query ).fetch();
+            if (searchField == null || searchText.equals("")) {
+                    surveys = Survey.find("Select s from Survey s where " + query).fetch();
+            }
+            else {
+                    surveys = Survey.find("Select s from Survey s where " + query, "%" + searchText + "%").fetch();
+            }
             Collections.sort( surveys, new SurveyNdgResultCollectionComapator() );
 
             if ( !isAscending ) {
@@ -167,9 +180,15 @@ public class ListData extends NdgController {
                 query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false,
                                   searchField, searchText, orderBy, isAscending );
             }
-            surveys = Survey.find( query ).from( startIndex ).fetch( endIndex - startIndex );
+
+            if (searchField == null || searchText.equals("")) {
+                surveys = Survey.find("Select s from Survey s where " + query.toString()).from(startIndex).fetch(endIndex - startIndex);
+            }
+            else {
+                surveys = Survey.find("Select s from Survey s where " + query.toString(), "%" + searchText + "%").from(startIndex).fetch(endIndex - startIndex);
+            }
         }
-        serializeSurveys(surveys, startIndex, totalItems);
+        serializeSurveys(surveys, startIndex, surveys.size());
     }
 
     private static String getQuery(String filterName, String filterValue, boolean isFilterString, String searchField,
@@ -187,10 +206,10 @@ public class ListData extends NdgController {
 
         if ( searchField != null && searchText != null && searchText.length() > 0 ) {
             if(searchField.equals("dateSent")) {
-                searchQuery = "DATE_FORMAT(" + searchField + ", '%d/%m/%Y')" + " like '%" + searchText + "%'";
+                searchQuery = "DATE_FORMAT(" + searchField + ", '%d/%m/%Y')" + " like ?";
             }
             else {
-                searchQuery = searchField + " like '%" + searchText + "%'";
+                searchQuery = searchField + " like ?";
             }
         }
 
@@ -228,7 +247,7 @@ public class ListData extends NdgController {
         }
 
         if ( searchField != null && searchText != null && searchText.length() > 0 ) {
-            searchQuery = searchField + " like '%" + searchText + "%'";
+            searchQuery = searchField + " like ?";
         }
 
         if ( orderBy != null && orderBy.length()> 0 ) {
@@ -262,10 +281,15 @@ public class ListData extends NdgController {
                                              null, isAscending );//sorting is not needed now
             }
 
-            long totalItems = NdgUser.count( query );
+//            long totalItems = NdgUser.count( query );
 
             if (orderBy != null && orderBy.equals("userRoleCollection")) {
-                users = NdgUser.find(query).fetch();
+                if (searchField == null || searchText.equals("")) {
+                    users = NdgUser.find("Select u from NdgUser u where " + query).fetch();
+                }
+                else {
+                    users = NdgUser.find("Select u from NdgUser u where " + query, "%" + searchText + "%").fetch();
+                }
 
                 Collections.sort(users, new NdgUserUserRoleCollectionComapator(isAscending));
                 int subListEndIndex = users.size() <= endIndex ? users.size() : endIndex;
@@ -279,9 +303,14 @@ public class ListData extends NdgController {
                     query = getQuery( "userAdmin", currentUser.userAdmin, true, searchField, searchText, orderBy,
                                   isAscending );
                 }
-                users = NdgUser.find(query.toString()).from(startIndex).fetch(endIndex - startIndex);
+                if (searchField == null || searchText.equals("")) {
+                    users = NdgUser.find("Select u from NdgUser u where " + query.toString()).from(startIndex).fetch(endIndex - startIndex);
+                }
+                else {
+                    users = NdgUser.find("Select u from NdgUser u where " + query.toString(), "%" + searchText + "%").from(startIndex).fetch(endIndex - startIndex);
+                }
             }
-            serializeUsers(users, startIndex, totalItems);
+            serializeUsers(users, startIndex, users.size());
         }
         else {
             serializeUsers(users, startIndex, 0);
@@ -294,15 +323,20 @@ public class ListData extends NdgController {
         NdgUser currentUserAdmin = NdgUser.find("byUserName", currentUser.userAdmin).first();
 
         List<NdgGroup> groups = null;
-        long totalItems = 0;
+//        long totalItems = 0;
 
         String query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false, searchField,
                                  searchText, null, isAscending );//sorting is not needed now
 
-        totalItems = NdgGroup.count( query );
+//        totalItems = NdgGroup.count( query );
 
         if (orderBy != null && orderBy.equals("resultCollection")) {
-            groups = NdgGroup.find( query ).fetch();
+            if (searchField == null || searchText.equals("")) {
+                groups = NdgGroup.find("Select g from NdgGroup g where " + query).fetch();
+            }
+            else {
+                groups = NdgGroup.find("Select g from NdgGroup g where " + query, "%" + searchText + "%").fetch();
+            }
 
             int subListEndIndex = groups.size() <= endIndex ? groups.size() : endIndex;
 
@@ -310,9 +344,15 @@ public class ListData extends NdgController {
         } else {
             query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false, searchField, searchText,
                               orderBy, isAscending );
-            groups = NdgGroup.find(query.toString()).from(startIndex).fetch(endIndex);
+
+            if (searchField == null || searchText.equals("")) {
+                groups = NdgGroup.find("Select g from NdgGroup g where " + query.toString()).from(startIndex).fetch(endIndex);
+            }
+            else {
+                groups = NdgGroup.find("Select g from NdgGroup g where " + query.toString(), "%" + searchText + "%").from(startIndex).fetch(endIndex);
+            }
         }
-        serializeGroups(groups, startIndex, totalItems);
+        serializeGroups(groups, startIndex, groups.size());
     }
 
     private static void serializeUsers(List<NdgUser> users, int startIndex, long totalSize) {
