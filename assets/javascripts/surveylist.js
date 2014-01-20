@@ -24,6 +24,20 @@ var SurveyList = function() {
             additionalAjaxParams: function() {return additionalAjaxParams();}
     };
 
+
+      function Validate(oForm) {    
+          var ck_name = /^[A-Za-z0-9._]{5,30}$/;
+          var sFileName = $('#uploadSurveyInput').val()
+          var toTest = sFileName.substr(12, sFileName.length);
+          if (!ck_name.test(toTest)) {
+                           alert("Sorry, that name is invalid");
+                           window.location.href = '/';
+                                     }
+          return true
+     }
+
+
+
     function showSurveyList (){
 
         recreateContainers();
@@ -47,10 +61,17 @@ var SurveyList = function() {
         }
 
         $('#uploadForm').unbind('submit');
-        $('#uploadForm').submit( function () {uploadNewSurvey();} );
+        $('#uploadForm').submit( function () {
+                          uploadNewSurvey();
+                                            });
 
         $('#buttonSendFile').unbind( 'click' );
-        $('#buttonSendFile').click( function() {$('#uploadForm').submit( )});
+        $('#buttonSendFile').click( function() {
+            sanitized = Validate($('#uploadForm'));
+            if (true){
+                $('#uploadForm').submit( );
+                     }                      
+        });
 
         $('#searchComboText').text(LOC.get("LOC_SURVEY_NAME"));
         $('#searchComboBox').click( function(event) {createSearchList(event);});
