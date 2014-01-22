@@ -48,6 +48,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 
+// Import the Coverity escapers
+import com.coverity.security.Escape;
+
 public class ListData extends NdgController {
 
     public static void categories(int surveyId) {
@@ -91,7 +94,7 @@ public class ListData extends NdgController {
 //            long totalItems =  NdgResult.count(query);
 
             query = getQuery("survey_id", String.valueOf(surveyId), false,
-                              searchField, searchText, orderBy, isAscending);
+                              searchField, searchText, Escape.html(orderBy), isAscending);
 
             if (searchField == null || searchText.equals("")) {
                  results = NdgResult.find("Select r from NdgResult r where " + query.toString()).from(startIndex).fetch(endIndex - startIndex);
@@ -178,7 +181,7 @@ public class ListData extends NdgController {
             }
             else {
                 query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false,
-                                  searchField, searchText, orderBy, isAscending );
+                                  searchField, searchText, Escape.html(orderBy), isAscending );
             }
 
             if (searchField == null || searchText.equals("")) {
@@ -297,10 +300,10 @@ public class ListData extends NdgController {
                 users = users.subList(startIndex, subListEndIndex);
             } else {
                 if(groupName != null && groupName.length() > 0) {
-                    query = getQuery( "ndg_group.groupName", groupName, true, searchField, searchText, orderBy,
+                    query = getQuery( "ndg_group.groupName", groupName, true, searchField, searchText, Escape.html(orderBy),
                                   isAscending );
                 } else {
-                    query = getQuery( "userAdmin", currentUser.userAdmin, true, searchField, searchText, orderBy,
+                    query = getQuery( "userAdmin", currentUser.userAdmin, true, searchField, searchText, Escape.html(orderBy),
                                   isAscending );
                 }
                 if (searchField == null || searchText.equals("")) {
@@ -317,17 +320,19 @@ public class ListData extends NdgController {
         }
     }
 
+
+
     public static void groups(int startIndex, int endIndex, boolean isAscending, String orderBy, String searchField,
                               String searchText) {
         NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
         NdgUser currentUserAdmin = NdgUser.find("byUserName", currentUser.userAdmin).first();
+        
 
         List<NdgGroup> groups = null;
 //        long totalItems = 0;
 
         String query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false, searchField,
-                                 searchText, null, isAscending );//sorting is not needed now
-
+                                    Escape.html(searchText), null, isAscending );//sorting is not needed now
 //        totalItems = NdgGroup.count( query );
 
         if (orderBy != null && orderBy.equals("resultCollection")) {
@@ -342,16 +347,18 @@ public class ListData extends NdgController {
 
             groups = groups.subList(startIndex, subListEndIndex);
         } else {
-            query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false, searchField, searchText,
-                              orderBy, isAscending );
+            query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false, searchField, Escape.html(searchText),
+                              Escape.html(orderBy), isAscending );
 
             if (searchField == null || searchText.equals("")) {
                 groups = NdgGroup.find("Select g from NdgGroup g where " + query.toString()).from(startIndex).fetch(endIndex);
             }
             else {
-                groups = NdgGroup.find("Select g from NdgGroup g where " + query.toString(), "%" + searchText + "%").from(startIndex).fetch(endIndex);
+                groups = NdgGroup.find("Select g from NdgGroup g where " + query.toString(), "%" + Escape.html(searchText)+ "%").from(startIndex).fetch(endIndex);
             }
         }
+
+
         serializeGroups(groups, startIndex, groups.size());
     }
 
