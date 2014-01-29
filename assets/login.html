@@ -40,9 +40,6 @@
                                 <li><a href="#" class="langSelector" id="fi" ><img src="/images/flag_fi.jpg" width="15" height="9"></a></li>
 		            </ul>
 		            <div id="sign-in" class="sign-in">
-		            	<!---<span class="recover">
-		                	&{'views.login.forgot'}<a id="btn_recover" href="javascript:void(0);">&{'views.login.recover'}</a>
-		                </span>--->
                                  
                                  #{form @Application.authorize(), id:'loginForm'}
                                  <form autocomplete="off">                         
@@ -53,7 +50,7 @@
                                                 <input id="selectedLanguage" type="text" name="lang" style="display:none" hidden="true" value="&{'languageId'}"/>
                                                  #{/field}
                                                  #{field 'Login'} 
-                                                 <input id="usernameSubmit" class="username" type="text" name="username" placeholder="&{'views.login.username'}" />
+                                                 <input id="usernameSubmit" class="username" type="text" name="username" placeholder="&{'views.login.username'}" autocomplete="off" />
                                                
                                                  #{/field}
                                              </td>
@@ -61,7 +58,7 @@
                                         #{field 'content'}
                                             <input id="passwordSubmit" style="display:none"  hidden="true" type="password" name="pass"/>
                                         #{/field}
-                                        <input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}"/>
+                                        <input id="passwordInput" type="password" class="password" name="passwordText" placeholder="&{'views.login.password'}" autocomplete="off" />
                                     </td>
 		                             <td id="login" class="login"><input id="submitLoginButton" class="btn_login" type="button" /></td>
 	                                 </tr>
@@ -115,35 +112,35 @@
                                     #{/else}
                                     #{ifError 'email'} <p style="color:red"> #{error 'email'/}<p> #{/ifError}
                                     #{if flash.success}<p style="color:#E1E5EF">${flash.success.raw()}<p>#{/if}
-                                        <input id="usernameReg" class="registrationForm #{ifError 'userName'} error #{/ifError}" type="text" name="userName" placeholder="&{'views.login.usersname'}" value="${flash.userName}" />
-                                        <input id="emailReg" class="registrationForm #{ifError 'email'} error #{/ifError}" type="text" name="email" placeholder="&{'views.login.email'}" value="${flash.email}"/>
+                                        <input id="usernameReg" class="registrationForm #{ifError 'userName'} error #{/ifError}" type="text" name="userName" placeholder="&{'views.login.usersname'}" value="${flash.userName}" autocomplete="off"/>
+                                        <input id="emailReg" class="registrationForm #{ifError 'email'} error #{/ifError}" type="text" name="email" placeholder="&{'views.login.email'}" value="${flash.email}" autocomplete="off"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-			                            <input id="passwordReg" type="password" class="registrationForm #{ifError 'password2'} error #{/ifError}" name="passwordPlain" placeholder="&{'views.login.password'}" />
+			                            <input id="passwordReg" type="password" class="registrationForm #{ifError 'password2'} error #{/ifError}" name="passwordPlain" placeholder="&{'views.login.password'}" autocomplete="off" />
                                         <input id="passwordRegSubmit" style="display:none" hidden="true" type="password" name="password" />
 
-			                            <input id="retypePassword2" type="password" class="registrationForm #{ifError 'password2'} error #{/ifError}" name="password2Plain" placeholder="&{'views.login.retypepassword'}" />
+			                            <input id="retypePassword2" type="password" class="registrationForm #{ifError 'password2'} error #{/ifError}" name="password2Plain" placeholder="&{'views.login.retypepassword'}"  autocomplete="off"/>
                                         <input id="retypePassword2Submit" style="display:none" hidden="true" type="password" name="password2" />
 
                                     </td>
                                 <tr>
                                     <td>
-                                        <input id="firstName" class="registrationForm #{ifError 'firstName'} error #{/ifError}" type="text" name="firstName" placeholder="&{'views.login.firstname'}" value="${flash.firstName}"/>
-                        		        <input id="lastName" class="registrationForm #{ifError 'lastName'} error #{/ifError}" type="text" name="lastName" placeholder="&{'views.login.lastname'}" value="${flash.lastName}"/>
+                                        <input id="firstName" class="registrationForm #{ifError 'firstName'} error #{/ifError}" type="text" name="firstName" placeholder="&{'views.login.firstname'}" value="${flash.firstName}" autocomplete="off" />
+                        		        <input id="lastName" class="registrationForm #{ifError 'lastName'} error #{/ifError}" type="text" name="lastName" placeholder="&{'views.login.lastname'}" value="${flash.lastName}" autocomplete="off"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input id="phoneNumber" class="registrationForm #{ifError 'phoneNumber'} error #{/ifError}" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" value="${flash.phoneNumber}"/>
-                        		        <input id="company" class="registrationForm #{ifError 'company'} error #{/ifError}" type="text" name="company" placeholder="&{'views.login.company'}" value="${flash.company}"/>
+                                        <input id="phoneNumber" class="registrationForm #{ifError 'phoneNumber'} error #{/ifError}" type="text" name="phoneNumber" placeholder="&{'views.login.phone'}" value="${flash.phoneNumber}" autocomplete="off"/>
+                        		        <input id="company" class="registrationForm #{ifError 'company'} error #{/ifError}" type="text" name="company" placeholder="&{'views.login.company'}" value="${flash.company}" autocomplete="off"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <input id="country" class="registrationForm #{ifError 'country'} error #{/ifError}" type="text" name="country" placeholder="&{'views.login.country'}" value="${flash.country}"/>
-                        		        <input id="industry" class="registrationForm #{ifError 'industry'} error #{/ifError}" type="text" name="industry" placeholder="&{'views.login.industry'}" value="${flash.industry}"/>
+                                        <input id="country" class="registrationForm #{ifError 'country'} error #{/ifError}" type="text" name="country" placeholder="&{'views.login.country'}" value="${flash.country}" autocomplete="off" />
+                        		        <input id="industry" class="registrationForm #{ifError 'industry'} error #{/ifError}" type="text" name="industry" placeholder="&{'views.login.industry'}" value="${flash.industry}" autocomplete="off"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -204,15 +201,26 @@
             function userInputValidation(){
                 if( $( "#phoneNumber" ).val().length < 5 ||
                             $( "#phoneNumber" ).val() == 'Phone Number'){
-                        $("#phoneNumber").addClass("error");
+                        $("#phoneNumber").addClass("error");  
+                        alert("The phone number must be more than 5 numbers")                
                     return false;
                 }
+               
+
+                if( $( "#passwordReg" ).val().length < 6){
+                        $("#passwordPlain").addClass("error");
+                        alert("The minimum password length is 6 characters")    
+                    return false;
+                }
+
                 var nameReg = /^[A-Za-z]+$/;
                 if(!nameReg.test($('#usernameReg').val())){
-                       $("#usernameReg").addClass("error");
+                    $("#usernameReg").addClass("error");
+                    alert("Just letters please")
                     return false;
                 }
-           
+                
+                $("#passwordPlain").removeClass("error");
                 $("#usernameReg").removeClass("error");
                 $("#phoneNumber").removeClass("error");
                 
