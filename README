@@ -41,6 +41,10 @@ GETTING STARTED
     play run
     http://<your_IP_address>:9000/
 
+    It is advisable to change the default password of the admin user. To do this use a service like http://www.md5hashgenerator.com/ with the string admin:NDG:<new password> and then with the resulting md5 hash run
+
+    mysql> update ndg_user set password="<new hash>" where username="admin";
+
 
 DEVELOPER PRACTICES
 ================================
