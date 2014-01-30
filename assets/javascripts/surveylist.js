@@ -30,7 +30,7 @@ var SurveyList = function() {
           var sFileName = $('#uploadSurveyInput').val()
           var toTest = sFileName.substr(12, sFileName.length);
           if (!ck_name.test(toTest)) {
-                           alert("Sorry, that name is invalid");
+                           alert("Sorry, that name is invalid. Please try again");
                            window.location.href = '/';
                                      }
           return true
