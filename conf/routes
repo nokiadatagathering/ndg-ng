@@ -44,7 +44,7 @@ GET     /activate/{uuid}                        Application.activate
 GET     /public/                                staticDir:public
 GET     /javascripts/                           staticDir:public/javascripts
 GET     /stylesheets/                           staticDir:public/stylesheets
-GET     /images/                                staticDir:public/images
+GET     /images/                                staticDir:images
 GET     /ndg-ota/client/                        staticDir:public/ndg-ota/client
 GET     /other/                                 staticDir:public/other
 GET     /loader/                                staticDir:public/loader
