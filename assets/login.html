@@ -205,8 +205,6 @@
                         alert("The phone number must be more than 5 numbers")                
                     return false;
                 }
-               
-
                 if( $( "#passwordReg" ).val().length < 6){
                         $("#passwordPlain").addClass("error");
                         alert("The minimum password length is 6 characters")    
@@ -216,7 +214,7 @@
                 var nameReg = /^[A-Za-z]+$/;
                 if(!nameReg.test($('#usernameReg').val())){
                     $("#usernameReg").addClass("error");
-                    alert("Just letters please")
+                    alert("Just letters please, no special characters")
                     return false;
                 }
                 
