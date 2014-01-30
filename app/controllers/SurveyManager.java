@@ -75,7 +75,6 @@ public class SurveyManager extends NdgController {
     public static void getSurvey(long surveyId) {
         try {
             Survey survey = Survey.find("byId", surveyId).first();
-            System.out.println(survey.ndgUser.userAdmin);
             if (AuthorizationUtils.getSessionUserAdmin(session.get("ndgUser")).equals(survey.ndgUser.userAdmin)) {
                 renderJSON(SurveyJsonTransformer.getJsonSurvey(surveyId));
             }
