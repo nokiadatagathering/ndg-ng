@@ -53,7 +53,7 @@ var SendSMS = function() {
                  if ( smsMessage != null && smsMessage.length > 0) {
                                 $('#buttonSendSMSDone').unbind('click');
                  }else{
-                                alert("Empty message");
+                                alert("You cannpt send an empty message");
                  }
                  var groupName = event.data.groupName;  
                  var contentUrl = 'listData/users?startIndex=0&endIndex=100&isAscending=true&groupName='+ groupName;
