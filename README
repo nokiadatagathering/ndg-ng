@@ -22,6 +22,11 @@ GETTING STARTED
     mysql> create user 'ndg'@'localhost' identified by 'ndg';
     mysql> create database ndg2;
     mysql> grant all privileges on ndg2.* to ndg@localhost;
+    Make sure java is installed (enter java -version to check)
+    wget -c http://downloads.typesafe.com/play/1.2.5.2/play-1.2.5.2.zip and extract the archive to a location where you have both read and write access
+    Add the play script to your PATH
+    export PATH=$PATH:/relativePath/to/play
+    (make sure that the play script is executable (otherwise do a chmod a+x play))
     git clone https://github.com/nokiadatagathering/ndg-ng.git
     cd assets/build/
     (install necessary tools (sudo apt-get install optipng libjpeg-progs) to optimize assets.This is not needed on Windows machines. ant needs to be version 1.8.2 so you may need to do
@@ -41,7 +46,7 @@ GETTING STARTED
     play run
     http://<your_IP_address>:9000/
 
-    It is advisable to change the default password of the admin user. To do this use a service like http://www.md5hashgenerator.com/ with the string admin:NDG:<new password> and then with the resulting md5 hash run
+    It is advisable to change the default password of the admin user after install. To do this use a service like http://www.md5hashgenerator.com/ with the string admin:NDG:<new password> and then with the resulting md5 hash run
 
     mysql> update ndg_user set password="<new hash>" where username="admin";
 
