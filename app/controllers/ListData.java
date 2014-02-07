@@ -90,8 +90,8 @@ public class ListData extends NdgController {
         try {
             String query = getQuery("survey_id", String.valueOf( surveyId ), false,
                                      searchField, searchText, null, isAscending);//sorting is not needed now
-
-//            long totalItems =  NdgResult.count(query);
+            long totalItems = 0;
+            totalItems = NdgResult.count(query);
 
             query = getQuery("survey_id", String.valueOf(surveyId), false,
                               searchField, searchText, Escape.html(orderBy), isAscending);
@@ -107,7 +107,7 @@ public class ListData extends NdgController {
             surveyListSerializer.include("id", "resultId", "title", "dateSent", "ndgUser.username", "latitude")
                                         .exclude("*").rootName("items");
 
-            renderJSON(addRangeToJson(surveyListSerializer.serialize(results), startIndex, results.size()));
+            renderJSON(addRangeToJson(surveyListSerializer.serialize(results), startIndex, totalItems));
 	    }
 	    catch (Exception ex) {
            ex.printStackTrace();
@@ -155,8 +155,8 @@ public class ListData extends NdgController {
                               searchField, searchText, null, isAscending );//sorting is not needed now
         }
 
-//        long totalItems = 0;
-//        totalItems = Survey.count( query );
+        long totalItems = 0;
+        totalItems = Survey.count(query);
 
         if ( orderBy != null && orderBy.equals( "resultCollection" ) ) {
             if (searchField == null || searchText.equals("")) {
@@ -191,7 +191,7 @@ public class ListData extends NdgController {
                 surveys = Survey.find("Select s from Survey s where " + query.toString(), "%" + searchText + "%").from(startIndex).fetch(endIndex - startIndex);
             }
         }
-        serializeSurveys(surveys, startIndex, surveys.size());
+        serializeSurveys(surveys, startIndex, totalItems);
     }
 
     private static String getQuery(String filterName, String filterValue, boolean isFilterString, String searchField,
@@ -283,8 +283,8 @@ public class ListData extends NdgController {
                 query = getQuery( "userAdmin", currentUser.userAdmin, true, searchField, searchText,
                                              null, isAscending );//sorting is not needed now
             }
-
-//            long totalItems = NdgUser.count( query );
+            long totalItems = 0;
+            totalItems = NdgUser.count(query);
 
             if (orderBy != null && orderBy.equals("userRoleCollection")) {
                 if (searchField == null || searchText.equals("")) {
@@ -313,7 +313,7 @@ public class ListData extends NdgController {
                     users = NdgUser.find("Select u from NdgUser u where " + query.toString(), "%" + searchText + "%").from(startIndex).fetch(endIndex - startIndex);
                 }
             }
-            serializeUsers(users, startIndex, users.size());
+            serializeUsers(users, startIndex, totalItems);
         }
         else {
             serializeUsers(users, startIndex, 0);
@@ -329,11 +329,11 @@ public class ListData extends NdgController {
         
 
         List<NdgGroup> groups = null;
-//        long totalItems = 0;
 
         String query = getQuery( "ndg_user_id", String.valueOf(currentUserAdmin.getId()), false, searchField,
                                     Escape.html(searchText), null, isAscending );//sorting is not needed now
-//        totalItems = NdgGroup.count( query );
+        long totalItems = 0;
+        totalItems = NdgGroup.count(query);
 
         if (orderBy != null && orderBy.equals("resultCollection")) {
             if (searchField == null || searchText.equals("")) {
@@ -358,8 +358,7 @@ public class ListData extends NdgController {
             }
         }
 
-
-        serializeGroups(groups, startIndex, groups.size());
+        serializeGroups(groups, startIndex, totalItems);
     }
 
     private static void serializeUsers(List<NdgUser> users, int startIndex, long totalSize) {
