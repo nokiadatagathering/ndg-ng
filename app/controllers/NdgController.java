@@ -26,6 +26,13 @@ import play.mvc.Http.StatusCode;
 
 public abstract class NdgController extends Controller {
 
+   @Before
+    public static void csrfProtection() {
+  	if(request.method == "POST" && !request.isAjax()) {
+     	    checkAuthenticity();
+	}
+    }
+
     @Before
     public static void checkAccess() throws Throwable {
         if(!AuthorizationUtils.checkWebAuthorization(session, response)) {
