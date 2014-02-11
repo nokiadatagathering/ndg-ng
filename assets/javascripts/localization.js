@@ -105,7 +105,7 @@ var LOC = (function() {
         LOC_RESULT_DELETE_CONFIRM: 'Are you sure you want to delete this result?',
         LOC_MSG_PASSWORD_NOT_MATCH: 'Password does not match',
         LOC_MSG_SHORT_NUMBER: 'Phone number is too short',
-        LOC_USERNAME_EMPTY: 'Username cannot be empty or contain special characters',
+        LOC_USERNAME_EMPTY: 'Username cannot be empty or contain any special characters',
         LOC_PASSWORD_EMPTY: 'The password cannot be empty',
         LOC_EXPAND_ITEM_LIST:'Click here for more items',
         LOC_LOADING: 'Loading...',
