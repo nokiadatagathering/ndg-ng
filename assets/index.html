@@ -150,6 +150,10 @@
             <div id="sendSMSGroups"></div>
             <div><span id="buttonSendGroupSMSDone" class="large button blue" ></span></div>
         </div>
+        <div id="dialog-alertMessage" class="dialogs">
+            <div id="addUserError"></div>
+            <div><span id="buttonOK" class="large button blue" ></span></div>
+        </div>
 
         <!-- Mask to cover the whole screen -->
         <div id="mask"></div>
@@ -247,6 +251,14 @@ var confirmDeleteDialog = $("#dialog-confirmDelete").dialog(
     resizable: false,
     open: function(event, ui) {
     }
+});
+
+var alertDialog = $("#dialog-alertMessage").dialog(
+{
+    autoOpen: false,
+    modal: true,
+    zIndex: 9999,
+    resizable: false,
 });
 
 var sendSurveyDialog = $("#dialog-sendSurvey").dialog(

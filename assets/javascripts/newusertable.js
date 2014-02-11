@@ -27,16 +27,16 @@ var NewUserTable = (function() {
         tableHtml = '<form id="newUserForm" method="post" action="userManager/addUser"><table class="newUserTableClass">'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">' + LOC.get( 'LOC_USERNAME' ) + '</td>'
-                  +     '<td class="newUserTdClass"><input class="newUserInput" type="text" name="username" maxlength="15" placeholder="johnsmith06" /></td>'
+                  +     '<td class="newUserTdClass"><input id="userName" class="newUserInput" type="text" name="username" maxlength="15" placeholder="johnsmith06" /></td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">' + LOC.get( 'LOC_FIRST_NAME' ) + '</td>'
-                  +     '<td class="newUserTdClass"><input class="newUserInput" type="text" name="firstName" maxlength="20" placeholder="John" /></td>'
+                  +     '<td class="newUserTdClass"><input id="formfirstName" class="newUserInput" type="text" name="firstName" maxlength="20" placeholder="John" /></td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
                   +     '<td class="newUserTdClass">' + LOC.get( 'LOC_LAST_NAME' ) + '</td>'
                   +     '<td class="newUserTdClass">'
-                  +         '<input class="newUserInput" type="text" name="lastName" maxlength="20" placeholder="Smith" />'
+                  +         '<input id="formlastName" class="newUserInput" type="text" name="lastName" maxlength="20" placeholder="Smith" />'
                   +     '</td>'
                   + '</tr>'
                   + '<tr class="newUserTrClass">'
@@ -168,7 +168,9 @@ var NewUserTable = (function() {
 
                 Utils.encryptCredentials(data);
                 $("#newUserForm input[name=passwordRetype]").val("");
+
                 var formData = $('#newUserForm').serialize();
+
                 $.ajax({
                     type: "post",
                     url: "userManager/addUser",
@@ -196,18 +198,59 @@ var NewUserTable = (function() {
     }
 
     function userInputValidation() {
-        if( $("#newUserForm input[name=username]").val() == '') {
-            alert( LOC.get( 'LOC_USERNAME_EMPTY' ) );
+
+        var ck_name = /^[A-Za-z0-9 ]{1,30}$/;
+        var sFileName1 = $('#formfirstName').val()
+        var sFileName2 = $('#formlastName').val()
+        var sFileName3 = $('#userName').val()
+
+
+        if( $("#newUserForm input[name=username]").val() == '' || !ck_name.test(sFileName3)) {
+            alertDialog.dialog( {title: LOC.get('LOC_ERROR')} );
+            $('#buttonOK').text( LOC.get('LOC_OK') ); 
+            $('#addUserError').text( LOC.get('LOC_USERNAME_EMPTY') ); 
+            $("#buttonOK").click(function() {alertDialog.dialog("close");});     
+            alertDialog.dialog({close: function(){$.unblockUI();}} )
+            alertDialog.dialog("open");
+            $.blockUI( {message: null} );
             return false;
         } else if( $("#newUserForm input[name=password]").val() == '' && $("#newUserForm input[name=passwordRetype]").val() == '' ) {
-            alert( LOC.get( 'LOC_PASSWORD_EMPTY' ) );
+            alertDialog.dialog( {title: LOC.get('LOC_ERROR')} );
+            $('#buttonOK').text( LOC.get('LOC_OK') ); 
+            $('#addUserError').text( LOC.get('LOC_PASSWORD_EMPTY') ); 
+            $("#buttonOK").click(function() {alertDialog.dialog("close");});     
+            alertDialog.dialog({close: function(){$.unblockUI();}} )
+            alertDialog.dialog("open");
+            $.blockUI( {message: null} );
             return false;
         } else if( $("#newUserForm input[name=password]").val() != $("#newUserForm input[name=passwordRetype]").val()) {
-            alert( LOC.get( 'LOC_MSG_PASSWORD_NOT_MATCH' ) );
+            alertDialog.dialog( {title: LOC.get('LOC_ERROR')} );
+            $('#buttonOK').text( LOC.get('LOC_OK') ); 
+            $('#addUserError').text( LOC.get('LOC_MSG_PASSWORD_NOT_MATCH') ); 
+            $("#buttonOK").click(function() {alertDialog.dialog("close");});     
+            alertDialog.dialog({close: function(){$.unblockUI();}} )
+            alertDialog.dialog("open");
+            $.blockUI( {message: null} );
             return false;
         } else if( $( "#newUserPhoneNumber" ).val().length < 5 ||
                     $( "#newUserPhoneNumber" ).val() == 'Phone Number'){
-            alert( LOC.get( 'LOC_MSG_SHORT_NUMBER' ) );
+            alertDialog.dialog( {title: LOC.get('LOC_ERROR')} );
+            $('#buttonOK').text( LOC.get('LOC_OK') ); 
+            $('#addUserError').text( LOC.get('LOC_MSG_SHORT_NUMBER') ); 
+            $("#buttonOK").click(function() {alertDialog.dialog("close");});     
+            alertDialog.dialog({close: function(){;$.unblockUI();}} )
+            alertDialog.dialog("open");
+            $.blockUI( {message: null} );
+            return false;
+        } else if (!ck_name.test(sFileName1) || !ck_name.test(sFileName2)){
+            alertDialog.dialog( {title: LOC.get('LOC_ERROR')} );
+            $('#buttonOK').text( LOC.get('LOC_OK') ); 
+            $('#addUserError').text( LOC.get('LOC_TEXT') ); 
+            $("#buttonOK").click(function() {alertDialog.dialog("close");});     
+            alertDialog.dialog({close: function(){$.unblockUI();}} )
+            alertDialog.dialog("open");
+            $.blockUI( {message: null} );
+            //alert( LOC.get( 'LOC_USERNAME_EMPTY' ) );
             return false;
         }
         return true;
