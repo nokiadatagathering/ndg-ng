@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="X-Frame-Options" content="deny">
   <title>Nokia Data Gathering</title>
   <meta name="description" content="A fast, accurate and cost effective way to collect data using mobile devices">
   <meta name="author" content="Codezon">
@@ -214,12 +215,41 @@
                 var nameReg = /^[A-Za-z]+$/;
                 if(!nameReg.test($('#usernameReg').val())){
                     $("#usernameReg").addClass("error");
-                    alert("Just letters please, no special characters")
+                    alert("Just letters please for your user name, no special characters")
                     return false;
                 }
-                
+                if(!nameReg.test($('#firstName').val())){
+                    $("#firstName").addClass("error");
+                    alert("Just letters please for your first name, no special characters")
+                    return false;
+                }
+                 if(!nameReg.test($('#lastName').val())){
+                    $("#lastName").addClass("error");
+                    alert("Just letters please for your last name, no special characters")
+                    return false;
+                }
+                if(!nameReg.test($('#company').val())){
+                    $("#company").addClass("error");
+                    alert("Just letters please for the company, no special characters")
+                    return false;
+                }
+                 if(!nameReg.test($('#country').val())){
+                    $("#country").addClass("error");
+                    alert("Just letters please for the country, no special characters")
+                    return false;
+                }
+                 if(!nameReg.test($('#industry').val())){
+                    $("#industry").addClass("error");
+                    alert("Just letters please for the industry, no special characters")
+                    return false;
+                }
                 $("#passwordPlain").removeClass("error");
                 $("#usernameReg").removeClass("error");
+                $("#firstName").removeClass("error");
+                $("#lastName").removeClass("error");
+                $("#company").removeClass("error");
+                $("#country").removeClass("error");
+                $("#industry").removeClass("error");
                 $("#phoneNumber").removeClass("error");
                 
                 return true;
