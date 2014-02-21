@@ -36,7 +36,7 @@ public class UserManager extends NdgController {
                                String lastName, String email, String role,
                                String phoneNumber) {
 
-        String cleanedFirstName = URLEncoder.encode(username);
+        String cleanedFirstName = URLEncoder.encode(firstName);
         String cleanedLastName = URLEncoder.encode(lastName);
 
         NdgUser currentUser = NdgUser.find("byUserName", session.get("ndgUser")).first();
@@ -128,6 +128,8 @@ public class UserManager extends NdgController {
                                 String lastName, String email, String role,
                                 String phoneNumber) {
         NdgUser user = null;
+        String cleanedFirstName = URLEncoder.encode(firstName);
+        String cleanedLastName = URLEncoder.encode(lastName);
 
         if (AuthorizationUtils.sessionHasAdmin(session)) {
 
@@ -144,8 +146,8 @@ public class UserManager extends NdgController {
             if (!password.equals("")) {
                 user.password = password;
             }
-            user.firstName = firstName;
-            user.lastName = lastName;
+            user.firstName = cleanedFirstName;
+            user.lastName = cleanedLastName;
             user.email = email;
             user.phoneNumber = phoneNumber;
             user.save();
