@@ -129,6 +129,7 @@ public class Application extends Controller {
                                      @Required String company,
                                      @Required String country,
                                      @Required String industry) {
+
         if ( validation.hasErrors() ) {
             tryAgain(userName, firstName, lastName, email, phoneNumber, company, country, industry);
         }
@@ -136,6 +137,8 @@ public class Application extends Controller {
         if ( NDGPersister.find(userName) != null ) {
             validation.addError(USER_NAME, Messages.get(USER_NAME_TAKEN));
         }
+
+        checkAuthenticity();
 
         NdgUser user = new NdgUser(password, userName,
                                    email, firstName, lastName,
